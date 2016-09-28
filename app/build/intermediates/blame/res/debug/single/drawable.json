@@ -1,0 +1,194 @@
+[
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/yes_on.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/yes_on.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/swarmtoggledrawable_maybe.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/swarmtoggledrawable_maybe.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/maybe_on.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/maybe_on.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/swarmspinner.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/swarmspinner.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/fym_50t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/fym_50t.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/pig_50m3.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/pig_50m3.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/poultry_5t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/poultry_5t.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/no_off.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/no_off.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/arrow_left.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/arrow_left.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/cattle_25m3.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/cattle_25m3.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/cross.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/cross.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/swarmtoggle.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/swarmtoggle.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/pig_75m3.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/pig_75m3.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/button_style.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/button_style.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/button_bg2.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/button_bg2.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/common_google_signin_btn_icon_dark.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable/common_google_signin_btn_icon_dark.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/swarmtoggledrawable_no.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/swarmtoggledrawable_no.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/seekprogress_fill.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/seekprogress_fill.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/button.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/button.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/logo.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/logo.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/seekprogress.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/seekprogress.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/common_google_signin_btn_text_dark.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable/common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/seekthumb.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/seekthumb.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/poultry_10t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/poultry_10t.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/cattle_100m3.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/cattle_100m3.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/common_google_signin_btn_icon_light.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable/common_google_signin_btn_icon_light.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/fym_25t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/fym_25t.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/draggable.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/draggable.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/cattle_30m3.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/cattle_30m3.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/seekbg_fill.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/seekbg_fill.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/logo_duchy.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/logo_duchy.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/swarmtoggledrawable.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/swarmtoggledrawable.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/arrow_right.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/arrow_right.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/swarmtoggledrawable_yes.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/swarmtoggledrawable_yes.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/bg_style.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/bg_style.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/pound.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/pound.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/maybe_off.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/maybe_off.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/swarmbutton.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/swarmbutton.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/common_google_signin_btn_text_light.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable/common_google_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/no_on.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/no_on.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/bgpaw.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/bgpaw.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/button_bg.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/button_bg.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/image_button_style.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/image_button_style.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/bg.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/bg.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/tick.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/tick.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/yes_off.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/yes_off.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/cattle_50m3.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/cattle_50m3.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/pig_25m3.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/pig_25m3.jpg"
+    }
+]

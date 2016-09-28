@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/main_fragment.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/main_fragment.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/main.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/main.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/toggle_button_fancy.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/toggle_button_fancy.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/debug_text.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/debug_text.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/toggle_button_maybe.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/toggle_button_maybe.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/toggle_button_no.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/toggle_button_no.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/toggle_button_yes.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/toggle_button_yes.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/spinner_layout.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/spinner_layout.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/drawablemap.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/drawablemap.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/spinner_item.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/spinner_item.xml"
+    }
+]

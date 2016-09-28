@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/active.wav",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/raw/active.wav"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/ping.wav",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/raw/ping.wav"
+    }
+]

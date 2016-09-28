@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_launcher.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable-hdpi/logo.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable-hdpi/logo.png"
+    }
+]
