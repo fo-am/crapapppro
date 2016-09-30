@@ -18,6 +18,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; stuff in memory
 
+(msg "dblite.scm")
+
 (define (store-set store key value)
   (cond
    ((null? store) (list (list key value)))
@@ -64,11 +66,11 @@
     ((equal? (car (car es)) type) (car es))
     (else (es-search (cdr es) type))))
 
-(define (es-add-entity es type ktv-list)
+(define (es-set-entity es type ktv-list)
   (cond
     ((null? es) (list (list type ktv-list)))
     ((equal? (car (car es)) type) (cons (list type ktv-list) (cdr es)))
-    (else (cons (car es) (es-add-entity (cdr es) type ktv-list)))))
+    (else (cons (car es) (es-set-entity (cdr es) type ktv-list)))))
 
 (define es '())
 
@@ -84,7 +86,7 @@
 
 ;; initialise the entity in memory - ktv-list can be empty for a new one
 (define (entity-init! db table entity-type ktv-list)
-  (set! es (es-add-entity es entity-type ktv-list))
+  (set! es (es-set-entity es entity-type ktv-list))
   (set-current! 'db db)
   (set-current! 'table table)
   (set-current! 'entity-type entity-type))
@@ -103,7 +105,7 @@
 
 ;; write value to memory entity
 (define (entity-set-value! key type value)
-  (set! es (es-add-entity
+  (set! es (es-set-entity
             es (get-current 'entity-type #f)
             (ktv-set (es-ktv-list) (ktv key type value)))))
 
@@ -172,3 +174,15 @@
      (else
       (msg "no values or no id to update as entity:" unique-id "values:" ktv)))))
 
+;; local settings via the eavdb
+
+(define settings-entity-id-version 1)
+
+(define (get-setting-value name)
+  (ktv-get (get-entity (get-current 'db #f) 
+		       "local" settings-entity-id-version) name))
+
+(define (set-setting! key type value)
+  (update-entity
+   (get-current 'db #f) 
+   "local" settings-entity-id-version (list (ktv key type value))))

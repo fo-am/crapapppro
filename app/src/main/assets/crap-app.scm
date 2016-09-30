@@ -15,54 +15,33 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define cattle "Cattle Slurry")
-(define FYM "Farmyard Manure")
-(define pig "Pig Slurry")
-(define poultry "Poultry Litter")
-(define normal "All crops")
-(define grass-oilseed "Grassland/Winter oilseed rape")
-(define sandyshallow "Sandy/Shallow")
-(define mediumheavy "Medium/Heavy")
-(define autumn "Autumn")
-(define winter "Winter")
-(define spring "Spring")
-(define summer "Summer")
-(define fresh "Fresh and soil incorporated")
-(define other "Old and soil incorporated")
-(define other1 "Fresh and surface applied")
-(define other2 "Old and surface applied")
+(msg "crap-app.scm")
 
-(define layer "Layer manure")
-(define broiler "Broiler litter")
-(define metric "Kg/ha")
-(define imperial "units/acre")
-(define DM2 "2% DM (Thin soup)")
-(define DM4 "4% DM (Medium soup)")
-(define DM6 "6% DM (Thick soup)")
-(define DM10 "10% DM (Porridge)")
-(define DM4-pig "4% DM (Thick soup)")
-(define DM6-pig "6% DM (Porridge)")
+(define manure-types-list (list 'cattle 'FYM 'pig 'poultry))
+(define units-list (list 'metric 'imperial))
+(define soil-type-list (list 'sandyshallow 'mediumheavy))
+(define crop-type-list (list 'normal 'grass-oilseed))
 
 (define costs (list 0.79 0.62 0.49))
 
 (define images
   (list
-   (list cattle
+   (list 'cattle
          (list
           (list 25 "cattle_25m3")
           (list 30 "cattle_30m3")
           (list 50 "cattle_50m3")
           (list 100 "cattle_100m3")))
-   (list FYM
+   (list 'FYM
          (list
           (list 25 "fym_25t")
           (list 50 "fym_50t")))
-   (list pig
+   (list 'pig
          (list
           (list 25 "pig_25m3")
           (list 50 "pig_50m3")
           (list 75 "pig_75m3")))
-   (list poultry
+   (list 'poultry
          (list
           (list 5 "poultry_5t")
           (list 10 "poultry_10t")))))
@@ -137,27 +116,27 @@
 (define nutrients-metric
   (list
    (nutrients
-    cattle "m3/ha" 100
+    'cattle "m3/ha" 100
     (list
-     (quality DM2 (nitrogen (soil (crop 8 16) (crop 48 56))  48 72 56) 30 220)
-     (quality DM6 (nitrogen (soil (crop 13 26) (crop 65 78)) 65 91 65) 60 290)
-     (quality DM10 (nitrogen (soil (crop 18 36) (crop 72 90)) 72 90 72) 90 360)))
+     (quality 'DM2 (nitrogen (soil (crop 8 16) (crop 48 56))  48 72 56) 30 220)
+     (quality 'DM6 (nitrogen (soil (crop 13 26) (crop 65 78)) 65 91 65) 60 290)
+     (quality 'DM10 (nitrogen (soil (crop 18 36) (crop 72 90)) 72 90 72) 90 360)))
    (nutrients
-    pig "m3/ha" 50
+    'pig "m3/ha" 50
     (list
-     (quality DM2 (nitrogen (soil (crop 15 22.5) (crop 52.5 60)) 60 82.5 82.5) 25 90)
-     (quality DM4-pig (nitrogen (soil (crop 18 27) (crop 54 63)) 63 90 90) 45 110)
-     (quality DM6-pig (nitrogen (soil (crop 22 33) (crop 55 66)) 66 99 99) 65 125)))
+     (quality 'DM2 (nitrogen (soil (crop 15 22.5) (crop 52.5 60)) 60 82.5 82.5) 25 90)
+     (quality 'DM4-pig (nitrogen (soil (crop 18 27) (crop 54 63)) 63 90 90) 45 110)
+     (quality 'DM6-pig (nitrogen (soil (crop 22 33) (crop 55 66)) 66 99 99) 65 125)))
    (nutrients
-    poultry "tons/ha" 10
+    'poultry "tons/ha" 10
     (list
-     (quality layer (nitrogen (soil (crop 19 28.5) (crop 47.5 57)) 47.5 66.5 66.5) 84 86)
-     (quality broiler (nitrogen (soil (crop 30 45) (crop 75 90)) (soil 60 75) 90 90) 150 162)))
+     (quality 'layer (nitrogen (soil (crop 19 28.5) (crop 47.5 57)) 47.5 66.5 66.5) 84 86)
+     (quality 'broiler (nitrogen (soil (crop 30 45) (crop 75 90)) (soil 60 75) 90 90) 150 162)))
    (nutrients
-    FYM "tons/ha" 50
+    'FYM "tons/ha" 50
     (list
-     (quality other (nitrogen (soil 15 30) 30 30 30) 95 360) ;; other
-     (quality fresh (nitrogen (soil 15 30) 30 45 30) 95 360) ;; soil inc fresh
+     (quality 'other (nitrogen (soil 15 30) 30 30 30) 95 360) ;; other
+     (quality 'fresh (nitrogen (soil 15 30) 30 45 30) 95 360) ;; soil inc fresh
     ))))
 
 (define (tons/acre->tons/ha a) (* a 2.47105381))
@@ -207,14 +186,14 @@
     (quality-k quality))))
 
 (define (imperial->metric amount units)
-  (if (equal? (current-units) metric)
+  (if (equal? (current-units) 'metric)
       amount
       (if (equal? units "m3/ha")
           (gallons/acre->m3/ha amount)
           (tons/acre->tons/ha amount))))
 
 (define (metric->imperial amount units)
-  (if (equal? (current-units) metric)
+  (if (equal? (current-units) 'metric)
       amount
       (kg/ha->units/acre amount)))
 
@@ -229,7 +208,7 @@
     (substring t 0 (- (string-length t) 1))))
 
 (define (convert-input amount units)
-  (if (equal? (current-units) metric)
+  (if (equal? (current-units) 'metric)
       amount
       (cond
        ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
@@ -245,7 +224,7 @@
 
 (define (convert-output amount units)
   (rounding
-   (if (equal? (current-units) metric)
+   (if (equal? (current-units) 'metric)
        amount
        (cond
         ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
@@ -271,6 +250,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(msg "crap-app.scm2")
+
 (define db "/sdcard/farmcrapapppro/crapapp.db")
 
 (define (setup-database!)
@@ -282,16 +263,13 @@
   (setup db "farm")
   (msg (db-status db))
   (insert-entity-if-not-exists
-   db "local" "app-settings" "null" 1
+   db "local" "app-settings" "null" settings-entity-id-version
    (list
-    (ktv "user-id" "varchar" "none-yet"))))
+    (ktv "user-id" "varchar" "None Yet")
+    (ktv "language" "int" 0)
+    (ktv "email" "varchar" "None Yet")
+    (ktv "units" "varchar" "Kg/ha"))))
 
-(define (event id type date nutrients amount quality season crop soil size units)
-  (list id type date nutrients amount quality season crop soil size units))
-
-(define (empty-event)
-  (event 0 "" (list 0 0 0) (list 0 0 0) 0 "" "" "" "" 0 metric))
-(define (event-id e) (list-ref e 0))
 (define (event-type e) (list-ref e 1))
 (define (event-date e) (list-ref e 2))
 (define (event-nutrients e) (list-ref e 3))
@@ -303,111 +281,25 @@
 (define (event-size e) (list-ref e 9))
 (define (event-units e) (list-ref e 10))
 
-(define (field name soil crop size)
-  (list name soil crop '() size))
+(define (field-name) (ktv-get (get-current 'field-values '()) "name"))
+(define (field-soil) (ktv-get (get-current 'field-values '()) "soil"))
+(define (field-crop) (ktv-get (get-current 'field-values '()) "crop"))
+;;(define (field-events f) (list-ref f 3))
+(define (field-size) (ktv-get (get-current 'field-values '()) "size"))
 
-(define (empty-field)
-  (field "" "" "" '() 50))
-
-(define (field-name f) (list-ref f 0))
-(define (field-modify-name f v) (list-replace f 0 v))
-(define (field-soil f) (list-ref f 1))
-(define (field-modify-soil f v) (list-replace f 1 v))
-(define (field-crop f) (list-ref f 2))
-(define (field-modify-crop f v) (list-replace f 2 v))
-(define (field-events f) (list-ref f 3))
-(define (field-modify-events f v) (list-replace f 3 v))
-(define (field-size f) (list-ref f 4))
-(define (field-modify-size f v) (list-replace f 4 v))
-
-(define (field-add-event f event)
-  (field-modify-events
-   f
-   (sort (append (field-events f) (list event))
-         (lambda (a b)
-           (date< (event-date a) (event-date b))))))
-
-(define (field-remove-event f id)
-  (field-modify-events
-   f (filter
-      (lambda (field)
-        (not (equal? id (event-id field))))
-      (field-events f))))
 
 (define (state)
   (list
-   (calc pig 25 DM2 autumn normal mediumheavy)
-   (empty-field)
-   (saved-data-load)
+   (calc 'pig 25 'DM2 'autumn 'normal 'mediumheavy)
    (list date-day date-month date-year)
-   (empty-event)
    1))
 
 (define (state-calc s) (list-ref s 0))
 (define (state-modify-calc s v) (list-replace s 0 v))
-(define (state-field s) (list-ref s 1))
-(define (state-modify-field s v) (list-replace s 1 v))
-(define (state-saved-data s) (list-ref s 2))
-(define (state-modify-saved-data s fn)
-  (list-replace s 2 (saved-data-save (fn (state-saved-data s)))))
-(define (state-date s) (list-ref s 3))
-(define (state-modify-date s v) (list-replace s 3 v))
-(define (state-event s) (list-ref s 4))
-(define (state-modify-event s v) (list-replace s 4 v))
-(define (state-seek-mul s) (list-ref s 5))
-(define (state-modify-seek-mul s v) (list-replace s 5 v))
-
-(define (saved-data fields)
-  (list 0 fields 0 metric "your email"))
-(define (saved-data-version f) (list-ref f 0))
-(define (saved-data-fields f) (list-ref f 1))
-(define (saved-data-modify-fields f v) (list-replace f 1 v))
-(define (saved-data-next-event-id f) (list-ref f 2))
-(define (saved-data-modify-next-event-id f v) (list-replace f 2 v))
-(define (saved-data-units f) (list-ref f 3))
-(define (saved-data-modify-units f v) (list-replace f 3 v))
-(define (saved-data-email f) (list-ref f 4))
-(define (saved-data-modify-email f v) (list-replace f 4 v))
-
-(define (saved-data-modify-field fn name f)
-  (saved-data-modify-fields
-   f (map
-      (lambda (field)
-        (if (equal? (field-name field) name)
-            (fn field)
-            field))
-      (saved-data-fields f))))
-
-(define (fields-remove-field f name)
-  (filter
-   (lambda (field)
-     (not (equal? name (field-name field))))
-   f))
-
-(define (saved-data-save d)
-  (let ((f (open-output-file (string-append dirname "swarmhub-data.scm"))))
-    (write d f)
-    (close-output-port f))
-  d)
-
-(define (saved-data-load)
-  (let* ((f (open-input-file (string-append dirname "swarmhub-data.scm"))))
-    (if (not f)
-        (saved-data-save (saved-data '()))
-        (let ((r (read f)))
-          (close-input-port f)
-          ;; check versioning
-          (if (not (number? (list-ref r 0)))
-              ;; version 0
-              (append (list 0) r (list "your email"))
-              r)))))
-
-(define (save-data filename d)
-  (let ((f (open-output-file (string-append dirname filename))))
-    (display d f)
-    (close-output-port f))
-  d)
-
+(define (state-date s) (list-ref s 1))
+(define (state-modify-date s v) (list-replace s 1 v))
+(define (state-seek-mul s) (list-ref s 2))
+(define (state-modify-seek-mul s v) (list-replace s 2 v))
 
 (define (calc type amount quality season crop soil)
   (list type amount quality season crop soil))
@@ -444,44 +336,20 @@
 (define (mutate-state! fn)
   (set! gstate (fn gstate)))
 
-(define (mutate-saved-data! fn)
-  (mutate-state!
-   (lambda (s)
-     (state-modify-saved-data
-      s fn))))
-
-(define (mutate-make-event-id!)
-  (mutate-saved-data!
-   (lambda (d)
-     (saved-data-modify-next-event-id
-      d (+ (saved-data-next-event-id d) 1))))
-  (saved-data-next-event-id (state-saved-data gstate)))
-
 (define (mutate-units! v)
-  (mutate-saved-data!
-   (lambda (d)
-     (saved-data-modify-units d v))))
+  (set-setting! "units" "varchar" v))
 
 (define (current-units)
-  (saved-data-units
-   (state-saved-data gstate)))
+  (get-setting-value "units"))
 
 (define (mutate-email! v)
-  (mutate-saved-data!
-   (lambda (d)
-     (saved-data-modify-email d v))))
+  (set-setting! "email" "varchar" v))
 
 (define (current-email)
-  (saved-data-email
-   (state-saved-data gstate)))
+  (get-setting-value "email"))
 
-(define (get-fields)
-  (saved-data-fields (state-saved-data gstate)))
-
-(define (current-field) (state-field gstate))
 (define (current-date) (state-date gstate))
 (define (current-calc) (state-calc gstate))
-(define (current-event) (state-event gstate))
 (define (current-seek-mul) (state-seek-mul gstate))
 
 (define (mutate-current-seek-mul! a)
@@ -489,98 +357,80 @@
    (lambda (s)
      (state-modify-seek-mul s a))))
 
-(define (mutate-current-field! fn)
-  (mutate-state!
-   (lambda (s)
-     (state-modify-field s (fn (state-field s))))))
 
-(define (mutate-current-event! fn)
-  (mutate-state!
-   (lambda (s)
-     (state-modify-event s (fn (state-event s))))))
+;; (define (csv-headings)
+;;   (string-append
+;;    "Sield name\t"
+;;    "Size\t"
+;;    "Size units\t"
+;;    "Soil\t"
+;;    "Crop\t"
+;;    "Manure\t"
+;;    "Date\t"
+;;    "N\t P\t K\t Nutrient units\t"
+;;    "Amount\t"
+;;    "Amount units\t"
+;;    "Total Amount\t"
+;;    "Total units\t"
+;;    "Quality\t"
+;;    "Season\t"
+;;    "N Field Saving\t"
+;;    "P Field Saving\t"
+;;    "K Field Saving\t"
+;;    "N Unit price\t"
+;;    "P Unit price\t"
+;;    "K Unit price\n"
+;;    ))
 
-(define (find-field name)
-  (define (_ f)
-    (cond
-     ((null? f) #f)
-     ((string=? (field-name (car f)) name)
-      (car f))
-     (else (_ (cdr f)))))
-  (_ (get-fields)))
+;; (define (stringify-event event name soil crop size)
+;;   (let ((aunits (amount-units event))
+;;         (nunits (nutrient-units event)))
+;;     (string-append
+;;      name "\t"
+;;      (number->string (convert-output size "hectares")) "\t"
+;;      (if (equal? (current-units) metric) "ha" "acres") "\t"
+;;      soil "\t"
+;;      crop "\t"
+;;      (event-type event) "\t"
+;;      (date->string (event-date event)) "\t"
+;;      (number->string (convert-output (list-ref (event-nutrients event) 0) "kg/ha")) "\t"
+;;      (number->string (convert-output (list-ref (event-nutrients event) 1) "kg/ha")) "\t"
+;;      (number->string (convert-output (list-ref (event-nutrients event) 2) "kg/ha")) "\t"
+;;      (if (equal? (current-units) metric) "kg/ha" "units/acre") "\t"
+;;      (number->string (convert-output (event-amount event) nunits)) "\t"
+;;      nunits "\t"
+;;      (number->string (convert-output (* size (event-amount event)) aunits)) "\t"
+;;      aunits "\t"
+;;      (event-quality event) "\t"
+;;      (event-season event) "\t"
+;;      "£" (get-cost-string-from-nutrient 0 (event-nutrients event) size) "\t"
+;;      "£" (get-cost-string-from-nutrient 1 (event-nutrients event) size) "\t"
+;;      "£" (get-cost-string-from-nutrient 2 (event-nutrients event) size) "\t"
+;;      "£" (padcash->string (list-ref costs 0)) "\t"
+;;      "£" (padcash->string (list-ref costs 1)) "\t"
+;;      "£" (padcash->string (list-ref costs 2))
+;;      )))
 
-(define (csv-headings)
-  (string-append
-   "Sield name\t"
-   "Size\t"
-   "Size units\t"
-   "Soil\t"
-   "Crop\t"
-   "Manure\t"
-   "Date\t"
-   "N\t P\t K\t Nutrient units\t"
-   "Amount\t"
-   "Amount units\t"
-   "Total Amount\t"
-   "Total units\t"
-   "Quality\t"
-   "Season\t"
-   "N Field Saving\t"
-   "P Field Saving\t"
-   "K Field Saving\t"
-   "N Unit price\t"
-   "P Unit price\t"
-   "K Unit price\n"
-   ))
+;; (define (stringify-field field)
+;;   (foldl
+;;    (lambda (event str)
+;;      (string-append
+;;       str
+;;       (stringify-event
+;;        event
+;;        (field-name field)
+;;        (field-soil field)
+;;        (field-crop field)
+;;        (field-size field)) "\n"))
+;;    ""
+;;    (field-events field)))
 
-(define (stringify-event event name soil crop size)
-  (let ((aunits (amount-units event))
-        (nunits (nutrient-units event)))
-    (string-append
-     name "\t"
-     (number->string (convert-output size "hectares")) "\t"
-     (if (equal? (current-units) metric) "ha" "acres") "\t"
-     soil "\t"
-     crop "\t"
-     (event-type event) "\t"
-     (date->string (event-date event)) "\t"
-     (number->string (convert-output (list-ref (event-nutrients event) 0) "kg/ha")) "\t"
-     (number->string (convert-output (list-ref (event-nutrients event) 1) "kg/ha")) "\t"
-     (number->string (convert-output (list-ref (event-nutrients event) 2) "kg/ha")) "\t"
-     (if (equal? (current-units) metric) "kg/ha" "units/acre") "\t"
-     (number->string (convert-output (event-amount event) nunits)) "\t"
-     nunits "\t"
-     (number->string (convert-output (* size (event-amount event)) aunits)) "\t"
-     aunits "\t"
-     (event-quality event) "\t"
-     (event-season event) "\t"
-     "£" (get-cost-string-from-nutrient 0 (event-nutrients event) size) "\t"
-     "£" (get-cost-string-from-nutrient 1 (event-nutrients event) size) "\t"
-     "£" (get-cost-string-from-nutrient 2 (event-nutrients event) size) "\t"
-     "£" (padcash->string (list-ref costs 0)) "\t"
-     "£" (padcash->string (list-ref costs 1)) "\t"
-     "£" (padcash->string (list-ref costs 2))
-     )))
-
-(define (stringify-field field)
-  (foldl
-   (lambda (event str)
-     (string-append
-      str
-      (stringify-event
-       event
-       (field-name field)
-       (field-soil field)
-       (field-crop field)
-       (field-size field)) "\n"))
-   ""
-   (field-events field)))
-
-(define (stringify-fields)
-  (foldl
-   (lambda (field str)
-     (string-append str (stringify-field field) "\n"))
-   (csv-headings)
-   (get-fields)))
+;; (define (stringify-fields)
+;;   (foldl
+;;    (lambda (field str)
+;;      (string-append str (stringify-field field) "\n"))
+;;    (csv-headings)
+;;    (get-fields)))
 
 (define (calc-nutrients)
   (let* ((type (calc-type (state-calc gstate)))
@@ -600,7 +450,7 @@
 
 (define (get-units)
   (let ((type (calc-type (state-calc gstate))))
-    (if (equal? (current-units) metric)
+    (if (equal? (current-units) 'metric)
         (nutrients-units (find type nutrients-metric))
         (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
             "gallons/acre"
@@ -608,7 +458,7 @@
 
 (define (nutrient-units event)
   (let ((type (event-type event)))
-    (if (equal? (current-units) metric)
+    (if (equal? (current-units) 'metric)
         (nutrients-units (find type nutrients-metric))
         (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
             "gallons/acre"
@@ -616,7 +466,7 @@
 
 (define (amount-units event)
   (let ((type (event-type event)))
-    (if (equal? (current-units) metric)
+    (if (equal? (current-units) 'metric)
         (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
             "m3" "tonnes")
         ;; it's imperial
@@ -654,6 +504,7 @@
   (space (layout 'fill-parent size 1 'left 0)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(msg "crap-app.scm3")
 
 (define graph-width 320)
 
@@ -753,7 +604,7 @@
              (list-ref first 2))))))
 
 (define (build-key)
-  (let ((units (if (equal? (current-units) metric)
+  (let ((units (if (equal? (current-units) 'metric)
                    "Kg/hectare"
                    "units/acre"))
         (a (if (equal? (current-units) metric) 100 (convert-output 200 "kg/ha")))
@@ -802,13 +653,13 @@
          (event-amount (current-event)))))))
 
 (define (update-seek-mul! manure)
-  (if (and (equal? (current-units) imperial)
-           (or (equal? manure cattle)
-               (equal? manure pig)))
+  (if (and (equal? (current-units) 'imperial)
+           (or (equal? manure 'cattle)
+               (equal? manure 'pig)))
       (mutate-current-seek-mul! 100)
       (cond
-       ((equal? manure poultry)
-        (if (equal? (current-units) imperial)
+       ((equal? manure 'poultry)
+        (if (equal? (current-units) 'imperial)
             (mutate-current-seek-mul! 0.1)
             (mutate-current-seek-mul! 0.15)))
        (else
@@ -824,7 +675,8 @@
           (field-name field)
           20 fillwrap
           (lambda ()
-            (list (start-activity "field" 2 (field-name field))))))
+	    (set-current! 'field (field-name field))
+            (list (start-activity "field" 2 "")))))
        (get-fields))))
 
 (define (build-event-buttons)
@@ -895,3 +747,5 @@
      (eqv? (list-ref d 1) 11)
      (eqv? (list-ref d 1) 12)
      (eqv? (list-ref d 1) 1)) winter)))
+
+(msg "crap-app.scm end")
