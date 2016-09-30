@@ -152,16 +152,16 @@
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/swarmbutton.xml"
     },
     {
-        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/common_google_signin_btn_text_light.xml",
-        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable/common_google_signin_btn_text_light.xml"
-    },
-    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/no_on.png",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/no_on.png"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/bgpaw.png",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/bgpaw.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/common_google_signin_btn_text_light.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable/common_google_signin_btn_text_light.xml"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/button_bg.xml",

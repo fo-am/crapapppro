@@ -91,6 +91,17 @@ public class starwisp extends StarwispActivity
         m_Scheme = new Scheme(this);
         m_Scheme.Load("lib.scm");
         m_Scheme.Load("json.scm");
+        m_Scheme.Load("eavdb/ktv.ss");
+        m_Scheme.Load("eavdb/ktv-list.ss");
+        m_Scheme.Load("eavdb/entity-values.ss");
+        m_Scheme.Load("eavdb/entity-insert.ss");
+        m_Scheme.Load("eavdb/entity-get.ss");
+        m_Scheme.Load("eavdb/entity-update.ss");
+        m_Scheme.Load("eavdb/entity-filter.ss");
+        m_Scheme.Load("eavdb/entity-sync.ss");
+        m_Scheme.Load("eavdb/entity-csv.ss");
+        m_Scheme.Load("eavdb/eavdb.ss");
+        m_Scheme.Load("dblite.scm");
 
         m_Builder = new StarwispBuilder(m_Scheme);
         m_Name = "splash";

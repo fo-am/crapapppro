@@ -271,6 +271,21 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(define db "/sdcard/farmcrapapppro/crapapp.db")
+
+(define (setup-database!)
+  (msg "setting up database")
+  (db-close db) ;; close just in case (sorts out db file delete while running problem)
+  (db-open db)
+  (msg "setting up tables")
+  (setup db "local")
+  (setup db "farm")
+  (msg (db-status db))
+  (insert-entity-if-not-exists
+   db "local" "app-settings" "null" 1
+   (list
+    (ktv "user-id" "varchar" "none-yet"))))
+
 (define (event id type date nutrients amount quality season crop soil size units)
   (list id type date nutrients amount quality season crop soil size units))
 
@@ -775,3 +790,108 @@
     (drawlist-line '(0 0 0) 5 (list 0 0 320 0))
     (drawlist-line '(0 0 0) 5 (list 0 250 320 250)))))
 
+(define (setup-for-picture-from-event)
+  ;; setup the calculator values for the camera pic from the event
+  (mutate-state!
+   (lambda (s)
+     (state-modify-calc
+      s (calc-modify-amount
+         (calc-modify-type
+          (state-calc s)
+          (event-type (current-event)))
+         (event-amount (current-event)))))))
+
+(define (update-seek-mul! manure)
+  (if (and (equal? (current-units) imperial)
+           (or (equal? manure cattle)
+               (equal? manure pig)))
+      (mutate-current-seek-mul! 100)
+      (cond
+       ((equal? manure poultry)
+        (if (equal? (current-units) imperial)
+            (mutate-current-seek-mul! 0.1)
+            (mutate-current-seek-mul! 0.15)))
+       (else
+        (mutate-current-seek-mul! 1)))))
+
+(define (build-field-buttons)
+  (if (null? (get-fields))
+      (list (text-view (make-id "temp") "Add some fields" 20 fillwrap))
+      (map
+       (lambda (field)
+         (button
+          (make-id (field-name field))
+          (field-name field)
+          20 fillwrap
+          (lambda ()
+            (list (start-activity "field" 2 (field-name field))))))
+       (get-fields))))
+
+(define (build-event-buttons)
+  (if (null? (field-events (current-field)))
+      (list (text-view (make-id "temp") "No events yet" 15 fillwrap))
+      (map
+       (lambda (event)
+         (button
+          (make-id (string-append
+                    "event-"
+                    ;; need to add field to prevent clashing with other field id numbers
+                    (field-name (current-field))
+                    (number->string (event-id event))))
+          (string-append (event-type event)
+                         " "
+                         (date->string (event-date event)))
+          15 fillwrap
+          (lambda ()
+            (mutate-current-event! (lambda (ev) event))
+            (list
+             (start-activity "eventview" 2 "")))))
+       (field-events (current-field)))))
+
+;; just for graph so don't have to be accurate!!!
+(define (date->day d)
+  (+ (* (list-ref d 2) 360)
+     (* (list-ref d 1) 30)
+     (list-ref d 0)))
+
+(define (date< a b)
+  (cond
+   ((< (list-ref a 2) (list-ref b 2)) #t)
+   ((> (list-ref a 2) (list-ref b 2)) #f)
+   (else ;; year is the same
+    (cond
+     ((< (list-ref a 1) (list-ref b 1)) #t)
+     ((> (list-ref a 1) (list-ref b 1)) #f)
+     (else ;; month is the same
+      (cond
+       ((< (list-ref a 0) (list-ref b 0)) #t)
+       ((> (list-ref a 0) (list-ref b 0)) #f)
+       (else #f)))))))
+
+
+(define (date->string d)
+  (string-append
+   (number->string (list-ref d 0))
+   "/"
+   (number->string (list-ref d 1))
+   "/"
+   (number->string (list-ref d 2))))
+
+(define (date->season d)
+  (cond
+   ((or
+     (eqv? (list-ref d 1) 2)
+     (eqv? (list-ref d 1) 3)
+     (eqv? (list-ref d 1) 4)) spring)
+   ((or
+     (eqv? (list-ref d 1) 5)
+     (eqv? (list-ref d 1) 6)
+     (eqv? (list-ref d 1) 7)) summer)
+   ((or
+     (eqv? (list-ref d 1) 8)
+     (eqv? (list-ref d 1) 9)
+     (eqv? (list-ref d 1) 10)) autumn)
+   ((or
+     (eqv? (list-ref d 1) 11)
+     (eqv? (list-ref d 1) 12)
+     (eqv? (list-ref d 1) 1)) winter)))

@@ -41,6 +41,11 @@ android {
         compileTask -> compileTask.dependsOn ndkBuild
     }
 
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
+    }
 }
 
 dependencies {
