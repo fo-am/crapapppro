@@ -12,6 +12,16 @@
    (list 'email (list "Email"))
    (list 'about (list "About"))
    (list 'back (list "Back"))
+   (list 'done (list "Done"))
+
+   (list 'crap-calculator (list "Crap Calculator"))
+   (list 'season (list "Season"))
+   (list 'quality (list "Quality"))
+   (list 'crop-availible (list "Crop available"))
+   (list 'nutrient-n-metric (list "N Kg/ha"))
+   (list 'nutrient-p-metric (list "P Kg/ha"))
+   (list 'nutrient-k-metric (list "K Kg/ha"))
+   (list 'cost-saving (list "Fertiliser Savings (as at Oct 2013)"))
 
    (list 'soil-type (list "Soil type"))
    (list 'crop-type (list "Crop type"))

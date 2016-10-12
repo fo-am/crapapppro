@@ -134,6 +134,7 @@ public class starwisp extends StarwispActivity
         // pass in a bunch of useful stuff
         DeclareSensors();
 
+        m_Scheme.Load("calc-core.scm");
         m_Scheme.Load("crap-app.scm");
         m_Scheme.Load("translations.scm");
 

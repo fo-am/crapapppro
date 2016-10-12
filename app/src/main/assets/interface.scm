@@ -234,6 +234,9 @@
       (symbol->string (list-ref l i))
       i))
 
+(define (symbol-list-to-names l)
+  (map mtext-lookup l))
+
 (define (mupdate-spinner id-symbol key choices)
   (let* ((val (entity-get-value key)))
     (if (not val)

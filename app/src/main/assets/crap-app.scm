@@ -17,188 +17,17 @@
 
 (msg "crap-app.scm")
 
-(define manure-types-list (list 'cattle 'FYM 'pig 'poultry))
-(define units-list (list 'metric 'imperial))
-(define soil-type-list (list 'sandyshallow 'mediumheavy))
-(define crop-type-list (list 'normal 'grass-oilseed))
-
-(define costs (list 0.79 0.62 0.49))
-
-(define images
-  (list
-   (list 'cattle
-         (list
-          (list 25 "cattle_25m3")
-          (list 30 "cattle_30m3")
-          (list 50 "cattle_50m3")
-          (list 100 "cattle_100m3")))
-   (list 'FYM
-         (list
-          (list 25 "fym_25t")
-          (list 50 "fym_50t")))
-   (list 'pig
-         (list
-          (list 25 "pig_25m3")
-          (list 50 "pig_50m3")
-          (list 75 "pig_75m3")))
-   (list 'poultry
-         (list
-          (list 5 "poultry_5t")
-          (list 10 "poultry_10t")))))
-
-(define (abs n)
-  (if (< n 0) (- n) n))
-
-(define (find-image type amount)
-  (define (_type images)
-    (cond
-     ((null? images) #f)
-     ((equal? (car (car images)) type) (car images))
-     (else (_type (cdr images)))))
-  (define (_amount images s)
-    (cond
-     ((null? images) s)
-     ((< (abs (- amount (car (car images))))
-         (abs (- amount (car s))))
-      (_amount (cdr images) (car images)))
-     (else (_amount (cdr images) s))))
-  (let ((type-images (cadr (_type images))))
-    (cadr (_amount type-images (car type-images)))))
-
-(define (nutrients type units amount table) (list type units amount table))
-(define (nutrients-type n) (list-ref n 0))
-(define (nutrients-units n) (list-ref n 1))
-(define (nutrients-amount n) (list-ref n 2))
-(define (nutrients-table n) (list-ref n 3))
-
-(define (quality q n p k) (list q n p k))
-(define (quality-q q) (list-ref q 0))
-(define (quality-n q) (list-ref q 1))
-(define (quality-p q) (list-ref q 2))
-(define (quality-k q) (list-ref q 3))
-
-;; nitrogen is based on season and crop
-(define (nitrogen autumn winter spring summer)
-  (list autumn winter spring summer))
-(define (nitrogen-season n s)
-  (cond
-    ((equal? s autumn) (list-ref n 0))
-    ((equal? s winter) (list-ref n 1))
-    ((equal? s spring) (list-ref n 2))
-    ((equal? s summer) (list-ref n 3))
-    (else (error "season " s " not found") #f)))
-
-(define (soil sandyshallow mediumheavy)
-  (list sandyshallow mediumheavy))
-(define (soil? s) (list? s))
-(define (get-soil s t)
-  (cond
-    ((equal? t sandyshallow) (list-ref s 0))
-    ((equal? t mediumheavy) (list-ref s 1))
-    (else (error "soil type " t " not found") #f)))
-
-(define (crop normal g)
-  (list normal g))
-(define (crop? c) (list? c))
-(define (get-crop c t)
-  (cond
-    ((equal? t normal) (list-ref c 0))
-    ((equal? t grass-oilseed) (list-ref c 1))
-    (else (error "crop type " t " not found") #f)))
-
-
-(define (find n l)
-  (cond
-    ((null? l) #f)
-    ((equal? n (car (car l))) (car l))
-    (else (find n (cdr l)))))
-
-(define nutrients-metric
-  (list
-   (nutrients
-    'cattle "m3/ha" 100
-    (list
-     (quality 'DM2 (nitrogen (soil (crop 8 16) (crop 48 56))  48 72 56) 30 220)
-     (quality 'DM6 (nitrogen (soil (crop 13 26) (crop 65 78)) 65 91 65) 60 290)
-     (quality 'DM10 (nitrogen (soil (crop 18 36) (crop 72 90)) 72 90 72) 90 360)))
-   (nutrients
-    'pig "m3/ha" 50
-    (list
-     (quality 'DM2 (nitrogen (soil (crop 15 22.5) (crop 52.5 60)) 60 82.5 82.5) 25 90)
-     (quality 'DM4-pig (nitrogen (soil (crop 18 27) (crop 54 63)) 63 90 90) 45 110)
-     (quality 'DM6-pig (nitrogen (soil (crop 22 33) (crop 55 66)) 66 99 99) 65 125)))
-   (nutrients
-    'poultry "tons/ha" 10
-    (list
-     (quality 'layer (nitrogen (soil (crop 19 28.5) (crop 47.5 57)) 47.5 66.5 66.5) 84 86)
-     (quality 'broiler (nitrogen (soil (crop 30 45) (crop 75 90)) (soil 60 75) 90 90) 150 162)))
-   (nutrients
-    'FYM "tons/ha" 50
-    (list
-     (quality 'other (nitrogen (soil 15 30) 30 30 30) 95 360) ;; other
-     (quality 'fresh (nitrogen (soil 15 30) 30 45 30) 95 360) ;; soil inc fresh
-    ))))
-
-(define (tons/acre->tons/ha a) (* a 2.47105381))
-(define (tons/ha->tons/acre a) (/ a 2.47105381))
-(define (gallons/acre->m3/ha a) (* a 0.0112336377))
-(define (m3/ha->gallons/acre a) (/ a 0.0112336377))
-(define (kg/ha->units/acre a) (* a 0.8))
-(define (units/acre->kg/ha a) (/ a 0.8))
-(define (acres->hectares a) (* a 0.404686))
-(define (hectares->acres a) (* a 2.47105))
-(define (m3->gallons a) (* a 219.969))
-
-(define (error . args)
-  (display (apply string-append args))(newline))
-
-(define (get-nutrients type amount quality season crop soil)
-  (let ((nutrients (find type nutrients-metric)))
-    (if (not nutrients)
-        (begin 
-	  (error "nutrients type not found")
-	  (display nutrients)(newline))
-        (let ((q (find quality (nutrients-table nutrients))))
-          (if (not q)
-              (error "quality " quality " not found")
-              (get-nutrients-inner
-               (nutrients-amount nutrients)
-               (nutrients-units nutrients)
-               q amount season crop soil))))))
-
-(define (get-nutrients-inner quantity units quality amount season crop soil)
-  (process-nutrients
-   amount
-   units
-   quantity
-   (list
-    ;; nitrogen
-    (let ((s (nitrogen-season (quality-n quality) season)))
-      (if (not s)
-          (error "season not found")
-          (let ((c (if (soil? s)
-                       (get-soil s soil)
-                       s)))
-            (if (crop? c)
-                (get-crop c crop)
-                c))))
-    (quality-p quality)
-    (quality-k quality))))
-
 (define (imperial->metric amount units)
-  (if (equal? (current-units) 'metric)
+  (if (eq? (current-units) 'metric)
       amount
       (if (equal? units "m3/ha")
           (gallons/acre->m3/ha amount)
           (tons/acre->tons/ha amount))))
 
 (define (metric->imperial amount units)
-  (if (equal? (current-units) 'metric)
+  (if (eq? (current-units) 'metric)
       amount
       (kg/ha->units/acre amount)))
-
-(define (rounding a)
-  (/ (round (* 10 a)) 10))
 
 (define (rounding-cash a)
   (/ (round (* 100 a)) 100))
@@ -208,7 +37,7 @@
     (substring t 0 (- (string-length t) 1))))
 
 (define (convert-input amount units)
-  (if (equal? (current-units) 'metric)
+  (if (eq? (current-units) 'metric)
       amount
       (cond
        ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
@@ -224,7 +53,7 @@
 
 (define (convert-output amount units)
   (rounding
-   (if (equal? (current-units) 'metric)
+   (if (eq? (current-units) 'metric)
        amount
        (cond
         ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
@@ -240,19 +69,12 @@
         ((equal? units "tonnes") amount) ;; tonnes are metric everywhere!?
         (else (msg "I don't understand how to convert" units))))))
 
-;; quantity is from the table (so I can debug easily it matches the data)
-;; amount is from the slider
-(define (process-nutrients amount units quantity nutrients)
-  (map
-   (lambda (q)
-     (rounding (* amount (/ q quantity))))
-   nutrients))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (msg "crap-app.scm2")
 
 (define db "/sdcard/farmcrapapppro/crapapp.db")
+(set-current! 'db db)
 
 (define (setup-database!)
   (msg "setting up database")
@@ -269,6 +91,7 @@
     (ktv "language" "int" 0)
     (ktv "email" "varchar" "None Yet")
     (ktv "units" "varchar" "Kg/ha"))))
+
 
 (define (event-type e) (list-ref e 1))
 (define (event-date e) (list-ref e 2))
@@ -288,7 +111,7 @@
 (define (field-size) (ktv-get (get-current 'field-values '()) "size"))
 
 
-(define (state)
+(define (calculator-state)
   (list
    (calc 'pig 25 'DM2 'autumn 'normal 'mediumheavy)
    (list date-day date-month date-year)
@@ -331,26 +154,26 @@
 (define (update-crop! pre v) (update-calc! pre (lambda (c) (calc-modify-crop c v))))
 (define (update-soil! pre v) (update-calc! pre (lambda (c) (calc-modify-soil c v))))
 
-(define gstate (state))
+(define gcalculator-state (calculator-state))
 
 (define (mutate-state! fn)
-  (set! gstate (fn gstate)))
+  (set! gcalculator-state (fn gcalculator-state)))
 
 (define (mutate-units! v)
   (set-setting! "units" "varchar" v))
 
 (define (current-units)
   (get-setting-value "units"))
-
+ 
 (define (mutate-email! v)
   (set-setting! "email" "varchar" v))
 
 (define (current-email)
   (get-setting-value "email"))
 
-(define (current-date) (state-date gstate))
-(define (current-calc) (state-calc gstate))
-(define (current-seek-mul) (state-seek-mul gstate))
+(define (current-date) (state-date gcalculator-state))
+(define (current-calc) (state-calc gcalculator-state))
+(define (current-seek-mul) (state-seek-mul gcalculator-state))
 
 (define (mutate-current-seek-mul! a)
   (mutate-state!
@@ -433,12 +256,12 @@
 ;;    (get-fields)))
 
 (define (calc-nutrients)
-  (let* ((type (calc-type (state-calc gstate)))
-         (amount (calc-amount (state-calc gstate)))
-         (quality (calc-quality (state-calc gstate)))
-         (season (calc-season (state-calc gstate)))
-         (crop (calc-crop (state-calc gstate)))
-         (soil (calc-soil (state-calc gstate))))
+  (let* ((type (calc-type (state-calc gcalculator-state)))
+         (amount (calc-amount (state-calc gcalculator-state)))
+         (quality (calc-quality (state-calc gcalculator-state)))
+         (season (calc-season (state-calc gcalculator-state)))
+         (crop (calc-crop (state-calc gcalculator-state)))
+         (soil (calc-soil (state-calc gcalculator-state))))
 ;    (display type)(newline)
 ;    (display amount)(newline)
 ;    (display season)(newline)
@@ -449,8 +272,8 @@
     (get-nutrients type amount quality season crop soil)))
 
 (define (get-units)
-  (let ((type (calc-type (state-calc gstate))))
-    (if (equal? (current-units) 'metric)
+  (let ((type (calc-type (state-calc gcalculator-state))))
+    (if (eq? (current-units) 'metric)
         (nutrients-units (find type nutrients-metric))
         (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
             "gallons/acre"
@@ -458,7 +281,7 @@
 
 (define (nutrient-units event)
   (let ((type (event-type event)))
-    (if (equal? (current-units) 'metric)
+    (if (eq? (current-units) 'metric)
         (nutrients-units (find type nutrients-metric))
         (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
             "gallons/acre"
@@ -466,7 +289,7 @@
 
 (define (amount-units event)
   (let ((type (event-type event)))
-    (if (equal? (current-units) 'metric)
+    (if (eq? (current-units) 'metric)
         (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
             "m3" "tonnes")
         ;; it's imperial
@@ -480,8 +303,8 @@
 
 (define (run-calc prepend)
   (let ((amounts (calc-nutrients))
-        (amount (calc-amount (state-calc gstate)))
-        (type (calc-type (state-calc gstate))))
+        (amount (calc-amount (state-calc gcalculator-state)))
+        (type (calc-type (state-calc gcalculator-state))))
     (list
      (update-widget 'text-view (get-id (string-append prepend "amount-value")) 'text
                     (string-append (number->string (convert-output amount (get-units))) " " (get-units)))
@@ -604,13 +427,13 @@
              (list-ref first 2))))))
 
 (define (build-key)
-  (let ((units (if (equal? (current-units) 'metric)
+  (let ((units (if (eq? (current-units) 'metric)
                    "Kg/hectare"
                    "units/acre"))
-        (a (if (equal? (current-units) metric) 100 (convert-output 200 "kg/ha")))
-        (b (if (equal? (current-units) metric) 150 (convert-output 150 "kg/ha")))
-        (c (if (equal? (current-units) metric) 100 (convert-output 100 "kg/ha")))
-        (d (if (equal? (current-units) metric) 50 (convert-output 50 "kg/ha"))))
+        (a (if (equal? (current-units) 'metric) 100 (convert-output 200 "kg/ha")))
+        (b (if (equal? (current-units) 'metric) 150 (convert-output 150 "kg/ha")))
+        (c (if (equal? (current-units) 'metric) 100 (convert-output 100 "kg/ha")))
+        (d (if (equal? (current-units) 'metric) 50 (convert-output 50 "kg/ha"))))
     (list
      (drawlist-text units 15 180 '(0 0 0) 15 "vertical")
      (drawlist-text a 20 50 '(0 0 0) 10 "horizontal")
@@ -653,13 +476,13 @@
          (event-amount (current-event)))))))
 
 (define (update-seek-mul! manure)
-  (if (and (equal? (current-units) 'imperial)
-           (or (equal? manure 'cattle)
-               (equal? manure 'pig)))
+  (if (and (eq? (current-units) 'imperial)
+           (or (eq? manure 'cattle)
+               (eq? manure 'pig)))
       (mutate-current-seek-mul! 100)
       (cond
        ((equal? manure 'poultry)
-        (if (equal? (current-units) 'imperial)
+        (if (eq? (current-units) 'imperial)
             (mutate-current-seek-mul! 0.1)
             (mutate-current-seek-mul! 0.15)))
        (else
