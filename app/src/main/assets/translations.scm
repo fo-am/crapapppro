@@ -23,6 +23,10 @@
    (list 'nutrient-k-metric (list "K Kg/ha"))
    (list 'cost-saving (list "Fertiliser Savings (as at Oct 2013)"))
 
+   (list 'field-calc-blurb (list "Enter new crap spreading event"))
+   (list 'date (list "Set date"))
+
+
    (list 'soil-type (list "Soil type"))
    (list 'crop-type (list "Crop type"))
    (list 'field-size (list "Field size"))

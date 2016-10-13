@@ -352,13 +352,14 @@
        (make-id (string-append (symbol->string title) "-add"))
        "+" 40 (layout 100 'wrap-content 1 'centre 5)
        (lambda ()
-         (entity-create!
-          db table entity-type
-          (dbg (ktvlist-merge
-              (ktv-default-fn)
-              (list (ktv "parent" "varchar" (parent-fn))))))
-         (msg "entity created")
-         (list (update-list-widget db table title-ids entity-type edit-activity (parent-fn))))))
+         (let ((id (entity-create!
+		    db table entity-type
+		    (dbg (ktvlist-merge
+			  (ktv-default-fn)
+			  (list (ktv "parent" "varchar" (parent-fn))))))))
+	   (msg "entity created")
+	   (list (start-activity edit-activity 0 id))))))
+     
      (linear-layout
       (make-id (string-append entity-type "-list"))
       'vertical
@@ -393,13 +394,14 @@
 (define (update-list-widget db table title-ids entity-type edit-activity parent)
   (let ((search-results
          (if parent
-             (db-filter-only db table entity-type
+	     (db-filter-only db table entity-type
                              (list (list "parent" "varchar" "=" parent))
                              (map
                               (lambda (id)
                                 (list id "varchar"))
                               title-ids))
              (db-all db table entity-type))))
+    (msg search-results)
     (update-widget
      'linear-layout
      (get-id (string-append entity-type "-list"))
@@ -415,8 +417,6 @@
              (lambda ()
                (list (start-activity edit-activity 0 (ktv-get e "unique_id"))))))
           search-results)))))
-
-(msg "interface4.scm")
 
 
 (define (delete-button)
