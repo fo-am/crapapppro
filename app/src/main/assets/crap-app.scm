@@ -140,11 +140,11 @@
 (define (calc-soil s) (list-ref s 5))
 (define (calc-modify-soil s v) (list-replace s 5 v))
 
-(define (update-calc! pre fn)
+(define (update-calc! fn)
   (mutate-state!
    (lambda (s)
      (state-modify-calc s (fn (state-calc s)))))
-  (run-calc pre))
+  (run-calc))
 
 (define (get-qualities-for-type t)
   (cond
@@ -153,19 +153,18 @@
    ((eq? t 'poultry) poultry-quality-list)
    (else fym-quality-list)))
 
-(define (update-type! pre v) 
+(define (update-type! v) 
   (update-calc! 
-   pre 
    (lambda (c) 
      (calc-modify-quality ;; need to set a valid quality for this type
       (calc-modify-type c v)
       (car (get-qualities-for-type v))))))
 
-(define (update-amount! pre v) (update-calc! pre (lambda (c) (calc-modify-amount c v))))
-(define (update-quality! pre v) (update-calc! pre (lambda (c) (calc-modify-quality c v))))
-(define (update-season! pre v) (update-calc! pre (lambda (c) (calc-modify-season c v))))
-(define (update-crop! pre v) (update-calc! pre (lambda (c) (calc-modify-crop c v))))
-(define (update-soil! pre v) (update-calc! pre (lambda (c) (calc-modify-soil c v))))
+(define (update-amount! v) (update-calc! (lambda (c) (calc-modify-amount c v))))
+(define (update-quality! v) (update-calc! (lambda (c) (calc-modify-quality c v))))
+(define (update-season! v) (update-calc! (lambda (c) (calc-modify-season c v))))
+(define (update-crop! v) (update-calc! (lambda (c) (calc-modify-crop c v))))
+(define (update-soil! v) (update-calc! (lambda (c) (calc-modify-soil c v))))
 
 (define gcalculator-state (calculator-state))
 
@@ -319,25 +318,25 @@
   (padcash->string (* (list-ref amounts nutrient-index)
                       (list-ref costs nutrient-index) mul)))
 
-(define (run-calc prepend)
+(define (run-calc)
   (let ((amounts (calc-nutrients))
         (amount (calc-amount (state-calc gcalculator-state)))
         (type (calc-type (state-calc gcalculator-state))))
     (list
-     (update-widget 'text-view (get-id (string-append prepend "amount-value")) 'text
+     (update-widget 'text-view (get-id "amount-value") 'text
                     (string-append (number->string (convert-output amount (get-units))) " " (get-units)))
-     (update-widget 'text-view (get-id (string-append prepend "na"))
+     (update-widget 'text-view (get-id "na")
                     'text (number->string (convert-output (list-ref amounts 0) "kg/ha")))
-     (update-widget 'text-view (get-id (string-append prepend "pa"))
+     (update-widget 'text-view (get-id "pa")
                     'text (number->string (convert-output (list-ref amounts 1) "kg/ha")))
-     (update-widget 'text-view (get-id (string-append prepend "ka"))
+     (update-widget 'text-view (get-id "ka")
                     'text (number->string (convert-output (list-ref amounts 2) "kg/ha")))
      ;; costs
-     (update-widget 'text-view (get-id (string-append prepend "costn"))
+     (update-widget 'text-view (get-id "costn")
                     'text (get-cost-string-from-nutrient 0 amounts 1))
-     (update-widget 'text-view (get-id (string-append prepend "costp"))
+     (update-widget 'text-view (get-id "costp")
                     'text (get-cost-string-from-nutrient 1 amounts 1))
-     (update-widget 'text-view (get-id (string-append prepend "costk"))
+     (update-widget 'text-view (get-id "costk")
                     'text (get-cost-string-from-nutrient 2 amounts 1))
      )))
 

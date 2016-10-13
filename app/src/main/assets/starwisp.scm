@@ -94,8 +94,8 @@
        (let ((v (list-ref manure-type-list v)))
 	 (update-seek-mul! v)
 	 (append
-	  (update-type! "c" v)
-	  (update-amount! "c" (convert-input (* (current-seek-mul) 50) (get-units)))
+	  (update-type! v)
+	  (update-amount! (convert-input (* (current-seek-mul) 50) (get-units)))
 	  (list
 	   (update-widget 'seek-bar (get-id "amount") 'init 0)
 	   (update-widget 'spinner (get-id "quality-spinner") 'array
@@ -109,20 +109,18 @@
     (horiz
      (mspinner 
       'soil-type soil-type-list 
-      (lambda (v) (update-soil! "c" (list-ref soil-type-list v))))
+      (lambda (v) (update-soil! (list-ref soil-type-list v))))
 
      (mspinner 
       'crop-type crop-type-list 
-      (lambda (v) (update-crop! "c" (list-ref crop-type-list v)))))
+      (lambda (v) (update-crop! (list-ref crop-type-list v)))))
 
     (horiz
-     (mspinner 'season season-list (lambda (v) (update-season! "c" (list-ref season-list v))))
+     (mspinner 'season season-list (lambda (v) (update-season! (list-ref season-list v))))
      (mspinner 'quality cattle-quality-list 
 	       (lambda (v) 
 		 (let ((type (current-type)))
-		   (msg "type in q spinner" type)
 		   (update-quality! 
-		    "c" 
 		    (list-ref 
 		     (cond
 		      ((eq? type 'cattle) cattle-quality-list)
@@ -135,13 +133,13 @@
               (lambda (v)
 		(msg (current-seek-mul)) 
                 (append
-                 (update-amount! "c" (convert-input (* (current-seek-mul) v) (get-units)))
+                 (update-amount! (convert-input (* (current-seek-mul) v) (get-units)))
                  (list
                   (update-widget 'image-view (get-id "example") 'image
                                  (find-image (calc-type (current-calc))
                                              (calc-amount (current-calc))))))))
     
-    (text-view (make-id "camount-value") "4500 gallons" 30
+    (text-view (make-id "amount-value") "4500 gallons" 30
                (layout 'wrap-content 'wrap-content 1 'centre 0))
     (spacer 10)
     
@@ -151,15 +149,15 @@
      (mtext-scale 'nutrient-p-metric)
      (mtext-scale 'nutrient-k-metric))
     (horiz
-     (text-view (make-id "cna") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "cpa") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "cka") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+     (text-view (make-id "na") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+     (text-view (make-id "pa") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+     (text-view (make-id "ka") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
     
     (mtext 'cost-saving)
     (horiz
-     (text-view (make-id "ccostn") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "ccostp") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "ccostk") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+     (text-view (make-id "costn") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+     (text-view (make-id "costp") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+     (text-view (make-id "costk") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
     (spacer 10)
     (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
     (spacer 10)
@@ -261,7 +259,7 @@
 		  (lambda (s)
 		    (state-modify-date s (list day (+ month 1) year))))
 		 ;; updating the calculator and the database...
-		 (update-season! "fc" (date->season (current-date)))
+		 (update-season! (date->season (current-date)))
 		 (entity-update-single-value! (ktv "date" "varchar" (date->string (current-date))))
 		 (entity-update-single-value! (ktv "season" "varchar" (symbol->string (date->season (current-date)))))
 		 (list
@@ -277,8 +275,8 @@
 	  (entity-update-single-value! (ktv "type" "varchar" (symbol->string v)))
 	  (update-seek-mul! v)
 	  (append
-	   (update-type! "c" v)
-	   (update-amount! "c" (convert-input (* (current-seek-mul) 50) (get-units)))
+	   (update-type! v)
+	   (update-amount! (convert-input (* (current-seek-mul) 50) (get-units)))
 	   (list
 	    (update-widget 'seek-bar (get-id "amount") 'init 0)
 	    (update-widget 'spinner (get-id "quality-spinner") 'array
@@ -302,19 +300,19 @@
 			   v)))
 		     (entity-update-single-value! 
 		      (ktv "quality" "varchar" (symbol->string quality)))
-		     (update-quality! "c" quality))))))
+		     (update-quality! quality))))))
 
     (seek-bar (make-id "amount") 100 fillwrap
               (lambda (v)
 		(msg (current-seek-mul)) 
                 (append
-                 (update-amount! "c" (convert-input (* (current-seek-mul) v) (get-units)))
+                 (update-amount! (convert-input (* (current-seek-mul) v) (get-units)))
                  (list
                   (update-widget 'image-view (get-id "example") 'image
                                  (find-image (calc-type (current-calc))
                                              (calc-amount (current-calc))))))))
     
-    (text-view (make-id "camount-value") "4500 gallons" 30
+    (text-view (make-id "amount-value") "4500 gallons" 30
                (layout 'wrap-content 'wrap-content 1 'centre 0))
     (spacer 10)
     
@@ -324,15 +322,15 @@
      (mtext-scale 'nutrient-p-metric)
      (mtext-scale 'nutrient-k-metric))
     (horiz
-     (text-view (make-id "cna") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "cpa") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "cka") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+     (text-view (make-id "na") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+     (text-view (make-id "pa") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+     (text-view (make-id "ka") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
     
     (mtext 'cost-saving)
     (horiz
-     (text-view (make-id "ccostn") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "ccostp") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "ccostk") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+     (text-view (make-id "costn") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+     (text-view (make-id "costp") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+     (text-view (make-id "costk") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
     (spacer 10)
     (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
     (spacer 10)
@@ -347,10 +345,10 @@
      ;; update the calculator with values from the current field
      (let ((field (get-entity-by-unique db "farm" (entity-get-value "parent"))))
        (msg "found field" field)
-       (update-soil! "c" (string->symbol (ktv-get field "soil")))
-       (update-crop! "c" (string->symbol (ktv-get field "crop")))
+       (update-soil! (string->symbol (ktv-get field "soil")))
+       (update-crop! (string->symbol (ktv-get field "crop")))
        ;; should get this from the event...
-       (update-season! "c" (date->season (current-date)))
+       (update-season! (date->season (current-date)))
        
        (list
 	(mupdate-spinner 'manure-type "type" manure-type-list)
