@@ -5,7 +5,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := starwisp-core
 
-LOCAL_CFLAGS := -DANDROID_NDK -DDISABLE_IMPORTGL -O3 -Wno-write-strings -DNDEBUG
+LOCAL_CFLAGS := -DANDROID_NDK -fpermissive -DDISABLE_IMPORTGL -O3 -Wno-write-strings -DNDEBUG
 APP_OPTIM := release
 
 LOCAL_SRC_FILES := \

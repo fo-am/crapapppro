@@ -5278,6 +5278,8 @@ static void print_dump(scheme *sc, pointer x, int depth)
 
 }
 
+static bool errored_already=false;
+
 static void dump_stack_print(scheme *sc, char *str)
 {
      int nframes = (int)sc->dump;
@@ -5287,7 +5289,7 @@ static void dump_stack_print(scheme *sc, char *str)
           snprintf(str,STRBUFFSIZE,"stack empty\n");
      }
 
-     putstr(sc, "======= stack follows ======\n");
+     putstr(sc, "======= stack follows xxx ======\n");
 
      while (nframes>=0) {
           frame = (struct dump_stack_frame *)sc->dump_base + nframes;
@@ -5317,6 +5319,14 @@ static void dump_stack_print(scheme *sc, char *str)
             sc->dump = (pointer)nframes;*/
           nframes--;
      }
+
+     port *pt=sc->outport->_object._port;
+     if(pt->kind&port_file) {
+	  fflush(pt->rep.stdio.file);
+     }
+     
+     if (errored_already) exit(1);
+     errored_already = true;
 }
 
 static pointer _Error_1(scheme *sc, const char *s, pointer a) {

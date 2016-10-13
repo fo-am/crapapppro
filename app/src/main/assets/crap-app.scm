@@ -90,7 +90,7 @@
     (ktv "user-id" "varchar" "None Yet")
     (ktv "language" "int" 0)
     (ktv "email" "varchar" "None Yet")
-    (ktv "units" "varchar" "Kg/ha"))))
+    (ktv "units" "varchar" "metric"))))
 
 
 (define (event-type e) (list-ref e 1))
@@ -146,8 +146,21 @@
      (state-modify-calc s (fn (state-calc s)))))
   (run-calc pre))
 
-(define (update-type! pre v)
-  (update-calc! pre (lambda (c) (calc-modify-type c v))))
+(define (get-qualities-for-type t)
+  (cond
+   ((eq? t 'cattle) cattle-quality-list)
+   ((eq? t 'pig) pig-quality-list)
+   ((eq? t 'poultry) poultry-quality-list)
+   (else fym-quality-list)))
+
+(define (update-type! pre v) 
+  (update-calc! 
+   pre 
+   (lambda (c) 
+     (calc-modify-quality ;; need to set a valid quality for this type
+      (calc-modify-type c v)
+      (car (get-qualities-for-type v))))))
+
 (define (update-amount! pre v) (update-calc! pre (lambda (c) (calc-modify-amount c v))))
 (define (update-quality! pre v) (update-calc! pre (lambda (c) (calc-modify-quality c v))))
 (define (update-season! pre v) (update-calc! pre (lambda (c) (calc-modify-season c v))))
@@ -160,10 +173,10 @@
   (set! gcalculator-state (fn gcalculator-state)))
 
 (define (mutate-units! v)
-  (set-setting! "units" "varchar" v))
+  (set-setting! "units" "varchar" (symbol->string v)))
 
 (define (current-units)
-  (get-setting-value "units"))
+  (string->symbol (get-setting-value "units")))
  
 (define (mutate-email! v)
   (set-setting! "email" "varchar" v))
@@ -176,6 +189,7 @@
 (define (current-seek-mul) (state-seek-mul gcalculator-state))
 
 (define (mutate-current-seek-mul! a)
+  (msg "updating seek" a)
   (mutate-state!
    (lambda (s)
      (state-modify-seek-mul s a))))
@@ -271,8 +285,12 @@
 
     (get-nutrients type amount quality season crop soil)))
 
+(define (current-type)
+  (calc-type (state-calc gcalculator-state)))
+
 (define (get-units)
   (let ((type (calc-type (state-calc gcalculator-state))))
+    (msg "get units" (current-units))
     (if (eq? (current-units) 'metric)
         (nutrients-units (find type nutrients-metric))
         (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
@@ -481,7 +499,7 @@
                (eq? manure 'pig)))
       (mutate-current-seek-mul! 100)
       (cond
-       ((equal? manure 'poultry)
+       ((eq? manure 'poultry)
         (if (eq? (current-units) 'imperial)
             (mutate-current-seek-mul! 0.1)
             (mutate-current-seek-mul! 0.15)))

@@ -33,7 +33,7 @@ android {
         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
             commandLine 'ndk-build.cmd', '-C', file('src/main').absolutePath
         } else {
-            commandLine 'ndk-build', '-C', file('src/main').absolutePath
+            commandLine '/home/dave/opt/android-ndk-r12b/ndk-build', '-C', file('src/main/jni').absolutePath
         }
     }
 

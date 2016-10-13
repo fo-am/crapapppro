@@ -99,13 +99,8 @@
 	  (list
 	   (update-widget 'seek-bar (get-id "amount") 'init 0)
 	   (update-widget 'spinner (get-id "quality-spinner") 'array
-			  (dbg (symbol-list-to-names
-				(cond
-				 ((eq? v 'cattle) cattle-quality-list)
-				 ((eq? v 'pig) pig-quality-list)
-				 ((eq? v 'poultry) poultry-quality-list)
-				 (else fym-quality-list)))))
-	   
+			  (symbol-list-to-names
+			   (get-qualities-for-type v)))	   
 	   (update-widget 'image-view (get-id "example") 'image
 			  (find-image (calc-type (current-calc))
 				      (calc-amount (current-calc))))
@@ -122,10 +117,23 @@
 
     (horiz
      (mspinner 'season season-list (lambda (v) (update-season! "c" (list-ref season-list v))))
-     (mspinner 'quality cattle-quality-list (lambda (v) '())))
+     (mspinner 'quality cattle-quality-list 
+	       (lambda (v) 
+		 (let ((type (current-type)))
+		   (msg "type in q spinner" type)
+		   (update-quality! 
+		    "c" 
+		    (list-ref 
+		     (cond
+		      ((eq? type 'cattle) cattle-quality-list)
+		      ((eq? type 'pig) pig-quality-list)
+		      ((eq? type 'poultry) poultry-quality-list)
+		      (else fym-quality-list))
+		     v))))))
     
     (seek-bar (make-id "amount") 100 fillwrap
               (lambda (v)
+		(msg (current-seek-mul)) 
                 (append
                  (update-amount! "c" (convert-input (* (current-seek-mul) v) (get-units)))
                  (list
