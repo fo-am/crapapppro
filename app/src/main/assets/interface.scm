@@ -354,10 +354,9 @@
        (lambda ()
          (let ((id (entity-create!
 		    db table entity-type
-		    (dbg (ktvlist-merge
-			  (ktv-default-fn)
-			  (list (ktv "parent" "varchar" (parent-fn))))))))
-	   (msg "entity created")
+		    (ktvlist-merge
+		     (ktv-default-fn)
+		     (list (ktv "parent" "varchar" (parent-fn)))))))
 	   (list (start-activity edit-activity 0 id))))))
      
      (linear-layout
@@ -401,7 +400,6 @@
                                 (list id "varchar"))
                               title-ids))
              (db-all db table entity-type))))
-    (msg search-results)
     (update-widget
      'linear-layout
      (get-id (string-append entity-type "-list"))

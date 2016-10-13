@@ -191,7 +191,10 @@
 			   (ktv "crop" "varchar" (spinner-choice crop-type-list v))) '()))
     
     (medit-text 'field-size "numeric" 
-		(lambda (v) (entity-update-single-value! (ktv "size" "real" (string->number v))) '()))
+		(lambda (v)
+		  (when (not (equal? v ""))
+			(entity-update-single-value! 
+			 (ktv "size" "real" (string->number v))) '())))
     
     (canvas (make-id "graph")
 	    (layout 'fill-parent 250 1 'centre 0)
@@ -202,15 +205,15 @@
 		       (lambda ()
 			 '(("name" "varchar" "None")
 			   ("parent" "varchar" "")
-			   ("type" "varchar" "None")
-			   ("date" "varchar" "None")
+			   ("type" "varchar" "cattle")
+			   ("date" "varchar" (date->string (current-date)))
 			   ("nutrients-n" "real" 0)
 			   ("nutrients-p" "real" 0)
 			   ("nutrients-k" "real" 0)
 			   ("amount" "real" 0)
-			   ("quality" "varchar" "None")
-			   ("season" "varchar" "None")
-			   ("crop" "varchar" "None"))))
+			   ("quality" "varchar" "DM2")
+			   ("season" "varchar" "winter")
+			   ("crop" "varchar" "normal"))))
 
     (spacer 20)
     
@@ -230,7 +233,7 @@
       (mupdate-spinner 'soil-type "soil" soil-type-list)
       (mupdate-spinner 'crop-type "crop" crop-type-list)
       (mupdate 'edit-text 'field-size "size")
-					;(update-widget 'canvas (get-id "graph") 'drawlist (build-graph))
+					;(update-widget 'canvas (get-id "graph") 'drawlist (build-graph))      
       ))
    (lambda (activity) '())
    (lambda (activity) '())
@@ -242,7 +245,7 @@
   (activity
    "fieldcalc"
    (vert
-    (text-view (make-id "fieldcalc-title") "field name" 40 fillwrap)
+    (text-view (make-id "title") "field name" 40 fillwrap)
     (mtext 'field-calc-blurb) 
     (horiz
      (text-view 
@@ -257,9 +260,12 @@
 		 (mutate-state!
 		  (lambda (s)
 		    (state-modify-date s (list day (+ month 1) year))))
+		 ;; updating the calculator and the database...
 		 (update-season! "fc" (date->season (current-date)))
+		 (entity-update-single-value! (ktv "date" "varchar" (date->string (current-date))))
+		 (entity-update-single-value! (ktv "season" "varchar" (symbol->string (date->season (current-date)))))
 		 (list
-		  (update-widget 'text-view (make-id "fc-date-text") 'text
+		  (update-widget 'text-view (make-id "date-text") 'text
 				 (date->string (list day (+ month 1) year)))))))))
      )
     
@@ -268,6 +274,7 @@
       'manure-type manure-type-list
       (lambda (v) 
 	(let ((v (list-ref manure-type-list v)))
+	  (entity-update-single-value! (ktv "type" "varchar" (symbol->string v)))
 	  (update-seek-mul! v)
 	  (append
 	   (update-type! "c" v)
@@ -285,15 +292,17 @@
      (mspinner 'quality cattle-quality-list 
 	       (lambda (v) 
 		 (let ((type (current-type)))		   
-		   (update-quality! 
-		    "c" 
-		    (list-ref 
-		     (cond
-		      ((eq? type 'cattle) cattle-quality-list)
-		      ((eq? type 'pig) pig-quality-list)
-		      ((eq? type 'poultry) poultry-quality-list)
-		      (else fym-quality-list))
-		     v))))))
+		   (let ((quality
+			  (list-ref 
+			   (cond
+			    ((eq? type 'cattle) cattle-quality-list)
+			    ((eq? type 'pig) pig-quality-list)
+			    ((eq? type 'poultry) poultry-quality-list)
+			    (else fym-quality-list))
+			   v)))
+		     (entity-update-single-value! 
+		      (ktv "quality" "varchar" (symbol->string quality)))
+		     (update-quality! "c" quality))))))
 
     (seek-bar (make-id "amount") 100 fillwrap
               (lambda (v)
@@ -332,10 +341,24 @@
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
-     (entity-init! db "farm" "field" (get-entity-by-unique db "farm" arg))
-     (set-current! 'field-id arg)
-     (list
-      ))
+     (msg "starting newevent activity with" arg) 
+     (entity-init! db "farm" "event" (get-entity-by-unique db "farm" arg))
+     (set-current! 'event-id arg)
+     ;; update the calculator with values from the current field
+     (let ((field (get-entity-by-unique db "farm" (entity-get-value "parent"))))
+       (msg "found field" field)
+       (update-soil! "c" (string->symbol (ktv-get field "soil")))
+       (update-crop! "c" (string->symbol (ktv-get field "crop")))
+       ;; should get this from the event...
+       (update-season! "c" (date->season (current-date)))
+       
+       (list
+	(mupdate-spinner 'manure-type "type" manure-type-list)
+	(mupdate-spinner 'quality "quality" (get-qualities-for-type (entity-get-value "type")))
+	;; update seekbar
+	(update-widget 'text-view (make-id "date-text") 'text (entity-get-value "date"))
+	(update-widget 'text-view (make-id "title") 'text (ktv-get field "name"))
+	)))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
