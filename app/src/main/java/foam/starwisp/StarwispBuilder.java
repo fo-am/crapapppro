@@ -192,7 +192,7 @@ public class StarwispBuilder
     }
 
 
-    private void Callback(StarwispActivity ctx, String ctxname, int wid)
+    public void Callback(StarwispActivity ctx, String ctxname, int wid)
     {
         try {
             String ret=m_Scheme.eval("(widget-callback \""+ctxname+"\" "+wid+" '())");
@@ -203,7 +203,7 @@ public class StarwispBuilder
         }
     }
 
-    private void CallbackArgs(StarwispActivity ctx, String ctxname, int wid, String args)
+    public void CallbackArgs(StarwispActivity ctx, String ctxname, int wid, String args)
     {
         try {
 	    // fixme - quoting args means '() doesn't work!
@@ -290,7 +290,7 @@ public class StarwispBuilder
                 return;
             }
 
-            if (type.equals("build-map-fragment")) {
+            if (type.equals("map")) {
                 int ID = arr.getInt(1);
                 LinearLayout inner = new LinearLayout(ctx);
                 inner.setLayoutParams(BuildLayoutParams(arr.getJSONArray(2)));
@@ -303,15 +303,11 @@ public class StarwispBuilder
                 return;
             }
 
-            if (type.equals("build-drawmap-fragment")) {
-                int ID = arr.getInt(1);
+            if (type.equals("drawmap")) {
                 final LinearLayout inner = new LinearLayout(ctx);
                 inner.setLayoutParams(BuildLayoutParams(arr.getJSONArray(2)));
-                //inner.setId(ID);
-
                 DrawableMap dm = new DrawableMap();
-                dm.init(inner,ctx,ID);
-
+                dm.init(arr.getInt(1),inner,(StarwispActivity)ctx,this,arr.getString(3));
                 parent.addView(inner);
                 return;
             }

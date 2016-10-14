@@ -11,86 +11,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d445a470-492e-485e-8ea2-9cce092a4487" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/effects_android_23.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/maps_android_23.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/org_apache_http_legacy_android_23.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_base_9_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_basement_9_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_maps_9_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_tasks_9_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/support_annotations_24_0_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_24_0_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/usb_android_23.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/libs/armeabi/libstarwisp-core.so" afterPath="$PROJECT_DIR$/app/src/main/libs/armeabi/libstarwisp-core.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/libstarwisp-core.so" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/libstarwisp-core.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/app-android.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/app-android.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/audio.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/audio.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/db.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/db.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/db_container.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/db_container.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/fixed.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/fixed.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/geometry.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/geometry.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/idmap.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/idmap.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/list.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/list.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/noise.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/noise.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/engine.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/engine.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/importgl.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/importgl.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/nomadic.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/nomadic.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/obj_reader.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/obj_reader.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/primitive.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/primitive.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/scenegraph.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/scenegraph.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/scenenode.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/scenenode.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/text_primitive.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/text_primitive.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/texture.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/texture.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Allocator.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Allocator.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Graph.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Graph.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/GraphNode.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/GraphNode.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/ModuleNodes.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/ModuleNodes.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Modules.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Modules.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Sample.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Sample.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/jellyfish/jellyfish.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/jellyfish/jellyfish.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/jellyfish/jellyfish_primitive.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/jellyfish/jellyfish_primitive.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/scheme/scheme.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/scheme/scheme.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/sqlite/sqlite3.o" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/sqlite/sqlite3.o" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/crap-app.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/crap-app.scm" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/interface.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/interface.scm" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/lib.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/lib.scm" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/starwisp.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/starwisp.scm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/jni/Android.mk" afterPath="$PROJECT_DIR$/app/src/main/jni/Android.mk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/jni/scheme/scheme.cpp" afterPath="$PROJECT_DIR$/app/src/main/jni/scheme/scheme.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/app-android.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/app-android.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/audio.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/audio.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/db.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/db.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/db_container.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/db_container.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/fixed.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/fixed.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/geometry.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/geometry.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/idmap.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/idmap.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/list.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/list.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/noise.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/core/noise.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/engine.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/engine.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/importgl.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/importgl.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/nomadic.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/nomadic.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/obj_reader.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/obj_reader.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/primitive.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/primitive.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/scenegraph.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/scenegraph.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/scenenode.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/scenenode.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/text_primitive.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/text_primitive.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/texture.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/engine/texture.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Allocator.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Allocator.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Graph.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Graph.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/GraphNode.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/GraphNode.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/ModuleNodes.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/ModuleNodes.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Modules.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Modules.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Sample.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/fluxa/Sample.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/jellyfish/jellyfish.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/jellyfish/jellyfish.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/jellyfish/jellyfish_primitive.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/jellyfish/jellyfish_primitive.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/scheme/scheme.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/scheme/scheme.o.d" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/sqlite/sqlite3.o.d" afterPath="$PROJECT_DIR$/app/src/main/obj/local/armeabi/objs/starwisp-core/sqlite/sqlite3.o.d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/translations.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/translations.scm" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/DrawableMap.java" afterPath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/DrawableMap.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" afterPath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" />
     </list>
     <ignored path="crapapppro.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -136,9 +71,31 @@
       <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="35" column="57" selection-start-line="35" selection-start-column="57" selection-end-line="35" selection-end-column="57" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DrawableMap.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/DrawableMap.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="93" column="17" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NetworkManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/NetworkManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="97" column="95" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="95" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -147,45 +104,67 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/jni/scheme/scheme.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="127">
-              <caret line="2326" column="25" selection-start-line="2326" selection-start-column="25" selection-end-line="2326" selection-end-column="25" />
+              <caret line="2324" column="25" selection-start-line="2324" selection-start-column="25" selection-end-line="2324" selection-end-column="25" />
               <folding>
-                <marker date="1476354181185" expanded="true" signature="21193:21291" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="30057:30144" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="34402:34646" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="42496:42545" ph="{...}" />
-                <marker date="1476354181185" expanded="false" signature="50961:51059" ph="..." />
-                <marker date="1476354181185" expanded="true" signature="63232:63395" ph="/.../" />
-                <marker date="1476354181185" expanded="false" signature="63705:63959" ph="..." />
-                <marker date="1476354181185" expanded="false" signature="65845:65978" ph="..." />
-                <marker date="1476354181185" expanded="false" signature="66064:66326" ph="..." />
-                <marker date="1476354181185" expanded="true" signature="67360:67515" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="68272:68370" ph="/.../" />
-                <marker date="1476354181185" expanded="false" signature="68926:69018" ph="..." />
-                <marker date="1476354181185" expanded="true" signature="71709:71795" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="94843:94937" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="95012:95204" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="97926:98120" ph="/.../" />
-                <marker date="1476354181185" expanded="false" signature="101983:103058" ph="..." />
-                <marker date="1476354181185" expanded="true" signature="108975:109260" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="111822:112055" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="113746:113847" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="113855:113947" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="113955:114045" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="121103:121221" ph="/.../" />
-                <marker date="1476354181185" expanded="true" signature="124878:125031" ph="/.../" />
-                <marker date="1476354181185" expanded="false" signature="144389:144404" ph="..." />
-                <marker date="1476354181185" expanded="false" signature="152493:152513" ph="..." />
-                <marker date="1476354181185" expanded="true" signature="154168:154279" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="21193:21291" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="30057:30144" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="34402:34646" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="42496:42545" ph="{...}" />
+                <marker date="1476381537844" expanded="false" signature="50961:51059" ph="..." />
+                <marker date="1476381537844" expanded="true" signature="63232:63395" ph="/.../" />
+                <marker date="1476381537844" expanded="false" signature="63705:63959" ph="..." />
+                <marker date="1476381537844" expanded="false" signature="65845:65978" ph="..." />
+                <marker date="1476381537844" expanded="false" signature="66064:66326" ph="..." />
+                <marker date="1476381537844" expanded="true" signature="67360:67515" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="68272:68370" ph="/.../" />
+                <marker date="1476381537844" expanded="false" signature="68926:69018" ph="..." />
+                <marker date="1476381537844" expanded="true" signature="71709:71795" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="94843:94937" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="95012:95204" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="97926:98120" ph="/.../" />
+                <marker date="1476381537844" expanded="false" signature="101983:103058" ph="..." />
+                <marker date="1476381537844" expanded="true" signature="108975:109260" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="111822:112055" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="113746:113847" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="113855:113947" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="113955:114045" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="121103:121221" ph="/.../" />
+                <marker date="1476381537844" expanded="true" signature="124878:125031" ph="/.../" />
+                <marker date="1476381537844" expanded="false" signature="144389:144404" ph="..." />
+                <marker date="1476381537844" expanded="false" signature="152432:152452" ph="..." />
+                <marker date="1476381537844" expanded="true" signature="154107:154218" ph="/.../" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Android.mk" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Android.mk" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/jni/Android.mk">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
               <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StarwispBuilder.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="311" column="0" selection-start-line="311" selection-start-column="0" selection-end-line="311" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PictureTaker.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/PictureTaker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="27" column="6" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -201,55 +180,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StarwispBuilder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8835">
-              <caret line="724" column="0" selection-start-line="723" selection-start-column="0" selection-end-line="724" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StarwispLinearLayout.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispLinearLayout.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="47" column="46" selection-start-line="47" selection-start-column="46" selection-end-line="47" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="drawablemap.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/drawablemap.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="lib.scm" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/assets/lib.scm">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7905">
-              <caret line="527" column="0" selection-start-line="527" selection-start-column="0" selection-end-line="527" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="starwisp.scm" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/assets/starwisp.scm">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
+            <state relative-caret-position="750">
               <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
               <folding />
             </state>
@@ -1910,13 +1844,13 @@
         <option value="$PROJECT_DIR$/app/src/main/assets/lib.scm" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/drawablemap.xml" />
         <option value="$USER_HOME$/opt/android/platforms/android-23/android.jar!/android/view/ViewGroup.class" />
-        <option value="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" />
         <option value="$PROJECT_DIR$/app/src/main/assets/starwisp.scm" />
-        <option value="$PROJECT_DIR$/app/src/main/java/foam/starwisp/DrawableMap.java" />
         <option value="$PROJECT_DIR$/local.properties" />
         <option value="$PROJECT_DIR$/app/src/main/jni/app-android.c" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/jni/Android.mk" />
+        <option value="$PROJECT_DIR$/app/src/main/java/foam/starwisp/DrawableMap.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" />
       </list>
     </option>
   </component>
@@ -1980,6 +1914,28 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="crapapppro" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="crapapppro" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="starwisp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2305,13 +2261,13 @@
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32847896" sideWeight="0.47575757" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.47575757" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5181818" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45322582" sideWeight="0.69848484" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45307443" sideWeight="0.69848484" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.4969697" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2353,14 +2309,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/starwisp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="59" column="37" selection-start-line="59" selection-start-column="37" selection-end-line="59" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -2580,13 +2528,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/NetworkManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="54" column="22" selection-start-line="54" selection-start-column="22" selection-end-line="54" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values-v23/values-v23.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispActivity.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -2646,31 +2587,11 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/DrawableMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="120" column="53" selection-start-line="120" selection-start-column="53" selection-end-line="120" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/jni/app-android.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8835">
-          <caret line="724" column="0" selection-start-line="723" selection-start-column="0" selection-end-line="724" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2703,7 +2624,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/assets/starwisp.scm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
+        <state relative-caret-position="750">
           <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
           <folding />
         </state>
@@ -2725,46 +2646,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="35" column="57" selection-start-line="35" selection-start-column="57" selection-end-line="35" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/jni/scheme/scheme.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
-          <caret line="2326" column="25" selection-start-line="2326" selection-start-column="25" selection-end-line="2326" selection-end-column="25" />
+          <caret line="2324" column="25" selection-start-line="2324" selection-start-column="25" selection-end-line="2324" selection-end-column="25" />
           <folding>
-            <marker date="1476354181185" expanded="true" signature="21193:21291" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="30057:30144" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="34402:34646" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="42496:42545" ph="{...}" />
-            <marker date="1476354181185" expanded="false" signature="50961:51059" ph="..." />
-            <marker date="1476354181185" expanded="true" signature="63232:63395" ph="/.../" />
-            <marker date="1476354181185" expanded="false" signature="63705:63959" ph="..." />
-            <marker date="1476354181185" expanded="false" signature="65845:65978" ph="..." />
-            <marker date="1476354181185" expanded="false" signature="66064:66326" ph="..." />
-            <marker date="1476354181185" expanded="true" signature="67360:67515" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="68272:68370" ph="/.../" />
-            <marker date="1476354181185" expanded="false" signature="68926:69018" ph="..." />
-            <marker date="1476354181185" expanded="true" signature="71709:71795" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="94843:94937" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="95012:95204" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="97926:98120" ph="/.../" />
-            <marker date="1476354181185" expanded="false" signature="101983:103058" ph="..." />
-            <marker date="1476354181185" expanded="true" signature="108975:109260" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="111822:112055" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="113746:113847" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="113855:113947" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="113955:114045" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="121103:121221" ph="/.../" />
-            <marker date="1476354181185" expanded="true" signature="124878:125031" ph="/.../" />
-            <marker date="1476354181185" expanded="false" signature="144389:144404" ph="..." />
-            <marker date="1476354181185" expanded="false" signature="152493:152513" ph="..." />
-            <marker date="1476354181185" expanded="true" signature="154168:154279" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="21193:21291" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="30057:30144" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="34402:34646" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="42496:42545" ph="{...}" />
+            <marker date="1476381537844" expanded="false" signature="50961:51059" ph="..." />
+            <marker date="1476381537844" expanded="true" signature="63232:63395" ph="/.../" />
+            <marker date="1476381537844" expanded="false" signature="63705:63959" ph="..." />
+            <marker date="1476381537844" expanded="false" signature="65845:65978" ph="..." />
+            <marker date="1476381537844" expanded="false" signature="66064:66326" ph="..." />
+            <marker date="1476381537844" expanded="true" signature="67360:67515" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="68272:68370" ph="/.../" />
+            <marker date="1476381537844" expanded="false" signature="68926:69018" ph="..." />
+            <marker date="1476381537844" expanded="true" signature="71709:71795" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="94843:94937" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="95012:95204" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="97926:98120" ph="/.../" />
+            <marker date="1476381537844" expanded="false" signature="101983:103058" ph="..." />
+            <marker date="1476381537844" expanded="true" signature="108975:109260" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="111822:112055" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="113746:113847" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="113855:113947" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="113955:114045" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="121103:121221" ph="/.../" />
+            <marker date="1476381537844" expanded="true" signature="124878:125031" ph="/.../" />
+            <marker date="1476381537844" expanded="false" signature="144389:144404" ph="..." />
+            <marker date="1476381537844" expanded="false" signature="152432:152452" ph="..." />
+            <marker date="1476381537844" expanded="true" signature="154107:154218" ph="/.../" />
           </folding>
         </state>
       </provider>
@@ -2774,6 +2687,50 @@
         <state relative-caret-position="90">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/PictureTaker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="27" column="6" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/NetworkManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="97" column="95" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="95" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/DrawableMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="93" column="17" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="311" column="0" selection-start-line="311" selection-start-column="0" selection-end-line="311" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

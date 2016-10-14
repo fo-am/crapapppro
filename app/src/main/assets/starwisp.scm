@@ -51,7 +51,8 @@
    "main"
    (vert
     (mtitle 'title)
-    (build-drawmap-fragment (make-id "map") fillwrap)
+    (build-drawmap (make-id "map") "mainfieldmap" fillwrap "readonly" 
+			    (lambda (id) '()))
     (build-list-widget db "farm" 'fields (list "name") "field" "field"
  		       (lambda () #f)
 		       (lambda ()
@@ -61,21 +62,19 @@
 			   ("size" "real" 0))))
 
     (spacer 20)
-    (mspinner 'choose-units units-list
-	      (lambda (v)
-		;;(mutate-units! (list-ref (list metric imperial) v))
-               (list)))
-    (spacer 20)
     (mbutton 'calculator (lambda () (list (start-activity "calc" 2 ""))))
     (mbutton 'email (lambda () (list (start-activity "email" 2 ""))))
-    (mbutton 'about (lambda () (list (start-activity "about" 2 "")))))
+    (mbutton 'about (lambda () (list (start-activity "about" 2 ""))))
+    (spacer 20)
+    (mspinner 'choose-units units-list
+	      (lambda (v) (mutate-units! (list-ref units-list v)) '())))
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
      (list
       (update-list-widget db "farm" (list "name") "field" "field" #f)
-      ;(update-widget 'spinner (get-id "units") 'selection
-      ;               (if (equal? (current-units) metric) 0 1))
+      (update-widget 'spinner (get-id "choose-units-spinner") 'selection
+                     (if (eq? (current-units) 'metric) 0 1))
       ))
    (lambda (activity) '())
    (lambda (activity) '())
@@ -165,7 +164,12 @@
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
-     '())
+     (if (equal? (current-units) 'metric) 
+	 '()
+	 (list
+	  (update-widget 'text-view (get-id "nutrient-n-metric") 'text (mtext-lookup 'nutrient-n-imperial))
+	  (update-widget 'text-view (get-id "nutrient-p-metric") 'text (mtext-lookup 'nutrient-p-imperial))
+	  (update-widget 'text-view (get-id "nutrient-k-metric") 'text (mtext-lookup 'nutrient-k-imperial)))))     
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
@@ -176,23 +180,26 @@
   (activity
    "field"
    (vert
-    (medit-text 'field-name "normal" 
-		(lambda (v) (entity-update-single-value! 
-			     (ktv "name" "varchar" v)) '()))
-
-    (mspinner 'soil-type soil-type-list
-	      (lambda (v) (entity-update-single-value! 
-			   (ktv "soil" "varchar" (spinner-choice soil-type-list v))) '()))
-
-    (mspinner 'crop-type crop-type-list
-	      (lambda (v) (entity-update-single-value! 
-			   (ktv "crop" "varchar" (spinner-choice crop-type-list v))) '()))
+    (build-drawmap (make-id "map") "edit" fillwrap  
+		   (lambda (polygon) (msg polygon) '()))
+    (horiz
+     (medit-text-scale 'field-name "normal" 
+		       (lambda (v) (entity-update-single-value! 
+				    (ktv "name" "varchar" v)) '()))
+     (medit-text-scale 'field-size "numeric" 
+		       (lambda (v)
+			 (when (not (equal? v ""))
+			       (entity-update-single-value! 
+				(ktv "size" "real" (string->number v))) '()))))
     
-    (medit-text 'field-size "numeric" 
-		(lambda (v)
-		  (when (not (equal? v ""))
-			(entity-update-single-value! 
-			 (ktv "size" "real" (string->number v))) '())))
+    (horiz
+     (mspinner 'soil-type soil-type-list
+	       (lambda (v) (entity-update-single-value! 
+			    (ktv "soil" "varchar" (spinner-choice soil-type-list v))) '())) 
+     (mspinner 'crop-type crop-type-list
+	       (lambda (v) (entity-update-single-value! 
+			    (ktv "crop" "varchar" (spinner-choice crop-type-list v))) '())))
+    
     
     (canvas (make-id "graph")
 	    (layout 'fill-parent 250 1 'centre 0)
@@ -201,17 +208,17 @@
     (build-list-widget db "farm" 'events (list "date" "type") "event" "fieldcalc"
 		       (lambda () (get-current 'field-id #f))
 		       (lambda ()
-			 '(("name" "varchar" "None")
-			   ("parent" "varchar" "")
-			   ("type" "varchar" "cattle")
-			   ("date" "varchar" (date->string (current-date)))
-			   ("nutrients-n" "real" 0)
-			   ("nutrients-p" "real" 0)
-			   ("nutrients-k" "real" 0)
-			   ("amount" "real" 0)
-			   ("quality" "varchar" "DM2")
-			   ("season" "varchar" "winter")
-			   ("crop" "varchar" "normal"))))
+			 (list '("name" "varchar" "None")
+			       '("parent" "varchar" "")
+			       '("type" "varchar" "cattle")
+			       (list "date" "varchar" (date->string (current-date)))
+			       '("nutrients-n" "real" 0)
+			       '("nutrients-p" "real" 0)
+			       '("nutrients-k" "real" 0)
+			       '("amount" "real" 0)
+			       '("quality" "varchar" "DM2")
+			       '("season" "varchar" "winter")
+			       '("crop" "varchar" "normal"))))
 
     (spacer 20)
     
@@ -334,6 +341,10 @@
     (spacer 10)
     (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
     (spacer 10)
+
+    (horiz
+     (delete-button)
+     (mbutton-scale 'back (lambda () (list (finish-activity 0)))))
     )
     
    (lambda (activity arg)

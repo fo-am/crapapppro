@@ -5,7 +5,7 @@
 (define i18n-text
   (list))
 
-(define list-colour (list  127 127 255 100))
+(define list-colour (list 127 255 127 50))
 
 (define (mtext-lookup id)
   (define (_ l)

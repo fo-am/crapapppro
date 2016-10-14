@@ -523,9 +523,10 @@
 (define (build-fragment type id layout) (list "build-fragment" type id layout))
 (define (replace-fragment id type) (list "replace-fragment" id type))
 
-(define (build-map-fragment id layout) (list "build-map-fragment" id layout))
-(define (build-drawmap-fragment id layout) (list "build-drawmap-fragment" id layout))
-
+(define (build-map id layout) (list "map" id layout))
+(define (build-drawmap id mode layout listener) (list "drawmap" id layout mode listener))
+(define (drawmap-listener b) (list-ref b 4))
+                                           
 (define (update-widget type id token value) (list type id token value))
 (define (update-widget-type l) (list-ref l 0))
 (define (update-widget-id l) (list-ref l 1))
@@ -761,6 +762,7 @@
    ((equal? (widget-type w) "spinner") (spinner-listener w))
    ((equal? (widget-type w) "button-grid") (button-grid-listener w))
    ((equal? (widget-type w) "draggable") (draggable-listener w))
+   ((equal? (widget-type w) "drawmap") (drawmap-listener w))
    (else #f)))
 
 ;; walk through activity stripping callbacks
@@ -825,7 +827,7 @@
   (set! dialogs (dialog-replace dialogs (dialog-name d) d))
   ;; todo - when to clear out?
   ;;(when (not (dialog-find dialogs (dialog-name d)))
-        ;;(display "adding dialog ")(display d)(newline)
+  (msg "adding dialog" d)
   ;;      (set! dialogs (cons d dialogs)))
   )
 
@@ -846,7 +848,7 @@
                   (equal? (list-ref event 0) "sensors-start")
                   (equal? (list-ref event 0) "sensors-get")
                   (equal? (list-ref event 0) "gps-start"))
-                 (add-new-dialog! event)))
+		 (add-new-dialog! event)))
          events)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -854,7 +856,7 @@
 (define (dialog-callback name args)
   (let ((dialog (dialog-find dialogs name)))
     (if (not dialog)
-        (begin (display "no dialog called ")(display name)(newline))
+        (msg "no dialog called" name "in" dialogs)
         (let ((events (apply (dialog-fn dialog) args)))
           (update-dialogs! events)
           (update-callbacks-from-update! events)
@@ -928,6 +930,8 @@
                  ((callback-fn cb) (car args) (cadr args)))
                 ((equal? (callback-type cb) "draggable")
                  ((callback-fn cb)))
+                ((equal? (callback-type cb) "drawmap")
+                 ((callback-fn cb) (car args)))
                 (else
                  (msg "no callbacks for type" (callback-type cb))))))
 

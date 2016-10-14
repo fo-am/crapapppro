@@ -21,6 +21,9 @@
    (list 'nutrient-n-metric (list "N Kg/ha"))
    (list 'nutrient-p-metric (list "P Kg/ha"))
    (list 'nutrient-k-metric (list "K Kg/ha"))
+   (list 'nutrient-n-imperial (list "N units/acre"))
+   (list 'nutrient-p-imperial (list "P units/acre"))
+   (list 'nutrient-k-imperial (list "K units/acre"))
    (list 'cost-saving (list "Fertiliser Savings (as at Oct 2013)"))
 
    (list 'field-calc-blurb (list "Enter new crap spreading event"))
@@ -46,8 +49,8 @@
 
    (list 'layer (list "Layer manure"))
    (list 'broiler (list "Broiler litter"))
-   (list 'metric (list "Kg/ha"))
-   (list 'imperial (list "units/acre"))
+   (list 'metric (list "Metric"))
+   (list 'imperial (list "Imperial"))
    (list 'DM2 (list "2% DM (Thin soup)"))
    (list 'DM4 (list "4% DM (Medium soup)"))
    (list 'DM6 (list "6% DM (Thick soup)"))
