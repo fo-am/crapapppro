@@ -51,8 +51,10 @@
    "main"
    (vert
     (mtitle 'title)
-    (build-drawmap (make-id "fieldmap") "mainfieldmap" fillwrap "readonly" 
-    			    (lambda (id) '()))
+    (build-drawmap (make-id "fieldmap") "readonly" fillwrap
+    			    (lambda (id) 
+			      (msg "map button returned" id)
+			      (list (start-activity "field" 2 id))))
     (build-list-widget db "farm" 'fields (list "name") "field" "field"
  		       (lambda () #f)
 		       (lambda ()
@@ -245,7 +247,7 @@
      (entity-init! db "farm" "field" (get-entity-by-unique db "farm" arg))
      (set-current! 'field-id arg)     
      (list
-      (update-widget 'draw-map (get-id "map") 'polygons (dbg (list (entity-get-value "name") (get-polygons))))
+      (update-widget 'draw-map (get-id "map") 'polygons (list (entity-get-value "unique_id") (get-polygons)))
       (mupdate 'edit-text 'field-name "name")
       (update-list-widget db "farm" (list "type" "date") "event" "fieldcalc" (get-current 'field-id #f))
       (mupdate-spinner 'soil-type "soil" soil-type-list)

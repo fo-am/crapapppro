@@ -595,6 +595,7 @@
    (lambda (field)
      (list
       (ktv-get field "name")
+      (ktv-get field "unique_id")
       (map
        (lambda (coord)
 	 (list

@@ -37,6 +37,7 @@ public class DrawableMap {
     Boolean draw_mode;
     GoogleMap map;
     String map_mode;
+    String selected_polygon;
     int ID;
 
     StarwispActivity m_Context;
@@ -45,6 +46,7 @@ public class DrawableMap {
     Vector<LatLng> current_polygon;
 
     class Polygon {
+        String m_UniqueID;
         String m_Name;
         Vector<LatLng> m_Verts;
     }
@@ -88,6 +90,8 @@ public class DrawableMap {
             scribble_button.setTypeface(((StarwispActivity) c).m_Typeface);
             scribble_button.setText("New field");
             fram_map.addView(scribble_button);
+        } else {
+            draw_mode=true;
         }
 
         parent.addView(outer_map);
@@ -118,13 +122,14 @@ public class DrawableMap {
 
         // (map may not exist yet when called from update)
         try {
-            String current_polygon = map.getString(0);
+            selected_polygon = map.getString(0);
             JSONArray polygon_list = map.getJSONArray(1);
             for (int i=0; i<polygon_list.length(); i++) {
                 JSONArray poly = polygon_list.getJSONArray(i);
-                JSONArray verts = poly.getJSONArray(1);
                 Polygon new_poly = new Polygon();
                 new_poly.m_Name = poly.getString(0);
+                new_poly.m_UniqueID = poly.getString(1);
+                JSONArray verts = poly.getJSONArray(2);
                 new_poly.m_Verts = new Vector<LatLng>();
                 for (int v=0; v<verts.length(); v++) {
                     JSONArray latlng = verts.getJSONArray(v);
@@ -163,7 +168,7 @@ public class DrawableMap {
                         polygons.add(poly);
                         SendPolygon(poly.m_Verts);
                         current_polygon = new Vector<LatLng>();
-                        scribble_button.setText("New field");
+                        scribble_button.setText("Draw field");
                     } else {
                         scribble_button.setText("Save field");
                     }
@@ -196,9 +201,11 @@ public class DrawableMap {
                         if (map_mode.equals("edit")) {
                             current_polygon.add(new LatLng(latitude, longitude));
                         } else {
-                            // check polygons and return hits
-                            //for (Vector<LatLng> val : polygons) {
-                            //}
+                            String clicked_in = CheckPolygons(latitude, longitude);
+                            Log.i("starwisp","clicked in retunred "+clicked_in);
+                            if (!clicked_in.equals("")) {
+                                m_Builder.CallbackArgs(m_Context,m_Context.m_Name,ID,"\""+clicked_in+"\"");
+                            }
                         }
                         break;
 
@@ -230,14 +237,45 @@ public class DrawableMap {
         return new LatLng(centrex,centrey);
      }
 
+    Boolean IsInPolygon(Polygon poly, double x, double y) {
+        int intersectionCount = 0;
+        double x0 = poly.m_Verts.lastElement().latitude - x;
+        double y0 = poly.m_Verts.lastElement().longitude - y;
+        for (LatLng vert : poly.m_Verts) {
+            double x1 = vert.latitude - x;
+            double y1 = vert.longitude - y;
+            if (y0 > 0 && y1 <= 0 && x1 * y0 > y1 * x0) {
+                intersectionCount++;
+            }
+            if (y1 > 0 && y0 <= 0 && x0 * y1 > y0 * x1) {
+                intersectionCount++;
+            }
+            x0 = x1;
+            y0 = y1;
+        }
+        return (intersectionCount % 2) == 1;
+    }
+
+    String CheckPolygons(double x, double y) {
+        for (Polygon poly : polygons) {
+            if (IsInPolygon(poly,x,y)) {
+                return poly.m_UniqueID;
+            }
+        }
+        return "";
+    }
+
     public void DrawMap() {
         map.clear();
 
         for (Polygon poly : polygons) {
-            Log.i("starwisp","drawing polygon");
             PolygonOptions rectOptions = new PolygonOptions();
             rectOptions.addAll(poly.m_Verts);
-            rectOptions.strokeColor(0x77ffff55);
+            if (selected_polygon.equals(poly.m_UniqueID)) {
+                rectOptions.strokeColor(0x77ffff55);
+            } else {
+                rectOptions.strokeColor(0x77aaFFaa);
+            }
             rectOptions.strokeWidth(3);
             rectOptions.fillColor(0x30aaFFaa);
             map.addPolygon(rectOptions);
