@@ -51,8 +51,8 @@
    "main"
    (vert
     (mtitle 'title)
-    (build-drawmap (make-id "map") "mainfieldmap" fillwrap "readonly" 
-			    (lambda (id) '()))
+    (build-drawmap (make-id "fieldmap") "mainfieldmap" fillwrap "readonly" 
+    			    (lambda (id) '()))
     (build-list-widget db "farm" 'fields (list "name") "field" "field"
  		       (lambda () #f)
 		       (lambda ()
@@ -72,6 +72,7 @@
      (activity-layout activity))
    (lambda (activity arg)
      (list
+      (update-widget 'draw-map (get-id "fieldmap") 'polygons (list "none highlighted" (get-polygons)))
       (update-list-widget db "farm" (list "name") "field" "field" #f)
       (update-widget 'spinner (get-id "choose-units-spinner") 'selection
                      (if (eq? (current-units) 'metric) 0 1))
@@ -181,7 +182,19 @@
    "field"
    (vert
     (build-drawmap (make-id "map") "edit" fillwrap  
-		   (lambda (polygon) (msg polygon) '()))
+		   (lambda (polygon) 
+		     (index-for-each 
+		      (lambda (i coord)
+			(entity-init&save! 
+			 db "farm" "coord"
+			 (list
+			  (ktv "name" "varchar" "") ;; argh
+			  (ktv "parent" "varchar" (get-current 'field-id #f)) 
+			  (ktv "order" "int" i) 
+			  (ktv "lat" "real" (list-ref coord 0))
+			  (ktv "lng" "real" (list-ref coord 1)))))
+		      polygon)
+		     '()))
     (horiz
      (medit-text-scale 'field-name "normal" 
 		       (lambda (v) (entity-update-single-value! 
@@ -230,9 +243,9 @@
      (activity-layout activity))
    (lambda (activity arg)
      (entity-init! db "farm" "field" (get-entity-by-unique db "farm" arg))
-     (set-current! 'field-id arg)
-     (msg "about to update list widget")
+     (set-current! 'field-id arg)     
      (list
+      (update-widget 'draw-map (get-id "map") 'polygons (dbg (list (entity-get-value "name") (get-polygons))))
       (mupdate 'edit-text 'field-name "name")
       (update-list-widget db "farm" (list "type" "date") "event" "fieldcalc" (get-current 'field-id #f))
       (mupdate-spinner 'soil-type "soil" soil-type-list)

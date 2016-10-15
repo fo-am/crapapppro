@@ -72,6 +72,13 @@
 ;   ((equal? n (car l)) #t)
 ;   (else (in-list? n (cdr l)))))
 
+(define (index-for-each fn l)
+  (define (_ n l)
+    (when (not (null? l)) 
+	  (fn n (car l))
+	  (_ (+ n 1) (cdr l))))
+  (_ 0 l))
+
 (define in-list? string-in-list-fast) ;; optimisation
 
 (define (find n l)

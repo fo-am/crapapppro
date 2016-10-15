@@ -589,4 +589,21 @@
      (eqv? (list-ref d 1) 12)
      (eqv? (list-ref d 1) 1)) 'winter)))
 
+
+(define (get-polygons)
+  (map
+   (lambda (field)
+     (list
+      (ktv-get field "name")
+      (map
+       (lambda (coord)
+	 (list
+	  (ktv-get coord "lat") 
+	  (ktv-get coord "lng")))
+       (db-filter 
+	db "farm" "coord" 
+	(list
+	 (list "parent" "varchar" "=" (ktv-get field "unique_id")))))))   
+   (db-all db "farm" "field")))
+
 (msg "crap-app.scm end")

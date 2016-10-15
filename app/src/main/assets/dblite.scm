@@ -134,8 +134,9 @@
           (list
            (ktv "user" "varchar" (get-current 'user-id "none"))
            (ktv "time" "varchar" (date-time->string (date-time)))
-           (ktv "lat" "real" (car (get-current 'location '(0 0))))
-           (ktv "lon" "real" (cadr (get-current 'location '(0 0))))
+	   ;; no need for these!
+	   ;;(ktv "lat" "real" (car (get-current 'location '(0 0))))
+           ;;(ktv "lon" "real" (cadr (get-current 'location '(0 0))))
            (ktv "deleted" "int" 0))
           ktv-list)))
     ;(msg "about to insert")

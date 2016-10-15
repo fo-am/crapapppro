@@ -1,8 +1,12 @@
 package foam.starwisp;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -10,13 +14,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.Vector;
 
@@ -82,7 +93,48 @@ public class DrawableMap {
                 map = googleMap;
                 map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                 SetupStuff();
+                DrawMap();
             }});
+
+    }
+
+    public void Clear() {
+        current_polygon.clear();
+        polygons.clear();
+    }
+
+    public void UpdateFromJSON(JSONArray map) {
+        Clear();
+        // json format
+        // [ current_polygon [ polygon, polygon, ... ]]
+        // polygon:
+        // [ name [ latlng, latlng, ...]]
+        // latlng:
+
+        Log.i("starwisp","drawmap processing");
+        // (map may not exist yet when called from update)
+        try {
+            String current_polygon = map.getString(0);
+            JSONArray polygon_list = map.getJSONArray(1);
+            for (int i=0; i<polygon_list.length(); i++) {
+                JSONArray poly = polygon_list.getJSONArray(i);
+                String polygon_name = poly.getString(0);
+                JSONArray verts = poly.getJSONArray(1);
+                Log.i("starwisp","reading poly "+polygon_name);
+                Vector<LatLng> new_poly = new Vector<LatLng>();
+                for (int v=0; v<verts.length(); v++) {
+                    JSONArray latlng = verts.getJSONArray(v);
+                    Log.i("starwisp","adding new vert"+latlng.getDouble(0)+" "+latlng.getDouble(1));
+                    new_poly.add(new LatLng(latlng.getDouble(0),latlng.getDouble(1)));
+                }
+                if (new_poly.size()>0) {
+                    Log.i("starwisp","adding new polygon");
+                    polygons.add(new_poly);
+                }
+            }
+        } catch (JSONException e) {
+            Log.e("starwisp", "Error parsing data in drawable map " + e.toString());
+        }
 
     }
 
@@ -152,7 +204,7 @@ public class DrawableMap {
 
                     case MotionEvent.ACTION_UP:
                         // finger leaves the screen
-                        Draw_Map();
+                        DrawMap();
                         break;
                 }
 
@@ -162,25 +214,60 @@ public class DrawableMap {
         });
     }
 
-    public void Draw_Map() {
+    public void DrawMap() {
         map.clear();
 
-        for (Vector<LatLng> val : polygons) {
+        for (Vector<LatLng> poly : polygons) {
+            Log.i("starwisp","drawing polygon");
             PolygonOptions rectOptions = new PolygonOptions();
-            rectOptions.addAll(val);
+            rectOptions.addAll(poly);
             rectOptions.strokeColor(0x77ffff55);
             rectOptions.strokeWidth(3);
             rectOptions.fillColor(0x30aaFFaa);
             map.addPolygon(rectOptions);
         }
 
-        PolygonOptions rectOptions = new PolygonOptions();
-        rectOptions.addAll(current_polygon);
-        rectOptions.strokeColor(0x77ffff55);
-        rectOptions.strokeWidth(3);
-        rectOptions.fillColor(0x30aaFFaa);
-        map.addPolygon(rectOptions);
+        if (current_polygon.size()!=0) {
+            PolygonOptions rectOptions = new PolygonOptions();
+            rectOptions.addAll(current_polygon);
+            rectOptions.strokeColor(0x77ffff55);
+            rectOptions.strokeWidth(3);
+            rectOptions.fillColor(0x30aaFFaa);
+            map.addPolygon(rectOptions);
+        }
+    }
 
+    public Marker AddText(final LatLng location, final String text, final int padding, final int fontSize) {
+        Marker marker = null;
+
+        final TextView textView = new TextView(m_Context);
+        textView.setText(text);
+        textView.setTextSize(fontSize);
+
+        final Paint paintText = textView.getPaint();
+
+        final Rect boundsText = new Rect();
+        paintText.getTextBounds(text, 0, textView.length(), boundsText);
+        paintText.setTextAlign(Paint.Align.CENTER);
+
+        final Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        final Bitmap bmpText = Bitmap.createBitmap(boundsText.width() + 2
+              * padding, boundsText.height() + 2 * padding, conf);
+
+        final Canvas canvasText = new Canvas(bmpText);
+        paintText.setColor(Color.BLACK);
+
+        canvasText.drawText(text, canvasText.getWidth() / 2,
+              canvasText.getHeight() - padding - boundsText.bottom, paintText);
+
+        final MarkerOptions markerOptions = new MarkerOptions()
+                .position(location)
+                .icon(BitmapDescriptorFactory.fromBitmap(bmpText))
+                .anchor(0.5f, 1);
+
+        marker = map.addMarker(markerOptions);
+
+        return marker;
     }
 }
 

@@ -130,14 +130,14 @@
 
 (define (all-entities db table type)
   (let ((s (db-select
-            db (string-append "select e.entity_id from " table "_entity as e "
+            db (dbg (string-append "select e.entity_id from " table "_entity as e "
                               "join " table "_value_varchar "
                               " as n on n.entity_id = e.entity_id and n.attribute_id = ? "
                               "left join " table "_value_int "
                               "as d on d.entity_id = e.entity_id and d.attribute_id = ? "
                               "where e.entity_type = ? "
                               "and (d.value='NULL' or d.value is NULL or d.value = 0) "
-                              "order by n.value")
+                              "order by n.value"))
             "name" "deleted" type)))
     (msg (db-status db))
     (if (null? s)

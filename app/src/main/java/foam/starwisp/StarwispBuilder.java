@@ -146,6 +146,7 @@ public class StarwispBuilder
     SensorHandler m_SensorHandler;
     View m_LastDragHighlighted;
     BluetoothManager m_Bluetooth;
+    DrawableMap m_CurrentDMap;
 
     // resize all camera images to this resolution
     static int PHOTO_WIDTH=640;
@@ -309,6 +310,9 @@ public class StarwispBuilder
                 DrawableMap dm = new DrawableMap();
                 dm.init(arr.getInt(1),inner,(StarwispActivity)ctx,this,arr.getString(3));
                 parent.addView(inner);
+                // only one drawmap at a time?
+                m_CurrentDMap = dm;
+                Log.i("starwisp","set dmap:"+m_CurrentDMap);
                 return;
             }
 
@@ -1849,8 +1853,20 @@ public class StarwispBuilder
                 }
                 return;
             }
-	    
-	    } catch (JSONException e) {
+
+            if (type.equals("draw-map")) {
+                if (m_CurrentDMap != null) {
+                    DrawableMap v = m_CurrentDMap;
+                    Log.i("starwisp","update dmap:"+m_CurrentDMap);
+                    if (token.equals("polygons")) {
+                        v.UpdateFromJSON(arr.getJSONArray(3));
+                    }
+                } else {
+                    Log.e("starwisp", "Asked to update a drawmap which doesn't exist");
+                }
+            }
+
+        } catch (JSONException e) {
 		Log.e("starwisp", "Error parsing builder data " + e.toString());
 		Log.e("starwisp", "type:"+type+" id:"+id+" token:"+token);
 	    }
