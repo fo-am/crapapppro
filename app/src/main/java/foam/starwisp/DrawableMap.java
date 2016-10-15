@@ -42,9 +42,14 @@ public class DrawableMap {
     StarwispActivity m_Context;
     StarwispBuilder m_Builder;
 
-    Vector<Vector<LatLng>> polygons;
-
     Vector<LatLng> current_polygon;
+
+    class Polygon {
+        String m_Name;
+        Vector<LatLng> m_Verts;
+    }
+
+    Vector<Polygon> polygons;
 
     public void init(int id, ViewGroup parent, StarwispActivity c, StarwispBuilder b, String mode) {
         draw_mode = false;
@@ -53,7 +58,7 @@ public class DrawableMap {
         map_mode = mode;
         ID = id;
         current_polygon = new Vector<LatLng>();
-        polygons = new Vector<Vector<LatLng>>();
+        polygons = new Vector<Polygon>();
 
         FrameLayout outer_map = new FrameLayout(c);
         outer_map.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,
@@ -111,24 +116,21 @@ public class DrawableMap {
         // [ name [ latlng, latlng, ...]]
         // latlng:
 
-        Log.i("starwisp","drawmap processing");
         // (map may not exist yet when called from update)
         try {
             String current_polygon = map.getString(0);
             JSONArray polygon_list = map.getJSONArray(1);
             for (int i=0; i<polygon_list.length(); i++) {
                 JSONArray poly = polygon_list.getJSONArray(i);
-                String polygon_name = poly.getString(0);
                 JSONArray verts = poly.getJSONArray(1);
-                Log.i("starwisp","reading poly "+polygon_name);
-                Vector<LatLng> new_poly = new Vector<LatLng>();
+                Polygon new_poly = new Polygon();
+                new_poly.m_Name = poly.getString(0);
+                new_poly.m_Verts = new Vector<LatLng>();
                 for (int v=0; v<verts.length(); v++) {
                     JSONArray latlng = verts.getJSONArray(v);
-                    Log.i("starwisp","adding new vert"+latlng.getDouble(0)+" "+latlng.getDouble(1));
-                    new_poly.add(new LatLng(latlng.getDouble(0),latlng.getDouble(1)));
+                    new_poly.m_Verts.add(new LatLng(latlng.getDouble(0),latlng.getDouble(1)));
                 }
-                if (new_poly.size()>0) {
-                    Log.i("starwisp","adding new polygon");
+                if (new_poly.m_Verts.size()>0) {
                     polygons.add(new_poly);
                 }
             }
@@ -155,8 +157,11 @@ public class DrawableMap {
                 public void onClick(View v) {
                     draw_mode = !draw_mode;
                     if (!draw_mode) {
-                        polygons.add(current_polygon);
-                        SendPolygon(current_polygon);
+                        Polygon poly = new Polygon();
+                        poly.m_Verts = current_polygon;
+                        poly.m_Name = "no name";
+                        polygons.add(poly);
+                        SendPolygon(poly.m_Verts);
                         current_polygon = new Vector<LatLng>();
                         scribble_button.setText("New field");
                     } else {
@@ -192,9 +197,8 @@ public class DrawableMap {
                             current_polygon.add(new LatLng(latitude, longitude));
                         } else {
                             // check polygons and return hits
-                            for (Vector<LatLng> val : polygons) {
-
-                            }
+                            //for (Vector<LatLng> val : polygons) {
+                            //}
                         }
                         break;
 
@@ -214,17 +218,30 @@ public class DrawableMap {
         });
     }
 
+    LatLng GetCentre(Polygon poly) {
+        Double centrex = 0.0;
+        Double centrey = 0.0;
+        for (LatLng latlng : poly.m_Verts) {
+            centrex+=latlng.latitude;
+            centrey+=latlng.longitude;
+        }
+        centrex/=poly.m_Verts.size();
+        centrey/=poly.m_Verts.size();
+        return new LatLng(centrex,centrey);
+     }
+
     public void DrawMap() {
         map.clear();
 
-        for (Vector<LatLng> poly : polygons) {
+        for (Polygon poly : polygons) {
             Log.i("starwisp","drawing polygon");
             PolygonOptions rectOptions = new PolygonOptions();
-            rectOptions.addAll(poly);
+            rectOptions.addAll(poly.m_Verts);
             rectOptions.strokeColor(0x77ffff55);
             rectOptions.strokeWidth(3);
             rectOptions.fillColor(0x30aaFFaa);
             map.addPolygon(rectOptions);
+            AddText(GetCentre(poly), poly.m_Name, 10, 20);
         }
 
         if (current_polygon.size()!=0) {
@@ -243,6 +260,7 @@ public class DrawableMap {
         final TextView textView = new TextView(m_Context);
         textView.setText(text);
         textView.setTextSize(fontSize);
+        textView.setTypeface(m_Context.m_Typeface);
 
         final Paint paintText = textView.getPaint();
 
