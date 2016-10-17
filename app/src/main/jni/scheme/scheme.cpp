@@ -5278,6 +5278,10 @@ static void print_dump(scheme *sc, pointer x, int depth)
 
 }
 
+
+static int num_errors=0;
+#define MAX_ERRORS 1
+
 static void dump_stack_print(scheme *sc, char *str)
 {
      int nframes = (int)sc->dump;
@@ -5324,7 +5328,10 @@ static void dump_stack_print(scheme *sc, char *str)
      }
      
      // remove for release!!
-     exit(1);
+     if (num_errors>=MAX_ERRORS) {
+         exit(1);
+     }
+     num_errors++;
 }
 
 static pointer _Error_1(scheme *sc, const char *s, pointer a) {

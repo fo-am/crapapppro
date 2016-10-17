@@ -17,61 +17,7 @@
 
 (msg "crap-app.scm")
 
-(define (imperial->metric amount units)
-  (if (eq? (current-units) 'metric)
-      amount
-      (if (equal? units "m3/ha")
-          (gallons/acre->m3/ha amount)
-          (tons/acre->tons/ha amount))))
-
-(define (metric->imperial amount units)
-  (if (eq? (current-units) 'metric)
-      amount
-      (kg/ha->units/acre amount)))
-
-(define (rounding-cash a)
-  (/ (round (* 100 a)) 100))
-
-(define (padcash->string a)
-  (let ((t (number->string (+ (rounding-cash a) 0.001))))
-    (substring t 0 (- (string-length t) 1))))
-
-(define (convert-input amount units)
-  (if (eq? (current-units) 'metric)
-      amount
-      (cond
-       ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
-        (gallons/acre->m3/ha amount))
-       ((or (equal? units "tons/ha") (equal? units "tons/acre"))
-        (tons/acre->tons/ha amount))
-       ((or (equal? units "kg/ha") (equal? units "units/acre"))
-        (units/acre->kg/ha amount))
-       ((or (equal? units "hectares") (equal? units "acres"))
-        (acres->hectares amount))
-       ((equal? units "tonnes") amount) ;; tonnes are metric everywhere!?
-       (else (msg "I don't understand how to convert" units)))))
-
-(define (convert-output amount units)
-  (rounding
-   (if (eq? (current-units) 'metric)
-       amount
-       (cond
-        ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
-         (m3/ha->gallons/acre amount))
-        ((or (equal? units "tons/ha") (equal? units "tons/acre"))
-         (tons/ha->tons/acre amount))
-        ((or (equal? units "kg/ha") (equal? units "units/acre"))
-         (kg/ha->units/acre amount))
-        ((or (equal? units "hectares") (equal? units "acres"))
-         (hectares->acres amount))
-        ((or (equal? units "m3") (equal? units "gallons"))
-         (m3->gallons amount))
-        ((equal? units "tonnes") amount) ;; tonnes are metric everywhere!?
-        (else (msg "I don't understand how to convert" units))))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(msg "crap-app.scm2")
 
 (define db "/sdcard/farmcrapapppro/crapapp.db")
 (set-current! 'db db)
@@ -92,40 +38,11 @@
     (ktv "email" "varchar" "None Yet")
     (ktv "units" "varchar" "metric"))))
 
-
-(define (event-type e) (list-ref e 1))
-(define (event-date e) (list-ref e 2))
-(define (event-nutrients e) (list-ref e 3))
-(define (event-amount e) (list-ref e 4))
-(define (event-quality e) (list-ref e 5))
-(define (event-season e) (list-ref e 6))
-(define (event-crop e) (list-ref e 7))
-(define (event-soil e) (list-ref e 8))
-(define (event-size e) (list-ref e 9))
-(define (event-units e) (list-ref e 10))
-
-(define (field-name) (ktv-get (get-current 'field-values '()) "name"))
-(define (field-soil) (ktv-get (get-current 'field-values '()) "soil"))
-(define (field-crop) (ktv-get (get-current 'field-values '()) "crop"))
-;;(define (field-events f) (list-ref f 3))
-(define (field-size) (ktv-get (get-current 'field-values '()) "size"))
-
-
-(define (calculator-state)
-  (list
-   (calc 'pig 25 'DM2 'autumn 'normal 'mediumheavy)
-   (list date-day date-month date-year)
-   1))
-
-(define (state-calc s) (list-ref s 0))
-(define (state-modify-calc s v) (list-replace s 0 v))
-(define (state-date s) (list-ref s 1))
-(define (state-modify-date s v) (list-replace s 1 v))
-(define (state-seek-mul s) (list-ref s 2))
-(define (state-modify-seek-mul s v) (list-replace s 2 v))
-
-(define (calc type amount quality season crop soil)
-  (list type amount quality season crop soil))
+;; the calculator
+(define calc
+  (list 'pig 25 'DM2 'autumn 'normal 'mediumheavy
+	(list date-day date-month date-year)
+	1))
 
 (define (calc-type s) (list-ref s 0))
 (define (calc-modify-type s v) (list-replace s 0 v))
@@ -139,37 +56,33 @@
 (define (calc-modify-crop s v) (list-replace s 4 v))
 (define (calc-soil s) (list-ref s 5))
 (define (calc-modify-soil s v) (list-replace s 5 v))
+(define (calc-date s) (list-ref s 6))
+(define (calc-modify-date s v) (list-replace s 6 v))
+(define (calc-seek-mul s) (list-ref s 7))
+(define (calc-modify-seek-mul s v) (list-replace s 7 v))
+
+;; shortcuts
+(define (current-date) (calc-date calc))
+(define (current-seek-mul) (calc-seek-mul calc))
+(define (current-type) (calc-type calc))
+(define (current-quality) (calc-quality calc))
 
 (define (update-calc! fn)
-  (mutate-state!
-   (lambda (s)
-     (state-modify-calc s (fn (state-calc s)))))
+  (set! calc (fn calc))
   (run-calc))
-
-(define (get-qualities-for-type t)
-  (cond
-   ((eq? t 'cattle) cattle-quality-list)
-   ((eq? t 'pig) pig-quality-list)
-   ((eq? t 'poultry) poultry-quality-list)
-   (else fym-quality-list)))
 
 (define (update-type! v) 
   (update-calc! 
    (lambda (c) 
      (calc-modify-quality ;; need to set a valid quality for this type
       (calc-modify-type c v)
-      (car (get-qualities-for-type v))))))
+      (car (get-qualities-for-type v)))))) ;; argh - sets to first
 
 (define (update-amount! v) (update-calc! (lambda (c) (calc-modify-amount c v))))
 (define (update-quality! v) (update-calc! (lambda (c) (calc-modify-quality c v))))
 (define (update-season! v) (update-calc! (lambda (c) (calc-modify-season c v))))
 (define (update-crop! v) (update-calc! (lambda (c) (calc-modify-crop c v))))
 (define (update-soil! v) (update-calc! (lambda (c) (calc-modify-soil c v))))
-
-(define gcalculator-state (calculator-state))
-
-(define (mutate-state! fn)
-  (set! gcalculator-state (fn gcalculator-state)))
 
 (define (mutate-units! v)
   (set-setting! "units" "varchar" (symbol->string v)))
@@ -183,16 +96,9 @@
 (define (current-email)
   (get-setting-value "email"))
 
-(define (current-date) (state-date gcalculator-state))
-(define (current-calc) (state-calc gcalculator-state))
-(define (current-seek-mul) (state-seek-mul gcalculator-state))
-
 (define (mutate-current-seek-mul! a)
   (msg "updating seek" a)
-  (mutate-state!
-   (lambda (s)
-     (state-modify-seek-mul s a))))
-
+  (set! calc (calc-modify-seek-mul calc a)))
 
 ;; (define (csv-headings)
 ;;   (string-append
@@ -269,27 +175,16 @@
 ;;    (get-fields)))
 
 (define (calc-nutrients)
-  (let* ((type (calc-type (state-calc gcalculator-state)))
-         (amount (calc-amount (state-calc gcalculator-state)))
-         (quality (calc-quality (state-calc gcalculator-state)))
-         (season (calc-season (state-calc gcalculator-state)))
-         (crop (calc-crop (state-calc gcalculator-state)))
-         (soil (calc-soil (state-calc gcalculator-state))))
-;    (display type)(newline)
-;    (display amount)(newline)
-;    (display season)(newline)
-;    (display quality)(newline)
-;    (display crop)(newline)
-;    (display soil)(newline)
-
+  (let ((type (calc-type calc))
+	(amount (calc-amount calc))
+	(quality (calc-quality calc))
+	(season (calc-season calc))
+	(crop (calc-crop calc))
+	(soil (calc-soil calc)))
     (get-nutrients type amount quality season crop soil)))
 
-(define (current-type)
-  (calc-type (state-calc gcalculator-state)))
-
 (define (get-units)
-  (let ((type (calc-type (state-calc gcalculator-state))))
-    (msg "get units" (current-units))
+  (let ((type (calc-type calc)))
     (if (eq? (current-units) 'metric)
         (nutrients-units (find type nutrients-metric))
         (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
@@ -320,8 +215,8 @@
 
 (define (run-calc)
   (let ((amounts (calc-nutrients))
-        (amount (calc-amount (state-calc gcalculator-state)))
-        (type (calc-type (state-calc gcalculator-state))))
+        (amount (calc-amount calc))
+        (type (calc-type calc)))
     (list
      (update-widget 'text-view (get-id "amount-value") 'text
                     (string-append (number->string (convert-output amount (get-units))) " " (get-units)))
@@ -342,6 +237,31 @@
 
 (define (spacer size)
   (space (layout 'fill-parent size 1 'left 0)))
+
+
+(define (update-calc-from-db field)
+  (update-calc! 
+   (lambda (c)
+     (list 
+      (string->symbol (dbg (entity-get-value "type")))
+      (dbg (entity-get-value "amount"))
+      (string->symbol (dbg (entity-get-value "quality")))
+      (string->symbol (dbg (entity-get-value "season"))) 
+      (string->symbol (dbg (ktv-get field "crop")))
+      (string->symbol (dbg (ktv-get field "soil")))
+      (calc-date calc)
+      (calc-seek-mul calc)))))
+
+;; pass through for ordering ease
+(define (updatedb-current-nutrients p)
+  ;(let ((n (calc-nutrients)))
+  ;  (entity-update-single-value! 
+  ;   (ktv "nutrients-n" "real" (list-ref n 0)))
+  ;  (entity-update-single-value! 
+  ;   (ktv "nutrients-p" "real" (list-ref n 1)))
+  ;  (entity-update-single-value! 
+  ;   (ktv "nutrients-k" "real" (list-ref n 2))))
+  p)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (msg "crap-app.scm3")
@@ -505,41 +425,6 @@
        (else
         (mutate-current-seek-mul! 1)))))
 
-(define (build-field-buttons)
-  (if (null? (get-fields))
-      (list (text-view (make-id "temp") "Add some fields" 20 fillwrap))
-      (map
-       (lambda (field)
-         (button
-          (make-id (field-name field))
-          (field-name field)
-          20 fillwrap
-          (lambda ()
-	    (set-current! 'field (field-name field))
-            (list (start-activity "field" 2 "")))))
-       (get-fields))))
-
-(define (build-event-buttons)
-  (if (null? (field-events (current-field)))
-      (list (text-view (make-id "temp") "No events yet" 15 fillwrap))
-      (map
-       (lambda (event)
-         (button
-          (make-id (string-append
-                    "event-"
-                    ;; need to add field to prevent clashing with other field id numbers
-                    (field-name (current-field))
-                    (number->string (event-id event))))
-          (string-append (event-type event)
-                         " "
-                         (date->string (event-date event)))
-          15 fillwrap
-          (lambda ()
-            (mutate-current-event! (lambda (ev) event))
-            (list
-             (start-activity "eventview" 2 "")))))
-       (field-events (current-field)))))
-
 ;; just for graph so don't have to be accurate!!!
 (define (date->day d)
   (+ (* (list-ref d 2) 360)
@@ -570,7 +455,6 @@
    (number->string (list-ref d 2))))
 
 (define (date->season d)
-  (msg "date->season" d)
   (cond
    ((or
      (eqv? (list-ref d 1) 2)

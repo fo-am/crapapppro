@@ -13,6 +13,8 @@
    (list 'about (list "About"))
    (list 'back (list "Back"))
    (list 'done (list "Done"))
+   (list 'save (list "Save"))
+   (list 'cancel (list "Cancel"))
 
    (list 'crap-calculator (list "Crap Calculator"))
    (list 'season (list "Season"))

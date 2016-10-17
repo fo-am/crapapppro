@@ -15,6 +15,13 @@
 
 ;; abstractions for synced databased
 
+;; use:
+;; (entity-init! db "table" "entity-type" (get-entity-by-unique ...))
+;; (entity-set-value!)
+;; (entity-update-values!)
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; stuff in memory
 

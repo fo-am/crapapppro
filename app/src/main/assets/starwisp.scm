@@ -104,8 +104,8 @@
 			  (symbol-list-to-names
 			   (get-qualities-for-type v)))	   
 	   (update-widget 'image-view (get-id "example") 'image
-			  (find-image (calc-type (current-calc))
-				      (calc-amount (current-calc))))
+			  (find-image (calc-type calc)
+				      (calc-amount calc)))
 	   )))))
 
     (horiz
@@ -138,8 +138,8 @@
                  (update-amount! (convert-input (* (current-seek-mul) v) (get-units)))
                  (list
                   (update-widget 'image-view (get-id "example") 'image
-                                 (find-image (calc-type (current-calc))
-                                             (calc-amount (current-calc))))))))
+                                 (find-image (calc-type calc)
+                                             (calc-amount calc)))))))
     
     (text-view (make-id "amount-value") "4500 gallons" 30
                (layout 'wrap-content 'wrap-content 1 'centre 0))
@@ -277,16 +277,18 @@
 	(list (date-picker-dialog
 	       "fieldcalc-date"
 	       (lambda (day month year)
-		 (mutate-state!
-		  (lambda (s)
-		    (state-modify-date s (list day (+ month 1) year))))
+		 (update-calc!
+		  (lambda (c)
+		    (calc-modify-date c (list day (+ month 1) year))))
 		 ;; updating the calculator and the database...
-		 (update-season! (date->season (current-date)))
-		 (entity-update-single-value! (ktv "date" "varchar" (date->string (current-date))))
-		 (entity-update-single-value! (ktv "season" "varchar" (symbol->string (date->season (current-date)))))
-		 (list
-		  (update-widget 'text-view (make-id "date-text") 'text
-				 (date->string (list day (+ month 1) year)))))))))
+		 (entity-set-value! "date" "varchar" (date->string (current-date)))
+		 (entity-set-value! "season" "varchar" (symbol->string (date->season (current-date))))
+		 (append
+		  (updatedb-current-nutrients 
+		   (update-season! (date->season (current-date)))
+		   (list
+		    (update-widget 'text-view (make-id "date-text") 'text
+				   (date->string (list day (+ month 1) year)))))))))))
      )
     
     (horiz
@@ -294,19 +296,19 @@
       'manure-type manure-type-list
       (lambda (v) 
 	(let ((v (list-ref manure-type-list v)))
-	  (entity-update-single-value! (ktv "type" "varchar" (symbol->string v)))
+	  (entity-set-value! "type" "varchar" (symbol->string v))
 	  (update-seek-mul! v)
-	  (append
-	   (update-type! v)
-	   (update-amount! (convert-input (* (current-seek-mul) 50) (get-units)))
+	  (update-type! v)
+	  (update-amount! (convert-input (* (current-seek-mul) 50) (get-units)))
+	  (update-quality! (current-quality))
+	  (append	   
 	   (list
+	    (update-widget 'spinner (get-id "quality-spinner") 'array (symbol-list-to-names (get-qualities-for-type v)))
+	    
 	    (update-widget 'seek-bar (get-id "amount") 'init 0)
-	    (update-widget 'spinner (get-id "quality-spinner") 'array
-			   (symbol-list-to-names
-			   (get-qualities-for-type v)))	   
 	    (update-widget 'image-view (get-id "example") 'image
-			   (find-image (calc-type (current-calc))
-				       (calc-amount (current-calc))))
+			   (find-image (calc-type calc)
+				       (calc-amount calc)))
 	    )))))
      
      (mspinner 'quality cattle-quality-list 
@@ -320,20 +322,22 @@
 			    ((eq? type 'poultry) poultry-quality-list)
 			    (else fym-quality-list))
 			   v)))
-		     (entity-update-single-value! 
-		      (ktv "quality" "varchar" (symbol->string quality)))
-		     (update-quality! quality))))))
-
+		     (entity-set-value! "quality" "varchar" (symbol->string quality))
+		     (updatedb-current-nutrients 
+		      (update-quality! quality)))))))
+    
     (seek-bar (make-id "amount") 100 fillwrap
               (lambda (v)
-		(msg (current-seek-mul)) 
-                (append
-                 (update-amount! (convert-input (* (current-seek-mul) v) (get-units)))
-                 (list
-                  (update-widget 'image-view (get-id "example") 'image
-                                 (find-image (calc-type (current-calc))
-                                             (calc-amount (current-calc))))))))
-    
+		(let ((amount (convert-input (* (current-seek-mul) v) (get-units))))
+		  (entity-set-value! "amount" "real" amount)
+		  (append
+		   (updatedb-current-nutrients 
+		    (update-amount! amount))
+		   (list
+		    (update-widget 'image-view (get-id "example") 'image
+				   (find-image (calc-type calc)
+					       (calc-amount calc))))))))
+	      
     (text-view (make-id "amount-value") "4500 gallons" 30
                (layout 'wrap-content 'wrap-content 1 'centre 0))
     (spacer 10)
@@ -359,27 +363,22 @@
 
     (horiz
      (delete-button)
-     (mbutton-scale 'back (lambda () (list (finish-activity 0)))))
+     (mbutton-scale 'save (lambda () (entity-update-values!) (list (finish-activity 0))))
+     (mbutton-scale 'cancel (lambda () (list (finish-activity 0)))))
     )
     
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
-     (msg "starting newevent activity with" arg) 
      (entity-init! db "farm" "event" (get-entity-by-unique db "farm" arg))
      (set-current! 'event-id arg)
      ;; update the calculator with values from the current field
      (let ((field (get-entity-by-unique db "farm" (entity-get-value "parent"))))
-       (msg "found field" field)
-       (update-soil! (string->symbol (ktv-get field "soil")))
-       (update-crop! (string->symbol (ktv-get field "crop")))
-       ;; should get this from the event...
-       (update-season! (date->season (current-date)))
-       
+       (update-calc-from-db field)
        (list
+	(mupdate-spinner 'quality "quality" (get-qualities-for-type (current-type)))
 	(mupdate-spinner 'manure-type "type" manure-type-list)
-	(mupdate-spinner 'quality "quality" (get-qualities-for-type (entity-get-value "type")))
-	;; update seekbar
+	;;(update-widget 'seek-bar (get-id "amount") 'init (/ (convert-output (current-amount) (get-units)) (current-seek-mul)))
 	(update-widget 'text-view (make-id "date-text") 'text (entity-get-value "date"))
 	(update-widget 'text-view (make-id "title") 'text (ktv-get field "name"))
 	)))

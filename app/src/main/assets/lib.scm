@@ -834,7 +834,7 @@
   (set! dialogs (dialog-replace dialogs (dialog-name d) d))
   ;; todo - when to clear out?
   ;;(when (not (dialog-find dialogs (dialog-name d)))
-  (msg "adding dialog" d)
+  ;;(msg "adding dialog" d)
   ;;      (set! dialogs (cons d dialogs)))
   )
 

@@ -1,6 +1,20 @@
+// Starwisp Copyright (C) 2016 Dave Griffiths
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 package foam.starwisp;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -35,6 +49,7 @@ public class DrawableMap {
     FrameLayout fram_map;
     Button scribble_button;
     Boolean draw_mode;
+    Boolean button_mode;
     GoogleMap map;
     String map_mode;
     String selected_polygon;
@@ -55,6 +70,7 @@ public class DrawableMap {
 
     public void init(int id, ViewGroup parent, StarwispActivity c, StarwispBuilder b, String mode) {
         draw_mode = false;
+        button_mode = false;
         m_Context=c;
         m_Builder=b;
         map_mode = mode;
@@ -88,10 +104,10 @@ public class DrawableMap {
                     FrameLayout.LayoutParams.WRAP_CONTENT));
             scribble_button.setTextSize(20);
             scribble_button.setTypeface(((StarwispActivity) c).m_Typeface);
-            scribble_button.setText("New field");
+            scribble_button.setText("Draw field");
             fram_map.addView(scribble_button);
         } else {
-            draw_mode=true;
+            button_mode=true;
         }
 
         parent.addView(outer_map);
@@ -179,7 +195,7 @@ public class DrawableMap {
         fram_map.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (!draw_mode) return false;
+                if (!draw_mode && !button_mode) return false;
 
                 float x = event.getX();
                 float y = event.getY();
@@ -218,6 +234,8 @@ public class DrawableMap {
                         DrawMap();
                         break;
                 }
+
+                if (button_mode) return false;
 
                 return true;
 
