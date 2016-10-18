@@ -38,34 +38,7 @@
     (ktv "email" "varchar" "None Yet")
     (ktv "units" "varchar" "metric"))))
 
-;; the calculator
-(define calc
-  (list 'pig 25 'DM2 'autumn 'normal 'mediumheavy
-	(list date-day date-month date-year)
-	1))
-
-(define (calc-type s) (list-ref s 0))
-(define (calc-modify-type s v) (list-replace s 0 v))
-(define (calc-amount s) (list-ref s 1))
-(define (calc-modify-amount s v) (list-replace s 1 v))
-(define (calc-quality s) (list-ref s 2))
-(define (calc-modify-quality s v) (list-replace s 2 v))
-(define (calc-season s) (list-ref s 3))
-(define (calc-modify-season s v) (list-replace s 3 v))
-(define (calc-crop s) (list-ref s 4))
-(define (calc-modify-crop s v) (list-replace s 4 v))
-(define (calc-soil s) (list-ref s 5))
-(define (calc-modify-soil s v) (list-replace s 5 v))
-(define (calc-date s) (list-ref s 6))
-(define (calc-modify-date s v) (list-replace s 6 v))
-(define (calc-seek-mul s) (list-ref s 7))
-(define (calc-modify-seek-mul s v) (list-replace s 7 v))
-
-;; shortcuts
-(define (current-date) (calc-date calc))
-(define (current-seek-mul) (calc-seek-mul calc))
-(define (current-type) (calc-type calc))
-(define (current-quality) (calc-quality calc))
+;; stuff here depends on the android update mechanism
 
 (define (update-calc! fn)
   (set! calc (fn calc))
@@ -238,31 +211,6 @@
 (define (spacer size)
   (space (layout 'fill-parent size 1 'left 0)))
 
-
-(define (update-calc-from-db field)
-  (update-calc! 
-   (lambda (c)
-     (list 
-      (string->symbol (dbg (entity-get-value "type")))
-      (dbg (entity-get-value "amount"))
-      (string->symbol (dbg (entity-get-value "quality")))
-      (string->symbol (dbg (entity-get-value "season"))) 
-      (string->symbol (dbg (ktv-get field "crop")))
-      (string->symbol (dbg (ktv-get field "soil")))
-      (calc-date calc)
-      (calc-seek-mul calc)))))
-
-;; pass through for ordering ease
-(define (updatedb-current-nutrients p)
-  ;(let ((n (calc-nutrients)))
-  ;  (entity-update-single-value! 
-  ;   (ktv "nutrients-n" "real" (list-ref n 0)))
-  ;  (entity-update-single-value! 
-  ;   (ktv "nutrients-p" "real" (list-ref n 1)))
-  ;  (entity-update-single-value! 
-  ;   (ktv "nutrients-k" "real" (list-ref n 2))))
-  p)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (msg "crap-app.scm3")
 
@@ -272,7 +220,7 @@
   (let ((twidth (- max min)))
     (cadr (foldl
            (lambda (event r)
-             (let* ((t (date->day (event-date event)))
+             (let* ((t (date->day (ktv-get event "date")))
                     (last-point (car r))
                     (points-list (cadr r))
                     (x (* graph-width (/ (- t min) twidth)))
@@ -286,29 +234,33 @@
            (list (list -10 250) '())
            events))))
 
+(msg "crap-app.scm4")
+
 (define (build-bars events min max)
   (let* ((twidth (- max min))
          (month-width (* (/ 30 twidth) graph-width)))
     (foldl
      (lambda (event r)
-       (let* ((t (date->day (event-date event)))
+       (let* ((t (date->day (ktv-get event "date")))
               (x (* graph-width (/ (- t min) twidth)))
-              (y1 (- 250 (list-ref (event-nutrients event) 0)))
-              (y2 (- 250 (list-ref (event-nutrients event) 1)))
-              (y3 (- 250 (list-ref (event-nutrients event) 2))))
-         (append
-          (if (< month-width 20)
-              (list
-               (drawlist-line '(200 0 0) 3 (list x 250 x y1))
-               (drawlist-line '(200 200 0) 3 (list (+ x 3) 250 (+ x 3) y2))
-               (drawlist-line '(0 0 200) 3 (list (+ x 6) 250 (+ x 6) y3)))
-              (list
-               (drawlist-line '(200 0 0) 10 (list x 250 x y1))
-               (drawlist-line '(200 200 0) 10 (list (+ x 5) 250 (+ x 5) y2))
-               (drawlist-line '(0 0 200) 10 (list (+ x 10) 250 (+ x 10) y3))))
-          r)))
+              (y1 (- 250 (ktv-get event "nutrients-n")))
+	      (y2 (- 250 (ktv-get event "nutrients-p")))
+	      (y3 (- 250 (ktv-get event "nutrients-k"))))
+	 (append
+	  (if (< month-width 20)
+	      (list
+	       (drawlist-line '(200 0 0) 3 (list x 250 x y1))
+	       (drawlist-line '(200 200 0) 3 (list (+ x 3) 250 (+ x 3) y2))
+	       (drawlist-line '(0 0 200) 3 (list (+ x 6) 250 (+ x 6) y3)))
+	      (list
+	       (drawlist-line '(200 0 0) 10 (list x 250 x y1))
+	       (drawlist-line '(200 200 0) 10 (list (+ x 5) 250 (+ x 5) y2))
+	       (drawlist-line '(0 0 200) 10 (list (+ x 10) 250 (+ x 10) y3))))
+	  r)))
      '()
      events)))
+
+(msg "crap-app.scm5")
 
 (define (month->text m)
   (cond
@@ -325,6 +277,7 @@
    ((eqv? m 11) "November")
    ((eqv? m 12) "December")))
 
+(msg "crap-app.scm6")
 
 (define (build-t-scale first min max)
   (define (_y year-width x y)
@@ -363,6 +316,8 @@
              (* (/ (- 12 (list-ref first 1)) twidth) graph-width)
              (list-ref first 2))))))
 
+(msg "crap-app.scm7")
+
 (define (build-key)
   (let ((units (if (eq? (current-units) 'metric)
                    "Kg/hectare"
@@ -382,24 +337,50 @@
      (drawlist-text "K" 280 90 '(0 0 200) 20 "horizontal")
      )))
 
+(msg "crap-app.scm8")
+
+(define (newest-event-day events)
+  (foldl
+   (lambda (event latest)
+     (let ((d (date->day (ktv-get event "date"))))
+       (if (< latest d)
+	   d latest)))
+   0
+   events))
+
+(define (oldest-event-day events)
+  (foldl
+   (lambda (event latest)
+     (let ((d (date->day (ktv-get event "date"))))
+       (if (< d latest)
+	   d latest)))
+   999999
+   events))
+
 (define (build-graph)
-  (append
-   (let ((events (field-events (current-field))))
+  (let ((events (db-filter 
+		 db "farm" "event" 
+		 (list
+		  (list "parent" "varchar" "=" (get-current 'field-id #f))))))
+    (msg (length events))
+    (append
      (if (> (length events) 1)
-         (let* ((_min (date->day (event-date (car events))))
-                (_max (date->day (event-date (list-ref events (- (length events) 1)))))
+	 (let* ((_min (dbg (oldest-event-day events)))
+		(_max (dbg (newest-event-day events)))
                 (safe (* (- _max _min) 0.1))
                 (min (- _min safe))
                 (max (+ _max safe)))
            (append
-            (build-t-scale (event-date (car events)) min max)
+            (build-t-scale (string->date (ktv-get (car events) "date")) min max)
             (build-bars events min max)
             (build-key)))
          (list (drawlist-text "Not enough events for graph"
-                              20 105 '(0 0 0) 20 "horizontal"))))
-   (list
-    (drawlist-line '(0 0 0) 5 (list 0 0 320 0))
-    (drawlist-line '(0 0 0) 5 (list 0 250 320 250)))))
+                              20 105 '(0 0 0) 20 "horizontal")))
+     (list
+      (drawlist-line '(0 0 0) 5 (list 0 0 320 0))
+      (drawlist-line '(0 0 0) 5 (list 0 250 320 250))))))
+
+(msg "crap-app.scm9")
 
 (define (setup-for-picture-from-event)
   ;; setup the calculator values for the camera pic from the event
@@ -427,9 +408,10 @@
 
 ;; just for graph so don't have to be accurate!!!
 (define (date->day d)
-  (+ (* (list-ref d 2) 360)
-     (* (list-ref d 1) 30)
-     (list-ref d 0)))
+  (let ((d (string->date d)))
+    (+ (* (list-ref d 2) 360)
+       (* (list-ref d 1) 30)
+       (list-ref d 0))))  
 
 (define (date< a b)
   (cond
@@ -446,12 +428,28 @@
        (else #f)))))))
 
 
+(define (string->date d)
+  (let ((splot (string-split d (list #\/))))
+    (msg splot)
+    (list 
+     (string->number (list-ref splot 0))
+     (string->number (list-ref splot 1))
+     (string->number (list-ref splot 2)))))
+
 (define (date->string d)
   (string-append
    (number->string (list-ref d 0))
    "/"
    (number->string (list-ref d 1))
    "/"
+   (number->string (list-ref d 2))))
+
+(define (date->path d)
+  (string-append
+   (number->string (list-ref d 0))
+   "-"
+   (number->string (list-ref d 1))
+   "-"
    (number->string (list-ref d 2))))
 
 (define (date->season d)
@@ -490,5 +488,114 @@
 	(list
 	 (list "parent" "varchar" "=" (ktv-get field "unique_id")))))))   
    (db-all db "farm" "field")))
+
+(define (event-view-item id title)
+  (horiz
+   (text-view 0 (mtext-lookup title) 20 (layout 'wrap-content 'wrap-content 1 'centre 0))
+   (text-view (make-id id) "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))))
+
+(define (update-event-view-item id)
+  (update-widget 'text-view (get-id id) 'text (entity-get-value id)))
+
+(define (update-event-view-item-lookup id)
+  (update-widget 'text-view (get-id id) 'text (mtext-lookup (string->symbol (entity-get-value id)))))
+
+(define (calc-results)
+  (vert
+   (mtext 'crop-availible)
+   (horiz
+    (mtext-scale 'nutrient-n-metric)
+    (mtext-scale 'nutrient-p-metric)
+    (mtext-scale 'nutrient-k-metric))
+   (horiz
+    (text-view (make-id "na") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "pa") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "ka") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+   
+   (mtext 'cost-saving)
+   (horiz
+    (text-view (make-id "costn") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "costp") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "costk") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+   (spacer 10)
+   (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
+   (spacer 10)))
+
+(define (calc-manure-type-widget fn)
+  (mspinner 
+   'manure-type manure-type-list
+   (lambda (v) 
+     (let ((v (list-ref manure-type-list v)))
+       (update-seek-mul! v)
+       (fn v)
+       (append
+	(update-type! v)
+	(update-amount! (convert-input (* (current-seek-mul) 50) (get-units)))
+	(list
+	 (update-widget 'seek-bar (get-id "amount") 'init 0)
+	 (update-widget 'spinner (get-id "quality-spinner") 'array
+			(symbol-list-to-names
+			 (get-qualities-for-type v)))	   
+	 (update-widget 'image-view (get-id "example") 'image
+			(find-image (calc-type calc)
+				    (calc-amount calc)))
+	 ))))))
+
+(define (calc-manure-quality-widget fn)
+  (mspinner 'quality cattle-quality-list 
+	    (lambda (v) 
+	      (let ((type (current-type)))
+		(let ((quality 
+		       (list-ref 
+			(cond
+			 ((eq? type 'cattle) cattle-quality-list)
+			 ((eq? type 'pig) pig-quality-list)
+			 ((eq? type 'poultry) poultry-quality-list)
+			 (else fym-quality-list))
+			v)))
+		  (fn quality)
+		  (update-quality! quality))))))
+
+(define (calc-amount-widget fn)
+  (seek-bar (make-id "amount") 100 fillwrap
+	    (lambda (v)
+	      (fn v)
+	      (append
+	       (update-amount! (convert-input (* (current-seek-mul) v) (get-units)))
+	       (list
+		(update-widget 'image-view (get-id "example") 'image
+			       (find-image (calc-type calc)
+					   (calc-amount calc))))))))
+  
+(define (calc-gallery)
+  (vert
+   (list
+    (button (make-id "load-gallery") "Load Gallery" 20 fillwrap
+	    (lambda ()
+	      (let ((path (string-append
+			   (field-name (current-field)) "-"
+			   (number->string (event-id (current-event))) "/")))
+		(list
+		 (list-files
+		  (string-append "filelister-" path)
+		  path
+		  (lambda (images)
+		    (list
+		     (update-widget
+		      'linear-layout (get-id "gallery") 'contents
+		      (cons
+		       (text-view (make-id "temp") "Gallery" 30 fillwrap)
+		       (foldl
+			(lambda (image r)
+			  (append
+			   (list (image-view (make-id image)
+					     (string-append dirname path image)
+					     (layout 'wrap-content 240 1 'left 0))
+				 (spacer 10))
+			   r))
+			'()
+			images)))))))))))))
+
+
 
 (msg "crap-app.scm end")

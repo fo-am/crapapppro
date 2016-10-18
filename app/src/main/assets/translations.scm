@@ -31,6 +31,14 @@
    (list 'field-calc-blurb (list "Enter new crap spreading event"))
    (list 'date (list "Set date"))
 
+   (list 'report-type (list "Manure type"))
+   (list 'report-date (list "Date"))
+   (list 'report-amount (list "Application rate"))
+   (list 'report-quality (list "Quality"))
+   (list 'report-season (list "Season"))
+   (list 'report-crop (list "Crop"))
+   (list 'report-soil (list "Soil"))
+   (list 'report-size (list "Size"))
 
    (list 'soil-type (list "Soil type"))
    (list 'crop-type (list "Crop type"))

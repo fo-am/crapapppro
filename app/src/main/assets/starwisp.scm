@@ -52,9 +52,9 @@
    (vert
     (mtitle 'title)
     (build-drawmap (make-id "fieldmap") "readonly" fillwrap
-    			    (lambda (id) 
-			      (msg "map button returned" id)
-			      (list (start-activity "field" 2 id))))
+		   (lambda (id) 
+		     (msg "map button returned" id)
+		     (list (start-activity "field" 2 id))))
     (build-list-widget db "farm" 'fields (list "name") "field" "field"
  		       (lambda () #f)
 		       (lambda ()
@@ -84,29 +84,13 @@
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity requestcode resultcode) '()))
-
-
+  
+  
   (activity
    "calc"
    (vert
     (mtitle 'crap-calculator)
-    (mspinner 
-     'manure-type manure-type-list
-     (lambda (v) 
-       (let ((v (list-ref manure-type-list v)))
-	 (update-seek-mul! v)
-	 (append
-	  (update-type! v)
-	  (update-amount! (convert-input (* (current-seek-mul) 50) (get-units)))
-	  (list
-	   (update-widget 'seek-bar (get-id "amount") 'init 0)
-	   (update-widget 'spinner (get-id "quality-spinner") 'array
-			  (symbol-list-to-names
-			   (get-qualities-for-type v)))	   
-	   (update-widget 'image-view (get-id "example") 'image
-			  (find-image (calc-type calc)
-				      (calc-amount calc)))
-	   )))))
+    (calc-manure-type-widget (lambda (v)))
 
     (horiz
      (mspinner 
@@ -119,50 +103,14 @@
 
     (horiz
      (mspinner 'season season-list (lambda (v) (update-season! (list-ref season-list v))))
-     (mspinner 'quality cattle-quality-list 
-	       (lambda (v) 
-		 (let ((type (current-type)))
-		   (update-quality! 
-		    (list-ref 
-		     (cond
-		      ((eq? type 'cattle) cattle-quality-list)
-		      ((eq? type 'pig) pig-quality-list)
-		      ((eq? type 'poultry) poultry-quality-list)
-		      (else fym-quality-list))
-		     v))))))
-    
-    (seek-bar (make-id "amount") 100 fillwrap
-              (lambda (v)
-		(msg (current-seek-mul)) 
-                (append
-                 (update-amount! (convert-input (* (current-seek-mul) v) (get-units)))
-                 (list
-                  (update-widget 'image-view (get-id "example") 'image
-                                 (find-image (calc-type calc)
-                                             (calc-amount calc)))))))
+     (calc-manure-quality-widget (lambda (v))))
+
+    (calc-amount-widget (lambda (v)))
     
     (text-view (make-id "amount-value") "4500 gallons" 30
                (layout 'wrap-content 'wrap-content 1 'centre 0))
     (spacer 10)
-    
-    (mtext 'crop-availible)
-    (horiz
-     (mtext-scale 'nutrient-n-metric)
-     (mtext-scale 'nutrient-p-metric)
-     (mtext-scale 'nutrient-k-metric))
-    (horiz
-     (text-view (make-id "na") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "pa") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "ka") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
-    
-    (mtext 'cost-saving)
-    (horiz
-     (text-view (make-id "costn") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "costp") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "costk") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
-    (spacer 10)
-    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
-    (spacer 10)
+    (calc-results)
     (mbutton 'done (lambda () (list (finish-activity 99)))))
    (lambda (activity arg)
      (activity-layout activity))
@@ -230,6 +178,8 @@
 			       '("nutrients-n" "real" 0)
 			       '("nutrients-p" "real" 0)
 			       '("nutrients-k" "real" 0)
+			       '("soil" "varchar" "normal")
+			       '("size" "real" 0)
 			       '("amount" "real" 0)
 			       '("quality" "varchar" "DM2")
 			       '("season" "varchar" "winter")
@@ -246,14 +196,15 @@
    (lambda (activity arg)
      (entity-init! db "farm" "field" (get-entity-by-unique db "farm" arg))
      (set-current! 'field-id arg)     
+     (set-current! 'field-name (entity-get-value "name"))     
      (list
       (update-widget 'draw-map (get-id "map") 'polygons (list (entity-get-value "unique_id") (get-polygons)))
       (mupdate 'edit-text 'field-name "name")
-      (update-list-widget db "farm" (list "type" "date") "event" "fieldcalc" (get-current 'field-id #f))
+      (update-list-widget db "farm" (list "type" "date") "event" "eventview" (get-current 'field-id #f))
       (mupdate-spinner 'soil-type "soil" soil-type-list)
       (mupdate-spinner 'crop-type "crop" crop-type-list)
       (mupdate 'edit-text 'field-size "size")
-					;(update-widget 'canvas (get-id "graph") 'drawlist (build-graph))      
+      (update-widget 'canvas (get-id "graph") 'drawlist (dbg (build-graph)))      
       ))
    (lambda (activity) '())
    (lambda (activity) '())
@@ -261,6 +212,8 @@
    (lambda (activity) '())
    (lambda (activity requestcode resultcode) '()))
 
+
+;------------------------
 
   (activity
    "fieldcalc"
@@ -284,86 +237,43 @@
 		 (entity-set-value! "date" "varchar" (date->string (current-date)))
 		 (entity-set-value! "season" "varchar" (symbol->string (date->season (current-date))))
 		 (append
-		  (updatedb-current-nutrients 
-		   (update-season! (date->season (current-date)))
-		   (list
-		    (update-widget 'text-view (make-id "date-text") 'text
-				   (date->string (list day (+ month 1) year)))))))))))
-     )
+		  (update-season! (date->season (current-date)))
+		  (list
+		   (update-widget 'text-view (make-id "date-text") 'text
+				  (date->string (list day (+ month 1) year)))))))))))
+    
     
     (horiz
-     (mspinner 
-      'manure-type manure-type-list
-      (lambda (v) 
-	(let ((v (list-ref manure-type-list v)))
-	  (entity-set-value! "type" "varchar" (symbol->string v))
-	  (update-seek-mul! v)
-	  (update-type! v)
-	  (update-amount! (convert-input (* (current-seek-mul) 50) (get-units)))
-	  (update-quality! (current-quality))
-	  (append	   
-	   (list
-	    (update-widget 'spinner (get-id "quality-spinner") 'array (symbol-list-to-names (get-qualities-for-type v)))
-	    
-	    (update-widget 'seek-bar (get-id "amount") 'init 0)
-	    (update-widget 'image-view (get-id "example") 'image
-			   (find-image (calc-type calc)
-				       (calc-amount calc)))
-	    )))))
+     (calc-manure-type-widget 
+      (lambda (v)
+	(entity-set-value! "type" "varchar" (symbol->string v))))
      
-     (mspinner 'quality cattle-quality-list 
-	       (lambda (v) 
-		 (let ((type (current-type)))		   
-		   (let ((quality
-			  (list-ref 
-			   (cond
-			    ((eq? type 'cattle) cattle-quality-list)
-			    ((eq? type 'pig) pig-quality-list)
-			    ((eq? type 'poultry) poultry-quality-list)
-			    (else fym-quality-list))
-			   v)))
-		     (entity-set-value! "quality" "varchar" (symbol->string quality))
-		     (updatedb-current-nutrients 
-		      (update-quality! quality)))))))
+     (calc-manure-quality-widget
+      (lambda (v)
+	(entity-set-value! "quality" "varchar" (symbol->string v)))))
     
-    (seek-bar (make-id "amount") 100 fillwrap
-              (lambda (v)
-		(let ((amount (convert-input (* (current-seek-mul) v) (get-units))))
-		  (entity-set-value! "amount" "real" amount)
-		  (append
-		   (updatedb-current-nutrients 
-		    (update-amount! amount))
-		   (list
-		    (update-widget 'image-view (get-id "example") 'image
-				   (find-image (calc-type calc)
-					       (calc-amount calc))))))))
-	      
+    (calc-amount-widget
+     (lambda (v) 
+       (let ((amount (convert-input (* (current-seek-mul) v) (get-units))))
+	 (msg "setting amount" amount)
+	 (entity-set-value! "amount" "real" amount))))
+    
     (text-view (make-id "amount-value") "4500 gallons" 30
-               (layout 'wrap-content 'wrap-content 1 'centre 0))
+	       (layout 'wrap-content 'wrap-content 1 'centre 0))
     (spacer 10)
-    
-    (mtext 'crop-availible)
+    (calc-results)
     (horiz
-     (mtext-scale 'nutrient-n-metric)
-     (mtext-scale 'nutrient-p-metric)
-     (mtext-scale 'nutrient-k-metric))
-    (horiz
-     (text-view (make-id "na") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "pa") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "ka") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
-    
-    (mtext 'cost-saving)
-    (horiz
-     (text-view (make-id "costn") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "costp") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     (text-view (make-id "costk") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
-    (spacer 10)
-    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
-    (spacer 10)
-
-    (horiz
-     (delete-button)
-     (mbutton-scale 'save (lambda () (entity-update-values!) (list (finish-activity 0))))
+     (mbutton-scale 
+      'save 
+      (lambda () 
+	;; update nutrient values now...
+	(let ((nutrients (calc-nutrients)))
+	  ;; need to convert output here??
+	  (entity-set-value! "nutrients-n" "real" (list-ref nutrients 0))
+	  (entity-set-value! "nutrients-p" "real" (list-ref nutrients 1))
+	  (entity-set-value! "nutrients-k" "real" (list-ref nutrients 2)))	  
+	(entity-update-values!) 
+	(list (finish-activity 0))))
      (mbutton-scale 'cancel (lambda () (list (finish-activity 0)))))
     )
     
@@ -374,19 +284,126 @@
      (set-current! 'event-id arg)
      ;; update the calculator with values from the current field
      (let ((field (get-entity-by-unique db "farm" (entity-get-value "parent"))))
-       (update-calc-from-db field)
+       (update-crop! (string->symbol (ktv-get field "crop")))
+       (update-soil! (string->symbol (ktv-get field "soil")))
+       ;; fill in the field related items here
+       (entity-set-value! "soil" "varchar" (ktv-get field "soil"))
+       (entity-set-value! "size" "real" (ktv-get field "size"))
        (list
-	(mupdate-spinner 'quality "quality" (get-qualities-for-type (current-type)))
-	(mupdate-spinner 'manure-type "type" manure-type-list)
-	;;(update-widget 'seek-bar (get-id "amount") 'init (/ (convert-output (current-amount) (get-units)) (current-seek-mul)))
 	(update-widget 'text-view (make-id "date-text") 'text (entity-get-value "date"))
 	(update-widget 'text-view (make-id "title") 'text (ktv-get field "name"))
+	(update-widget 'image-view (get-id "example") 'image
+		       (find-image (string->symbol (entity-get-value "type"))
+				   (entity-get-value "amount")))
 	)))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity requestcode resultcode) '()))
+  
+  (activity
+   "eventview"     
+   (vert
+    (mtext 'title)
+    (event-view-item "type" 'report-type)
+    (event-view-item "date" 'report-date)
+    (event-view-item "amount" 'report-amount)
+    (event-view-item "quality" 'report-quality)
+    (event-view-item "season" 'report-season)
+    (event-view-item "crop" 'report-crop)
+    (event-view-item "soil" 'report-soil)
+    (event-view-item "size" 'report-size)
+    ;; (event-view-item "total" 'report-total) size * amount
+    (calc-results)
+    (spacer 10)
+    (mbutton-scale 
+     'camera
+     (lambda ()
+       (list (start-activity "camera" 2 ""))))
+    (spacer 10)
+    (calc-gallery)
+    (spacer 10)
+    (horiz
+     (delete-button)
+     (mbutton-scale 'back (lambda () (list (finish-activity 0)))))
 
+    )
+   (lambda (activity arg)
+     (activity-layout activity))
+   (lambda (activity arg)
+     (entity-init! db "farm" "event" (get-entity-by-unique db "farm" arg))
+     (set-current! 'event-id arg)
+     ;; update the calculator with values from the current field
+     (append
+      (if (eq? (current-units) 'metric) (list)
+          (list
+           (update-widget 'text-view (get-id "nt") 'text "N units/acre")
+           (update-widget 'text-view (get-id "pt") 'text "P units/acre")
+           (update-widget 'text-view (get-id "kt") 'text "K units/acre")))
+     
+      (let ((field (get-entity-by-unique db "farm" (entity-get-value "parent")))
+	    (amounts (list (entity-get-value "nutrients-n")
+			   (entity-get-value "nutrients-p")
+			   (entity-get-value "nutrients-k"))))
+	(list
+	 (update-widget 'text-view (make-id "title") 'text (ktv-get field "name"))
+	 (update-event-view-item-lookup "type")
+	 (update-event-view-item "date")
+	 (update-event-view-item "amount")
+	 (update-event-view-item-lookup "quality")
+	 (update-event-view-item-lookup "season")
+	 (update-event-view-item-lookup "crop")
+	 (update-event-view-item-lookup "soil")
+	 (update-event-view-item "size")
+ 	 (update-widget 'text-view (get-id "na") 'text (convert-output (entity-get-value "nutrients-n") "kg/ha"))
+	 (update-widget 'text-view (get-id "pa") 'text (convert-output (entity-get-value "nutrients-p") "kg/ha"))
+	 (update-widget 'text-view (get-id "ka") 'text (convert-output (entity-get-value "nutrients-k") "kg/ha"))
+	 (update-widget 'text-view (get-id "costn") 'text (get-cost-string-from-nutrient 0 amounts (entity-get-value "size")))
+	 (update-widget 'text-view (get-id "costp") 'text (get-cost-string-from-nutrient 1 amounts (entity-get-value "size")))
+	 (update-widget 'text-view (get-id "costk") 'text (get-cost-string-from-nutrient 2 amounts (entity-get-value "size")))
+	 
+	 ))))
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity requestcode resultcode) '()))
+
+  (activity
+   "camera"
+   (horiz
+    (vert
+     (camera-preview (make-id "camera") (layout 'fill-parent 320 1 'left 0))
+     (button (make-id "take-pic") "Take photo" 10 fillwrap
+            (lambda ()
+              (let ((path (string-append
+                           (get-current 'field-name #f)
+                           "-"
+                           (date->path (string->date (entity-get-value "date")))
+                           "/")))
+                (list
+                 (make-directory path)
+                 (update-widget 'camera-preview (get-id "camera") 'take-picture path))))))
+    (vert
+     (image-view (make-id "example") "test" (layout 'fill-parent 320 1 'left 0))
+     (button (make-id "back") "Back" 10 fillwrap
+             (lambda ()
+               (list
+                (update-widget 'camera-preview (get-id "camera") 'shutdown 0)
+                (finish-activity 99))))))
+   (lambda (activity arg)
+     (activity-layout activity))
+   (lambda (activity arg)
+     (list
+      (update-widget 'image-view (get-id "example") 'image
+                     (find-image (string->symbol (entity-get-value "type"))
+                                 (entity-get-value "amount")))))
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity requestcode resultcode) '()))
+  
 
   )

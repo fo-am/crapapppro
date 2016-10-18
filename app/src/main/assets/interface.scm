@@ -342,7 +342,8 @@
 
 
 ;; a standard builder for list widgets of entities and a
-;; make new button, to add defaults to the list
+;; make new button, to add defaults to the list - edit-activity
+;; is called when the + button is pressed
 (define (build-list-widget db table title title-ids entity-type edit-activity parent-fn ktv-default-fn)
     (vert-colour
      list-colour
@@ -390,7 +391,7 @@
         "" (cdr title-ids)))))
 
 ;; pull db data into list of button widgets
-(define (update-list-widget db table title-ids entity-type edit-activity parent)
+(define (update-list-widget db table title-ids entity-type view-activity parent)
   (let ((search-results
          (if parent
 	     (db-filter-only db table entity-type
@@ -413,7 +414,7 @@
              (make-list-widget-title e title-ids)
              30 (layout 'fill-parent 'wrap-content 1 'centre 5)
              (lambda ()
-               (list (start-activity edit-activity 0 (ktv-get e "unique_id"))))))
+               (list (start-activity view-activity 0 (ktv-get e "unique_id"))))))
           search-results)))))
 
 

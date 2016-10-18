@@ -44,19 +44,28 @@ class PictureTaker
     }
 
     public List<Size> GetSupportedPictureSizes() {
-        mCam = Camera.open();
+        try{
+            mCam = Camera.open();
+        } catch(Exception e) {
+            Log.e("Error", ""+e);
+        }
+
         if (mCam == null) {
             return null;
         }
+
         List<Size> list = mCam.getParameters().getSupportedPictureSizes();
         mCam.release();
         mCam = null;
         return list;
-
     }
 
     public List<Size> GetSupportedPreviewSizes() {
+        try{
         mCam = Camera.open();
+        } catch(Exception e) {
+            Log.e("Error", ""+e);
+        }
         if (mCam == null) {
             return null;
         }
@@ -134,8 +143,11 @@ class PictureTaker
     public List<List<String>> GetInfo() {
 
         List<List<String>> info = new ArrayList<List<String>>();
-
-        mCam = Camera.open();
+        try {
+            mCam = Camera.open();
+        } catch(Exception e) {
+            Log.e("Error", ""+e);
+        }
 
         if (mCam != null) {
             Camera.Parameters p = mCam.getParameters();

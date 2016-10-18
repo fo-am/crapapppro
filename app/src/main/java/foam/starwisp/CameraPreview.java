@@ -83,38 +83,39 @@ public class CameraPreview extends SurfaceView implements
     public void surfaceChanged(SurfaceHolder surfaceHolder, int format,
             int width, int height) {
         mSurfaceHolder=surfaceHolder;
-        mPictureTaker.mCam.stopPreview();
+        if (mPictureTaker.mCam!=null) {
+            mPictureTaker.mCam.stopPreview();
 
-        Parameters parameters = mPictureTaker.mCam.getParameters();
-        List<Size> list = parameters.getSupportedPreviewSizes();
+            Parameters parameters = mPictureTaker.mCam.getParameters();
+            List<Size> list = parameters.getSupportedPreviewSizes();
 
-        int minHeight=9999999;
-        int minWidth=0;
-        for(int i = 0; i<list.size(); i++){
-            if(list.get(i).height<minHeight){
-                minHeight = list.get(i).height;
-                minWidth = list.get(i).width;
+            int minHeight = 9999999;
+            int minWidth = 0;
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).height < minHeight) {
+                    minHeight = list.get(i).height;
+                    minWidth = list.get(i).width;
+                }
             }
-        }
 
-        Log.i("starwisp","camera layout: "+minWidth+" "+minHeight);
-        parameters.setPreviewSize(minWidth, minHeight);
+            Log.i("starwisp", "camera layout: " + minWidth + " " + minHeight);
+            parameters.setPreviewSize(minWidth, minHeight);
 
-        list = parameters.getSupportedPictureSizes();
-        int maxHeight=0;
-        int maxWidth=0;
-        for(int i = 0; i<list.size(); i++){
-            if(list.get(i).height>maxHeight){
-                maxHeight = list.get(i).height;
-                maxWidth = list.get(i).width;
+            list = parameters.getSupportedPictureSizes();
+            int maxHeight = 0;
+            int maxWidth = 0;
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).height > maxHeight) {
+                    maxHeight = list.get(i).height;
+                    maxWidth = list.get(i).width;
+                }
             }
+            Log.i("starwisp", "camera picture size: " + maxWidth + " " + maxHeight);
+            parameters.setPictureSize(maxWidth, maxHeight);
+
+            mPictureTaker.mCam.setParameters(parameters);
+            mPictureTaker.mCam.startPreview();
         }
-        Log.i("starwisp","camera picture size: "+maxWidth+" "+maxHeight);
-        parameters.setPictureSize(maxWidth, maxHeight);
-
-        mPictureTaker.mCam.setParameters(parameters);
-        mPictureTaker.mCam.startPreview();
-
 /*
         Parameters parameters = mPictureTaker.mCam.getParameters();
         Display display = ((WindowManager)mCtx.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
