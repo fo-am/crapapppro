@@ -5,6 +5,10 @@
 (define i18n-text
   (list))
 
+(define large-text-size 30)
+(define normal-text-size 20)
+(define small-text-size 15)
+(define margin-size 10)
 (define list-colour (list 127 255 127 50))
 
 (define (mtext-lookup id)
@@ -33,58 +37,106 @@
         (msg "symbol->id: [" id "] is not a symbol"))
   (get-id (symbol->string id)))
 
+
+(define (spacer size) (space (layout 'fill-parent size 1 'left 0)))
+
+
+(define (horiz . l)
+  (linear-layout
+   0 'horizontal
+   (layout 'fill-parent 'wrap-content -1 'centre 0)
+   (list 0 0 0 0)
+   l))
+
+(define (horiz-colour col . l)
+  (linear-layout
+   0 'horizontal
+   (layout 'fill-parent 'wrap-content -1 'centre 0)
+   col
+   l))
+
+(define (vert . l)
+  (linear-layout
+   0 'vertical
+   (layout 'fill-parent 'wrap-content 1 'centre margin-size)
+   (list 0 0 0 0)
+   l))
+
+(define (vert-colour col . l)
+  (linear-layout
+   0 'vertical
+   (layout 'fill-parent 'wrap-content 1 'centre margin-size)
+   col
+   l))
+
+(define (vert-fill . l)
+  (linear-layout
+   0 'vertical
+   (layout 'fill-parent 'fill-parent 1 'left 0)
+   (list 0 0 0 0)
+   l))
+
+(define (relative rules colour . l)
+  (relative-layout
+   0 (rlayout 'fill-parent 'wrap-content (list 20 20 20 20) rules)
+   colour
+   l))
+
 (define (mbutton id fn)
   (button (symbol->id id)
           (mtext-lookup id)
-          30 (layout 'fill-parent 'wrap-content -1 'centre 5) fn))
+          normal-text-size (layout 'fill-parent 'wrap-content -1 'centre 5) fn))
 
 (define (mbutton-scale id fn)
   (button (symbol->id id)
           (mtext-lookup id)
-          30 (layout 'fill-parent 'wrap-content 1 'centre 5) fn))
+          normal-text-size
+	  (layout 'fill-parent 'wrap-content 1 'centre 5) fn))
 
 (define (mtoggle-button id fn)
   (toggle-button (symbol->id id)
                  (mtext-lookup id)
-                 30 (layout 'fill-parent 'wrap-content -1 'centre 0) ""
+                 normal-text-size 
+		 (layout 'fill-parent 'wrap-content -1 'centre 0) ""
                  ;; convert to 0/1 for easier db storage
                  (lambda (v) (fn (if v 1 0)))))
 
 (define (mtoggle-button-scale id fn)
   (toggle-button (symbol->id id)
                  (mtext-lookup id)
-                 30 (layout 'fill-parent 'wrap-content 1 'centre 0) ""
+                 normal-text-size
+		 (layout 'fill-parent 'wrap-content 1 'centre 0) ""
                  (lambda (v) (fn (if v 1 0)))))
 
 (define (mtext id)
   (text-view (symbol->id id)
              (mtext-lookup id)
-             30 (layout 'wrap-content 'wrap-content -1 'centre 0)))
+             normal-text-size (layout 'wrap-content 'wrap-content -1 'centre 0)))
 
 (define (mtext-fixed w id)
   (text-view (symbol->id id)
              (mtext-lookup id)
-             30 (layout w 'wrap-content -1 'centre 0)))
+             normal-text-size (layout w 'wrap-content -1 'centre 0)))
 
 (define (mtext-small id)
   (text-view (symbol->id id)
              (mtext-lookup id)
-             20 (layout 'wrap-content 'wrap-content -1 'centre 0)))
+             small-text-size (layout 'wrap-content 'wrap-content -1 'centre 0)))
 
 (define (mtext-scale id)
   (text-view (symbol->id id)
              (mtext-lookup id)
-             30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+             normal-text-size (layout 'wrap-content 'wrap-content 1 'centre 0)))
 
 (define (mtitle id)
   (text-view (symbol->id id)
              (mtext-lookup id)
-             50 (layout 'fill-parent 'wrap-content -1 'centre 5)))
+             large-text-size (layout 'fill-parent 'wrap-content -1 'centre 5)))
 
 (define (mtitle-scale id)
   (text-view (symbol->id id)
              (mtext-lookup id)
-             50 (layout 'fill-parent 'wrap-content 1 'centre 5)))
+             large-text-size (layout 'fill-parent 'wrap-content 1 'centre 5)))
 
 (define (medit-text id type fn)
   (linear-layout
@@ -94,8 +146,8 @@
    (list 0 0 0 0)
    (list
     (text-view 0 (mtext-lookup id)
-               30 (layout 'wrap-content 'wrap-content -1 'centre 0))
-    (edit-text (symbol->id id) "" 30 type
+               normal-text-size (layout 'wrap-content 'wrap-content -1 'centre 0))
+    (edit-text (symbol->id id) "" normal-text-size type
                (layout 'fill-parent 'wrap-content -1 'centre 0)
                fn))))
 
@@ -107,8 +159,8 @@
    (list 0 0 0 0)
    (list
     (text-view 0 (mtext-lookup id)
-               30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (edit-text (symbol->id id) "" 30 type
+               normal-text-size (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (edit-text (symbol->id id) "" normal-text-size type
                (layout 'fill-parent 'wrap-content 1 'centre 0)
                fn))))
 
@@ -120,8 +172,8 @@
    (list 0 0 0 0)
    (list
     (text-view 0 (mtext-lookup id)
-               30 (layout 'wrap-content 'wrap-content -1 'centre 0))
-    (edit-text (symbol->id id) "" 30 type
+               normal-text-size (layout 'wrap-content 'wrap-content -1 'centre 0))
+    (edit-text (symbol->id id) "" normal-text-size type
                (layout 'fill-parent 300 -1 'left 0)
                fn))))
 
@@ -130,7 +182,7 @@
   (vert
    (text-view (symbol->id id)
               (mtext-lookup id)
-              30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+              normal-text-size (layout 'wrap-content 'wrap-content 1 'centre 0))
    (spinner (make-id (string-append (symbol->string id) "-spinner"))
             (map mtext-lookup types)
             (layout 'wrap-content 'wrap-content 1 'centre 0)
@@ -148,7 +200,8 @@
     (vert
      (text-view (symbol->id id)
                 (mtext-lookup id)
-                30 (layout 'wrap-content 'wrap-content 1 'centre 10))
+                normal-text-size 
+		(layout 'wrap-content 'wrap-content 1 'centre 10))
      (spinner (make-id (string-append (symbol->string id) "-spinner"))
               (map mtext-lookup types)
               (layout 'wrap-content 'wrap-content 1 'centre 0)
@@ -160,7 +213,7 @@
     (vert
      (mtext-scale 'other)
      (edit-text (make-id (string-append (symbol->string id) "-edit-text"))
-                "" 30 "normal"
+                "" normal-text-size "normal"
                 (layout 'fill-parent 'wrap-content 1 'centre 0)
                 (lambda (t) (fn t)))))))
 
@@ -172,7 +225,7 @@
    (list
     (text-view (symbol->id id)
                (mtext-lookup text-id)
-               30 (layout 'wrap-content 'wrap-content 1 'centre 5))
+               normal-text-size (layout 'wrap-content 'wrap-content 1 'centre 5))
     (spinner (make-id (string-append (symbol->string id) "-spinner"))
              (map mtext-lookup types)
              (layout 'wrap-content 'wrap-content 1 'centre 0)
@@ -182,7 +235,7 @@
                    (fn c) '())))
     (mtext-scale 'other)
     (edit-text (make-id (string-append (symbol->string id) "-edit-text"))
-               "" 30 "normal"
+               "" normal-text-size "normal"
                (layout 'fill-parent 'wrap-content 1 'centre 0)
                (lambda (t) (fn t))))))
 

@@ -1,5 +1,13 @@
 [
     {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/info_window.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/layout/info_window.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/text_bubble.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/layout/text_bubble.xml"
+    },
+    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/main_fragment.xml",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/main_fragment.xml"
     },
@@ -14,6 +22,10 @@
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/debug_text.xml",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/layout/debug_text.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/webview.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/layout/webview.xml"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/layout/toggle_button_maybe.xml",

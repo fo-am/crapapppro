@@ -147,44 +147,6 @@
 ;;    (csv-headings)
 ;;    (get-fields)))
 
-(define (calc-nutrients)
-  (let ((type (calc-type calc))
-	(amount (calc-amount calc))
-	(quality (calc-quality calc))
-	(season (calc-season calc))
-	(crop (calc-crop calc))
-	(soil (calc-soil calc)))
-    (get-nutrients type amount quality season crop soil)))
-
-(define (get-units)
-  (let ((type (calc-type calc)))
-    (if (eq? (current-units) 'metric)
-        (nutrients-units (find type nutrients-metric))
-        (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
-            "gallons/acre"
-            "tons/acre"))))
-
-(define (nutrient-units event)
-  (let ((type (event-type event)))
-    (if (eq? (current-units) 'metric)
-        (nutrients-units (find type nutrients-metric))
-        (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
-            "gallons/acre"
-            "tons/acre"))))
-
-(define (amount-units event)
-  (let ((type (event-type event)))
-    (if (eq? (current-units) 'metric)
-        (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
-            "m3" "tonnes")
-        ;; it's imperial
-        (if (equal? (nutrients-units (find type nutrients-metric)) "m3/ha")
-            "gallons"
-            "tonnes"))))
-
-(define (get-cost-string-from-nutrient nutrient-index amounts mul)
-  (padcash->string (* (list-ref amounts nutrient-index)
-                      (list-ref costs nutrient-index) mul)))
 
 (define (run-calc)
   (let ((amounts (calc-nutrients))
@@ -488,6 +450,12 @@
 	(list
 	 (list "parent" "varchar" "=" (ktv-get field "unique_id")))))))   
    (db-all db "farm" "field")))
+
+(define (get-farm-centre field-polygons)
+  (polygons-centroid
+   (dbg (map (lambda (field)
+	       (list-ref field 2))
+	     field-polygons))))
 
 (define (event-view-item id title)
   (horiz

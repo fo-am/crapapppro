@@ -666,49 +666,6 @@
 (define wrapfill (layout 'wrap-content 'fill-parent -1 'left 0))
 (define fill (layout 'fill-parent 'fill-parent -1 'left 0))
 
-(define (spacer size) (space (layout 'fill-parent size 1 'left 0)))
-
-
-(define (horiz . l)
-  (linear-layout
-   0 'horizontal
-   (layout 'fill-parent 'wrap-content -1 'centre 0)
-   (list 0 0 0 0)
-   l))
-
-(define (horiz-colour col . l)
-  (linear-layout
-   0 'horizontal
-   (layout 'fill-parent 'wrap-content -1 'centre 0)
-   col
-   l))
-
-(define (vert . l)
-  (linear-layout
-   0 'vertical
-   (layout 'fill-parent 'wrap-content 1 'centre 20)
-   (list 0 0 0 0)
-   l))
-
-(define (vert-colour col . l)
-  (linear-layout
-   0 'vertical
-   (layout 'fill-parent 'wrap-content 1 'centre 20)
-   col
-   l))
-
-(define (vert-fill . l)
-  (linear-layout
-   0 'vertical
-   (layout 'fill-parent 'fill-parent 1 'left 0)
-   (list 0 0 0 0)
-   l))
-
-(define (relative rules colour . l)
-  (relative-layout
-   0 (rlayout 'fill-parent 'wrap-content (list 20 20 20 20) rules)
-   colour
-   l))
 
 (define (activity name layout on-create on-start on-resume on-pause on-stop on-destroy on-activity-result)
   (list name layout on-create on-start on-resume on-pause on-stop on-destroy on-activity-result))

@@ -812,6 +812,7 @@ public class StarwispBuilder
                 v.setId(wid);
                 final JSONArray items = arr.getJSONArray(2);
                 v.setLayoutParams(BuildLayoutParams(arr.getJSONArray(3)));
+		v.setMinimumWidth(100); // stops tiny buttons
                 ArrayList<String> spinnerArray = new ArrayList<String>();
 
                 for (int i=0; i<items.length(); i++) {
@@ -1861,6 +1862,13 @@ public class StarwispBuilder
                     if (token.equals("polygons")) {
                         v.UpdateFromJSON(arr.getJSONArray(3));
                     }
+                    if (token.equals("centre")) {
+            			JSONArray tokens=arr.getJSONArray(3);
+                        v.Centre(tokens.getDouble(0),
+			         	         tokens.getDouble(1),
+                                 tokens.getInt(2));
+                    }
+
                 } else {
                     Log.e("starwisp", "Asked to update a drawmap which doesn't exist");
                 }

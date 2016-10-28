@@ -4,7 +4,79 @@
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/raw/active.wav"
     },
     {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/visibility_ground_overlay.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/visibility_ground_overlay.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/cdata.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/cdata.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/extended_data.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/extended_data.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/ground_overlay_color.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/ground_overlay_color.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/ballon_gx_prefix.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/ballon_gx_prefix.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/nested_multigeometry.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/nested_multigeometry.kml"
+    },
+    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/ping.wav",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/raw/ping.wav"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/unknwown_folder.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/unknwown_folder.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/multiple_placemarks.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/multiple_placemarks.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/unsupported.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/unsupported.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/draw_order_ground_overlay.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/draw_order_ground_overlay.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/inline_style.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/inline_style.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/basic_placemark.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/basic_placemark.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/default_balloon.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/default_balloon.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/basic_folder.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/basic_folder.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/multigeometry_placemarks.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/multigeometry_placemarks.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/nested_folders.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/nested_folders.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/document_nest.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/document_nest.kml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/raw/ground_overlay.kml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/raw/ground_overlay.kml"
     }
 ]

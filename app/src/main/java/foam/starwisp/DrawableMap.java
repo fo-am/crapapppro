@@ -30,11 +30,14 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -55,6 +58,11 @@ public class DrawableMap {
     String selected_polygon;
     int ID;
 
+    boolean map_ready;
+    double centre_lat;
+    double centre_lon;
+    int centre_zoom;
+
     StarwispActivity m_Context;
     StarwispBuilder m_Builder;
 
@@ -69,6 +77,7 @@ public class DrawableMap {
     Vector<Polygon> polygons;
 
     public void init(int id, ViewGroup parent, StarwispActivity c, StarwispBuilder b, String mode) {
+        map_ready = false;
         draw_mode = false;
         button_mode = false;
         m_Context=c;
@@ -77,6 +86,9 @@ public class DrawableMap {
         ID = id;
         current_polygon = new Vector<LatLng>();
         polygons = new Vector<Polygon>();
+        centre_lat=0;
+        centre_lon=0;
+        centre_zoom=1;
 
         FrameLayout outer_map = new FrameLayout(c);
         outer_map.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,
@@ -117,8 +129,23 @@ public class DrawableMap {
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
                 map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        		map.setMyLocationEnabled(true);
+	        	map.getUiSettings().setZoomControlsEnabled(true);
                 SetupStuff();
                 DrawMap();
+                Log.i("starwisp","map made");
+                Log.i("starwisp","updating map centre to "+centre_lat+" "+centre_lon);
+                //CameraUpdate center_map=CameraUpdateFactory.newLatLng(new LatLng(centre_lat,centre_lon));
+                //CameraUpdate zoom_map=CameraUpdateFactory.zoomTo(centre_zoom);
+                //map.moveCamera(center_map);
+                //map.animateCamera(zoom_map);
+
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(centre_lat, centre_lon)).zoom(centre_zoom).build();
+                 map.animateCamera(CameraUpdateFactory
+                    .newCameraPosition(cameraPosition));
+
+                map_ready=true;
             }});
 
     }
@@ -126,6 +153,21 @@ public class DrawableMap {
     public void Clear() {
         current_polygon.clear();
         polygons.clear();
+    }
+
+    public void Centre(double lat, double lng, int z) {
+        centre_lat = lat;
+        centre_lon = lng;
+        centre_zoom = z;
+
+        Log.i("starwisp","updating map centre to "+lat+" "+lng);
+
+        if (map_ready) {
+            CameraUpdate center_map=CameraUpdateFactory.newLatLng(new LatLng(centre_lat,centre_lon));
+            CameraUpdate zoom_map=CameraUpdateFactory.zoomTo(centre_zoom);
+            map.moveCamera(center_map);
+            map.animateCamera(zoom_map);
+        }
     }
 
     public void UpdateFromJSON(JSONArray map) {
@@ -160,6 +202,8 @@ public class DrawableMap {
         }
 
     }
+
+
 
     public void SendPolygon(Vector<LatLng> polygon) {
         String str="(";

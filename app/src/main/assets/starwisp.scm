@@ -1,4 +1,4 @@
-;; Farm Crap App Pro Copyright (C) 2016 Dave Griffiths
+;; Farm Crap App Pro Copyright (C) 2016 FoAM Kernow
 ;;
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU Affero General Public License as
@@ -55,30 +55,62 @@
 		   (lambda (id) 
 		     (msg "map button returned" id)
 		     (list (start-activity "field" 2 id))))
+
     (build-list-widget db "farm" 'fields (list "name") "field" "field"
  		       (lambda () #f)
 		       (lambda ()
 			 '(("name" "varchar" "None")
 			   ("soil" "varchar" "None")
 			   ("crop" "varchar" "None")
+			   ("previous-crop" "varchar" "None")
+			   ("soil-test-n" "varchar" 0)
+			   ("soil-test-p" "varchar" 0)
+			   ("regularly-manure" "integer" 0)
+			   ("recently-grown-grass" "integer" 0)
 			   ("size" "real" 0))))
 
     (spacer 20)
     (mbutton 'calculator (lambda () (list (start-activity "calc" 2 ""))))
-    (mbutton 'email (lambda () (list (start-activity "email" 2 ""))))
-    (mbutton 'about (lambda () (list (start-activity "about" 2 ""))))
+    (mtoggle-button 
+     'fertiliser-costs 
+     (lambda (v) (list (update-widget 'linear-layout (get-id "costs-list") (if (zero? v) 'hide 'show) 0))))
+    (linear-layout
+     (make-id "costs-list")
+     'vertical
+     (layout 'fill-parent 'wrap-content 1 'centre 20)
+     (list 0 0 0 0)
+     (list
+      (mtext 'costs-blurb)
+      (medit-text-scale 'n-cost "numeric" (lambda (v) '()))
+      (medit-text-scale 'p-cost "numeric" (lambda (v) '()))
+      (medit-text-scale 'k-cost "numeric" (lambda (v) '()))
+      ))
     (spacer 20)
-    (mspinner 'choose-units units-list
-	      (lambda (v) (mutate-units! (list-ref units-list v)) '())))
+    (horiz
+     (mspinner 'choose-units units-list
+	       (lambda (v) (mutate-units! (list-ref units-list v)) '()))
+     (mspinner 'rainfall rainfall-list
+	       (lambda (v) '())))
+    (mbutton 'email (lambda () (list (start-activity "email" 2 ""))))
+    (mbutton 'about (lambda () (list (start-activity "about" 2 "")))))
+      
+   
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
-     (list
-      (update-widget 'draw-map (get-id "fieldmap") 'polygons (list "none highlighted" (get-polygons)))
-      (update-list-widget db "farm" (list "name") "field" "field" #f)
-      (update-widget 'spinner (get-id "choose-units-spinner") 'selection
-                     (if (eq? (current-units) 'metric) 0 1))
-      ))
+     (let ((polygons (get-polygons)))
+       (let ((centre (get-farm-centre polygons)))
+	 (list
+	  (update-widget 'linear-layout (get-id "costs-list") 'hide 1)
+	  (update-widget 'edit-text (get-id "n-cost") 'text (number->string (list-ref costs 0)))
+	  (update-widget 'edit-text (get-id "p-cost") 'text (number->string (list-ref costs 1)))
+	  (update-widget 'edit-text (get-id "k-cost") 'text (number->string (list-ref costs 2)))
+	  (update-widget 'draw-map (get-id "fieldmap") 'polygons (list "none highlighted" (get-polygons)))
+	  (update-widget 'draw-map (get-id "fieldmap") 'centre (list (vx centre) (vy centre) 15))
+	  (update-list-widget db "farm" (list "name") "field" "field" #f)
+	  (update-widget 'spinner (get-id "choose-units-spinner") 'selection
+			 (if (eq? (current-units) 'metric) 0 1))
+	  ))))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
@@ -133,6 +165,7 @@
    (vert
     (build-drawmap (make-id "map") "edit" fillwrap  
 		   (lambda (polygon) 
+		     ;; delete previous polygon??...
 		     (index-for-each 
 		      (lambda (i coord)
 			(entity-init&save! 
@@ -144,7 +177,17 @@
 			  (ktv "lat" "real" (list-ref coord 0))
 			  (ktv "lng" "real" (list-ref coord 1)))))
 		      polygon)
-		     '()))
+		     ;; reset the field again
+		     (entity-init! 
+		      db "farm" "field" 
+		      (get-entity-by-unique 
+		       db "farm" (get-current 'field-id #f)))
+		     ;; update area calculation
+		     (entity-update-single-value! 
+		      (ktv "size" "real" (area-metres polygon)))
+		     (list
+		      (mupdate 'edit-text 'field-size "size"))))
+    
     (horiz
      (medit-text-scale 'field-name "normal" 
 		       (lambda (v) (entity-update-single-value! 
@@ -154,16 +197,7 @@
 			 (when (not (equal? v ""))
 			       (entity-update-single-value! 
 				(ktv "size" "real" (string->number v))) '()))))
-    
-    (horiz
-     (mspinner 'soil-type soil-type-list
-	       (lambda (v) (entity-update-single-value! 
-			    (ktv "soil" "varchar" (spinner-choice soil-type-list v))) '())) 
-     (mspinner 'crop-type crop-type-list
-	       (lambda (v) (entity-update-single-value! 
-			    (ktv "crop" "varchar" (spinner-choice crop-type-list v))) '())))
-    
-    
+        
     (canvas (make-id "graph")
 	    (layout 'fill-parent 250 1 'centre 0)
 	    (list))
@@ -185,8 +219,59 @@
 			       '("season" "varchar" "winter")
 			       '("crop" "varchar" "normal"))))
 
-    (spacer 20)
+    (mtitle 'crop-info)
+    (horiz
+     (mspinner 'crop-type crop-type-list
+	       (lambda (v) (entity-update-single-value! 
+			    (ktv "crop" "varchar" 
+				 (spinner-choice crop-type-list v))) '()))
+     (mspinner 
+      'grown-grass yesno-list 
+      (lambda (v) 
+	(entity-update-single-value! 
+	 (ktv "previously-grown-grass" "varchar" 
+	      (spinner-choice yesno-list v)))'())))
+    (mspinner 
+     'previous-crop-type previous-crop-type-list 
+     (lambda (v) 
+       (entity-update-single-value! 
+	(ktv "previous-crop" "varchar" 
+	     (spinner-choice previous-crop-type-list v)))
+       '()))
     
+    (mtitle 'soil-info)
+    (mspinner 
+     'soil-type soil-type-list
+     (lambda (v) (entity-update-single-value! 
+		  (ktv "soil" "varchar" 
+		       (spinner-choice soil-type-list v))) '())) 
+    (mspinner 
+     'regular-organic yesno-list 
+     (lambda (v) 
+       (entity-update-single-value! 
+	(ktv "regularly-organic" "varchar" 
+	     (spinner-choice yesno-list v)))
+       '()))    
+    (mtitle 'soil-test)
+    (horiz
+     (mspinner 
+      'soil-test-n soil-test-n-list 
+      (lambda (v) 
+	(entity-update-single-value! 
+	 (ktv "soil-test-n" "varchar" 
+	      (spinner-choice soil-test-n-list v)))
+	'()))
+     (mspinner 
+      'soil-test-p soil-test-p-list 
+      (lambda (v) 
+	(entity-update-single-value! 
+	 (ktv "soil-test-p" "varchar" 
+	      (spinner-choice soil-test-p-list v)))
+	'())))
+ 
+   (spacer 20)
+ 
+   
     (horiz
      (delete-button)
      (mbutton-scale 'back (lambda () (list (finish-activity 99))))))
@@ -197,15 +282,18 @@
      (entity-init! db "farm" "field" (get-entity-by-unique db "farm" arg))
      (set-current! 'field-id arg)     
      (set-current! 'field-name (entity-get-value "name"))     
-     (list
-      (update-widget 'draw-map (get-id "map") 'polygons (list (entity-get-value "unique_id") (get-polygons)))
-      (mupdate 'edit-text 'field-name "name")
-      (update-list-widget db "farm" (list "type" "date") "event" "eventview" (get-current 'field-id #f))
-      (mupdate-spinner 'soil-type "soil" soil-type-list)
-      (mupdate-spinner 'crop-type "crop" crop-type-list)
-      (mupdate 'edit-text 'field-size "size")
-      (update-widget 'canvas (get-id "graph") 'drawlist (dbg (build-graph)))      
-      ))
+     (let ((polygons (get-polygons)))
+       (let ((centre (get-farm-centre polygons)))
+	 (list
+	  (update-widget 'draw-map (get-id "map") 'polygons (list (entity-get-value "unique_id") (get-polygons)))
+	  (update-widget 'draw-map (get-id "map") 'centre (list (vx centre) (vy centre) 15))
+	  (mupdate 'edit-text 'field-name "name")
+	  (update-list-widget db "farm" (list "type" "date") "event" "eventview" (get-current 'field-id #f))
+	  (mupdate-spinner 'soil-type "soil" soil-type-list)
+	  (mupdate-spinner 'crop-type "crop" crop-type-list)
+	  (mupdate 'edit-text 'field-size "size")
+	  (update-widget 'canvas (get-id "graph") 'drawlist (dbg (build-graph)))      
+	  ))))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())

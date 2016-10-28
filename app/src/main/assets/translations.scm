@@ -42,12 +42,49 @@
 
    (list 'soil-type (list "Soil type"))
    (list 'crop-type (list "Crop type"))
-   (list 'field-size (list "Field size"))
+   (list 'previous-crop-type (list "Previous crop type"))
+   (list 'field-size (list "Field size (m2)"))
 
+   ;; crop types
    (list 'normal (list "All crops"))
    (list 'grass-oilseed (list "Grassland/Winter oilseed rape"))
+   (list 'winter-wheat-removed (list "Winter wheat, straw removed"))
+   (list 'winter-wheat-incorporated (list "Winter wheat, straw incorporated")) 
+   (list 'spring-barley-removed (list "Spring barley, straw removed"))
+   (list 'spring-barley-incorporated (list "Spring barley, straw incorporated"))
+   (list 'grass (list "Grass (yield 6-8k, conc 1.5, stock med)"))
+   
+   ;; previous crop types
+   (list 'cereals (list "Cereals"))
+   (list 'oilseed (list "Oilseed rape"))
+   (list 'potatoes (list "Potatoes"))
+   (list 'sugarbeet (list "Sugar beet"))
+   (list 'peas (list "Peas"))
+   (list 'beans (list "Beans"))
+   (list 'low-n-veg (list "Low N veg"))
+   (list 'medium-n-veg (list "Medium N veg"))
+   (list 'forage (list "Forage crops (cut)"))
+   (list 'uncropped (list "Uncropped land"))
+   (list 'grass-low-n (list "Grass (low-n/1 or more cuts)"))
+   (list 'grass-high-n (list "Grass (3-5yr, high N, grazed)"))
+   (list 'grass-other (list "Any other grass"))
+   
+   ;; soil types
    (list 'sandyshallow (list "Sandy/Shallow"))
    (list 'mediumheavy (list "Medium/Heavy"))
+   (list 'peat (list "Peat"))
+   (list 'organic (list "Organic"))
+   (list 'mediumshallow (list "Medium/Shallow"))
+   (list 'deepclay (list "Deep clay"))
+   (list 'deepsilt (list "Deep silt"))
+
+   (list 'regular-organic (list "Do you regularly add organic manures?"))
+   (list 'yes (list "Yes"))
+   (list 'no (list "No"))
+   (list 'grown-grass (list "Have you grown grass in the last 3 years?"))
+   
+
+
    (list 'autumn (list "Autumn"))
    (list 'winter (list "Winter"))
    (list 'spring (list "Spring"))
@@ -79,8 +116,46 @@
    (list 'manure-type (list "Manure type"))
 
    (list 'cattle (list "Cattle Slurry"))
-   (list 'FYM (list "Farmyard Manure"))
+   (list 'FYM (list "Farmgyard Manure"))
    (list 'pig (list "Pig Slurry"))
    (list 'poultry (list "Poultry Litter"))
 
+
+   (list 'rainfall (list "Your farm's rainfall"))
+   (list 'high (list "High"))
+   (list 'medium (list "Medium"))
+   (list 'low (list "Low"))
+
+   (list 'fertiliser-costs (list "Your fertiliser costs"))
+   (list 'costs-blurb (list "How much do you pay for your fertiliser? This is used to calculate your cost savings."))
+   (list 'n-cost (list "Nitrogen"))
+   (list 'p-cost (list "Phosphorus"))
+   (list 'k-cost (list "Potassium"))
+
+   ;; soils
+   (list 'peat (list "Peat"))
+   (list 'organic (list "Organic"))
+   (list 'mediumshallow (list "Medium/Shallow"))
+   (list 'deepclay (list "Deep clay"))
+   (list 'deepsilt (list "Deep silt"))
+
+   ;; soil tests
+   (list 'soil-test-n (list "Nitrogen"))
+   (list 'soil-test-p (list "Potassium"))
+
+   (list 'soil-n-0 (list "0"))
+   (list 'soil-n-1 (list "1"))
+   (list 'soil-n-2 (list "2"))
+   (list 'soil-n-3 (list "3"))
+   
+   (list 'soil-p-0 (list "0"))
+   (list 'soil-p-1 (list "1"))
+   (list 'soil-p-2- (list "2-"))
+   (list 'soil-p-2+ (list "2+"))
+   (list 'soil-p-3 (list "3"))
+
+   (list 'soil-info (list "Field soil"))
+   (list 'crop-info (list "Field crop"))
+   (list 'soil-test (list "Results of soil tests (if availible)"))
+   
    ))
