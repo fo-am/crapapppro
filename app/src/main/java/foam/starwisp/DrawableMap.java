@@ -378,6 +378,11 @@ public class DrawableMap {
         canvasText.drawText(text, canvasText.getWidth() / 2,
               canvasText.getHeight() - padding - boundsText.bottom, paintText);
 
+        paintText.setColor(Color.WHITE);
+
+        canvasText.drawText(text, (canvasText.getWidth() / 2)-3,
+			    (canvasText.getHeight() - padding - boundsText.bottom)-3, paintText);
+	
         final MarkerOptions markerOptions = new MarkerOptions()
                 .position(location)
                 .icon(BitmapDescriptorFactory.fromBitmap(bmpText))

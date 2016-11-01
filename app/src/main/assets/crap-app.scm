@@ -40,6 +40,21 @@
 
 ;; stuff here depends on the android update mechanism
 
+
+(define (get-custom-types)
+  (map
+   (lambda (e)
+     (ktv-get e "name" ))
+   (db-filter-only 
+    db "farm" "manure" 
+    (list)
+    (list (list "name" "varchar")))))
+
+(define (get-qualities-for-type-inc-custom type)
+  (if (eq? type 'custom-manure)
+      (get-custom-types)
+      (get-qualities-for-type type)))
+
 (define (update-calc! fn)
   (set! calc (fn calc))
   (run-calc))
@@ -49,7 +64,7 @@
    (lambda (c) 
      (calc-modify-quality ;; need to set a valid quality for this type
       (calc-modify-type c v)
-      (car (get-qualities-for-type v)))))) ;; argh - sets to first
+      (car (get-qualities-for-type-inc-custom v)))))) ;; argh - sets to first
 
 (define (update-amount! v) (update-calc! (lambda (c) (calc-modify-amount c v))))
 (define (update-quality! v) (update-calc! (lambda (c) (calc-modify-quality c v))))
@@ -70,7 +85,6 @@
   (get-setting-value "email"))
 
 (define (mutate-current-seek-mul! a)
-  (msg "updating seek" a)
   (set! calc (calc-modify-seek-mul calc a)))
 
 ;; (define (csv-headings)
@@ -178,8 +192,11 @@
 
 (define graph-width 320)
 
+(define (maximum a b)
+  (if (> a b) a b))
+
 (define (build-lines events min max colour n)
-  (let ((twidth (- max min)))
+  (let ((twidth (maximum (- max min) 1)))
     (cadr (foldl
            (lambda (event r)
              (let* ((t (date->day (ktv-get event "date")))
@@ -199,7 +216,7 @@
 (msg "crap-app.scm4")
 
 (define (build-bars events min max)
-  (let* ((twidth (- max min))
+  (let* ((twidth (maximum (- max min) 1))
          (month-width (* (/ 30 twidth) graph-width)))
     (foldl
      (lambda (event r)
@@ -266,7 +283,7 @@
                          (list x 0 x 250)))
          (_m month-width (+ x month-width) (modulo (+ m 1) 12)))))
 
-  (let* ((twidth (- max min))
+  (let* ((twidth (maximum (- max min) 1))
          (month-width (* (/ 30 twidth) graph-width))
          (first-month-x (* (/ (- 30 (list-ref first 0)) twidth) graph-width)))
     (if (<= twidth 0)
@@ -324,11 +341,10 @@
 		 db "farm" "event" 
 		 (list
 		  (list "parent" "varchar" "=" (get-current 'field-id #f))))))
-    (msg (length events))
     (append
      (if (> (length events) 1)
-	 (let* ((_min (dbg (oldest-event-day events)))
-		(_max (dbg (newest-event-day events)))
+	 (let* ((_min (oldest-event-day events))
+		(_max (newest-event-day events))
                 (safe (* (- _max _min) 0.1))
                 (min (- _min safe))
                 (max (+ _max safe)))
@@ -341,8 +357,6 @@
      (list
       (drawlist-line '(0 0 0) 5 (list 0 0 320 0))
       (drawlist-line '(0 0 0) 5 (list 0 250 320 250))))))
-
-(msg "crap-app.scm9")
 
 (define (setup-for-picture-from-event)
   ;; setup the calculator values for the camera pic from the event
@@ -392,7 +406,6 @@
 
 (define (string->date d)
   (let ((splot (string-split d (list #\/))))
-    (msg splot)
     (list 
      (string->number (list-ref splot 0))
      (string->number (list-ref splot 1))
@@ -453,9 +466,9 @@
 
 (define (get-farm-centre field-polygons)
   (polygons-centroid
-   (dbg (map (lambda (field)
-	       (list-ref field 2))
-	     field-polygons))))
+   (map (lambda (field)
+	  (list-ref field 2))
+	field-polygons)))
 
 (define (event-view-item id title)
   (horiz
@@ -503,11 +516,21 @@
 	 (update-widget 'seek-bar (get-id "amount") 'init 0)
 	 (update-widget 'spinner (get-id "quality-spinner") 'array
 			(symbol-list-to-names
-			 (get-qualities-for-type v)))	   
+			 (get-qualities-for-type-inc-custom v)))
 	 (update-widget 'image-view (get-id "example") 'image
 			(find-image (calc-type calc)
 				    (calc-amount calc)))
-	 ))))))
+	 )
+	(let ((applications (get-application-for-type v)))
+	  (if (null? applications)
+	      (list
+	       (update-widget 'spinner (get-id "application-type-spinner") 'disabled 0)
+	       (update-widget 'spinner (get-id "application-type-spinner") 'array '("None")))
+	      (list
+	       (update-widget 'spinner (get-id "application-type-spinner") 'enabled 0)
+	       (update-widget 'spinner (get-id "application-type-spinner") 'array
+			      (symbol-list-to-names applications)))))	   
+	)))))
 
 (define (calc-manure-quality-widget fn)
   (mspinner 'quality cattle-quality-list 

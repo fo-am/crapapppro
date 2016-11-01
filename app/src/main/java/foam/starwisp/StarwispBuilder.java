@@ -1393,6 +1393,21 @@ public class StarwispBuilder
                 return;
             }
 
+	    // only tested on spinners
+	    if (token.equals("disabled")) {
+		vv.setAlpha(0.3f);
+		//vv.getSelectedView().setEnabled(false);
+		vv.setEnabled(false);
+		return;
+	    }
+	    
+	    if (token.equals("enabled")) {
+		vv.setAlpha(1.0f);
+		//vv.getSelectedView().setEnabled(true);
+		vv.setEnabled(true);
+		return;
+	    }
+
             if (token.equals("animate")) {
                 JSONArray trans = arr.getJSONArray(3);
 
@@ -1819,7 +1834,7 @@ public class StarwispBuilder
                 if (token.equals("selection")) {
                     v.setSelection(arr.getInt(3));
                 }
-
+		
                 if (token.equals("array")) {
                     final JSONArray items = arr.getJSONArray(3);
                     ArrayList<String> spinnerArray = new ArrayList<String>();

@@ -180,7 +180,7 @@
      (unique-id
       (update-entity db table (entity-id-from-unique db table unique-id) (list ktv)))
      (else
-      (msg "no values or no id to update as entity:" unique-id "values:" ktv)))))
+      (msg "no values or no id to update as entity:" unique-id)))))
 
 ;; local settings via the eavdb
 

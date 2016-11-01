@@ -6,6 +6,7 @@
   (list))
 
 (define large-text-size 30)
+(define button-text-size 30)
 (define normal-text-size 20)
 (define small-text-size 15)
 (define margin-size 10)
@@ -85,27 +86,27 @@
 (define (mbutton id fn)
   (button (symbol->id id)
           (mtext-lookup id)
-          normal-text-size (layout 'fill-parent 'wrap-content -1 'centre 5) fn))
+          button-text-size (layout 'fill-parent 'wrap-content -1 'centre 5) fn))
 
 (define (mbutton-scale id fn)
   (button (symbol->id id)
           (mtext-lookup id)
-          normal-text-size
+          button-text-size
 	  (layout 'fill-parent 'wrap-content 1 'centre 5) fn))
 
 (define (mtoggle-button id fn)
   (toggle-button (symbol->id id)
                  (mtext-lookup id)
-                 normal-text-size 
-		 (layout 'fill-parent 'wrap-content -1 'centre 0) ""
+                 button-text-size 
+		 (layout 'fill-parent 'wrap-content -1 'centre 5) ""
                  ;; convert to 0/1 for easier db storage
                  (lambda (v) (fn (if v 1 0)))))
 
 (define (mtoggle-button-scale id fn)
   (toggle-button (symbol->id id)
                  (mtext-lookup id)
-                 normal-text-size
-		 (layout 'fill-parent 'wrap-content 1 'centre 0) ""
+                 button-text-size
+		 (layout 'fill-parent 'wrap-content 1 'centre 5) ""
                  (lambda (v) (fn (if v 1 0)))))
 
 (define (mtext id)
@@ -265,11 +266,13 @@
   (cond
    ((or (eq? widget-type 'edit-text) (eq? widget-type 'text-view))
     (let ((v (entity-get-value key)))
+      (msg "mupdate with" key " is number: " (number? v))
       (update-widget widget-type (get-symbol-id id-symbol) 'text
                      (cond
                       ;; hide -1 as it represents unset
                       ((and (number? v) (eqv? v -1)) "")
                       ((not v) "") ;; unset text
+		      ((number? v) (number->string v))
                       (else v)))))
    ((eq? widget-type 'toggle-button)
     (update-widget widget-type (get-symbol-id id-symbol) 'checked
@@ -288,7 +291,11 @@
       i))
 
 (define (symbol-list-to-names l)
-  (map mtext-lookup l))
+  (map 
+   (lambda (n) 
+     ;; if it's a string already, use it - for custom values
+     (if (string? n) n (mtext-lookup n)))
+   l))
 
 (define (mupdate-spinner id-symbol key choices)
   (let* ((val (entity-get-value key)))
@@ -465,7 +472,7 @@
             (button
              (make-id (string-append "list-button-" (ktv-get e "unique_id")))
              (make-list-widget-title e title-ids)
-             30 (layout 'fill-parent 'wrap-content 1 'centre 5)
+             button-text-size (layout 'fill-parent 'wrap-content 1 'centre 5)
              (lambda ()
                (list (start-activity view-activity 0 (ktv-get e "unique_id"))))))
           search-results)))))
@@ -504,6 +511,10 @@
      ((equal? unique-id (cadr (car l))) i)
      (else (_ (cdr l) (+ i 1)))))
   (_ arr 0))
+
+(define (safe-string->number str)
+  (if (equal? str "") 0
+      (string->number str)))
 
 (msg "interface.scm end")
 

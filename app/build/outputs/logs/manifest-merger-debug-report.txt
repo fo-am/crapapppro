@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-56:12
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-57:12
 	package
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:3:5-28
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
@@ -61,7 +61,7 @@ MERGED from [com.google.android.gms:play-services-tasks:9.6.1] /home/dave/Studio
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 application
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:18:5-46:19
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:18:5-47:19
 MERGED from [com.google.android.gms:play-services-maps:9.6.1] /home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.6.1/AndroidManifest.xml:24:5-19
 MERGED from [com.google.android.gms:play-services-base:9.6.1] /home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/AndroidManifest.xml:18:5-20:19
 MERGED from [com.google.android.gms:play-services-basement:9.6.1] /home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.1/AndroidManifest.xml:19:5-21:19
@@ -131,26 +131,30 @@ activity#foam.starwisp.EmailActivity
 ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:39:9-73
 	android:name
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:39:19-61
-meta-data#com.google.android.geo.API_KEY
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:41:9-43:70
-	android:value
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:43:13-68
+activity#foam.starwisp.ManureActivity
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:40:9-74
 	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:42:13-58
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:40:19-62
+meta-data#com.google.android.geo.API_KEY
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:42:9-44:70
+	android:value
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:44:13-68
+	android:name
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:43:13-58
 supports-screens
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:48:5-54:37
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:49:5-55:37
 	android:largeScreens
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:51:9-36
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:52:9-36
 	android:smallScreens
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:49:9-36
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:50:9-36
 	android:normalScreens
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:50:9-37
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:51:9-37
 	android:xlargeScreens
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:52:9-37
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:53:9-37
 	android:resizeable
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:53:9-34
-	android:anyDensity
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:54:9-34
+	android:anyDensity
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:55:9-34
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.android.gms:play-services-maps:9.6.1] /home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.6.1/AndroidManifest.xml:19:5-78
 	android:name

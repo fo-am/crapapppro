@@ -42,8 +42,10 @@
 
    (list 'soil-type (list "Soil type"))
    (list 'crop-type (list "Crop type"))
+   (list 'application-type (list "Application type"))
    (list 'previous-crop-type (list "Previous crop type"))
    (list 'field-size (list "Field size (m2)"))
+   
 
    ;; crop types
    (list 'normal (list "All crops"))
@@ -78,6 +80,16 @@
    (list 'deepclay (list "Deep clay"))
    (list 'deepsilt (list "Deep silt"))
 
+   ;; application types
+   (list 'straight-surface (list "Straight to surface"))
+   (list 'straight-ploughed (list "Straight and ploughed"))
+   (list 'stored-spread (list "Stored to surface"))
+   (list 'stored-ploughed (list "Stored and ploughed"))
+   (list 'splash-surface (list "Splash plate/surface"))
+   (list 'splash-incorporated (list "Splash plate/incorporated"))
+   (list 'shoe-bar-spreader (list "Trailing show/dribble bar/band spreader"))
+   (list 'shallow-injected (list "Shallow injected"))
+
    (list 'regular-organic (list "Do you regularly add organic manures?"))
    (list 'yes (list "Yes"))
    (list 'no (list "No"))
@@ -104,6 +116,8 @@
    (list 'DM10 (list "10% DM (Porridge)"))
    (list 'DM4-pig (list "4% DM (Thick soup)"))
    (list 'DM6-pig (list "6% DM (Porridge)"))
+   (list 'green (list "Green compost"))
+   (list 'green-food (list "Green and foodwaste"))
 
    (list 'fields (list "Your fields"))
    (list 'list-empty (list "Nothing yet"))
@@ -113,13 +127,15 @@
    (list 'fieldcalc-title (list "..."))
    (list 'fieldcalc-blurb (list "Enter new crap spreading event"))
    (list 'date-button (list "Set date"))
+   (list 'date-text (list "Date"))
    (list 'manure-type (list "Manure type"))
 
    (list 'cattle (list "Cattle Slurry"))
    (list 'FYM (list "Farmgyard Manure"))
    (list 'pig (list "Pig Slurry"))
    (list 'poultry (list "Poultry Litter"))
-
+   (list 'compost (list "Compost"))
+   (list 'custom-manure (list "Custom"))
 
    (list 'rainfall (list "Your farm's rainfall"))
    (list 'high (list "High"))
@@ -154,8 +170,17 @@
    (list 'soil-p-2+ (list "2+"))
    (list 'soil-p-3 (list "3"))
 
-   (list 'soil-info (list "Field soil"))
-   (list 'crop-info (list "Field crop"))
+   (list 'soil-info (list "Soil details"))
+   (list 'crop-info (list "Crop details"))
    (list 'soil-test (list "Results of soil tests (if availible)"))
+
+   (list 'custom-manures (list "Your manures"))
+   (list 'manures-blurb (list "Here you can add custom manure types"))
+   (list 'manure-name (list "Manure name"))
+   (list 'manure-n (list "Nitrogen content"))
+   (list 'manure-p (list "Phosphorous content"))
+   (list 'manure-k (list "Potassium content"))
    
+   (list 'delete-are-you-sure (list "Are you sure you want to delete this?"))
+
    ))
