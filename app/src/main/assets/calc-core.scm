@@ -18,8 +18,7 @@
 (define manure-type-list (list 'cattle 'FYM 'pig 'poultry 'compost 'custom-manure))
 (define units-list (list 'metric 'imperial))
 (define soil-type-list 
-  (list 'sandyshallow 
-	'peat 'organic 'mediumshallow 'deepclay 'deepsilt))
+  (list 'sandyshallow 'peat 'organic 'mediumshallow 'deepclay 'deepsilt))
 (define soil-test-p-list (list 'soil-p-0 'soil-p-1 'soil-p-2 'soil-p-3))
 (define soil-test-k-list (list 'soil-k-0 'soil-k-1 'soil-k-2- 'soil-k-2+ 'soil-k-3))
 (define crop-type-list 
@@ -95,7 +94,12 @@
 		      (list 'crop (cond
 				   ((eq? crop 'grass) 'grass-oilseed)
 				   (else 'normal))) 
-		      (list 'soil soil)
+		      ;; also we have to convert soil to the two
+		      ;; types in manure (pp 66, note b)
+		      (list 'soil (cond 
+				   ((eq? crop 'sandyshallow) 'sandyshallow)
+				   ((eq? crop 'mediumshallow) 'sandyshallow)
+				   (else 'mediumheavy)))
 		      (list 'application application))))
     (process-nutrients 
      amount (get-amount-for-type type)

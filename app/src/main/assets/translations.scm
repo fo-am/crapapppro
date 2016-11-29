@@ -72,7 +72,6 @@
    
    ;; soil types
    (list 'sandyshallow (list "Sandy/Shallow"))
-   (list 'mediumheavy (list "Medium/Heavy"))
    (list 'peat (list "Peat"))
    (list 'organic (list "Organic"))
    (list 'mediumshallow (list "Medium/Shallow"))
@@ -147,13 +146,6 @@
    (list 'n-cost (list "Nitrogen"))
    (list 'p-cost (list "Phosphorus"))
    (list 'k-cost (list "Potassium"))
-
-   ;; soils
-   (list 'peat (list "Peat"))
-   (list 'organic (list "Organic"))
-   (list 'mediumshallow (list "Medium/Shallow"))
-   (list 'deepclay (list "Deep clay"))
-   (list 'deepsilt (list "Deep silt"))
 
    ;; soil tests
    (list 'soil-test-p (list "Potassium"))
