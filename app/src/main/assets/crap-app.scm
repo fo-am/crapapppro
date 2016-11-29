@@ -68,24 +68,24 @@
 
 (define (update-amount! v) (update-calc! (lambda (c) (calc-modify-amount c v))))
 (define (update-quality! v) (update-calc! (lambda (c) (calc-modify-quality c v))))
+(define (update-application! v) (update-calc! (lambda (c) (calc-modify-application c v))))
 (define (update-season! v) (update-calc! (lambda (c) (calc-modify-season c v))))
 (define (update-crop! v) (update-calc! (lambda (c) (calc-modify-crop c v))))
 (define (update-soil! v) (update-calc! (lambda (c) (calc-modify-soil c v))))
 
-(define (mutate-units! v)
-  (set-setting! "units" "varchar" (symbol->string v)))
-
-(define (current-units)
-  (string->symbol (get-setting-value "units")))
+;; locally stored in the database
+(define (mutate-units! v) (set-setting! "units" "varchar" (symbol->string v)))
+(define (current-units) (string->symbol (get-setting-value "units")))
  
-(define (mutate-email! v)
-  (set-setting! "email" "varchar" v))
+(define (mutate-email! v) (set-setting! "email" "varchar" v))
+(define (current-email) (get-setting-value "email"))
 
-(define (current-email)
-  (get-setting-value "email"))
+(define (mutate-rainfall! v) (set-setting! "rainfall" "varchar" (symbol->string v)))
+(define (current-rainfall) (string->symbol (get-setting-value "rainfall")))
 
 (define (mutate-current-seek-mul! a)
   (set! calc (calc-modify-seek-mul calc a)))
+
 
 ;; (define (csv-headings)
 ;;   (string-append
@@ -547,6 +547,22 @@
 		  (fn quality)
 		  (update-quality! quality))))))
 
+(define (calc-manure-application-widget fn)
+  (mspinner 'application-type cattle-application-list 
+	    (lambda (v) 
+	      (let ((type (current-type)))
+		(let ((application 
+		       (list-ref 
+			(cond
+			 ((eq? type 'cattle) cattle-application-list)
+			 ((eq? type 'pig) pig-application-list)
+			 ((eq? type 'poultry) poultry-application-list)
+			 (else fym-application-list))
+			v)))
+		  (fn application)
+		  (update-application! application))))))
+
+
 (define (calc-amount-widget fn)
   (seek-bar (make-id "amount") 100 fillwrap
 	    (lambda (v)
@@ -587,6 +603,35 @@
 			'()
 			images)))))))))))))
 
-
+(define (get-sns)
+  ;; special options needed for grass:
+  ;; * grass high/med/low table
+  ;; * growing arable/previous crop = grass
+  (let ((choices (list 
+		  (list 'rainfall (current-rainfall))
+		  (list 'soil (string->symbol (entity-get-value "soil")))
+		  (list 'previous-crop (string->symbol (entity-get-value "previous-crop")))
+		  )))
+    (decision soil-nitrogen-supply-tree choices)))
+         
+(define (update-field-cropsoil-calc)
+  (let ((sns (get-sns)))
+    (let ((choices (list 
+		    (list 'sns sns)
+		    (list 'rainfall (current-rainfall))
+		    (list 'soil (string->symbol (entity-get-value "soil")))
+		    (list 'crop (string->symbol (entity-get-value "crop")))
+		    (list 'p-index (string->symbol (entity-get-value "soil-test-p")))
+		    (list 'k-index (string->symbol (entity-get-value "soil-test-k")))
+		    )))
+      (list
+       (update-widget 'text-view (get-id "na") 'text 
+		      (soil-nutrient-code-to-text sns))
+       (update-widget 'text-view (get-id "cna") 'text 
+		      (number->string (decision crop-requirements-n-tree choices)))
+       (update-widget 'text-view (get-id "cpa") 'text 
+		      (number->string (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorous) choices))))
+       (update-widget 'text-view (get-id "cka") 'text 
+		      (number->string (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))))))))
 
 (msg "crap-app.scm end")

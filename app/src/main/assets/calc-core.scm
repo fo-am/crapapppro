@@ -13,27 +13,29 @@
 ;; You should have received a copy of the GNU Affero General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+;; these are the symbols used everywhere
+
 (define manure-type-list (list 'cattle 'FYM 'pig 'poultry 'compost 'custom-manure))
 (define units-list (list 'metric 'imperial))
 (define soil-type-list 
   (list 'sandyshallow 
-	'mediumheavy ;; remove 
 	'peat 'organic 'mediumshallow 'deepclay 'deepsilt))
-(define soil-test-n-list (list 'soil-n-0 'soil-n-1 'soil-n-2 'soil-n-3))
-(define soil-test-p-list (list 'soil-p-0 'soil-p-1 'soil-p-2- 'soil-p-2+ 'soil-p-3))
+(define soil-test-p-list (list 'soil-p-0 'soil-p-1 'soil-p-2 'soil-p-3))
+(define soil-test-k-list (list 'soil-k-0 'soil-k-1 'soil-k-2- 'soil-k-2+ 'soil-k-3))
 (define crop-type-list 
-  (list 'normal 'grass-oilseed  ;; remove these
-	'winter-wheat-removed 'winter-wheat-incorporated 
-	'spring-barley-removed 'spring-barley-incorporated 'grass))
+  (list	'winter-wheat-removed 'winter-wheat-incorporated 
+	'spring-barley-removed 'spring-barley-incorporated 
+	'grass-cut 'grass-grazed))
 (define previous-crop-type-list 
   (list 'cereals 'oilseed 'potatoes 
 	'sugarbeet 'peas 'beans 'low-n-veg 'medium-n-veg 'forage 
 	'uncropped 'grass-low-n 'grass-high-n 'grass-other))
 (define season-list (list 'autumn 'winter 'spring 'summer))
+
 (define cattle-quality-list (list 'DM2 'DM6 'DM10))
 (define pig-quality-list (list 'DM2 'DM4-pig 'DM6-pig))
 (define poultry-quality-list (list 'layer 'broiler))
-(define fym-quality-list (list 'fresh 'other 'other1 'other2))
+(define fym-quality-list (list 'fym-cattle 'fym-pig 'fym-sheep 'fym-duck 'fym-horse))
 (define compost-quality-list (list 'green 'green-food))
 (define yesno-list (list 'yes 'no))
 
@@ -75,7 +77,7 @@
     ((equal? n (car (car l))) (car l))
     (else (find n (cdr l)))))
 
-(define (process-nutrients amount units quantity nutrients)
+(define (process-nutrients amount quantity nutrients)
   (map
    (lambda (q)
      (rounding (* amount (/ q quantity))))
@@ -84,12 +86,23 @@
 (define (rounding a)
   (/ (round (* 10 a)) 10))
 
-(define (get-nutrients type amount quality season crop soil)
-  (let ((params (list (list 'type type) (list 'quality quality) (list 'season season) (list 'crop crop) (list 'soil soil))))
-    (list
-     (decision tree (append '((nutrient nitrogen)) params))
-     (decision tree (append '((nutrient phosphorous)) params))
-     (decision tree (append '((nutrient potassium)) params)))))
+(define (get-nutrients type amount quality season crop soil application)
+  (let ((params (list (list 'type type) 
+		      (list 'quality quality) 
+		      (list 'season season) 
+		      ;; IMPORTANT: we have to convert crop from the 
+		      ;; field types to send to manure
+		      (list 'crop (cond
+				   ((eq? crop 'grass) 'grass-oilseed)
+				   (else 'normal))) 
+		      (list 'soil soil)
+		      (list 'application application))))
+    (process-nutrients 
+     amount (get-amount-for-type type)
+     (list
+      (decision manure-tree (append '((nutrient nitrogen)) params))
+      (decision manure-tree (append '((nutrient phosphorous)) params))
+      (decision manure-tree (append '((nutrient potassium)) params))))))
 
 (define (error . args)
   (display (apply string-append args))(newline))
@@ -109,19 +122,21 @@
    ((eq? t 'fym) fym-application-list)
    (else '())))
 
-(define (get-multiplier-for-type t)
+(define (get-amount-for-type t)
+  (cond
    ((eq? t 'cattle) 100)
    ((eq? t 'pig) 50)
    ((eq? t 'poultry) 10)
-   ((eq? t 'compost) 10)
-   (else 50))
+   ((eq? t 'compost) 1)
+   (else 1)))
 
 (define (get-units-for-type t)
+  (cond
    ((eq? t 'cattle) "m3/ha")
    ((eq? t 'pig) "m3/ha")
    ((eq? t 'poultry) "tons/ha")
    ((eq? t 'compost) "tons/ha")
-   (else "tons/ha"))
+   (else "tons/ha")))
 
 (define (imperial->metric amount units)
   (if (eq? (current-units) 'metric)
@@ -177,7 +192,7 @@
 
 ;; the calculator
 (define calc
-  (list 'pig 25 'DM2 'autumn 'normal 'mediumheavy
+  (list 'pig 25 'DM2 'autumn 'normal 'mediumshallow 'splash-surface
 	(list date-day date-month date-year)
 	1))
 
@@ -193,10 +208,12 @@
 (define (calc-modify-crop s v) (list-replace s 4 v))
 (define (calc-soil s) (list-ref s 5))
 (define (calc-modify-soil s v) (list-replace s 5 v))
-(define (calc-date s) (list-ref s 6))
-(define (calc-modify-date s v) (list-replace s 6 v))
-(define (calc-seek-mul s) (list-ref s 7))
-(define (calc-modify-seek-mul s v) (list-replace s 7 v))
+(define (calc-application s) (list-ref s 6))
+(define (calc-modify-application s v) (list-replace s 6 v))
+(define (calc-date s) (list-ref s 7))
+(define (calc-modify-date s v) (list-replace s 7 v))
+(define (calc-seek-mul s) (list-ref s 8))
+(define (calc-modify-seek-mul s v) (list-replace s 8 v))
 
 ;; shortcuts
 (define (current-date) (calc-date calc))
@@ -210,8 +227,9 @@
 	(quality (calc-quality calc))
 	(season (calc-season calc))
 	(crop (calc-crop calc))
-	(soil (calc-soil calc)))
-    (get-nutrients type amount quality season crop soil)))
+	(soil (calc-soil calc))
+	(application (calc-application calc)))
+    (get-nutrients type amount quality season crop soil application)))
 
 (define (get-units)
   (let ((type (calc-type calc)))

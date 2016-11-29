@@ -68,8 +68,8 @@
 			     ("soil" "varchar" "None")
 			     ("crop" "varchar" "None")
 			     ("previous-crop" "varchar" "None")
-			     ("soil-test-n" "varchar" 0)
 			     ("soil-test-p" "varchar" 0)
+			     ("soil-test-k" "varchar" 0)
 			     ("regularly-manure" "varchar" 0)
 			     ("recently-grown-grass" "varchar" 0)
 			     ("size" "real" 0))))
@@ -112,7 +112,7 @@
        (mspinner 'choose-units units-list
 		 (lambda (v) (mutate-units! (list-ref units-list v)) '()))
        (mspinner 'rainfall rainfall-list
-		 (lambda (v) '())))
+		 (lambda (v) (mutate-rainfall! (list-ref rainfall-list v)) '())))
       (mbutton 'email (lambda () (list (start-activity "email" 2 ""))))
       (mbutton 'about (lambda () (list (start-activity "about" 2 ""))))))))
      
@@ -134,6 +134,8 @@
 	  (update-list-widget db "farm" (list "name") "manure" "manure" #f)
 	  (update-widget 'spinner (get-id "choose-units-spinner") 'selection
 			 (if (eq? (current-units) 'metric) 0 1))
+	  (update-widget 'spinner (get-id "rainfall-spinner") 'selection
+			 (index-find (current-rainfall) rainfall-list))
 	  ))))
    (lambda (activity) '())
    (lambda (activity) '())
@@ -152,9 +154,7 @@
        (mtitle 'crap-calculator)
        (horiz
 	(calc-manure-type-widget (lambda (v)))
-	(mspinner 
-	 'application-type fym-application-list 
-	 (lambda (v) '())))
+	(calc-manure-application-widget (lambda (v))))
 
        (horiz
 	(mspinner 
@@ -252,30 +252,9 @@
 			       '("size" "real" 0)
 			       '("amount" "real" 0)
 			       '("quality" "varchar" "DM2")
+			       '("application" "varchar" "splash-surface")
 			       '("season" "varchar" "winter")
 			       '("crop" "varchar" "normal"))))
-
-    (vert-colour
-     list-colour
-     (mtitle 'crop-info)
-     (horiz
-      (mspinner 'crop-type crop-type-list
-		(lambda (v) (entity-update-single-value! 
-			     (ktv "crop" "varchar" 
-				  (spinner-choice crop-type-list v))) '()))
-      (mspinner 
-       'grown-grass yesno-list 
-       (lambda (v) 
-	 (entity-update-single-value! 
-	  (ktv "recently-grown-grass" "varchar" 
-	       (spinner-choice yesno-list v)))'())))
-     (mspinner 
-      'previous-crop-type previous-crop-type-list 
-      (lambda (v) 
-	(entity-update-single-value! 
-	 (ktv "previous-crop" "varchar" 
-	     (spinner-choice previous-crop-type-list v)))
-	'())))
 
     (vert-colour 
      list-colour
@@ -284,34 +263,76 @@
       'soil-type soil-type-list
       (lambda (v) (entity-update-single-value! 
 		   (ktv "soil" "varchar" 
-			(spinner-choice soil-type-list v))) '())) 
+			(spinner-choice soil-type-list v)))
+	      (update-field-cropsoil-calc)))
+
      (mspinner 
       'regular-organic yesno-list 
       (lambda (v) 
 	(entity-update-single-value! 
 	 (ktv "regularly-manure" "varchar" 
 	      (spinner-choice yesno-list v)))
-	'()))    
+	(update-field-cropsoil-calc)))
+  
      (mtext 'soil-test)
      (horiz
-     (mspinner 
-      'soil-test-n soil-test-n-list 
-      (lambda (v) 
-	(entity-update-single-value! 
-	 (ktv "soil-test-n" "varchar" 
-	      (spinner-choice soil-test-n-list v)))
-	'()))
      (mspinner 
       'soil-test-p soil-test-p-list 
       (lambda (v) 
 	(entity-update-single-value! 
 	 (ktv "soil-test-p" "varchar" 
 	      (spinner-choice soil-test-p-list v)))
-	'()))))
-     
-     (spacer 20)
+	(update-field-cropsoil-calc)))
+     (mspinner 
+      'soil-test-k soil-test-k-list 
+      (lambda (v) 
+	(entity-update-single-value! 
+	 (ktv "soil-test-k" "varchar" 
+	      (spinner-choice soil-test-k-list v)))
+	(update-field-cropsoil-calc))))
+
+     (mtitle 'field-calculator)
+     (mtext-scale 'nutrient-n-metric)
+     (text-view (make-id "na") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+     )
+
+    (vert-colour
+     list-colour
+     (mtitle 'crop-info)
+     (horiz
+      (mspinner 
+       'previous-crop-type previous-crop-type-list 
+       (lambda (v) 
+	 (entity-update-single-value! 
+	  (ktv "previous-crop" "varchar" 
+	       (spinner-choice previous-crop-type-list v)))
+	 (update-field-cropsoil-calc)))  
+      (mspinner 
+       'grown-grass yesno-list 
+       (lambda (v) 
+	 (entity-update-single-value! 
+	  (ktv "recently-grown-grass" "varchar" 
+	       (spinner-choice yesno-list v)))'())))
+
+     (mspinner 'crop-type crop-type-list
+	       (lambda (v) (entity-update-single-value! 
+			    (ktv "crop" "varchar" 
+				 (spinner-choice crop-type-list v))) 
+		       (update-field-cropsoil-calc)))
+
+     (mtitle 'crop-calculator)
+     (horiz
+      (mtext-scale 'nutrient-n-metric)
+      (mtext-scale 'nutrient-p-metric)
+      (mtext-scale 'nutrient-k-metric))
+     (horiz
+      (text-view (make-id "cna") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+      (text-view (make-id "cpa") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+      (text-view (make-id "cka") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+     )
+
+    (spacer 20)
  
-   
     (horiz
      (delete-button)
      (mbutton-scale 'back (lambda () (list (finish-activity 99)))))))))
@@ -324,21 +345,23 @@
      (set-current! 'field-name (entity-get-value "name"))     
      (let ((polygons (get-polygons)))
        (let ((centre (get-farm-centre polygons)))
-	 (list
-	  (update-widget 'draw-map (get-id "map") 'polygons (list (entity-get-value "unique_id") (get-polygons)))
-	  (update-widget 'draw-map (get-id "map") 'centre (list (vx centre) (vy centre) 15))
-	  (mupdate 'edit-text 'field-name "name")
-	  (update-list-widget db "farm" (list "date") "event" "eventview" (get-current 'field-id #f))
-	  (mupdate-spinner 'soil-type "soil" soil-type-list)
-	  (mupdate-spinner 'crop-type "crop" crop-type-list)
-	  (mupdate 'edit-text 'field-size "size")
-	  (update-widget 'canvas (get-id "graph") 'drawlist (build-graph))      
-	  (mupdate-spinner 'previous-crop-type "previous-crop" previous-crop-type-list)
-	  (mupdate-spinner 'soil-test-n "soil-test-n" soil-test-n-list)
-	  (mupdate-spinner 'soil-test-p "soil-test-p" soil-test-p-list)
-	  (mupdate-spinner 'regular-organic "regularly-manure" yesno-list)
-	  (mupdate-spinner 'grown-grass "recently-grown-grass" yesno-list)
-	  ))))
+	 (append
+	  (update-field-cropsoil-calc)
+	  (list
+	   (update-widget 'draw-map (get-id "map") 'polygons (list (entity-get-value "unique_id") (get-polygons)))
+	   (update-widget 'draw-map (get-id "map") 'centre (list (vx centre) (vy centre) 15))
+	   (mupdate 'edit-text 'field-name "name")
+	   (update-list-widget db "farm" (list "date") "event" "eventview" (get-current 'field-id #f))
+	   (mupdate-spinner 'soil-type "soil" soil-type-list)
+	   (mupdate-spinner 'crop-type "crop" crop-type-list)
+	   (mupdate 'edit-text 'field-size "size")
+	   (update-widget 'canvas (get-id "graph") 'drawlist (build-graph))      
+	   (mupdate-spinner 'previous-crop-type "previous-crop" previous-crop-type-list)
+	   (mupdate-spinner 'soil-test-p "soil-test-p" soil-test-p-list)
+	   (mupdate-spinner 'soil-test-k "soil-test-k" soil-test-k-list)
+	   (mupdate-spinner 'regular-organic "regularly-manure" yesno-list)
+	   (mupdate-spinner 'grown-grass "recently-grown-grass" yesno-list)
+	   )))))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
@@ -384,9 +407,10 @@
        (calc-manure-quality-widget
 	(lambda (v)
 	  (entity-set-value! "quality" "varchar" (symbol->string v))))
-       (mspinner 
-	'application-type fym-application-list 
-	(lambda (v) '())))
+
+       (calc-manure-application-widget 
+	(lambda (v)
+	  (entity-set-value! "application" "varchar" (symbol->string v)))))
       
       (calc-amount-widget
        (lambda (v) 
@@ -446,6 +470,7 @@
     (event-view-item "date" 'report-date)
     (event-view-item "amount" 'report-amount)
     (event-view-item "quality" 'report-quality)
+    (event-view-item "application" 'report-application)
     (event-view-item "season" 'report-season)
     (event-view-item "crop" 'report-crop)
     (event-view-item "soil" 'report-soil)

@@ -35,6 +35,7 @@
    (list 'report-date (list "Date"))
    (list 'report-amount (list "Application rate"))
    (list 'report-quality (list "Quality"))
+   (list 'report-application (list "Application type"))
    (list 'report-season (list "Season"))
    (list 'report-crop (list "Crop"))
    (list 'report-soil (list "Soil"))
@@ -46,15 +47,13 @@
    (list 'previous-crop-type (list "Previous crop type"))
    (list 'field-size (list "Field size (m2)"))
    
-
    ;; crop types
-   (list 'normal (list "All crops"))
-   (list 'grass-oilseed (list "Grassland/Winter oilseed rape"))
    (list 'winter-wheat-removed (list "Winter wheat, straw removed"))
    (list 'winter-wheat-incorporated (list "Winter wheat, straw incorporated")) 
    (list 'spring-barley-removed (list "Spring barley, straw removed"))
    (list 'spring-barley-incorporated (list "Spring barley, straw incorporated"))
-   (list 'grass (list "Grass (yield 6-8k, conc 1.5, stock med)"))
+   (list 'grass-cut (list "Grass cut (yield 6-8k, conc 1.5, stock med)"))
+   (list 'grass-grazed (list "Grass grazed (yield 6-8k, conc 1.5, stock med)"))
    
    ;; previous crop types
    (list 'cereals (list "Cereals"))
@@ -96,15 +95,16 @@
    (list 'grown-grass (list "Have you grown grass in the last 3 years?"))
    
 
-
    (list 'autumn (list "Autumn"))
    (list 'winter (list "Winter"))
    (list 'spring (list "Spring"))
    (list 'summer (list "Summer"))
-   (list 'fresh (list "Fresh and soil incorporated"))
-   (list 'other (list "Old and soil incorporated"))
-   (list 'other1 (list "Fresh and surface applied"))
-   (list 'other2 (list "Old and surface applied"))
+
+   (list 'fym-cattle (list "Cattle"))
+   (list 'fym-pig (list "Pig"))
+   (list 'fym-sheep (list "Sheep"))
+   (list 'fym-duck (list "Duck"))
+   (list 'fym-horse (list "Horse"))
 
    (list 'layer (list "Layer manure"))
    (list 'broiler (list "Broiler litter"))
@@ -131,7 +131,7 @@
    (list 'manure-type (list "Manure type"))
 
    (list 'cattle (list "Cattle Slurry"))
-   (list 'FYM (list "Farmgyard Manure"))
+   (list 'FYM (list "Farmyard Manure"))
    (list 'pig (list "Pig Slurry"))
    (list 'poultry (list "Poultry Litter"))
    (list 'compost (list "Compost"))
@@ -156,23 +156,25 @@
    (list 'deepsilt (list "Deep silt"))
 
    ;; soil tests
-   (list 'soil-test-n (list "Nitrogen"))
    (list 'soil-test-p (list "Potassium"))
+   (list 'soil-test-k (list "Phosphorous"))
 
-   (list 'soil-n-0 (list "0"))
-   (list 'soil-n-1 (list "1"))
-   (list 'soil-n-2 (list "2"))
-   (list 'soil-n-3 (list "3"))
-   
    (list 'soil-p-0 (list "0"))
    (list 'soil-p-1 (list "1"))
-   (list 'soil-p-2- (list "2-"))
-   (list 'soil-p-2+ (list "2+"))
+   (list 'soil-p-2 (list "2"))
    (list 'soil-p-3 (list "3"))
+   
+   (list 'soil-k-0 (list "0"))
+   (list 'soil-k-1 (list "1"))
+   (list 'soil-k-2- (list "2-"))
+   (list 'soil-k-2+ (list "2+"))
+   (list 'soil-k-3 (list "3"))
 
    (list 'soil-info (list "Soil details"))
    (list 'crop-info (list "Crop details"))
    (list 'soil-test (list "Results of soil tests (if availible)"))
+   (list 'field-calculator (list "Soil nitrogen supply"))
+   (list 'crop-calculator (list "Crop nutrient requirements"))
 
    (list 'custom-manures (list "Your manures"))
    (list 'manures-blurb (list "Here you can add custom manure types"))

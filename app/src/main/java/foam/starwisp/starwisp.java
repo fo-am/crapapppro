@@ -137,6 +137,8 @@ public class starwisp extends StarwispActivity
 
         m_Scheme.Load("decision.scm");
         m_Scheme.Load("manure.scm");
+        m_Scheme.Load("soil-nutrients.scm");
+        m_Scheme.Load("crop-requirements.scm");
         m_Scheme.Load("images.scm");
         m_Scheme.Load("calc-core.scm");
         m_Scheme.Load("geo.scm");

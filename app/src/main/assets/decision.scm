@@ -16,51 +16,61 @@
 ;; a recursive decision tree that navigates via an unordered list
 ;; of choices
 
-(define (param name value) (list name value))
-(define (param-name p) (list-ref p 0))
-(define (param-value p) (list-ref p 1))
+;; a choice is a name (single answer to the 'owner' tree) and a value
+;; which can be another tree or a number, symbol etc
+(define (choice name value) (list name value))
+(define (choice-name p) (list-ref p 0))
+(define (choice-value p) (list-ref p 1))
 
-(define (get-param-value l name)
+;; search a list of choices
+(define (get-choice-value l name)
   (let ((r (assoc name l)))
-    (if r (param-value r) #f)))
+    (if r (choice-value r) #f)))
 
-(define (dtree-choice-name d) (list-ref d 0))
+;; a tree is a name (the question) and a list of choices
+(define (dtree name choices) (list name choices))
+(define (dtree-name d) (list-ref d 0))
 (define (dtree-choices d) (list-ref d 1))
 
-(define (dtree-default-choice d)
-  ;; return the last choice as default, should be raw value
-  (let ((c (dtree-choices d)))
-    (list-ref c (- (length c) 1))))
-
-;; assumes choice name matches
+;; searches the choices in a tree for the one that matches, 
+;; or returns the last one as default
 (define (dtree-choose d name)
   (define (_ l)
     (cond
-      ;; return the default (last) option
-      ((null? (cdr l)) (param-value (car l)))
-      ((eq? (param-name (car l)) name)
-       (param-value (car l)))
+      ;; return the default (last) option if it's the only one left
+      ((null? (cdr l))
+       (when (not (eqv? (choice-name (car l)) name))
+	     ;; issue a warning if it doesn't match
+	     (msg "choosing default [" (car l) "] for" name))
+       (choice-value (car l)))
+      ;; it matches
+      ((eqv? (choice-name (car l)) name)
+       (choice-value (car l)))
       (else (_ (cdr l)))))
   (_ (dtree-choices d)))
 
+;; does this look like a tree? (for debug)
 (define (check-tree tree)
   (when (or
          (not (list? tree))
          (not (eqv? (length tree) 2))
          (not (symbol? (car tree)))
          (not (list? (cadr tree))))
-    (display "not a tree: ")(display tree)(newline)))
+    (msg "not a tree:" tree)))
          
-;; recursively
-(define (decision tree params)
+;; recursively search the tree based on the list of choices
+(define (decision tree choices)
   (cond
     ((number? tree) tree) ;; we've reached a decision
     (else
+     ;; for debug really...
      (check-tree tree)
-     (let* ((name (dtree-choice-name tree))
-            (value (get-param-value params name)))
-       (when (not value) (display "could not find ")(display name)(display " in ")(display params)(newline))
-       (decision (dtree-choose tree value) params)))))
+     (let ((name (dtree-name tree))) ;; name from the tree
+       ;; search for this in the supplied list
+       (let ((value (get-choice-value choices name))) 
+	 (when (not value) 
+	       (msg "could not find tree decision" name "in supplied choices"))
+	 (decision (dtree-choose tree value) choices))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; unit tests
@@ -69,8 +79,8 @@
   (when (not (eqv? p v)) (error "test" id "failed" p v)))
 
 (define (test)
-  (assert 1 (get-param-value '((one 1) (two 2)) 'two) 2)
-  (assert 2 (get-param-value '((one 1) (two 2)) 'three) #f)
+  (assert 1 (get-choice-value '((one 1) (two 2)) 'two) 2)
+  (assert 2 (get-choice-value '((one 1) (two 2)) 'three) #f)
   (assert 3 (dtree-choose '(name ((one 1) (two 2) (default 77))) 'two) 2) 
   (assert 4 (dtree-choose '(name ((one 1) (two 2) (default 77))) 'three) 77) 
   (assert 5 (decision '(name ((one 1)
