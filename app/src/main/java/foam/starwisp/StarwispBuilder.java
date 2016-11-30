@@ -134,6 +134,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 
 public class StarwispBuilder
 {
@@ -146,8 +147,8 @@ public class StarwispBuilder
     SensorHandler m_SensorHandler;
     View m_LastDragHighlighted;
     BluetoothManager m_Bluetooth;
-    DrawableMap m_CurrentDMap;
-
+    HashMap<Integer,DrawableMap> m_DMaps;
+    
     // resize all camera images to this resolution
     static int PHOTO_WIDTH=640;
     static int PHOTO_HEIGHT=480;
@@ -158,6 +159,7 @@ public class StarwispBuilder
         m_Handler = new Handler();
         m_SoundManager = new SoundManager();
         m_Bluetooth = new BluetoothManager();
+	m_DMaps = new HashMap<Integer,DrawableMap>();
     }
 
 
@@ -310,9 +312,7 @@ public class StarwispBuilder
                 DrawableMap dm = new DrawableMap();
                 dm.init(arr.getInt(1),inner,(StarwispActivity)ctx,this,arr.getString(3));
                 parent.addView(inner);
-                // only one drawmap at a time?
-                m_CurrentDMap = dm;
-                Log.i("starwisp","set dmap:"+m_CurrentDMap);
+                m_DMaps.put(arr.getInt(1),dm);
                 return;
             }
 
@@ -1482,7 +1482,7 @@ public class StarwispBuilder
             // special cases
 
             if (type.equals("linear-layout")) {
-                Log.i("starwisp","linear-layout update id: "+id);
+                //Log.i("starwisp","linear-layout update id: "+id);
                 StarwispLinearLayout.Update(this,(LinearLayout)vv,token,ctx,ctxname,arr);
                 return;
             }
@@ -1871,19 +1871,18 @@ public class StarwispBuilder
             }
 
             if (type.equals("draw-map")) {
-                if (m_CurrentDMap != null) {
-                    DrawableMap v = m_CurrentDMap;
-                    Log.i("starwisp","update dmap:"+m_CurrentDMap);
+		DrawableMap v = m_DMaps.get(id);
+		if (v != null) {
+                    Log.i("starwisp","update dmap:"+v);
                     if (token.equals("polygons")) {
                         v.UpdateFromJSON(arr.getJSONArray(3));
                     }
                     if (token.equals("centre")) {
-            			JSONArray tokens=arr.getJSONArray(3);
+			JSONArray tokens=arr.getJSONArray(3);
                         v.Centre(tokens.getDouble(0),
-			         	         tokens.getDouble(1),
+				 tokens.getDouble(1),
                                  tokens.getInt(2));
                     }
-
                 } else {
                     Log.e("starwisp", "Asked to update a drawmap which doesn't exist");
                 }
@@ -1896,7 +1895,7 @@ public class StarwispBuilder
     }
 
     public String JSONToScheme(String str) {
-        Log.i("starwisp","jsontoscheme "+str);
+        //Log.i("starwisp","jsontoscheme "+str);
         if (str.length()==0) return "";
         if (str.equals(":")) return "";
         if (str.length()>1 && str.charAt(0)==':') {
@@ -1923,7 +1922,7 @@ public class StarwispBuilder
                 if (is_atom==2) ret += arr.getString(1)+" ";
                 else ret += JSONToScheme(arr.getString(1))+" ";
 
-                Log.i("starwisp","post conv "+ret);
+                //Log.i("starwisp","post conv "+ret);
 
                 for (int i = 0; i < l.getChildCount(); i++) {
                     View cv = l.getChildAt(i);

@@ -25,6 +25,10 @@
   (list	'winter-wheat-removed 'winter-wheat-incorporated 
 	'spring-barley-removed 'spring-barley-incorporated 
 	'grass-cut 'grass-grazed))
+
+(define (is-crop-arable? c)
+  (if (or (eq? c 'grass-cut) (eq? c 'grass-grazed)) #f #t))
+
 (define previous-crop-type-list 
   (list 'cereals 'oilseed 'potatoes 
 	'sugarbeet 'peas 'beans 'low-n-veg 'medium-n-veg 'forage 
@@ -57,6 +61,9 @@
 (define (acres->hectares a) (* a 0.404686))
 (define (hectares->acres a) (* a 2.47105))
 (define (m3->gallons a) (* a 219.969))
+
+(define (m2->hectares a) (/ a 10000))
+(define (hectares->m2 a) (* a 10000))
 
 ;; remove...
 (define costs (list 0.79 0.62 0.49))
@@ -194,11 +201,11 @@
         ((equal? units "tonnes") amount) ;; tonnes are metric everywhere!?
         (else (msg "I don't understand how to convert" units))))))
 
-;; the calculator
+;; the manure calculator
 (define calc
   (list 'pig 25 'DM2 'autumn 'normal 'mediumshallow 'splash-surface
 	(list date-day date-month date-year)
-	1))
+	1 1))
 
 (define (calc-type s) (list-ref s 0))
 (define (calc-modify-type s v) (list-replace s 0 v))
@@ -218,6 +225,8 @@
 (define (calc-modify-date s v) (list-replace s 7 v))
 (define (calc-seek-mul s) (list-ref s 8))
 (define (calc-modify-seek-mul s v) (list-replace s 8 v))
+(define (calc-fieldsize s) (list-ref s 9))
+(define (calc-modify-fieldsize s v) (list-replace s 9 v))
 
 ;; shortcuts
 (define (current-date) (calc-date calc))
@@ -248,3 +257,18 @@
                       (list-ref costs nutrient-index) mul)))
 
 
+;; calculate soil nitrogen supply
+(define (calc-sns rainfall soil crop previous-crop regularly-manure)
+  ;; special options needed for grass:
+  ;; * grass high/med/low table
+  ;; * growing arable/previous crop = grass (pp 94)
+  ;; waiting on RB209 update before doing this
+  (let ((sns (decision soil-nitrogen-supply-tree 		  
+		       (list 
+			(list 'rainfall rainfall)
+			(list 'soil soil)
+			(list 'previous-crop previous-crop)))))
+    ;; increase sns by one if they regularly manure (pp 188)
+    (if (and (< sns 6) (eq? regularly-manure 'yes))
+	(+ sns 1)
+	sns)))

@@ -21,11 +21,11 @@
    (list 'quality (list "Quality"))
    (list 'crop-availible (list "Crop available"))
    (list 'nutrient-n-metric (list "N Kg/ha"))
-   (list 'nutrient-p-metric (list "P Kg/ha"))
-   (list 'nutrient-k-metric (list "K Kg/ha"))
+   (list 'nutrient-p-metric (list "P<sub>2</sub>O<sub>5</sub> Kg/ha"))
+   (list 'nutrient-k-metric (list "K<sub>2</sub>O Kg/ha"))
    (list 'nutrient-n-imperial (list "N units/acre"))
-   (list 'nutrient-p-imperial (list "P units/acre"))
-   (list 'nutrient-k-imperial (list "K units/acre"))
+   (list 'nutrient-p-imperial (list "P<sub>2</sub>O<sub>5</sub> units/acre"))
+   (list 'nutrient-k-imperial (list "K<sub>2</sub>O units/acre"))
    (list 'cost-saving (list "Fertiliser Savings (as at Oct 2013)"))
 
    (list 'field-calc-blurb (list "Enter new crap spreading event"))
@@ -45,7 +45,7 @@
    (list 'crop-type (list "Crop type"))
    (list 'application-type (list "Application type"))
    (list 'previous-crop-type (list "Previous crop type"))
-   (list 'field-size (list "Field size (m2)"))
+   (list 'field-size (list "Field size in hectares"))
    
    ;; crop types
    (list 'winter-wheat-removed (list "Winter wheat, straw removed"))
@@ -143,13 +143,13 @@
 
    (list 'fertiliser-costs (list "Your fertiliser costs"))
    (list 'costs-blurb (list "How much do you pay for your fertiliser? This is used to calculate your cost savings."))
-   (list 'n-cost (list "Nitrogen"))
-   (list 'p-cost (list "Phosphorus"))
-   (list 'k-cost (list "Potassium"))
+   (list 'n-cost (list "N"))
+   (list 'p-cost (list "P<sub>2</sub>O<sub>5</sub>"))
+   (list 'k-cost (list "K<sub>2</sub>O"))
 
    ;; soil tests
-   (list 'soil-test-p (list "Potassium"))
-   (list 'soil-test-k (list "Phosphorous"))
+   (list 'soil-test-p (list "P<sub>2</sub>0<sub>5</sub>"))
+   (list 'soil-test-k (list "K<sub>2</sub>O"))
 
    (list 'soil-p-0 (list "0"))
    (list 'soil-p-1 (list "1"))
@@ -165,16 +165,18 @@
    (list 'soil-info (list "Soil details"))
    (list 'crop-info (list "Crop details"))
    (list 'soil-test (list "Results of soil tests (if availible)"))
-   (list 'field-calculator (list "Soil nitrogen supply"))
-   (list 'crop-calculator (list "Crop nutrient requirements"))
+   (list 'soil-supply (list "Soil N supply"))
+   (list 'crop-requirements (list "Crop nutrient requirements"))
 
    (list 'custom-manures (list "Your manures"))
    (list 'manures-blurb (list "Here you can add custom manure types"))
    (list 'manure-name (list "Manure name"))
-   (list 'manure-n (list "Nitrogen content"))
-   (list 'manure-p (list "Phosphorous content"))
-   (list 'manure-k (list "Potassium content"))
+   (list 'manure-n (list "N content"))
+   (list 'manure-p (list "P<sub>2</sub>O<sub>5</sub> content"))
+   (list 'manure-k (list "K<sub>2</sub>O content"))
    
    (list 'delete-are-you-sure (list "Are you sure you want to delete this?"))
+
+   (list 'still-needed (list "Fertiliser still needed"))
 
    ))

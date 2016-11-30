@@ -194,3 +194,15 @@
   (update-entity
    (get-current 'db #f) 
    "local" settings-entity-id-version (list (ktv key type value))))
+
+(define (db-delete-children db table type parent-id)
+  (for-each
+   (lambda (coord)
+     (update-entity 
+      db table 
+      (entity-id-from-unique db table (ktv-get coord "unique_id")) 
+      (list (ktv "deleted" "int" 1))))
+   (db-filter 
+    db table type
+    (list
+     (list "parent" "varchar" "=" parent-id)))))

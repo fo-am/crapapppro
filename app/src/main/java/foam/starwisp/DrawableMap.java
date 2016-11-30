@@ -56,6 +56,7 @@ public class DrawableMap {
     GoogleMap map;
     String map_mode;
     String selected_polygon;
+    String selected_polygon_name;
     int ID;
 
     boolean map_ready;
@@ -170,12 +171,22 @@ public class DrawableMap {
         }
     }
 
+    public void RemoveSelected() {
+	Vector<Polygon> new_polygons = new Vector<Polygon>();
+        for (Polygon poly : polygons) {
+	    if (!poly.m_UniqueID.equals(selected_polygon)) {
+		new_polygons.add(poly);
+	    }
+	}
+	polygons = new_polygons;
+    }
+
     public void UpdateFromJSON(JSONArray map) {
         Clear();
         // json format
-        // [ current_polygon [ polygon, polygon, ... ]]
+        // [ current_polygon(id) [ polygon, polygon, ... ]]
         // polygon:
-        // [ name [ latlng, latlng, ...]]
+        // [ name uid [ latlng, latlng, ...]]
         // latlng:
 
         // (map may not exist yet when called from update)
@@ -183,13 +194,23 @@ public class DrawableMap {
             selected_polygon = map.getString(0);
             JSONArray polygon_list = map.getJSONArray(1);
             for (int i=0; i<polygon_list.length(); i++) {
+
+		Log.e("starwisp", "poly "+i);
+
                 JSONArray poly = polygon_list.getJSONArray(i);
                 Polygon new_poly = new Polygon();
                 new_poly.m_Name = poly.getString(0);
                 new_poly.m_UniqueID = poly.getString(1);
+
+		// pick out the selected poly's name
+		if (new_poly.m_UniqueID.equals(selected_polygon)) {
+		    selected_polygon_name=new_poly.m_Name;
+		}
+
                 JSONArray verts = poly.getJSONArray(2);
                 new_poly.m_Verts = new Vector<LatLng>();
                 for (int v=0; v<verts.length(); v++) {
+		    Log.e("starwisp", "vert "+v);
                     JSONArray latlng = verts.getJSONArray(v);
                     new_poly.m_Verts.add(new LatLng(latlng.getDouble(0),latlng.getDouble(1)));
                 }
@@ -201,6 +222,10 @@ public class DrawableMap {
             Log.e("starwisp", "Error parsing data in drawable map " + e.toString());
         }
 
+	if (map_ready) {
+	    Log.e("starwisp", "Redrawing map after JSON update");
+ 	    DrawMap();
+	}
     }
 
 
@@ -224,12 +249,16 @@ public class DrawableMap {
                     if (!draw_mode) {
                         Polygon poly = new Polygon();
                         poly.m_Verts = current_polygon;
-                        poly.m_Name = "no name";
+                        poly.m_Name = selected_polygon_name;
+                        poly.m_UniqueID = selected_polygon;
                         polygons.add(poly);
                         SendPolygon(poly.m_Verts);
                         current_polygon = new Vector<LatLng>();
                         scribble_button.setText("Draw field");
+			DrawMap();
                     } else {
+			RemoveSelected();
+			DrawMap();
                         scribble_button.setText("Save field");
                     }
                 }
@@ -262,7 +291,6 @@ public class DrawableMap {
                             current_polygon.add(new LatLng(latitude, longitude));
                         } else {
                             String clicked_in = CheckPolygons(latitude, longitude);
-                            Log.i("starwisp","clicked in retunred "+clicked_in);
                             if (!clicked_in.equals("")) {
                                 m_Builder.CallbackArgs(m_Context,m_Context.m_Name,ID,"\""+clicked_in+"\"");
                             }

@@ -1,4 +1,17 @@
-(msg "interface.scm")
+;; Farm Crap App Pro Copyright (C) 2016 Dave Griffiths
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU Affero General Public License as
+;; published by the Free Software Foundation, either version 3 of the
+;; License, or (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU Affero General Public License for more details.
+;;
+;; You should have received a copy of the GNU Affero General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (define i18n-lang 0)
 
@@ -189,8 +202,6 @@
             (layout 'wrap-content 'wrap-content 1 'centre 0)
             (lambda (c) (fn c)))))
 
-(msg "interface.scm2")
-
 (define (mspinner-other id types fn)
   (linear-layout
    (make-id (string-append (symbol->string id) "-container"))
@@ -266,7 +277,7 @@
   (cond
    ((or (eq? widget-type 'edit-text) (eq? widget-type 'text-view))
     (let ((v (entity-get-value key)))
-      (msg "mupdate with" key " is number: " (number? v))
+      ;;(msg "mupdate with" key " is number: " (number? v))
       (update-widget widget-type (get-symbol-id id-symbol) 'text
                      (cond
                       ;; hide -1 as it represents unset
@@ -332,8 +343,6 @@
                (update-widget 'edit-text
                               (get-id (string-append (symbol->string id-symbol) "-edit-text"))
                               'text val)))))))
-
-(msg "interface3.scm")
 
 ;;;;
 ;; (y m d h m s)
@@ -516,5 +525,4 @@
   (if (equal? str "") 0
       (string->number str)))
 
-(msg "interface.scm end")
 

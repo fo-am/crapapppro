@@ -15,21 +15,14 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(msg "crap-app.scm")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (define db "/sdcard/farmcrapapppro/crapapp.db")
 (set-current! 'db db)
 
 (define (setup-database!)
-  (msg "setting up database")
   (db-close db) ;; close just in case (sorts out db file delete while running problem)
   (db-open db)
-  (msg "setting up tables")
   (setup db "local")
   (setup db "farm")
-  (msg (db-status db))
   (insert-entity-if-not-exists
    db "local" "app-settings" "null" settings-entity-id-version
    (list
@@ -72,6 +65,7 @@
 (define (update-season! v) (update-calc! (lambda (c) (calc-modify-season c v))))
 (define (update-crop! v) (update-calc! (lambda (c) (calc-modify-crop c v))))
 (define (update-soil! v) (update-calc! (lambda (c) (calc-modify-soil c v))))
+(define (update-fieldsize! v) (update-calc! (lambda (c) (calc-modify-fieldsize c v))))
 
 ;; locally stored in the database
 (define (mutate-units! v) (set-setting! "units" "varchar" (symbol->string v)))
@@ -165,30 +159,46 @@
 (define (run-calc)
   (let ((amounts (calc-nutrients))
         (amount (calc-amount calc))
-        (type (calc-type calc)))
-    (list
-     (update-widget 'text-view (get-id "amount-value") 'text
-                    (string-append (number->string (convert-output amount (get-units))) " " (get-units)))
-     (update-widget 'text-view (get-id "na")
-                    'text (number->string (convert-output (list-ref amounts 0) "kg/ha")))
-     (update-widget 'text-view (get-id "pa")
-                    'text (number->string (convert-output (list-ref amounts 1) "kg/ha")))
-     (update-widget 'text-view (get-id "ka")
-                    'text (number->string (convert-output (list-ref amounts 2) "kg/ha")))
-     ;; costs
-     (update-widget 'text-view (get-id "costn")
-                    'text (get-cost-string-from-nutrient 0 amounts 1))
-     (update-widget 'text-view (get-id "costp")
-                    'text (get-cost-string-from-nutrient 1 amounts 1))
-     (update-widget 'text-view (get-id "costk")
-                    'text (get-cost-string-from-nutrient 2 amounts 1))
+        (type (calc-type calc))
+	(size (calc-fieldsize calc)))
+    (append
+     (list
+      (update-widget 'text-view (get-id "amount-value") 'text
+		     (string-append (number->string (convert-output amount (get-units))) " " (get-units)))
+      (update-widget 'text-view (get-id "na")
+		     'text (number->string (convert-output (list-ref amounts 0) "kg/ha")))
+      (update-widget 'text-view (get-id "pa")
+		     'text (number->string (convert-output (list-ref amounts 1) "kg/ha")))
+      (update-widget 'text-view (get-id "ka")
+		     'text (number->string (convert-output (list-ref amounts 2) "kg/ha")))
+      ;; costs
+      (update-widget 'text-view (get-id "costn")
+		     'text (get-cost-string-from-nutrient 0 amounts size))
+      (update-widget 'text-view (get-id "costp")
+		     'text (get-cost-string-from-nutrient 1 amounts size))
+      (update-widget 'text-view (get-id "costk")
+		     'text (get-cost-string-from-nutrient 2 amounts size)))
+     
+     ;; still needed
+     (if (eq? (get-current 'calc-mode #f) 'fieldcalc)
+	 (begin
+	   (msg "require-n" (entity-get-value "require-n"))
+	   (msg (number? (entity-get-value "require-n")))
+	   (list
+	    (update-widget 'text-view (get-id "needed-n")
+			   'text (number->string (convert-output (- (entity-get-value "require-n") (list-ref amounts 0)) "kg/ha")))
+	    (update-widget 'text-view (get-id "needed-p")
+			   'text (number->string (convert-output (- (entity-get-value "require-p") (list-ref amounts 1)) "kg/ha")))
+	    (update-widget 'text-view (get-id "needed-k")
+			   'text (number->string (convert-output (- (entity-get-value "require-k") (list-ref amounts 0)) "kg/ha")))
+	    )) '())
      )))
+
 
 (define (spacer size)
   (space (layout 'fill-parent size 1 'left 0)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(msg "crap-app.scm3")
 
 (define graph-width 320)
 
@@ -212,8 +222,6 @@
                       points-list))))
            (list (list -10 250) '())
            events))))
-
-(msg "crap-app.scm4")
 
 (define (build-bars events min max)
   (let* ((twidth (maximum (- max min) 1))
@@ -239,8 +247,6 @@
      '()
      events)))
 
-(msg "crap-app.scm5")
-
 (define (month->text m)
   (cond
    ((eqv? m 1) "January")
@@ -255,8 +261,6 @@
    ((eqv? m 10) "October")
    ((eqv? m 11) "November")
    ((eqv? m 12) "December")))
-
-(msg "crap-app.scm6")
 
 (define (build-t-scale first min max)
   (define (_y year-width x y)
@@ -295,8 +299,6 @@
              (* (/ (- 12 (list-ref first 1)) twidth) graph-width)
              (list-ref first 2))))))
 
-(msg "crap-app.scm7")
-
 (define (build-key)
   (let ((units (if (eq? (current-units) 'metric)
                    "Kg/hectare"
@@ -315,8 +317,6 @@
      (drawlist-text "P" 280 60 '(200 200 0) 20 "horizontal")
      (drawlist-text "K" 280 90 '(0 0 200) 20 "horizontal")
      )))
-
-(msg "crap-app.scm8")
 
 (define (newest-event-day events)
   (foldl
@@ -502,6 +502,40 @@
    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
    (spacer 10)))
 
+(define (calc-event-results)
+  (vert
+   (mtext 'crop-availible)
+   (horiz
+    (mtext-scale 'nutrient-n-metric)
+    (mtext-scale 'nutrient-p-metric)
+    (mtext-scale 'nutrient-k-metric))
+   (horiz
+    (text-view (make-id "na") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "pa") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "ka") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+   
+   (mtext 'cost-saving)
+   (horiz
+    (text-view (make-id "costn") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "costp") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "costk") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+
+   (mtext 'crop-requirements)
+   (horiz
+    (text-view (make-id "require-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "require-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "require-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+
+   (mtext 'still-needed)
+   (horiz
+    (text-view (make-id "needed-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "needed-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "needed-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+
+   (spacer 10)
+   (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
+   (spacer 10)))
+
 (define (calc-manure-type-widget fn)
   (mspinner 
    'manure-type manure-type-list
@@ -551,17 +585,11 @@
   (mspinner 'application-type cattle-application-list 
 	    (lambda (v) 
 	      (let ((type (current-type)))
-		(let ((application 
-		       (list-ref 
-			(cond
-			 ((eq? type 'cattle) cattle-application-list)
-			 ((eq? type 'pig) pig-application-list)
-			 ((eq? type 'poultry) poultry-application-list)
-			 (else fym-application-list))
-			v)))
-		  (fn application)
-		  (update-application! application))))))
-
+		(let ((application-list (get-application-for-type type)))
+		  (let ((application (if (null? application-list) 'none
+					 (list-ref application-list v))))
+		    (fn application)
+		    (update-application! application)))))))
 
 (define (calc-amount-widget fn)
   (seek-bar (make-id "amount") 100 fillwrap
@@ -603,35 +631,53 @@
 			'()
 			images)))))))))))))
 
-(define (get-sns)
-  ;; special options needed for grass:
-  ;; * grass high/med/low table
-  ;; * growing arable/previous crop = grass
-  (let ((choices (list 
-		  (list 'rainfall (current-rainfall))
-		  (list 'soil (string->symbol (entity-get-value "soil")))
-		  (list 'previous-crop (string->symbol (entity-get-value "previous-crop")))
-		  )))
-    (decision soil-nitrogen-supply-tree choices)))
-         
-(define (update-field-cropsoil-calc)
-  (let ((sns (get-sns)))
-    (let ((choices (list 
-		    (list 'sns sns)
-		    (list 'rainfall (current-rainfall))
-		    (list 'soil (string->symbol (entity-get-value "soil")))
-		    (list 'crop (string->symbol (entity-get-value "crop")))
-		    (list 'p-index (string->symbol (entity-get-value "soil-test-p")))
-		    (list 'k-index (string->symbol (entity-get-value "soil-test-k")))
-		    )))
-      (list
-       (update-widget 'text-view (get-id "na") 'text 
-		      (soil-nutrient-code-to-text sns))
-       (update-widget 'text-view (get-id "cna") 'text 
-		      (number->string (decision crop-requirements-n-tree choices)))
-       (update-widget 'text-view (get-id "cpa") 'text 
-		      (number->string (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorous) choices))))
-       (update-widget 'text-view (get-id "cka") 'text 
-		      (number->string (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))))))))
 
-(msg "crap-app.scm end")
+(define (update-field-cropsoil-calc-from-current)
+  (update-field-cropsoil-calc
+   (get-crop-requirements/supply-from-current)))
+
+(define (update-field-cropsoil-calc results)
+  (list
+   (update-widget 'text-view (get-id "supply-n") 'text 
+		  (soil-nutrient-code-to-text (list-ref results 3)))
+   (update-widget 'text-view (get-id "require-n") 'text (number->string (list-ref results 0)))
+   (update-widget 'text-view (get-id "require-p") 'text (number->string (list-ref results 1)))
+   (update-widget 'text-view (get-id "require-k") 'text (number->string (list-ref results 2)))))
+
+(define (get-crop-requirements/supply-from-field field)
+  (get-crop-requirements/supply 
+   (string->symbol (ktv-get field "crop"))
+   (string->symbol (ktv-get field "soil"))
+   (string->symbol (ktv-get field "previous-crop"))
+   (string->symbol (ktv-get field "regularly-manure"))
+   (string->symbol (ktv-get field "soil-test-p"))
+   (string->symbol (ktv-get field "soil-test-k"))))
+
+(define (get-crop-requirements/supply-from-current)
+  (msg "soil test is" (string->symbol (entity-get-value "soil-test-p")))
+
+  (get-crop-requirements/supply 
+   (string->symbol (entity-get-value "crop"))
+   (string->symbol (entity-get-value "soil"))
+   (string->symbol (entity-get-value "previous-crop"))
+   (string->symbol (entity-get-value "regularly-manure"))
+   (string->symbol (entity-get-value "soil-test-p"))
+   (string->symbol (entity-get-value "soil-test-k"))))
+
+(define (get-crop-requirements/supply crop soil previous-crop regularly-manure soil-test-p soil-test-k)
+  (let ((sns (calc-sns (current-rainfall) soil crop previous-crop regularly-manure)))
+    (msg soil-test-p soil-test-k)
+    (let ((choices 
+	   (list 
+	    (list 'sns sns)
+	    (list 'rainfall (current-rainfall))
+	    (list 'soil soil)
+	    (list 'crop crop)
+	    (list 'p-index soil-test-p)
+	    (list 'k-index soil-test-k))))
+      (list 
+       (decision crop-requirements-n-tree choices) 
+       (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorous) choices))
+       (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))
+       sns))))
+		 

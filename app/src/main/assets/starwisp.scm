@@ -68,10 +68,10 @@
 			     ("soil" "varchar" "None")
 			     ("crop" "varchar" "None")
 			     ("previous-crop" "varchar" "None")
-			     ("soil-test-p" "varchar" 0)
-			     ("soil-test-k" "varchar" 0)
-			     ("regularly-manure" "varchar" 0)
-			     ("recently-grown-grass" "varchar" 0)
+			     ("soil-test-p" "varchar" "0")
+			     ("soil-test-k" "varchar" "0")
+			     ("regularly-manure" "varchar" "no")
+			     ("recently-grown-grass" "varchar" "no")
 			     ("size" "real" 0))))
 
       (spacer 20)
@@ -120,6 +120,7 @@
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
+     (msg "BACK TO MAIN HERE")
      (let ((polygons (get-polygons)))
        (let ((centre (get-farm-centre polygons)))
 	 (list
@@ -179,6 +180,8 @@
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
+     (set-current! 'calc-mode 'calc)
+     (update-fieldsize! 1) ;; reset after any fields
      (if (equal? (current-units) 'metric) 
 	 '()
 	 (list
@@ -197,7 +200,9 @@
    (vert
     (build-drawmap (make-id "map") "edit" fillwrap  
 		   (lambda (polygon) 
-		     ;; delete previous polygon??...
+		     ;; delete previous polygon if one exists
+		     (db-delete-children db "farm" "coord" (get-current 'field-id #f))
+
 		     (index-for-each 
 		      (lambda (i coord)
 			(entity-init&save! 
@@ -210,13 +215,11 @@
 			  (ktv "lng" "real" (list-ref coord 1)))))
 		      polygon)
 		     ;; reset the field again
-		     (entity-init! 
-		      db "farm" "field" 
-		      (get-entity-by-unique 
-		       db "farm" (get-current 'field-id #f)))
+		     (entity-init! db "farm" "field" 
+		      (get-entity-by-unique db "farm" (get-current 'field-id #f)))
 		     ;; update area calculation
 		     (entity-update-single-value! 
-		      (ktv "size" "real" (area-metres polygon)))
+		      (ktv "size" "real" (m2->hectares (area-metres polygon))))
 		     (list
 		      (mupdate 'edit-text 'field-size "size"))))
 
@@ -248,6 +251,10 @@
 			       '("nutrients-n" "real" 0)
 			       '("nutrients-p" "real" 0)
 			       '("nutrients-k" "real" 0)
+			       '("require-n" "real" 0)
+			       '("require-p" "real" 0)
+			       '("require-k" "real" 0)
+			       '("sns" "real" 0)
 			       '("soil" "varchar" "normal")
 			       '("size" "real" 0)
 			       '("amount" "real" 0)
@@ -264,7 +271,7 @@
       (lambda (v) (entity-update-single-value! 
 		   (ktv "soil" "varchar" 
 			(spinner-choice soil-type-list v)))
-	      (update-field-cropsoil-calc)))
+	      (update-field-cropsoil-calc-from-current)))
 
      (mspinner 
       'regular-organic yesno-list 
@@ -272,7 +279,7 @@
 	(entity-update-single-value! 
 	 (ktv "regularly-manure" "varchar" 
 	      (spinner-choice yesno-list v)))
-	(update-field-cropsoil-calc)))
+	(update-field-cropsoil-calc-from-current)))
   
      (mtext 'soil-test)
      (horiz
@@ -282,18 +289,18 @@
 	(entity-update-single-value! 
 	 (ktv "soil-test-p" "varchar" 
 	      (spinner-choice soil-test-p-list v)))
-	(update-field-cropsoil-calc)))
+	(update-field-cropsoil-calc-from-current)))
      (mspinner 
       'soil-test-k soil-test-k-list 
       (lambda (v) 
 	(entity-update-single-value! 
 	 (ktv "soil-test-k" "varchar" 
 	      (spinner-choice soil-test-k-list v)))
-	(update-field-cropsoil-calc))))
+	(update-field-cropsoil-calc-from-current))))
 
-     (mtitle 'field-calculator)
+     (mtitle 'soil-supply)
      (mtext-scale 'nutrient-n-metric)
-     (text-view (make-id "na") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+     (text-view (make-id "supply-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
      )
 
     (vert-colour
@@ -306,7 +313,7 @@
 	 (entity-update-single-value! 
 	  (ktv "previous-crop" "varchar" 
 	       (spinner-choice previous-crop-type-list v)))
-	 (update-field-cropsoil-calc)))  
+	 (update-field-cropsoil-calc-from-current)))  
       (mspinner 
        'grown-grass yesno-list 
        (lambda (v) 
@@ -318,17 +325,17 @@
 	       (lambda (v) (entity-update-single-value! 
 			    (ktv "crop" "varchar" 
 				 (spinner-choice crop-type-list v))) 
-		       (update-field-cropsoil-calc)))
+		       (update-field-cropsoil-calc-from-current)))
 
-     (mtitle 'crop-calculator)
+     (mtitle 'crop-requirements)
      (horiz
       (mtext-scale 'nutrient-n-metric)
       (mtext-scale 'nutrient-p-metric)
       (mtext-scale 'nutrient-k-metric))
      (horiz
-      (text-view (make-id "cna") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-      (text-view (make-id "cpa") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-      (text-view (make-id "cka") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+      (text-view (make-id "require-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+      (text-view (make-id "require-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+      (text-view (make-id "require-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
      )
 
     (spacer 20)
@@ -346,7 +353,7 @@
      (let ((polygons (get-polygons)))
        (let ((centre (get-farm-centre polygons)))
 	 (append
-	  (update-field-cropsoil-calc)
+	  (update-field-cropsoil-calc-from-current)
 	  (list
 	   (update-widget 'draw-map (get-id "map") 'polygons (list (entity-get-value "unique_id") (get-polygons)))
 	   (update-widget 'draw-map (get-id "map") 'centre (list (vx centre) (vy centre) 15))
@@ -421,7 +428,8 @@
       (text-view (make-id "amount-value") "4500 gallons" 30
 		 (layout 'wrap-content 'wrap-content 1 'centre 0))
       (spacer 10)
-      (calc-results)
+      (calc-event-results)
+
       (horiz
        (mbutton-scale 
 	'save 
@@ -434,28 +442,45 @@
 	    (entity-set-value! "nutrients-k" "real" (list-ref nutrients 2)))	  
 	  (entity-update-values!) 
 	  (list (finish-activity 0))))
-       (mbutton-scale 'cancel (lambda () (list (finish-activity 0)))))
+       (mbutton-scale 
+	'cancel 
+	(lambda ()
+	  (entity-set-value! "deleted" "int" 1)	  
+	  (entity-update-values!) 
+	  (list (finish-activity 0)))))
       )))
      
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
+     (msg "entering fieldcalc")
+     (set-current! 'calc-mode 'fieldcalc)
      (entity-init! db "farm" "event" (get-entity-by-unique db "farm" arg))
      (set-current! 'event-id arg)
-     ;; update the calculator with values from the current field
+     ;; update the event and calculator with values from the current field
      (let ((field (get-entity-by-unique db "farm" (entity-get-value "parent"))))
        (update-crop! (string->symbol (ktv-get field "crop")))
        (update-soil! (string->symbol (ktv-get field "soil")))
+       (update-fieldsize! (ktv-get field "size"))
        ;; fill in the field related items here
+       (entity-set-value! "crop" "varchar" (ktv-get field "crop"))
        (entity-set-value! "soil" "varchar" (ktv-get field "soil"))
        (entity-set-value! "size" "real" (ktv-get field "size"))
-       (list
-	(update-widget 'button (make-id "date") 'text (entity-get-value "date"))
-	(update-widget 'text-view (make-id "title") 'text (ktv-get field "name"))
-	(update-widget 'image-view (get-id "example") 'image
-		       (find-image (string->symbol (entity-get-value "type"))
-				   (entity-get-value "amount")))
-	)))
+       (let ((results (get-crop-requirements/supply-from-field field)))
+	 (msg "results:" results)
+	 (entity-set-value! "require-n" "real" (list-ref results 0))
+	 (entity-set-value! "require-p" "real" (list-ref results 1))
+	 (entity-set-value! "require-k" "real" (list-ref results 2))
+	 (entity-set-value! "sns" "real" (list-ref results 3))       
+	 (append
+	  (update-field-cropsoil-calc results)
+	  (list
+	   (update-widget 'button (make-id "date") 'text (entity-get-value "date"))
+	   (update-widget 'text-view (make-id "title") 'text (ktv-get field "name"))
+	   (update-widget 'image-view (get-id "example") 'image
+			  (find-image (string->symbol (entity-get-value "type"))
+				      (entity-get-value "amount")))
+	   )))))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
@@ -512,6 +537,7 @@
 	 (update-event-view-item-lookup "type")
 	 (update-event-view-item "date")
 	 (update-event-view-item "amount")
+	 (update-event-view-item-lookup "application")
 	 (update-event-view-item-lookup "quality")
 	 (update-event-view-item-lookup "season")
 	 (update-event-view-item-lookup "crop")

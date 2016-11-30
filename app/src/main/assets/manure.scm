@@ -134,15 +134,15 @@
 	    (summer 66.5)
 	    (spring 66.5))))
 	 (phosphorous 84) 
-	 (potassium 86)))))
-     ((broiler 
+	 (potassium 86))))
+      (broiler 
        (nutrient
 	((nitrogen 
 	  (season
 	   ((autumn 
 	     (soil 
 	      ((sandyshallow (crop ((normal 30) (grass-oilseed 45))))
-	       (mediumheavy (crop (normal 75) (grass-oilseed 90))))))
+	       (mediumheavy (crop ((normal 75) (grass-oilseed 90)))))))
 	    (winter (soil ((sandyshallow 60) (mediumheavy 75))))
 	    (summer 90)
 	    (spring 90))))
