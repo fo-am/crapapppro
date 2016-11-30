@@ -65,17 +65,24 @@
 	(list (/ (vx t) (length polygon))
 	      (/ (vy t) (length polygon))))))
 
+(define (filter-empty-polys p)
+  (filter
+   (lambda (p)
+     (not (zero? (length p))))
+   p))
+
 (define (polygons-centroid polygons)
-  (let ((t (foldl
-	    (lambda (polygon r)     
-	      (let ((latlng (polygon-centroid polygon)))
-		(list (+ (vx r) (vx latlng))
-		      (+ (vy r) (vy latlng)))))
-	    (list 0 0)
-	    polygons)))
-    (if (zero? (length polygons))
-	(list 0 0)
-	(list (/ (vx t) (length polygons))
-	      (/ (vy t) (length polygons))))))
+  (let ((polygons (filter-empty-polys polygons)))
+    (let ((t (foldl
+	      (lambda (polygon r)     
+		(let ((latlng (polygon-centroid polygon)))
+		  (list (+ (vx r) (vx latlng))
+			(+ (vy r) (vy latlng)))))
+	      (list 0 0)
+	      polygons)))
+      (if (zero? (length polygons))
+	  (list 0 0)
+	  (list (/ (vx t) (length polygons))
+		(/ (vy t) (length polygons)))))))
 
 

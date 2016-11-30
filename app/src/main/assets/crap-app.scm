@@ -453,22 +453,36 @@
      (list
       (ktv-get field "name")
       (ktv-get field "unique_id")
-      (map
-       (lambda (coord)
-	 (list
-	  (ktv-get coord "lat") 
-	  (ktv-get coord "lng")))
-       (db-filter 
-	db "farm" "coord" 
-	(list
-	 (list "parent" "varchar" "=" (ktv-get field "unique_id")))))))   
+      ;; info text
+      (list 
+       (mtext-lookup (string->symbol (ktv-get field "crop")))
+       (string-append (number->string (rounding-cash (ktv-get field "size"))) " ha"))
+      (get-field-polygon (ktv-get field "unique_id"))))
    (db-all db "farm" "field")))
+
+(define (get-field-polygon field-uid)
+  (map
+   (lambda (coord)
+     (list
+      (ktv-get coord "lat") 
+      (ktv-get coord "lng")))
+   (db-filter 
+    db "farm" "coord" 
+    (list
+     (list "parent" "varchar" "=" field-uid)))))  
 
 (define (get-farm-centre field-polygons)
   (polygons-centroid
    (map (lambda (field)
-	  (list-ref field 2))
+	  (list-ref field 3))
 	field-polygons)))
+
+(define (get-field-centre field-uid polygons)
+  (let ((r (polygon-centroid (get-field-polygon field-uid))))
+    ;; default to farm centre if there is no field poly yet
+    (if (and (eqv? (car r) 0) (eqv? (cadr r) 0))
+	(get-farm-centre polygons)
+	r)))
 
 (define (event-view-item id title)
   (horiz

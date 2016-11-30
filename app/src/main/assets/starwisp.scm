@@ -64,7 +64,7 @@
       (build-list-widget db "farm" 'fields (list "name") "field" "field"
 			 (lambda () #f)
 			 (lambda ()
-			   '(("name" "varchar" "None")
+			   '(("name" "varchar" "My field")
 			     ("soil" "varchar" "None")
 			     ("crop" "varchar" "None")
 			     ("previous-crop" "varchar" "None")
@@ -102,7 +102,7 @@
 	(build-list-widget db "farm" 'custom-manures (list "name") "manure" "manure"
 			   (lambda () #f)
 			   (lambda ()
-			     '(("name" "varchar" "None")
+			     '(("name" "varchar" "My manure")
 			       ("N" "real" 0)
 			       ("P" "real" 0)
 			       ("K" "real" 0))))
@@ -120,7 +120,6 @@
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
-     (msg "BACK TO MAIN HERE")
      (let ((polygons (get-polygons)))
        (let ((centre (get-farm-centre polygons)))
 	 (list
@@ -244,7 +243,7 @@
     (build-list-widget db "farm" 'events (list "date" "type") "event" "fieldcalc"
 		       (lambda () (get-current 'field-id #f))
 		       (lambda ()
-			 (list '("name" "varchar" "None")
+			 (list '("name" "varchar" "not used")
 			       '("parent" "varchar" "")
 			       '("type" "varchar" "cattle")
 			       (list "date" "varchar" (date->string (current-date)))
@@ -351,7 +350,7 @@
      (set-current! 'field-id arg)     
      (set-current! 'field-name (entity-get-value "name"))     
      (let ((polygons (get-polygons)))
-       (let ((centre (get-farm-centre polygons)))
+       (let ((centre (get-field-centre arg polygons)))
 	 (append
 	  (update-field-cropsoil-calc-from-current)
 	  (list
@@ -361,7 +360,7 @@
 	   (update-list-widget db "farm" (list "date") "event" "eventview" (get-current 'field-id #f))
 	   (mupdate-spinner 'soil-type "soil" soil-type-list)
 	   (mupdate-spinner 'crop-type "crop" crop-type-list)
-	   (mupdate 'edit-text 'field-size "size")
+	   (update-widget 'edit-text (get-id "field-size") 'text (number->string (rounding-cash (entity-get-value "size"))))
 	   (update-widget 'canvas (get-id "graph") 'drawlist (build-graph))      
 	   (mupdate-spinner 'previous-crop-type "previous-crop" previous-crop-type-list)
 	   (mupdate-spinner 'soil-test-p "soil-test-p" soil-test-p-list)

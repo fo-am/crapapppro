@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.text.Html;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -72,6 +73,7 @@ public class DrawableMap {
     class Polygon {
         String m_UniqueID;
         String m_Name;
+        Vector<String> m_Info;
         Vector<LatLng> m_Verts;
     }
 
@@ -120,7 +122,7 @@ public class DrawableMap {
             scribble_button.setText("Draw field");
             fram_map.addView(scribble_button);
         } else {
-            button_mode=true;
+            //button_mode=true;
         }
 
         parent.addView(outer_map);
@@ -186,7 +188,7 @@ public class DrawableMap {
         // json format
         // [ current_polygon(id) [ polygon, polygon, ... ]]
         // polygon:
-        // [ name uid [ latlng, latlng, ...]]
+        // [ name uid infotext [ latlng, latlng, ...]]
         // latlng:
 
         // (map may not exist yet when called from update)
@@ -201,13 +203,18 @@ public class DrawableMap {
                 Polygon new_poly = new Polygon();
                 new_poly.m_Name = poly.getString(0);
                 new_poly.m_UniqueID = poly.getString(1);
+		JSONArray info_list= poly.getJSONArray(2);
+		new_poly.m_Info = new Vector<String>();
+		for (int j=0; j<info_list.length(); j++) {
+		    new_poly.m_Info.add(info_list.getString(j));
+		}
 
 		// pick out the selected poly's name
 		if (new_poly.m_UniqueID.equals(selected_polygon)) {
 		    selected_polygon_name=new_poly.m_Name;
 		}
 
-                JSONArray verts = poly.getJSONArray(2);
+                JSONArray verts = poly.getJSONArray(3);
                 new_poly.m_Verts = new Vector<LatLng>();
                 for (int v=0; v<verts.length(); v++) {
 		    Log.e("starwisp", "vert "+v);
@@ -369,7 +376,19 @@ public class DrawableMap {
             rectOptions.strokeWidth(3);
             rectOptions.fillColor(0x30aaFFaa);
             map.addPolygon(rectOptions);
-            AddText(GetCentre(poly), poly.m_Name, 10, 20);
+
+	    // only show text for one field in edit mode
+	    if (!map_mode.equals("edit")) {
+		AddText(GetCentre(poly), poly.m_Name, 40, 20, Color.WHITE);
+		for (int j=0; j<poly.m_Info.size(); j++) {
+		    AddText(GetCentre(poly), poly.m_Info.get(j), j*20, 14, 0xffccFFcc);
+		}
+	    } else {
+		if (selected_polygon.equals(poly.m_UniqueID)) {
+		    AddText(GetCentre(poly), poly.m_Name, 0, 20, Color.WHITE);
+		}
+	    }
+
         }
 
         if (current_polygon.size()!=0) {
@@ -382,7 +401,7 @@ public class DrawableMap {
         }
     }
 
-    public Marker AddText(final LatLng location, final String text, final int padding, final int fontSize) {
+    public Marker AddText(final LatLng location, final String text, final int padding, final int fontSize, int colour) {
         Marker marker = null;
 
         final TextView textView = new TextView(m_Context);
@@ -402,14 +421,14 @@ public class DrawableMap {
 
         final Canvas canvasText = new Canvas(bmpText);
         paintText.setColor(Color.BLACK);
-
+	
+        canvasText.drawText(text, (canvasText.getWidth() / 2)+3,
+			    (canvasText.getHeight() - padding - boundsText.bottom)+3, paintText);
+	
+        paintText.setColor(colour);
+	
         canvasText.drawText(text, canvasText.getWidth() / 2,
-              canvasText.getHeight() - padding - boundsText.bottom, paintText);
-
-        paintText.setColor(Color.WHITE);
-
-        canvasText.drawText(text, (canvasText.getWidth() / 2)-3,
-			    (canvasText.getHeight() - padding - boundsText.bottom)-3, paintText);
+			    canvasText.getHeight() - padding - boundsText.bottom, paintText);
 	
         final MarkerOptions markerOptions = new MarkerOptions()
                 .position(location)
