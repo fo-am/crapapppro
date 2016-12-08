@@ -1,3 +1,4 @@
+;; -*- mode: scheme; -*-
 ;; Farm Crap App Pro Copyright (C) 2016 FoAM Kernow
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -54,7 +55,7 @@
   (when (or
          (not (list? tree))
          (not (eqv? (length tree) 2))
-         (not (symbol? (car tree)))
+        ;; (not (symbol? (car tree)))
          (not (list? (cadr tree))))
     (msg "not a tree:" tree)))
          
@@ -79,24 +80,24 @@
   (when (not (eqv? p v)) (error "test" id "failed" p v)))
 
 (define (test)
-  (assert 1 (get-choice-value '((one 1) (two 2)) 'two) 2)
-  (assert 2 (get-choice-value '((one 1) (two 2)) 'three) #f)
-  (assert 3 (dtree-choose '(name ((one 1) (two 2) (default 77))) 'two) 2) 
-  (assert 4 (dtree-choose '(name ((one 1) (two 2) (default 77))) 'three) 77) 
-  (assert 5 (decision '(name ((one 1)
-                              (two (season
-                                    ((winter 3)
-                                     (default 39))))
-                              (default 77)))
-                      '((name two)
-                        (season spring))) 39)
-  (assert 6 (decision '(name ((one 1)
-                              (two (season
-                                    ((winter 3)
-                                     (default 39))))
-                              (default 77)))
-                      '((name two)
-                        (season winter))) 3)
+  (assert 1 (get-choice-value (quote ((one 1) (two 2))) 'two) 2)
+  (assert 2 (get-choice-value (quote ((one 1) (two 2))) 'three) #f)
+  (assert 3 (dtree-choose (quote (name ((one 1) (two 2) (default 77)))) 'two) 2) 
+  (assert 4 (dtree-choose (quote (name ((one 1) (two 2) (default 77)))) 'three) 77) 
+  (assert 5 (decision (quote (name ((one 1)  
+				    (two (season
+					  ((winter 3)
+					   (default 39))))
+				    (default 77))))
+		      (quote ((name two)
+			      (season spring)))) 39)
+  (assert 6 (decision (quote (name ((one 1)
+				    (two (season
+					  ((winter 3)
+					   (default 39))))
+				    (default 77))))
+		      (quote ((name two)
+			      (season winter)))) 3)
   )
 
 (test)

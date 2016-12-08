@@ -1,3 +1,19 @@
+;; -*- mode: scheme; -*-
+;; Farm Crap App Pro Copyright (C) 2016 FoAM Kernow
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU Affero General Public License as
+;; published by the Free Software Foundation, either version 3 of the
+;; License, or (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU Affero General Public License for more details.
+;;
+;; You should have received a copy of the GNU Affero General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 (define i18n-text
   (list
 
@@ -113,8 +129,8 @@
    (list 'DM4 (list "4% DM (Medium soup)"))
    (list 'DM6 (list "6% DM (Thick soup)"))
    (list 'DM10 (list "10% DM (Porridge)"))
-   (list 'DM4-pig (list "4% DM (Thick soup)"))
-   (list 'DM6-pig (list "6% DM (Porridge)"))
+   (list 'DM4 (list "4% DM (Thick soup)"))
+   (list 'DM6 (list "6% DM (Porridge)"))
    (list 'green (list "Green compost"))
    (list 'green-food (list "Green and foodwaste"))
 

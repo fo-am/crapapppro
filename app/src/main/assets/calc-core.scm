@@ -1,3 +1,4 @@
+;; -*- mode: scheme; -*-
 ;; Farm Crap App Pro Copyright (C) 2016 FoAM Kernow
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -15,7 +16,8 @@
 
 ;; these are the symbols used everywhere
 
-(define manure-type-list (list 'cattle 'FYM 'pig 'poultry 'compost 'custom-manure))
+
+(define manure-type-list (list 'cattle 'fym 'pig 'poultry 'compost 'custom-manure))
 (define units-list (list 'metric 'imperial))
 (define soil-type-list 
   (list 'sandyshallow 'peat 'organic 'mediumshallow 'deepclay 'deepsilt))
@@ -36,7 +38,7 @@
 (define season-list (list 'autumn 'winter 'spring 'summer))
 
 (define cattle-quality-list (list 'DM2 'DM6 'DM10))
-(define pig-quality-list (list 'DM2 'DM4-pig 'DM6-pig))
+(define pig-quality-list (list 'DM2 'DM4 'DM6))
 (define poultry-quality-list (list 'layer 'broiler))
 (define fym-quality-list (list 'fym-cattle 'fym-pig 'fym-sheep 'fym-duck 'fym-horse))
 (define compost-quality-list (list 'green 'green-food))
@@ -93,31 +95,40 @@
   (/ (round (* 10 a)) 10))
 
 (define (get-nutrients type amount quality season crop soil application)
+  (msg "get-nutrients")
+  ;; apply all the extra conditional stuff here
   (let ((params (list (list 'type type) 
 		      (list 'quality quality) 
 		      (list 'season season) 
 		      ;; IMPORTANT: we have to convert crop from the 
 		      ;; field types to send to manure
 		      (list 'crop (cond
-				   ((eq? crop 'grass) 'grass-oilseed)
+				   ((eq? crop 'grass-oilseed) 'grass-oilseed)
+ 				   ((eq? crop 'grass) 'grass-oilseed)
 				   (else 'normal))) 
 		      ;; also we have to convert soil to the two
 		      ;; types in manure (pp 66, note b)
 		      (list 'soil (cond 
-				   ((eq? crop 'sandyshallow) 'sandyshallow)
-				   ((eq? crop 'mediumshallow) 'sandyshallow)
+				   ((eq? soil 'sandyshallow) 'sandyshallow)
+				   ((eq? soil 'mediumshallow) 'sandyshallow)
 				   (else 'mediumheavy)))
 		      (list 'application application))))
-    (process-nutrients 
-     amount (get-amount-for-type type)
-     (list
-      (decision manure-tree (append '((nutrient nitrogen)) params))
-      (decision manure-tree (append '((nutrient phosphorous)) params))
-      (decision manure-tree (append '((nutrient potassium)) params))))))
-
-(define (error . args)
-  (display (apply string-append args))(newline))
-
+    (msg params)
+    ;; get the total for pig or cattle slurry, then we apply the 
+    ;; percent value later to get the crop available
+    (let ((total (if (or (eq? type 'pig) (eq? type 'cattle))
+		     (decision n-total-tree params) 0)))      
+      (process-nutrients 
+       amount (get-amount-for-type type)
+       (list
+	;; if pig or cattle slurry, then this is the percent value
+	(let ((n (decision manure-tree (append (quote ((nutrient nitrogen))) params))))
+	  ;; apply percent or return straight value
+	  (msg "n has returned: " n)
+	  (if (zero? total) n (pc total n)))
+	(decision manure-tree (append (quote ((nutrient phosphorous))) params))
+	(decision manure-tree (append (quote ((nutrient potassium))) params)))))))
+  
 (define (get-qualities-for-type t)
   (cond
    ((eq? t 'cattle) cattle-quality-list)
@@ -135,8 +146,8 @@
 
 (define (get-amount-for-type t)
   (cond
-   ((eq? t 'cattle) 100)
-   ((eq? t 'pig) 50)
+   ((eq? t 'cattle) 1)
+   ((eq? t 'pig) 1)
    ((eq? t 'poultry) 10)
    ((eq? t 'compost) 1)
    (else 1)))
@@ -165,8 +176,10 @@
   (/ (round (* 100 a)) 100))
 
 (define (padcash->string a)
-  (let ((t (number->string (+ (rounding-cash a) 0.001))))
-    (substring t 0 (- (string-length t) 1))))
+  (let ((t (number->string (rounding-cash a))))
+    ;; removed in online version...
+    ;;(substring t 0 (- (string-length t) 1))
+    t))
 
 (define (convert-input amount units)
   (if (eq? (current-units) 'metric)
@@ -243,6 +256,7 @@
 	(soil (calc-soil calc))
 	(application (calc-application calc)))
     (get-nutrients type amount quality season crop soil application)))
+
 
 (define (get-units)
   (let ((type (calc-type calc)))
