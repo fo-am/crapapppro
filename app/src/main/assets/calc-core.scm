@@ -237,13 +237,23 @@
 (define (calc-sns rainfall soil crop previous-crop regularly-manure)
   ;; special options needed for grass:
   ;; * grass high/med/low table
-  ;; * growing arable/previous crop = grass (pp 94)
-  ;; waiting on RB209 update before doing this
-  (let ((sns (decision soil-nitrogen-supply-tree 		  
-		       (list 
-			(list 'rainfall rainfall)
-			(list 'soil soil)
-			(list 'previous-crop previous-crop)))))
+  (let ((sns 
+	 ;; special options needed for grass:
+	 (if ;; (and (is-crop-arable? crop) ;; fixme: why arable, what if not and prev = grass?
+	  (or (eq? previous-crop 'grass-low-n)
+	      (eq? previous-crop 'grass-high-n)
+	      (eq? previous-crop 'grass-other))
+	  ;; * growing arable/previous crop = grass (pp 94)
+	  (decision previous-grass-soil-nitrogen-supply-tree
+		    (list 
+		     (list 'rainfall rainfall)
+		     (list 'soil soil)
+		     (list 'previous-crop previous-crop))) 
+	  (decision soil-nitrogen-supply-tree 		  
+		    (list 
+		     (list 'rainfall rainfall)
+		     (list 'soil soil)
+		     (list 'previous-crop previous-crop))))))
     ;; increase sns by one if they regularly manure (pp 188)
     (if (and (< sns 6) (eq? regularly-manure 'yes))
 	(+ sns 1)

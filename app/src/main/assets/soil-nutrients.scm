@@ -192,7 +192,54 @@
 		       (choice 'organic 3)
 		       (choice 'peat 4)))))
 
-
+;; when growing arrable and previous crop is grass
+(define previous-grass-soil-nitrogen-supply-tree
+  (dtree 'soil
+	 (list
+	  (choice 'sandyshallow
+		  (dtree 'previous-crop
+			 (list
+			  (choice 'grass-low-n 0)
+			  (choice 'grass-other 1)
+			  (choice 'grass-high-n 3))))
+	  (choice 'deepclay
+		  (dtree 'rainfall
+			 (list
+			  (choice 'low
+				  (dtree 'previous-crop
+					 (list
+					  (choice 'grass-low-n 2)
+					  (choice 'grass-other 3)
+					  (choice 'grass-high-n 5))))
+			  (choice 'default
+				  (dtree 'previous-crop
+					 (list
+					  (choice 'grass-low-n 1)
+					  (choice 'grass-other 3)
+					  (choice 'grass-high-n 4)))))))
+	  (choice 'deepsilt ;; repeat of above
+		  (dtree 'rainfall
+			 (list
+			  (choice 'low
+				  (dtree 'previous-crop
+					 (list
+					  (choice 'grass-low-n 2)
+					  (choice 'grass-other 3)
+					  (choice 'grass-high-n 5))))
+			  (choice 'default
+				  (dtree 'previous-crop
+					 (list
+					  (choice 'grass-low-n 1)
+					  (choice 'grass-other 3)
+					  (choice 'grass-high-n 4)))))))
+	  ;; default
+	  (choice 'mediumshallow
+		  (dtree 'previous-crop
+			 (list
+			  (choice 'grass-low-n 1)
+			  (choice 'grass-other 2)
+			  (choice 'grass-high-n 3)))))))
+ 
 (define soil-nitrogen-supply-tree
   (dtree 'rainfall
 	 (list low-rainfall-sns-tree
