@@ -180,6 +180,7 @@
      (activity-layout activity))
    (lambda (activity arg)
      (set-current! 'calc-mode 'calc)
+     (clear-soil-test!) ;; remove last values from field
      (update-fieldsize! 1) ;; reset after any fields
      (if (equal? (current-units) 'metric) 
 	 '()
@@ -220,8 +221,8 @@
 		     (entity-update-single-value! 
 		      (ktv "size" "real" (m2->hectares (area-metres polygon))))
 		     (list
-		      (mupdate 'edit-text 'field-size "size"))))
-
+		      (update-widget 'edit-text (get-id "field-size") 'text (number->string (rounding-cash (entity-get-value "size")))))))
+    
     (scroll-view-vert
      0 (layout 'fill-parent 'wrap-content 0.75 'centre 0)
      (list
@@ -461,6 +462,8 @@
        (update-crop! (string->symbol (ktv-get field "crop")))
        (update-soil! (string->symbol (ktv-get field "soil")))
        (update-fieldsize! (ktv-get field "size"))
+       (update-soil-test! (list (string->symbol (ktv-get field "soil-test-p"))
+				(string->symbol (ktv-get field "soil-test-k"))))
        ;; fill in the field related items here
        (entity-set-value! "crop" "varchar" (ktv-get field "crop"))
        (entity-set-value! "soil" "varchar" (ktv-get field "soil"))

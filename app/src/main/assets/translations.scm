@@ -89,7 +89,7 @@
    ;; soil types
    (list 'sandyshallow (list "Sandy/Shallow"))
    (list 'peat (list "Peat"))
-   (list 'organic (list "Organic"))
+   (list 'organic (list "Organic (10-20% organic matter)"))
    (list 'mediumshallow (list "Medium/Shallow"))
    (list 'deepclay (list "Deep clay"))
    (list 'deepsilt (list "Deep silt"))
@@ -101,7 +101,7 @@
    (list 'stored-ploughed (list "Stored and ploughed"))
    (list 'splash-surface (list "Splash plate/surface"))
    (list 'splash-incorporated (list "Splash plate/incorporated"))
-   (list 'shoe-bar-spreader (list "Trailing show/dribble bar/band spreader"))
+   (list 'shoe-bar-spreader (list "Trailing shoe/dribble bar/band spreader"))
    (list 'shallow-injected (list "Shallow injected"))
 
    (list 'regular-organic (list "Do you regularly add organic manures?"))
@@ -120,6 +120,7 @@
    (list 'fym-sheep (list "Sheep"))
    (list 'fym-duck (list "Duck"))
    (list 'fym-horse (list "Horse"))
+   (list 'fym-goat (list "Goat"))
 
    (list 'layer (list "Layer manure"))
    (list 'broiler (list "Broiler litter"))
@@ -164,8 +165,8 @@
    (list 'k-cost (list "K<sub>2</sub>O"))
 
    ;; soil tests
-   (list 'soil-test-p (list "P<sub>2</sub>0<sub>5</sub>"))
-   (list 'soil-test-k (list "K<sub>2</sub>O"))
+   (list 'soil-test-p (list "P"))
+   (list 'soil-test-k (list "K"))
 
    (list 'soil-p-0 (list "0"))
    (list 'soil-p-1 (list "1"))

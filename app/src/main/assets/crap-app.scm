@@ -66,6 +66,8 @@
 (define (update-crop! v) (update-calc! (lambda (c) (calc-modify-crop c v))))
 (define (update-soil! v) (update-calc! (lambda (c) (calc-modify-soil c v))))
 (define (update-fieldsize! v) (update-calc! (lambda (c) (calc-modify-fieldsize c v))))
+(define (update-soil-test! v) (update-calc! (lambda (c) (calc-modify-soil-test c v))))
+(define (clear-soil-test!) (update-calc! (lambda (c) (calc-modify-soil-test c '(soil-p-0 soil-k-0)))))
 
 ;; locally stored in the database
 (define (mutate-units! v) (set-setting! "units" "varchar" (symbol->string v)))
@@ -190,7 +192,7 @@
 	    (update-widget 'text-view (get-id "needed-p")
 			   'text (number->string (convert-output (- (entity-get-value "require-p") (list-ref amounts 1)) "kg/ha")))
 	    (update-widget 'text-view (get-id "needed-k")
-			   'text (number->string (convert-output (- (entity-get-value "require-k") (list-ref amounts 0)) "kg/ha")))
+			   'text (number->string (convert-output (- (entity-get-value "require-k") (list-ref amounts 2)) "kg/ha")))
 	    )) '())
      )))
 
