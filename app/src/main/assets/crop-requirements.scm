@@ -14,10 +14,11 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;; taken from RB209 page 105-196
+;; lots of midpoints used at high SNS indices here...
 
 (define wheat-nitrogen-tree
   '(soil
-    ((sandyshallow ;; light sand
+    ((sandyshallow ;; light sand   
       (sns ((0 160) (1 130) (2 100) (3  70) (4  40) (5  20) (6  20))))
      (mediumshallow ;; shallow soils
       (sns ((0 280) (1 240) (2 210) (3 180) (4 140) (5  80) (6  20))))

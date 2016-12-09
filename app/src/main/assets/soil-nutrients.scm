@@ -70,9 +70,9 @@
 					    (choice 'uncropped 3)
 					    (choice 'medium-n-veg 3)
 					    (choice 'high-n-veg 4))))
-		       ;; fixme
-		       (choice 'organic 3)
-		       (choice 'peat 4)))))
+		       ;; midpoints
+		       (choice 'organic 4)
+		       (choice 'peat 5)))))
 
 (define medium-rainfall-sns-tree
   (choice 'medium
@@ -129,9 +129,9 @@
 					    (choice 'uncropped 2)
 					    (choice 'medium-n-veg 3)
 					    (choice 'high-n-veg 4))))
-		       ;; fixme
-		       (choice 'organic 3)
-		       (choice 'peat 4)))))
+		       ;; midpoints
+		       (choice 'organic 4)
+		       (choice 'peat 5)))))
 
 (define high-rainfall-sns-tree
   (choice 'high
@@ -188,9 +188,9 @@
 					    (choice 'uncropped 2)
 					    (choice 'medium-n-veg 2)
 					    (choice 'high-n-veg 3))))
-		       ;; fixme
-		       (choice 'organic 3)
-		       (choice 'peat 4)))))
+		       ;; midpoints
+		       (choice 'organic 4)
+		       (choice 'peat 5)))))
 
 ;; when growing arrable and previous crop is grass
 (define previous-grass-soil-nitrogen-supply-tree
