@@ -492,6 +492,7 @@
 (define (soundfile-stop-playback) (list "soundfile-stop-playback" 0 "soundfile-stop-playback"))
 (define (vibrate time) (list "vibrate" 0 "vibrate" time))
 (define (make-directory name) (list "make-directory" 0 "make-directory" name))
+(define (view name) (list "view" 0 "view" name))
 ;; treat this like a dialog so the callback fires
 (define (list-files name path fn) (list "list-files" 0 "list-files" name fn path))
 (define (gps-start name fn min-msecs min-metres) (list "gps-start" 0 "gps-start" name fn min-msecs min-metres))

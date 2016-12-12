@@ -42,7 +42,7 @@
    (list 'nutrient-n-imperial (list "N units/acre"))
    (list 'nutrient-p-imperial (list "P<sub>2</sub>O<sub>5</sub> units/acre"))
    (list 'nutrient-k-imperial (list "K<sub>2</sub>O units/acre"))
-   (list 'cost-saving (list "Fertiliser Savings (as at Oct 2013)"))
+   (list 'cost-saving (list "Fertiliser Savings"))
 
    (list 'field-calc-blurb (list "Enter new crap spreading event"))
    (list 'date (list "Set date"))
@@ -61,7 +61,8 @@
    (list 'crop-type (list "Crop type"))
    (list 'application-type (list "Application type"))
    (list 'previous-crop-type (list "Previous crop type"))
-   (list 'field-size (list "Field size in hectares"))
+   (list 'field-size (list "Field size (hectares)"))
+   (list 'field-size-i (list "Field size (acres)"))
    
    ;; crop types
    (list 'winter-wheat-removed (list "Winter wheat, straw removed"))
@@ -196,4 +197,8 @@
 
    (list 'still-needed (list "Fertiliser still needed"))
 
+   (list 'camera (list "Camera"))
+   (list 'take-photo (list "Take photo"))
+   (list 'load-gallery (list "Load gallery"))
+   (list 'gallery (list "Gallery"))
    ))

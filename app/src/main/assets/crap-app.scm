@@ -29,10 +29,13 @@
     (ktv "user-id" "varchar" "None Yet")
     (ktv "language" "int" 0)
     (ktv "email" "varchar" "None Yet")
-    (ktv "units" "varchar" "metric"))))
+    (ktv "units" "varchar" "metric")
+    (ktv "rainfall" "varchar" "medium")
+    (ktv "cost-n" "real" 0.79)
+    (ktv "cost-p" "real" 0.62)
+    (ktv "cost-k" "real" 0.49))))
 
 ;; stuff here depends on the android update mechanism
-
 
 (define (get-custom-types)
   (map
@@ -42,6 +45,15 @@
     db "farm" "manure" 
     (list)
     (list (list "name" "varchar")))))
+
+(define (get-custom-type name)
+  (map
+   (lambda (e)
+     (list (ktv-get e "N") (ktv-get e "P") (ktv-get e "K")))
+   (db-filter-only 
+    db "farm" "manure" 
+    (list (list "name" "varchar" "=" name))
+    (list (list "N" "real") (list "P" "real") (list "K" "real")))))
 
 (define (get-qualities-for-type-inc-custom type)
   (if (eq? type 'custom-manure)
@@ -78,6 +90,18 @@
 
 (define (mutate-rainfall! v) (set-setting! "rainfall" "varchar" (symbol->string v)))
 (define (current-rainfall) (string->symbol (get-setting-value "rainfall")))
+
+(define (mutate-cost-n! v) (set-setting! "cost-n" "real" (safe-string->number v)) (update-costs))
+(define (current-cost-n) (get-setting-value "cost-n"))
+(define (mutate-cost-p! v) (set-setting! "cost-p" "real" (safe-string->number v)) (update-costs))
+(define (current-cost-p) (get-setting-value "cost-p"))
+(define (mutate-cost-k! v) (set-setting! "cost-k" "real" (safe-string->number v)) (update-costs))
+(define (current-cost-k) (get-setting-value "cost-k"))
+
+(define (update-costs)
+  (set! costs (list (current-cost-n)
+		    (current-cost-p)
+		    (current-cost-k))))
 
 (define (mutate-current-seek-mul! a)
   (set! calc (calc-modify-seek-mul calc a)))
@@ -486,13 +510,29 @@
 	(get-farm-centre polygons)
 	r)))
 
-(define (event-view-item id title)
-  (horiz
-   (text-view 0 (mtext-lookup title) 20 (layout 'wrap-content 'wrap-content 1 'centre 0))
-   (text-view (make-id id) "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))))
+(define (polygons-empty? p)
+  (msg p)
+  (or (null? p)
+      (null? (list-ref (car p) 3))))
+
+(define (event-view-item id title bg)
+  (linear-layout
+   0
+   'horizontal 
+   (layout 'fill-parent 'wrap-content 1 'centre 5)
+   (if bg list-colour (list 0 0 0 0))
+   (list
+    (text-view (make-id (string-append id "-text")) (mtext-lookup title) 20 (layout 'fill-parent 'wrap-content 1 'centre 0))
+    (text-view (make-id id) "" 30 (layout 'fill-parent 'wrap-content 1 'centre 0)))))
 
 (define (update-event-view-item id)
-  (update-widget 'text-view (get-id id) 'text (entity-get-value id)))
+  (cond
+   ((equal? id "size")
+    (update-widget 'text-view (get-id id) 'text (convert-output (entity-get-value id) "hectares")))
+   ((equal? id "amount")
+    (update-widget 'text-view (get-id id) 'text (convert-output (entity-get-value id) (get-units-for-type (string->symbol (entity-get-value "type"))))))
+   (else
+    (update-widget 'text-view (get-id id) 'text (entity-get-value id)))))
 
 (define (update-event-view-item-lookup id)
   (update-widget 'text-view (get-id id) 'text (mtext-lookup (string->symbol (entity-get-value id)))))
@@ -586,16 +626,26 @@
   (mspinner 'quality cattle-quality-list 
 	    (lambda (v) 
 	      (let ((type (current-type)))
-		(let ((quality 
-		       (list-ref 
-			(cond
-			 ((eq? type 'cattle) cattle-quality-list)
-			 ((eq? type 'pig) pig-quality-list)
-			 ((eq? type 'poultry) poultry-quality-list)
-			 (else fym-quality-list))
-			v)))
-		  (fn quality)
-		  (update-quality! quality))))))
+		(cond
+		 ((eq? type 'custom-manure)
+		  (let ((name (list-ref (get-custom-types) v)))
+		    (let ((custom (get-custom-type name)))
+		      (when (> (length custom) 0)
+			    (set-custom-override! (car custom)))		      
+		      (fn name) '())))
+		 (else
+		  (set-custom-override! #f)
+		  (let ((quality 
+			 (list-ref 
+			  (cond
+			   ((eq? type 'cattle) cattle-quality-list)
+			   ((eq? type 'pig) pig-quality-list)
+			   ((eq? type 'poultry) poultry-quality-list)
+			   (else fym-quality-list))
+			  v)))
+		    
+		    (fn quality)
+		    (update-quality! quality))))))))
 
 (define (calc-manure-application-widget fn)
   (mspinner 'application-type cattle-application-list 
@@ -610,22 +660,34 @@
 (define (calc-amount-widget fn)
   (seek-bar (make-id "amount") 100 fillwrap
 	    (lambda (v)
-	      (fn v)
-	      (append
-	       (update-amount! (convert-input (* (current-seek-mul) v) (get-units)))
-	       (list
-		(update-widget 'image-view (get-id "example") 'image
-			       (find-image (calc-type calc)
-					   (calc-amount calc))))))))
+	      ;; make it match the display!
+	      (let ((v (rounding v)))
+		(fn v)
+		(append
+		 (update-amount! (convert-input (* (current-seek-mul) v) (get-units)))
+		 (list
+		  (update-widget 'image-view (get-id "example") 'image
+				 (find-image (calc-type calc)
+					     (calc-amount calc)))))))))
   
+(define (photo-path)
+  (string-append
+   (get-current 'field-name "??") 
+   "-"
+   (date->path (string->date (entity-get-value "date")))
+   "/"))
+
 (define (calc-gallery)
-  (vert
+  (linear-layout
+   (make-id "gallery")
+   'vertical
+   (layout 'fill-parent 'wrap-content 1 'centre 20)
+   list-colour
    (list
-    (button (make-id "load-gallery") "Load Gallery" 20 fillwrap
-	    (lambda ()
-	      (let ((path (string-append
-			   (field-name (current-field)) "-"
-			   (number->string (event-id (current-event))) "/")))
+    (mbutton 'load-gallery
+	     (lambda ()
+	      (let ((path (photo-path)))
+		(msg path)
 		(list
 		 (list-files
 		  (string-append "filelister-" path)
@@ -635,14 +697,17 @@
 		     (update-widget
 		      'linear-layout (get-id "gallery") 'contents
 		      (cons
-		       (text-view (make-id "temp") "Gallery" 30 fillwrap)
+		       (mtitle 'gallery)
 		       (foldl
 			(lambda (image r)
 			  (append
-			   (list (image-view (make-id image)
-					     (string-append dirname path image)
-					     (layout 'wrap-content 240 1 'left 0))
-				 (spacer 10))
+			   (list 
+			    (image-button (make-id image)
+					  (string-append dirname path image)
+					  (layout 'wrap-content 'wrap-content 1 'centre 0)
+					  (lambda () (list 
+						      (view (string-append dirname path image)))))
+			    (spacer 10))
 			   r))
 			'()
 			images)))))))))))))
@@ -652,13 +717,21 @@
   (update-field-cropsoil-calc
    (get-crop-requirements/supply-from-current)))
 
+(define (update-text-view-units id metric imperial)
+  (update-widget 
+   'text-view 
+   (symbol->id id) 
+   'text 
+   (mtext-lookup (if (eq? (current-units) 'imperial) 
+		     imperial metric))))
+
 (define (update-field-cropsoil-calc results)
   (list
    (update-widget 'text-view (get-id "supply-n") 'text 
 		  (soil-nutrient-code-to-text (list-ref results 3)))
-   (update-widget 'text-view (get-id "require-n") 'text (number->string (list-ref results 0)))
-   (update-widget 'text-view (get-id "require-p") 'text (number->string (list-ref results 1)))
-   (update-widget 'text-view (get-id "require-k") 'text (number->string (list-ref results 2)))))
+   (update-widget 'text-view (get-id "require-n") 'text (number->string (convert-output (list-ref results 0) "kg/ha")))
+   (update-widget 'text-view (get-id "require-p") 'text (number->string (convert-output (list-ref results 1) "kg/ha")))
+   (update-widget 'text-view (get-id "require-k") 'text (number->string (convert-output (list-ref results 2) "kg/ha")))))
 
 (define (get-crop-requirements/supply-from-field field)
   (get-crop-requirements/supply 

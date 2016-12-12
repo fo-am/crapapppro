@@ -89,9 +89,9 @@ public class DrawableMap {
         ID = id;
         current_polygon = new Vector<LatLng>();
         polygons = new Vector<Polygon>();
-        centre_lat=0;
-        centre_lon=0;
-        centre_zoom=1;
+        centre_lat=49.198935;
+        centre_lon=2.988281;
+        centre_zoom=4;
 
         FrameLayout outer_map = new FrameLayout(c);
         outer_map.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,

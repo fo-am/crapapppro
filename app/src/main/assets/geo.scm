@@ -21,6 +21,10 @@
 (define (vx v) (list-ref v 0))
 (define (vy v) (list-ref v 1))
 
+;; somewhere in france 
+(define centre-lat 49.198935)
+(define centre-lon 2.988281)
+
 (define (wrap-ref l i)
   (list-ref l (modulo i (length l))))
 
@@ -81,7 +85,7 @@
 	      (list 0 0)
 	      polygons)))
       (if (zero? (length polygons))
-	  (list 0 0)
+	  (list centre-lat centre-lon)
 	  (list (/ (vx t) (length polygons))
 		(/ (vy t) (length polygons)))))))
 

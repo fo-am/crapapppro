@@ -26,6 +26,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
+import android.webkit.MimeTypeMap;
 
 // removed due to various aggravating factors
 //import android.support.v7.widget.GridLayout;
@@ -1112,6 +1113,20 @@ public class StarwispBuilder
                 return;
             };
 
+            if (token.equals("view")) {
+		//ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse()));
+
+		File f = new File(arr.getString(3)); 
+		Uri fileUri = Uri.fromFile(f);
+
+		Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW);
+		String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(arr.getString(3));
+		String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+		myIntent.setDataAndType(fileUri,mimetype);
+		ctx.startActivity(myIntent);
+                return;
+            }
+
             if (token.equals("make-directory")) {
                 File file = new File(((StarwispActivity)ctx).m_AppDir+arr.getString(3));
                 file.mkdirs();
@@ -1664,7 +1679,7 @@ public class StarwispBuilder
                     if (type.equals("debug-text-view")) {
                         //v.setMovementMethod(new ScrollingMovementMethod());
                     }
-                    v.setText(arr.getString(3));
+                    v.setText(Html.fromHtml(arr.getString(3)));
 //                    v.invalidate();
                 }
                 if (token.equals("file")) {

@@ -20,6 +20,9 @@
 ;;(set-current! 'user-id (get-setting-value "user-id"))
 ;;(set! i18n-lang (get-setting-value "language"))
 
+(define zoom-out 4)
+(define zoom-in 14)
+
 (define centre-layout (layout 'wrap-content 'wrap-content 1 'centre 0))
 
 (define-activity-list
@@ -85,9 +88,9 @@
        list-colour
        (list
 	(mtext 'costs-blurb)
-	(medit-text-scale 'n-cost "numeric" (lambda (v) '()))
-	(medit-text-scale 'p-cost "numeric" (lambda (v) '()))
-	(medit-text-scale 'k-cost "numeric" (lambda (v) '()))
+	(medit-text-scale 'n-cost "numeric" (lambda (v) (mutate-cost-n! v) '()))
+	(medit-text-scale 'p-cost "numeric" (lambda (v) (mutate-cost-p! v) '()))
+	(medit-text-scale 'k-cost "numeric" (lambda (v) (mutate-cost-k! v) '()))
 	))
       (mtoggle-button 
        'custom-manures 
@@ -121,15 +124,16 @@
      (activity-layout activity))
    (lambda (activity arg)
      (let ((polygons (get-polygons)))
-       (let ((centre (get-farm-centre polygons)))
+       (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in))
+	     (centre (get-farm-centre polygons)))
 	 (list
 	  (update-widget 'linear-layout (get-id "costs-list") 'hide 1)
 	  (update-widget 'linear-layout (get-id "custom-manures-list") 'hide 1)
-	  (update-widget 'edit-text (get-id "n-cost") 'text (number->string (list-ref costs 0)))
-	  (update-widget 'edit-text (get-id "p-cost") 'text (number->string (list-ref costs 1)))
-	  (update-widget 'edit-text (get-id "k-cost") 'text (number->string (list-ref costs 2)))
+	  (update-widget 'edit-text (get-id "n-cost") 'text (number->string (rounding-cash (current-cost-n))))
+	  (update-widget 'edit-text (get-id "p-cost") 'text (number->string (rounding-cash (current-cost-p))))
+	  (update-widget 'edit-text (get-id "k-cost") 'text (number->string (rounding-cash (current-cost-k))))
 	  (update-widget 'draw-map (get-id "fieldmap") 'polygons (list "none highlighted" (get-polygons)))
-	  (update-widget 'draw-map (get-id "fieldmap") 'centre (list (vx centre) (vy centre) 15))
+	  (update-widget 'draw-map (get-id "fieldmap") 'centre (list (vx centre) (vy centre) zoom))
 	  (update-list-widget db "farm" (list "name") "field" "field" #f)
 	  (update-list-widget db "farm" (list "name") "manure" "manure" #f)
 	  (update-widget 'spinner (get-id "choose-units-spinner") 'selection
@@ -221,7 +225,9 @@
 		     (entity-update-single-value! 
 		      (ktv "size" "real" (m2->hectares (area-metres polygon))))
 		     (list
-		      (update-widget 'edit-text (get-id "field-size") 'text (number->string (rounding-cash (entity-get-value "size")))))))
+		      (update-widget 'edit-text (get-id "field-size") 'text 
+				     (number->string (convert-output (entity-get-value "size") 
+								     "hectares"))))))
     
     (scroll-view-vert
      0 (layout 'fill-parent 'wrap-content 0.75 'centre 0)
@@ -235,7 +241,7 @@
      (medit-text-scale 'field-size "numeric" 
 		       (lambda (v)
 			 (entity-update-single-value! 
-			  (ktv "size" "real" (safe-string->number v))) '())))
+			  (ktv "size" "real" (convert-input (safe-string->number v) "hectares"))) '())))
     
     (canvas (make-id "graph")
 	    (layout 'fill-parent 250 1 'centre 0)
@@ -299,7 +305,7 @@
 	(update-field-cropsoil-calc-from-current))))
 
      (mtitle 'soil-supply)
-     (mtext-scale 'nutrient-n-metric)
+     (mtext-scale 'sns-output)
      (text-view (make-id "supply-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
      )
 
@@ -329,9 +335,9 @@
 
      (mtitle 'crop-requirements)
      (horiz
-      (mtext-scale 'nutrient-n-metric)
-      (mtext-scale 'nutrient-p-metric)
-      (mtext-scale 'nutrient-k-metric))
+      (mtext-scale 'nutrient-n-output)
+      (mtext-scale 'nutrient-p-output)
+      (mtext-scale 'nutrient-k-output))
      (horiz
       (text-view (make-id "require-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
       (text-view (make-id "require-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
@@ -351,30 +357,35 @@
      (set-current! 'field-id arg)     
      (set-current! 'field-name (entity-get-value "name"))     
      (let ((polygons (get-polygons)))
-       (let ((centre (get-field-centre arg polygons)))
+       (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in))
+	     (centre (get-field-centre arg polygons)))
 	 (append
 	  (update-field-cropsoil-calc-from-current)
 	  (list
 	   (update-widget 'draw-map (get-id "map") 'polygons (list (entity-get-value "unique_id") (get-polygons)))
-	   (update-widget 'draw-map (get-id "map") 'centre (list (vx centre) (vy centre) 15))
+	   (update-widget 'draw-map (get-id "map") 'centre (list (vx centre) (vy centre) zoom))
 	   (mupdate 'edit-text 'field-name "name")
 	   (update-list-widget db "farm" (list "date") "event" "eventview" (get-current 'field-id #f))
 	   (mupdate-spinner 'soil-type "soil" soil-type-list)
 	   (mupdate-spinner 'crop-type "crop" crop-type-list)
-	   (update-widget 'edit-text (get-id "field-size") 'text (number->string (rounding-cash (entity-get-value "size"))))
+	   (update-widget 'edit-text (get-id "field-size") 'text (number->string (convert-output (entity-get-value "size") "hectares")))
+	   (update-text-view-units 'field-size-text 'field-size 'field-size-i)
 	   (update-widget 'canvas (get-id "graph") 'drawlist (build-graph))      
 	   (mupdate-spinner 'previous-crop-type "previous-crop" previous-crop-type-list)
 	   (mupdate-spinner 'soil-test-p "soil-test-p" soil-test-p-list)
 	   (mupdate-spinner 'soil-test-k "soil-test-k" soil-test-k-list)
 	   (mupdate-spinner 'regular-organic "regularly-manure" yesno-list)
 	   (mupdate-spinner 'grown-grass "recently-grown-grass" yesno-list)
+	   (update-text-view-units 'sns-output 'nutrient-n-metric 'nutrient-n-imperial)
+	   (update-text-view-units 'nutrient-n-output 'nutrient-n-metric 'nutrient-n-imperial)
+	   (update-text-view-units 'nutrient-p-output 'nutrient-p-metric 'nutrient-p-imperial)
+	   (update-text-view-units 'nutrient-k-output 'nutrient-k-metric 'nutrient-k-imperial)
 	   )))))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity requestcode resultcode) '()))
-
 
 ;------------------------
 
@@ -469,10 +480,9 @@
        (entity-set-value! "soil" "varchar" (ktv-get field "soil"))
        (entity-set-value! "size" "real" (ktv-get field "size"))
        (let ((results (get-crop-requirements/supply-from-field field)))
-	 (msg "results:" results)
-	 (entity-set-value! "require-n" "real" (list-ref results 0))
-	 (entity-set-value! "require-p" "real" (list-ref results 1))
-	 (entity-set-value! "require-k" "real" (list-ref results 2))
+	 (entity-set-value! "require-n" "real" (convert-output (list-ref results 0) "kg/ha"))
+	 (entity-set-value! "require-p" "real" (convert-output (list-ref results 1) "kg/ha"))
+	 (entity-set-value! "require-k" "real" (convert-output (list-ref results 2) "kg/ha"))
 	 (entity-set-value! "sns" "real" (list-ref results 3))       
 	 (append
 	  (update-field-cropsoil-calc results)
@@ -482,6 +492,9 @@
 	   (update-widget 'image-view (get-id "example") 'image
 			  (find-image (string->symbol (entity-get-value "type"))
 				      (entity-get-value "amount")))
+	   (update-text-view-units 'nutrient-n-metric 'nutrient-n-metric 'nutrient-n-imperial)
+	   (update-text-view-units 'nutrient-p-metric 'nutrient-p-metric 'nutrient-p-imperial)
+ 	   (update-text-view-units 'nutrient-k-metric 'nutrient-k-metric 'nutrient-k-imperial)
 	   )))))
    (lambda (activity) '())
    (lambda (activity) '())
@@ -491,32 +504,35 @@
   
   (activity
    "eventview"     
-   (vert
-    (mtext 'title)
-    (event-view-item "type" 'report-type)
-    (event-view-item "date" 'report-date)
-    (event-view-item "amount" 'report-amount)
-    (event-view-item "quality" 'report-quality)
-    (event-view-item "application" 'report-application)
-    (event-view-item "season" 'report-season)
-    (event-view-item "crop" 'report-crop)
-    (event-view-item "soil" 'report-soil)
-    (event-view-item "size" 'report-size)
-    ;; (event-view-item "total" 'report-total) size * amount
-    (calc-results)
-    (spacer 10)
-    (mbutton-scale 
-     'camera
-     (lambda ()
-       (list (start-activity "camera" 2 ""))))
-    (spacer 10)
-    (calc-gallery)
-    (spacer 10)
-    (horiz
-     (delete-button)
-     (mbutton-scale 'back (lambda () (list (finish-activity 0)))))
+   (scroll-view-vert
+    0 (layout 'fill-parent 'wrap-content 0.75 'centre 0)
+    (list
+     (vert
+      (mtitle 'title)
+      (event-view-item "type" 'report-type #t)
+      (event-view-item "date" 'report-date #f)
+      (event-view-item "amount" 'report-amount #t)
+      (event-view-item "quality" 'report-quality #f)
+      (event-view-item "application" 'report-application #t)
+      (event-view-item "season" 'report-season #f)
+      (event-view-item "crop" 'report-crop #t)
+      (event-view-item "soil" 'report-soil #f)
+      (event-view-item "size" 'report-size #t)
+      ;; (event-view-item "total" 'report-total) size * amount
+      (calc-results)
+      (spacer 10)
+      (mbutton-scale 
+       'camera
+       (lambda ()
+	 (list (start-activity "camera" 2 ""))))
+      (spacer 10)
+      (calc-gallery)
+      (spacer 10)
+      (horiz
+       (delete-button)
+       (mbutton-scale 'back (lambda () (list (finish-activity 0)))))
 
-    )
+      )))
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
@@ -551,7 +567,16 @@
 	 (update-widget 'text-view (get-id "costn") 'text (get-cost-string-from-nutrient 0 amounts (entity-get-value "size")))
 	 (update-widget 'text-view (get-id "costp") 'text (get-cost-string-from-nutrient 1 amounts (entity-get-value "size")))
 	 (update-widget 'text-view (get-id "costk") 'text (get-cost-string-from-nutrient 2 amounts (entity-get-value "size")))
-	 
+	 (update-text-view-units 'size-text 'field-size 'field-size-i)
+	 (update-text-view-units 'nutrient-n-metric 'nutrient-n-metric 'nutrient-n-imperial)
+	 (update-text-view-units 'nutrient-p-metric 'nutrient-p-metric 'nutrient-p-imperial)
+	 (update-text-view-units 'nutrient-k-metric 'nutrient-k-metric 'nutrient-k-imperial)
+	 ;; get tons/m3/gallons per ha/acre etc
+	 (update-widget 'text-view (get-id "amount-text") 'text 
+			(string-append (mtext-lookup 'report-amount) " (" 
+				       (get-metric/imperial-units-for-type 
+					(string->symbol 
+					 (entity-get-value "type"))) ")"))
 	 ))))
    (lambda (activity) '())
    (lambda (activity) '())
@@ -564,23 +589,19 @@
    (horiz
     (vert
      (camera-preview (make-id "camera") (layout 'fill-parent 320 1 'left 0))
-     (button (make-id "take-pic") "Take photo" 10 fillwrap
-            (lambda ()
-              (let ((path (string-append
-                           (get-current 'field-name #f)
-                           "-"
-                           (date->path (string->date (entity-get-value "date")))
-                           "/")))
-                (list
-                 (make-directory path)
-                 (update-widget 'camera-preview (get-id "camera") 'take-picture path))))))
+     (mbutton 'take-photo
+	      (lambda ()
+		(let ((path (photo-path)))
+		  (list
+		   (make-directory path)
+		   (update-widget 'camera-preview (get-id "camera") 'take-picture path))))))
     (vert
      (image-view (make-id "example") "test" (layout 'fill-parent 320 1 'left 0))
-     (button (make-id "back") "Back" 10 fillwrap
-             (lambda ()
-               (list
-                (update-widget 'camera-preview (get-id "camera") 'shutdown 0)
-                (finish-activity 99))))))
+     (mbutton 'back
+	      (lambda ()
+		(list
+		 (update-widget 'camera-preview (get-id "camera") 'shutdown 0)
+		 (finish-activity 99))))))
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)

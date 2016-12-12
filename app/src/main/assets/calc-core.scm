@@ -67,8 +67,10 @@
 (define (m2->hectares a) (/ a 10000))
 (define (hectares->m2 a) (* a 10000))
 
-;; remove...
-(define costs (list 0.79 0.62 0.49))
+;; overwritten by db values
+(define costs (list 0 0 0))
+(define custom-override #f)
+(define (set-custom-override! s) (set! custom-override s))
 
 (define (abs n)
   (if (< n 0) (- n) n))
@@ -217,7 +219,9 @@
 	(soil (calc-soil calc))
 	(application (calc-application calc))
 	(soil-test (calc-soil-test calc)))
-    (get-nutrients type amount quality season crop soil application soil-test)))
+    (if custom-override  
+	(process-nutrients amount custom-override)
+	(get-nutrients type amount quality season crop soil application soil-test))))
 
 
 (define (get-units)
@@ -227,6 +231,13 @@
         (if (equal? (get-units-for-type type) "m3/ha")
             "gallons/acre"
             "tons/acre"))))
+
+(define (get-metric/imperial-units-for-type type)
+  (if (eq? (current-units) 'metric)
+      (get-units-for-type type)
+      (if (equal? (get-units-for-type type) "m3/ha")
+ 	  "gallons/acre"
+ 	  "tons/acre")))
 
 (define (get-cost-string-from-nutrient nutrient-index amounts mul)
   (padcash->string (* (list-ref amounts nutrient-index)
@@ -261,6 +272,7 @@
 
 (define (get-nutrients type amount quality season crop soil application soil-test)
   (msg "get-nutrients")
+
   ;; apply all the extra conditional stuff here
   (let ((params (list (list 'type type) 
 		      (list 'quality quality) 

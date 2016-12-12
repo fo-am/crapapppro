@@ -159,8 +159,10 @@
    (layout 'fill-parent 'wrap-content 1 'centre 20)
    (list 0 0 0 0)
    (list
-    (text-view 0 (mtext-lookup id)
-               normal-text-size (layout 'wrap-content 'wrap-content -1 'centre 0))
+    (text-view    
+     (make-id (string-append (symbol->string id) "-text"))
+     (mtext-lookup id)
+     normal-text-size (layout 'wrap-content 'wrap-content -1 'centre 0))
     (edit-text (symbol->id id) "" normal-text-size type
                (layout 'fill-parent 'wrap-content -1 'centre 0)
                fn))))
@@ -172,8 +174,10 @@
    (layout 'fill-parent 'wrap-content 1 'centre 20)
    (list 0 0 0 0)
    (list
-    (text-view 0 (mtext-lookup id)
-               normal-text-size (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view      
+     (make-id (string-append (symbol->string id) "-text"))
+     (mtext-lookup id)
+     normal-text-size (layout 'wrap-content 'wrap-content 1 'centre 0))
     (edit-text (symbol->id id) "" normal-text-size type
                (layout 'fill-parent 'wrap-content 1 'centre 0)
                fn))))
