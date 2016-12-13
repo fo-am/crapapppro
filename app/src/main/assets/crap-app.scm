@@ -482,7 +482,9 @@
       ;; info text
       (list 
        (mtext-lookup (string->symbol (ktv-get field "crop")))
-       (string-append (number->string (rounding-cash (ktv-get field "size"))) " ha"))
+       (string-append 
+	(number->string (convert-output (ktv-get field "size") "hectares")) 
+	(if (eq? (current-units) 'imperial) "acres" "ha")))
       (get-field-polygon (ktv-get field "unique_id"))))
    (db-all db "farm" "field")))
 
@@ -728,45 +730,32 @@
 (define (update-field-cropsoil-calc results)
   (list
    (update-widget 'text-view (get-id "supply-n") 'text 
-		  (soil-nutrient-code-to-text (list-ref results 3)))
+		  (if (eq? (current-units) 'imperial)
+		      (soil-nutrient-code-to-text-imperial (list-ref results 3))
+		      (soil-nutrient-code-to-text (list-ref results 3))))
    (update-widget 'text-view (get-id "require-n") 'text (number->string (convert-output (list-ref results 0) "kg/ha")))
    (update-widget 'text-view (get-id "require-p") 'text (number->string (convert-output (list-ref results 1) "kg/ha")))
    (update-widget 'text-view (get-id "require-k") 'text (number->string (convert-output (list-ref results 2) "kg/ha")))))
 
 (define (get-crop-requirements/supply-from-field field)
   (get-crop-requirements/supply 
+   (current-rainfall)
    (string->symbol (ktv-get field "crop"))
    (string->symbol (ktv-get field "soil"))
    (string->symbol (ktv-get field "previous-crop"))
    (string->symbol (ktv-get field "regularly-manure"))
    (string->symbol (ktv-get field "soil-test-p"))
-   (string->symbol (ktv-get field "soil-test-k"))))
+   (string->symbol (ktv-get field "soil-test-k"))
+   (string->symbol (ktv-get field "recently-grown-grass"))))
 
 (define (get-crop-requirements/supply-from-current)
-  (msg "soil test is" (string->symbol (entity-get-value "soil-test-p")))
-
   (get-crop-requirements/supply 
+   (current-rainfall)
    (string->symbol (entity-get-value "crop"))
    (string->symbol (entity-get-value "soil"))
    (string->symbol (entity-get-value "previous-crop"))
    (string->symbol (entity-get-value "regularly-manure"))
    (string->symbol (entity-get-value "soil-test-p"))
-   (string->symbol (entity-get-value "soil-test-k"))))
+   (string->symbol (entity-get-value "soil-test-k"))
+   (string->symbol (entity-get-value "recently-grown-grass"))))
 
-(define (get-crop-requirements/supply crop soil previous-crop regularly-manure soil-test-p soil-test-k)
-  (let ((sns (calc-sns (current-rainfall) soil crop previous-crop regularly-manure)))
-    (msg soil-test-p soil-test-k)
-    (let ((choices 
-	   (list 
-	    (list 'sns sns)
-	    (list 'rainfall (current-rainfall))
-	    (list 'soil soil)
-	    (list 'crop crop)
-	    (list 'p-index soil-test-p)
-	    (list 'k-index soil-test-k))))
-      (list 
-       (decision crop-requirements-n-tree choices) 
-       (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorous) choices))
-       (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))
-       sns))))
-		 

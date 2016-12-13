@@ -92,6 +92,7 @@
    (list 'peat (list "Peat"))
    (list 'organic (list "Organic (10-20% organic matter)"))
    (list 'mediumshallow (list "Medium/Shallow"))
+   (list 'medium (list "Medium"))
    (list 'deepclay (list "Deep clay"))
    (list 'deepsilt (list "Deep silt"))
 
@@ -108,7 +109,7 @@
    (list 'regular-organic (list "Do you regularly add organic manures?"))
    (list 'yes (list "Yes"))
    (list 'no (list "No"))
-   (list 'grown-grass (list "Have you grown grass in the last 3 years?"))
+   (list 'grown-grass (list "Have you grown grass in the last 3 years (other than previous year)?"))
    
 
    (list 'autumn (list "Autumn"))

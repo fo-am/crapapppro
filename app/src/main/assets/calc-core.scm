@@ -20,16 +20,13 @@
 (define manure-type-list (list 'cattle 'fym 'pig 'poultry 'compost 'custom-manure))
 (define units-list (list 'metric 'imperial))
 (define soil-type-list 
-  (list 'sandyshallow 'peat 'organic 'mediumshallow 'deepclay 'deepsilt))
+  (list 'sandyshallow 'medium 'peat 'organic 'mediumshallow 'deepclay 'deepsilt))
 (define soil-test-p-list (list 'soil-p-0 'soil-p-1 'soil-p-2 'soil-p-3))
 (define soil-test-k-list (list 'soil-k-0 'soil-k-1 'soil-k-2- 'soil-k-2+ 'soil-k-3))
 (define crop-type-list 
   (list	'winter-wheat-removed 'winter-wheat-incorporated 
 	'spring-barley-removed 'spring-barley-incorporated 
 	'grass-cut 'grass-grazed))
-
-(define (is-crop-arable? c)
-  (if (or (eq? c 'grass-cut) (eq? c 'grass-grazed)) #f #t))
 
 (define previous-crop-type-list 
   (list 'cereals 'oilseed 'potatoes 
@@ -243,32 +240,80 @@
   (padcash->string (* (list-ref amounts nutrient-index)
                       (list-ref costs nutrient-index) mul)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; the complex bit
 
-;; calculate soil nitrogen supply
-(define (calc-sns rainfall soil crop previous-crop regularly-manure)
-  ;; special options needed for grass:
-  ;; * grass high/med/low table
-  (let ((sns 
-	 ;; special options needed for grass:
-	 (if ;; (and (is-crop-arable? crop) ;; fixme: why arable, what if not and prev = grass?
-	  (or (eq? previous-crop 'grass-low-n)
-	      (eq? previous-crop 'grass-high-n)
-	      (eq? previous-crop 'grass-other))
-	  ;; * growing arable/previous crop = grass (pp 94)
-	  (decision previous-grass-soil-nitrogen-supply-tree
-		    (list 
-		     (list 'rainfall rainfall)
-		     (list 'soil soil)
-		     (list 'previous-crop previous-crop))) 
-	  (decision soil-nitrogen-supply-tree 		  
-		    (list 
-		     (list 'rainfall rainfall)
-		     (list 'soil soil)
-		     (list 'previous-crop previous-crop))))))
+(define (previous-crop-grass? previous-crop)
+  (or (eq? previous-crop 'grass-low-n)
+      (eq? previous-crop 'grass-high-n)
+      (eq? previous-crop 'grass-other)))
+
+(define (is-crop-arable? c)
+  (not (or (eq? c 'grass-cut) 
+	   (eq? c 'grass-grazed))))
+
+;; table on pp 188
+(define (grassland-modifier crop soil previous-crop recently-grown-grass)
+  ;; already checked it's grass -> grass
+  ;; we don't know about previous arable crops
+  (if (eq? recently-grown-grass 'yes)
+      'grassland-high-sns
+      (if (eq? soil 'sandyshallow)
+	  'grassland-low-sns
+	  'grassland-med-sns)))
+
+(define (sns-search tree params regularly-manure)
+  (let ((sns (decision tree params)))
     ;; increase sns by one if they regularly manure (pp 188)
     (if (and (< sns 6) (eq? regularly-manure 'yes))
 	(+ sns 1)
 	sns)))
+    
+;; calculate soil nitrogen supply
+(define (calc-sns rainfall soil crop previous-crop regularly-manure recently-grown-grass)
+  (let ((params (list 
+		 (list 'rainfall rainfall)
+		 ;; soil medium category doesn't exist in sns tables
+		 (list 'soil (if (eq? soil 'medium)
+				 'mediumshallow soil))
+		 (list 'previous-crop previous-crop))))
+    ;; special options needed for grass:
+    (cond
+     ;; from grass -> grass (pp 188)
+     ((and (previous-crop-grass? previous-crop)
+	   (not (is-crop-arable? crop)))
+      (grassland-modifier crop soil previous-crop recently-grown-grass))
+     ;; grass -> arable (pp 94)
+     ((and (is-crop-arable? crop) 
+	   (previous-crop-grass? previous-crop))
+      (sns-search previous-grass-soil-nitrogen-supply-tree
+		  params regularly-manure))
+     (else
+      (sns-search soil-nitrogen-supply-tree 		  
+		  params regularly-manure)))))
+
+
+(define (get-crop-requirements/supply rainfall crop soil previous-crop regularly-manure soil-test-p soil-test-k recently-grown-grass)
+  (let ((sns (calc-sns rainfall soil crop previous-crop regularly-manure recently-grown-grass)))
+    (let ((choices 
+	   (list 
+	    (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
+	    (list 'rainfall rainfall)
+	    (list 'soil soil)
+	    (list 'crop crop)
+	    (list 'p-index soil-test-p)
+	    (list 'k-index soil-test-k))))
+      (list 
+       (+ (decision crop-requirements-n-tree choices) 
+	  ;; add/subtract based on table on pp 188
+	  (cond
+	   ((eq? sns 'grassland-high-sns) -30)
+	   ((eq? sns 'grassland-low-sns) 30)
+	   (else 0)))
+       (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorous) choices))
+       (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))
+       sns))))
+
 
 (define (get-nutrients type amount quality season crop soil application soil-test)
   (msg "get-nutrients")
