@@ -246,7 +246,42 @@
 	       medium-rainfall-sns-tree
 	       high-rainfall-sns-tree)))
 
+;; special codes for these (stored as numbers)
+(define grassland-high-sns 100)
+(define grassland-med-sns 101)
+(define grassland-low-sns 102)
+
 (define (soil-nutrient-code-to-text c)
+  (cond
+   ((eqv? c 0) "&lt;60")
+   ((eqv? c 1) "61-80")
+   ((eqv? c 2) "81-100")
+   ((eqv? c 3) "101-120")
+   ((eqv? c 4) "121-160")
+   ((eqv? c 5) "161-240")
+   ((eqv? c 6) "&gt;240")
+   ((eqv? c grassland-high-sns) "Grassland high SNS")
+   ((eqv? c grassland-med-sns) "Grassland medium SNS")
+   ((eqv? c grassland-low-sns) "Grassland low SNS")
+   (else "SNS Unknown")))
+
+(define (soil-nutrient-code-to-text-imperial c)
+  (cond
+   ((eqv? c 0) "&lt;48")
+   ((eqv? c 1) "49-64")
+   ((eqv? c 2) "65-80")
+   ((eqv? c 3) "81-96")
+   ((eqv? c 4) "97-128")
+   ((eqv? c 5) "128-192")
+   ((eqv? c 6) "&gt;193")
+   ((eqv? c grassland-high-sns) "Grassland high SNS")
+   ((eqv? c grassland-med-sns) "Grassland medium SNS")
+   ((eqv? c grassland-low-sns) "Grassland low SNS")
+   (else "SNS Unknown")))
+
+;; fixme: hmm, for csv export
+
+(define (soil-nutrient-code-to-ascii c)
   (cond
    ((eqv? c 0) "<60")
    ((eqv? c 1) "61-80")
@@ -255,11 +290,12 @@
    ((eqv? c 4) "121-160")
    ((eqv? c 5) "161-240")
    ((eqv? c 6) ">240")
-   ((eq? c 'grassland-high-sns) "Grassland high SNS")
-   ((eq? c 'grassland-med-sns) "Grassland medium SNS")
-   ((eq? c 'grassland-low-sns) "Grassland low SNS")))
+   ((eqv? c grassland-high-sns) "Grassland high SNS")
+   ((eqv? c grassland-med-sns) "Grassland medium SNS")
+   ((eqv? c grassland-low-sns) "Grassland low SNS")
+   (else "SNS Unknown")))
 
-(define (soil-nutrient-code-to-text-imperial c)
+(define (soil-nutrient-code-to-ascii-imperial c)
   (cond
    ((eqv? c 0) "<48")
    ((eqv? c 1) "49-64")
@@ -268,6 +304,7 @@
    ((eqv? c 4) "97-128")
    ((eqv? c 5) "128-192")
    ((eqv? c 6) ">193")
-   ((eq? c 'grassland-high-sns) "Grassland high SNS")
-   ((eq? c 'grassland-med-sns) "Grassland medium SNS")
-   ((eq? c 'grassland-low-sns) "Grassland low SNS")))
+   ((eqv? c grassland-high-sns) "Grassland high SNS")
+   ((eqv? c grassland-med-sns) "Grassland medium SNS")
+   ((eqv? c grassland-low-sns) "Grassland low SNS")
+   (else "SNS Unknown")))

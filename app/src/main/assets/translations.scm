@@ -202,4 +202,10 @@
    (list 'take-photo (list "Take photo"))
    (list 'load-gallery (list "Load gallery"))
    (list 'gallery (list "Gallery"))
+
+   (list 'export (list "Export"))
+   (list 'export-blurb (list "Email export all field data"))
+   (list 'email-button (list "Email"))
+   (list 'none (list "None"))
+
    ))

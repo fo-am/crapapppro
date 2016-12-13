@@ -257,10 +257,10 @@
   ;; already checked it's grass -> grass
   ;; we don't know about previous arable crops
   (if (eq? recently-grown-grass 'yes)
-      'grassland-high-sns
+      grassland-high-sns
       (if (eq? soil 'sandyshallow)
-	  'grassland-low-sns
-	  'grassland-med-sns)))
+	  grassland-low-sns
+	  grassland-med-sns)))
 
 (define (sns-search tree params regularly-manure)
   (let ((sns (decision tree params)))
@@ -295,6 +295,7 @@
 
 (define (get-crop-requirements/supply rainfall crop soil previous-crop regularly-manure soil-test-p soil-test-k recently-grown-grass)
   (let ((sns (calc-sns rainfall soil crop previous-crop regularly-manure recently-grown-grass)))
+    (msg "SNS is -----> " sns)
     (let ((choices 
 	   (list 
 	    (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
@@ -307,8 +308,8 @@
        (+ (decision crop-requirements-n-tree choices) 
 	  ;; add/subtract based on table on pp 188
 	  (cond
-	   ((eq? sns 'grassland-high-sns) -30)
-	   ((eq? sns 'grassland-low-sns) 30)
+	   ((eqv? sns grassland-high-sns) -30)
+	   ((eqv? sns grassland-low-sns) 30)
 	   (else 0)))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorous) choices))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))

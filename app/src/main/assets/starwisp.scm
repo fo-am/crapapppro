@@ -260,7 +260,7 @@
 			       '("require-n" "real" 0)
 			       '("require-p" "real" 0)
 			       '("require-k" "real" 0)
-			       '("sns" "real" 0)
+			       '("sns" "int" 0)
 			       '("soil" "varchar" "normal")
 			       '("size" "real" 0)
 			       '("amount" "real" 0)
@@ -483,7 +483,7 @@
 	 (entity-set-value! "require-n" "real" (convert-output (list-ref results 0) "kg/ha"))
 	 (entity-set-value! "require-p" "real" (convert-output (list-ref results 1) "kg/ha"))
 	 (entity-set-value! "require-k" "real" (convert-output (list-ref results 2) "kg/ha"))
-	 (entity-set-value! "sns" "real" (list-ref results 3))       
+	 (entity-set-value! "sns" "int" (list-ref results 3))       
 	 (append
 	  (update-field-cropsoil-calc results)
 	  (list
@@ -645,6 +645,28 @@
    (lambda (activity) '())
    (lambda (activity requestcode resultcode) '()))
 
+
+  (activity
+   "email"
+   (vert
+    (mtitle 'export)
+    (mtext 'export-blurb)
+    (mbutton 'email-button
+	     (lambda ()
+	       (save-data "fields.csv" (crap-csv db "farm" "event"))
+	       (list
+		(send-mail "" "From your Crap Calculator"
+			   "Please find attached your field data."
+			   (list (string-append dirname "fields.csv"))))))
+    (mbutton 'done (lambda () (list (finish-activity 99)))))
+   (lambda (activity arg)
+     (activity-layout activity))
+   (lambda (activity arg) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity requestcode resultcode) '()))
 
 
   )

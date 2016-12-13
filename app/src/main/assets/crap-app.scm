@@ -759,3 +759,121 @@
    (string->symbol (entity-get-value "soil-test-k"))
    (string->symbol (entity-get-value "recently-grown-grass"))))
 
+(define (save-data filename d)
+  (let ((f (open-output-file (string-append dirname filename))))
+    (display d f)
+    (close-output-port f))
+  d)
+
+
+(define (crap-titles)
+  (string-append  
+   "Field name,"
+   "Manure type,"
+   "Date," 
+   "Crop avail N,"
+   "Crop avail P,"
+   "Crop avail K,"
+   "Crop require N,"
+   "Crop require P,"
+   "Crop require K,"
+   "SNS," 
+   "Soil,"
+   "Field size,"
+   "Rate,"
+   "Manure quality," 
+   "Manure application,"
+   "Season," 
+   "Crop"))
+
+(define (crap-csv db table entity-type)
+  (let ((manure-type 'cattle)
+	(s (db-filter-only 
+	    db "farm" "event" 
+	    (list)
+	    (list 
+	     '("parent" "varchar")
+	     '("type" "varchar")
+	     '("date" "varchar")
+	     '("nutrients-n" "real")
+	     '("nutrients-p" "real")
+	     '("nutrients-k" "real")
+	     '("require-n" "real")
+	     '("require-p" "real")
+	     '("require-k" "real")
+	     '("sns" "int")
+	     '("soil" "varchar")
+	     '("size" "real")
+	     '("amount" "real")
+	     '("quality" "varchar")
+	     '("application" "varchar")
+	     '("season" "varchar")
+	     '("crop" "varchar")))))
+    
+    (if (null? s)
+	;; nothing here, just return titles
+	(crap-titles)
+	(foldl
+	 (lambda (entity r)
+	   (let ((entity (reverse entity)))
+	     (string-append
+	      r "\n"
+	      (foldl
+	       (lambda (ktv r)
+		 (cond
+		  ((equal? (ktv-key ktv) "unique_id") r)
+		  ((equal? (ktv-key ktv) "parent") 
+		   (string-append r "\"" (get-entity-name db table (ktv-value ktv)) "\""))
+		  ((null? (ktv-value ktv))
+		   (msg "value not found in csv for " (ktv-key ktv))
+		   (string-append r ", NULL"))
+
+		  ((equal? (ktv-key ktv) "date")
+		   (string-append r ", \"" (ktv-value ktv) "\""))		  
+	
+		  ((equal? (ktv-key ktv) "type")
+		   (set! manure-type (string->symbol (ktv-value ktv)))
+		   (string-append r ", \"" (mtext-lookup manure-type) "\""))
+		  
+		  ;; look up translated
+		  ((in-list? (ktv-key ktv)
+			     (list "soil" "application" 
+				   "season" "crop"))		   
+		   (string-append r ", \"" (mtext-lookup (string->symbol (ktv-value ktv))) "\""))
+		  
+		  ((equal? (ktv-key ktv) "quality")		   
+		   (if (eq? manure-type 'custom-manure)
+ 		       (string-append r ", \"" (ktv-value ktv) "\"")
+		       (string-append r ", \"" (mtext-lookup (string->symbol (ktv-value ktv))) "\"")))	 
+	  
+		  ;; convert value
+		  ((in-list? (ktv-key ktv)
+			     (list "nutrients-n" "nutrients-p" "nutrients-k" 
+				   "require-n" "require-p" "require-k"))		   
+		   (string-append r ", \"" (number->string (convert-output (ktv-value ktv) "kg/ha")) "\""))
+		  
+		  ((equal? (ktv-key ktv) "sns")
+		   (string-append 
+		    r ", \"" 
+		    (if (eq? (current-units) 'imperial)
+			(soil-nutrient-code-to-ascii-imperial (ktv-value ktv))
+			(soil-nutrient-code-to-ascii (ktv-value ktv)))
+		    "\""))
+
+		  ((equal? (ktv-key ktv) "size")
+		   (string-append r ", \"" (number->string (convert-output (ktv-value ktv) "hectares")) "\""))
+		  
+		  ((equal? (ktv-key ktv) "amount")
+		   (string-append 
+		    r ", \"" (number->string 
+			      (convert-output 
+			       (ktv-value ktv) 
+			       (get-metric/imperial-units-for-type manure-type)))
+		    "\"")) 
+		  
+		  (else
+		   (string-append r ", \"" (stringify-value-url ktv) "\""))))
+	       ""
+	       entity))))
+	 (crap-titles)
+	 s))))
