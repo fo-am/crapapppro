@@ -463,8 +463,10 @@
 	(lambda () 
 	  ;; update nutrient values now...
 	  (let ((nutrients (calc-nutrients)))
-	    ;; need to convert output here??
-	    (entity-set-value! "nutrients-n" "real" (list-ref nutrients 0))
+	    ;; store everything in metric
+	    (if (eq? (list-ref nutrients 0) 'NA)
+		(entity-set-value! "nutrients-n" "real" "0")
+		(entity-set-value! "nutrients-n" "real" (list-ref nutrients 0)))
 	    (entity-set-value! "nutrients-p" "real" (list-ref nutrients 1))
 	    (entity-set-value! "nutrients-k" "real" (list-ref nutrients 2)))	  
 	  (entity-update-values!) 

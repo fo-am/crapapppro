@@ -63,6 +63,7 @@
 (define (decision tree choices)
   (cond
     ((number? tree) tree) ;; we've reached a decision
+    ((symbol? tree) tree) ;; we've reached a decision
     (else
      ;; for debug really...
      (check-tree tree)

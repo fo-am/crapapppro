@@ -88,7 +88,9 @@
   (msg "amount is:" amount)
   (map
    (lambda (q)
-     (rounding (* amount q)))
+     (if (number? q)
+	 (rounding (* amount q))
+	 q))
    nutrients))
 
 (define (rounding a)
@@ -236,11 +238,13 @@
  	  "gallons/acre"
  	  "tons/acre")))
 
+;; i18n??
 (define (get-cost-string-from-nutrient nutrient-index amounts mul)
-  ;; i18n??
-  (string-append "£" (padcash->string (* (list-ref amounts nutrient-index)
-					 (list-ref costs nutrient-index) mul))))
-
+  (if (number? (list-ref amounts nutrient-index))  
+      (string-append "£" (padcash->string (* (list-ref amounts nutrient-index)
+					     (list-ref costs nutrient-index) mul)))
+      "£N/A"))
+  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; the complex bit
 
@@ -296,7 +300,6 @@
 
 (define (get-crop-requirements/supply rainfall crop soil previous-crop regularly-manure soil-test-p soil-test-k recently-grown-grass)
   (let ((sns (calc-sns rainfall soil crop previous-crop regularly-manure recently-grown-grass)))
-    (msg "SNS is -----> " sns)
     (let ((choices 
 	   (list 
 	    (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
@@ -318,8 +321,6 @@
 
 
 (define (get-nutrients type amount quality season crop soil application soil-test)
-  (msg "get-nutrients")
-
   ;; apply all the extra conditional stuff here
   (let ((params (list (list 'type type) 
 		      (list 'quality quality) 
@@ -337,7 +338,6 @@
 				   ((eq? soil 'mediumshallow) 'sandyshallow)
 				   (else 'mediumheavy)))
 		      (list 'application application))))
-    (msg params)
     ;; get the total for pig or cattle slurry or poultry, then we apply the 
     ;; percent value later to get the crop available
     (let ((total (if (or (eq? type 'pig) 
@@ -360,8 +360,9 @@
        (list
 	;; if pig or cattle slurry, then this is the percent value
 	(let ((n (decision manure-tree (append (quote ((nutrient nitrogen))) params))))
-	  ;; apply percent or return straight value
-	  (msg "n has returned: " n)
-	  (if (zero? total) n (pc total n)))
+	  ;; N/A value
+	  (if (eq? n 'NA) n
+	      ;; apply percent or return straight value
+	      (if (zero? total) n (pc total n))))
 	(decision manure-tree (append (list (list 'nutrient phosphorous)) params))
 	(decision manure-tree (append (list (list 'nutrient potassium)) params)))))))

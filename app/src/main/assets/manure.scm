@@ -94,7 +94,7 @@
 	  (winter
 	    (soil ((sandyshallow 25) (mediumheavy 35))))
 	  (spring 50)
-	  (summer 0)))) ;; N/A
+	  (summer NA)))) ;; N/A
 	(DM6
 	 (season
 	  ((autumn
@@ -103,7 +103,7 @@
 	   (winter
 	    (soil ((sandyshallow 20) (mediumheavy 30))))
 	   (spring 40) 
-	   (summer 0)))) ;; N/A
+	   (summer NA)))) ;; N/A
 	(DM10
 	 (season
 	  ((autumn
@@ -234,7 +234,7 @@
 	   (winter
 	    (soil ((sandyshallow 35) (mediumheavy 50))))
 	   (spring 65)
-	   (summer 0)))) ;; N/A
+	   (summer NA)))) ;; N/A
 	(DM4
 	 (season
 	  ((autumn
@@ -243,7 +243,7 @@
 	   (winter
 	    (soil ((sandyshallow 30) (mediumheavy 45))))
 	   (spring 60) 
-	   (summer 0)))) ;; N/A
+	   (summer NA)))) ;; N/A
 	(DM6
 	 (season
 	  ((autumn
@@ -252,7 +252,7 @@
 	   (winter
 	    (soil ((sandyshallow 25) (mediumheavy 40))))
 	   (spring 55)
-	   (summer 0))))))) ;; N/A
+	   (summer NA))))))) ;; N/A
      (shoe-bar-spreader
       (quality
        ((DM2 

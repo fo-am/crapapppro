@@ -116,7 +116,10 @@
       (update-widget 'text-view (get-id "amount-value") 'text
 		     (string-append (number->string (convert-output amount (get-units))) " " (get-units)))
       (update-widget 'text-view (get-id "na")
-		     'text (number->string (convert-output (list-ref amounts 0) "kg/ha")))
+		     'text 
+		     (if (eq? (list-ref amounts 0) 'NA)
+			 "N/A"
+			 (number->string (convert-output (list-ref amounts 0) "kg/ha"))))
       (update-widget 'text-view (get-id "pa")
 		     'text (number->string (convert-output (list-ref amounts 1) "kg/ha")))
       (update-widget 'text-view (get-id "ka")
@@ -132,11 +135,12 @@
      ;; still needed
      (if (eq? (get-current 'calc-mode #f) 'fieldcalc)
 	 (begin
-	   (msg "require-n" (entity-get-value "require-n"))
-	   (msg (number? (entity-get-value "require-n")))
 	   (list
 	    (update-widget 'text-view (get-id "needed-n")
-			   'text (number->string (convert-output (- (entity-get-value "require-n") (list-ref amounts 0)) "kg/ha")))
+			   'text 
+			   (if (eq? (list-ref amounts 0) 'NA)
+			       "N/A"
+			       (number->string (convert-output (- (entity-get-value "require-n") (list-ref amounts 0)) "kg/ha"))))
 	    (update-widget 'text-view (get-id "needed-p")
 			   'text (number->string (convert-output (- (entity-get-value "require-p") (list-ref amounts 1)) "kg/ha")))
 	    (update-widget 'text-view (get-id "needed-k")
@@ -280,6 +284,17 @@
    0
    events))
 
+(define (oldest-event events)
+  (cadr
+   (foldl
+    (lambda (event latest)
+      (let ((d (date->day (ktv-get event "date"))))
+	(if (< d (car latest))
+	    (list d event) latest)))
+    (list 9999999 '())
+    events)))
+
+
 (define (oldest-event-day events)
   (foldl
    (lambda (event latest)
@@ -302,7 +317,7 @@
                 (min (- _min safe))
                 (max (+ _max safe)))
            (append
-            (build-t-scale (string->date (ktv-get (car events) "date")) min max)
+            (build-t-scale (string->date (ktv-get (oldest-event events) "date")) min max)
             (build-bars events min max)
             (build-key)))
          (list (drawlist-text "Not enough events for graph"
