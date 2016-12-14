@@ -47,6 +47,7 @@ import android.text.TextWatcher;
 import android.text.Editable;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -131,6 +132,13 @@ public class starwisp extends StarwispActivity
                       "(define date-year "+year+")"+
                       "(define timezone-offset-mins "+timezone_offset_mins+")"+
                       "(define app-version "+version+")");
+
+	// also updated in StarwispActivity::onCreate()
+	String ori = "'portrait";
+	if (getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE) {
+	    ori = "'landscape";
+	}
+	m_Scheme.eval("(define screen-orientation "+ori+")");	
 
         // pass in a bunch of useful stuff
         DeclareSensors();

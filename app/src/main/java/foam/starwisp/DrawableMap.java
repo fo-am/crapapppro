@@ -77,9 +77,12 @@ public class DrawableMap {
         Vector<LatLng> m_Verts;
     }
 
+    ViewGroup m_parent;
+
     Vector<Polygon> polygons;
 
     public void init(int id, ViewGroup parent, StarwispActivity c, StarwispBuilder b, String mode) {
+	m_parent=parent;
         map_ready = false;
         draw_mode = false;
         button_mode = false;
@@ -99,7 +102,7 @@ public class DrawableMap {
 
         FrameLayout map_container = new FrameLayout(c);
         map_container.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,
-                400));
+                FrameLayout.LayoutParams.FILL_PARENT));
 
         map_container.setId(ID);
         SupportMapFragment mapfrag = SupportMapFragment.newInstance();

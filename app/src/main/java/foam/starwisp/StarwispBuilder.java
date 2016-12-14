@@ -1891,8 +1891,7 @@ public class StarwispBuilder
             if (type.equals("draw-map")) {
 		DrawableMap v = m_DMaps.get(id);
 		if (v != null) {
-                    Log.i("starwisp","update dmap:"+v);
-                    if (token.equals("polygons")) {
+		    if (token.equals("polygons")) {
                         v.UpdateFromJSON(arr.getJSONArray(3));
                     }
                     if (token.equals("centre")) {
@@ -1901,6 +1900,9 @@ public class StarwispBuilder
 				 tokens.getDouble(1),
                                  tokens.getInt(2));
                     }
+                    if (token.equals("layout")) {
+			v.m_parent.setLayoutParams(BuildLayoutParams(arr.getJSONArray(3)));
+		    }
                 } else {
                     Log.e("starwisp", "Asked to update a drawmap which doesn't exist");
                 }

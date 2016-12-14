@@ -28,6 +28,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 import android.view.View;
 import android.graphics.Typeface;
+import android.content.res.Configuration;
 
 //import tv.ouya.console.api.OuyaController;
 import android.view.InputDevice;
@@ -66,6 +67,12 @@ public class StarwispActivity extends FragmentActivity
             arg = extras.getString("arg");
         }
 
+	String ori = "'portrait";
+	if (getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE) {
+	    ori = "'landscape";
+	}
+	m_Scheme.eval("(set! screen-orientation "+ori+")");	
+	
         String json = m_Scheme.eval("(activity-callback 'on-create \""+m_Name+"\" (list \""+arg+"\"))");
         View root = findViewById(R.id.main);
 

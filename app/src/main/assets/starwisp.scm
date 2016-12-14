@@ -21,7 +21,7 @@
 ;;(set! i18n-lang (get-setting-value "language"))
 
 (define zoom-out 4)
-(define zoom-in 14)
+(define zoom-in 16)
 
 (define centre-layout (layout 'wrap-content 'wrap-content 1 'centre 0))
 
@@ -52,76 +52,82 @@
 
   (activity
    "main"
-   (vert
-    (mtitle 'title)
-    (build-drawmap (make-id "fieldmap") "readonly" fillwrap
-		   (lambda (id) 
-		     (list (start-activity "field" 2 id))))
-
-    (scroll-view-vert
-     0 (layout 'fill-parent 'wrap-content 0.75 'centre 0)
-     (list
+   (linear-layout
+     (make-id "top")
+     'vertical
+     (layout 'fill-parent 'wrap-content 1 'centre 0)
+     '(0 0 0 0)
+     (list 
+      (build-drawmap (make-id "fieldmap") "readonly" 
+		     (layout 'fill-parent 'fill-parent 1.25 'centre 0)
+		     (lambda (id) 
+		       (list (start-activity "field" 2 id))))
       (vert
-      (mbutton 'calculator (lambda () (list (start-activity "calc" 2 ""))))
-      (build-list-widget db "farm" 'fields (list "name") "field" "field"
-			 (lambda () #f)
-			 (lambda ()
-			   '(("name" "varchar" "My field")
-			     ("soil" "varchar" "None")
-			     ("crop" "varchar" "None")
-			     ("previous-crop" "varchar" "None")
-			     ("soil-test-p" "varchar" "0")
-			     ("soil-test-k" "varchar" "0")
-			     ("regularly-manure" "varchar" "no")
-			     ("recently-grown-grass" "varchar" "no")
-			     ("size" "real" 0))))
+       (scroll-view-vert
+	0 (layout 'fill-parent 'wrap-content -1 'centre 0)
+	(list
+	 (vert
+	  (mbutton 'calculator (lambda () (list (start-activity "calc" 2 ""))))
+	  (build-list-widget db "farm" 'fields (list "name") "field" "field"
+			    (lambda () #f)
+			    (lambda ()
+			      '(("name" "varchar" "My field")
+				("soil" "varchar" "None")
+				("crop" "varchar" "None")
+				("previous-crop" "varchar" "None")
+				("soil-test-p" "varchar" "0")
+				("soil-test-k" "varchar" "0")
+				("regularly-manure" "varchar" "no")
+				("recently-grown-grass" "varchar" "no")
+				("size" "real" 0))))
 
-      (spacer 20)
-      (mtoggle-button 
-       'fertiliser-costs 
-       (lambda (v) (list (update-widget 'linear-layout (get-id "costs-list") (if (zero? v) 'hide 'show) 0))))
-      (linear-layout
-       (make-id "costs-list")
-       'vertical
-       (layout 'fill-parent 'wrap-content 1 'centre 20)
-       list-colour
-       (list
-	(mtext 'costs-blurb)
-	(medit-text-scale 'n-cost "numeric" (lambda (v) (mutate-cost-n! v) '()))
-	(medit-text-scale 'p-cost "numeric" (lambda (v) (mutate-cost-p! v) '()))
-	(medit-text-scale 'k-cost "numeric" (lambda (v) (mutate-cost-k! v) '()))
-	))
-      (mtoggle-button 
-       'custom-manures 
-       (lambda (v) (list (update-widget 'linear-layout (get-id "custom-manures-list") (if (zero? v) 'hide 'show) 0))))
-      (linear-layout
-       (make-id "custom-manures-list")
-       'vertical
-       (layout 'fill-parent 'wrap-content 1 'centre 20)
-       list-colour
-       (list
-	(mtext 'manures-blurb)
-	(build-list-widget db "farm" 'custom-manures (list "name") "manure" "manure"
-			   (lambda () #f)
-			   (lambda ()
-			     '(("name" "varchar" "My manure")
-			       ("N" "real" 0)
-			       ("P" "real" 0)
-			       ("K" "real" 0))))
-	))
-      (spacer 20)
-      (horiz
-       (mspinner 'choose-units units-list
-		 (lambda (v) (mutate-units! (list-ref units-list v)) '()))
-       (mspinner 'rainfall rainfall-list
-		 (lambda (v) (mutate-rainfall! (list-ref rainfall-list v)) '())))
-      (mbutton 'email (lambda () (list (start-activity "email" 2 ""))))
-      (mbutton 'about (lambda () (list (start-activity "about" 2 ""))))))))
+	 (spacer 20)
+	 (mtoggle-button 
+	  'fertiliser-costs 
+	  (lambda (v) (list (update-widget 'linear-layout (get-id "costs-list") (if (zero? v) 'hide 'show) 0))))
+	 (linear-layout
+	  (make-id "costs-list")
+	  'vertical
+	  (layout 'fill-parent 'wrap-content 1 'centre 20)
+	  list-colour
+	  (list
+	   (mtext 'costs-blurb)
+	   (medit-text-scale 'n-cost "numeric" (lambda (v) (mutate-cost-n! v) '()))
+	   (medit-text-scale 'p-cost "numeric" (lambda (v) (mutate-cost-p! v) '()))
+	   (medit-text-scale 'k-cost "numeric" (lambda (v) (mutate-cost-k! v) '()))
+	   ))
+	 (mtoggle-button 
+	  'custom-manures 
+	  (lambda (v) (list (update-widget 'linear-layout (get-id "custom-manures-list") (if (zero? v) 'hide 'show) 0))))
+	 (linear-layout
+	  (make-id "custom-manures-list")
+	  'vertical
+	  (layout 'fill-parent 'wrap-content 1 'centre 20)
+	  list-colour
+	  (list
+	   (mtext 'manures-blurb)
+	   (build-list-widget db "farm" 'custom-manures (list "name") "manure" "manure"
+			      (lambda () #f)
+			      (lambda ()
+				'(("name" "varchar" "My manure")
+				  ("N" "real" 0)
+				  ("P" "real" 0)
+				  ("K" "real" 0))))
+	   ))
+	 (spacer 20)
+	 (horiz
+	  (mspinner 'choose-units units-list
+		    (lambda (v) (mutate-units! (list-ref units-list v)) '()))
+	  (mspinner 'rainfall rainfall-list
+		    (lambda (v) (mutate-rainfall! (list-ref rainfall-list v)) '())))
+	 (mbutton 'email (lambda () (list (start-activity "email" 2 ""))))
+	 (mbutton 'about (lambda () (list (start-activity "about" 2 ""))))))))))
      
    
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
+     (msg screen-orientation)
      (let ((polygons (get-polygons)))
        (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in))
 	     (centre (get-farm-centre polygons)))
@@ -139,6 +145,8 @@
 			 (if (eq? (current-units) 'metric) 0 1))
 	  (update-widget 'spinner (get-id "rainfall-spinner") 'selection
 			 (index-find (current-rainfall) rainfall-list))
+	  ;; updates for orientation change
+	  (update-widget 'linear-layout (get-id "top") 'orientation (if (eq? screen-orientation 'portrait) 'vertical 'horizontal)) 
 	  ))))
    (lambda (activity) '())
    (lambda (activity) '())
@@ -201,154 +209,160 @@
   (activity
    "field"
    (vert
-    (build-drawmap (make-id "map") "edit" fillwrap  
-		   (lambda (polygon) 
-		     ;; delete previous polygon if one exists
-		     (db-delete-children db "farm" "coord" (get-current 'field-id #f))
+    (linear-layout
+     (make-id "top")
+     'vertical
+     (layout 'fill-parent 'wrap-content 1 'centre 0)
+     '(0 0 0 0)
+     (list 
+      (build-drawmap (make-id "map") "edit" (layout 'fill-parent 'wrap-content 1 'centre 0)  
+		     (lambda (polygon) 
+		       ;; delete previous polygon if one exists
+		       (db-delete-children db "farm" "coord" (get-current 'field-id #f))
 
-		     (index-for-each 
-		      (lambda (i coord)
-			(entity-init&save! 
-			 db "farm" "coord"
-			 (list
-			  (ktv "name" "varchar" "") ;; argh
-			  (ktv "parent" "varchar" (get-current 'field-id #f)) 
-			  (ktv "order" "int" i) 
-			  (ktv "lat" "real" (list-ref coord 0))
-			  (ktv "lng" "real" (list-ref coord 1)))))
-		      polygon)
-		     ;; reset the field again
-		     (entity-init! db "farm" "field" 
-		      (get-entity-by-unique db "farm" (get-current 'field-id #f)))
-		     ;; update area calculation
-		     (entity-update-single-value! 
-		      (ktv "size" "real" (m2->hectares (area-metres polygon))))
-		     (list
-		      (update-widget 'edit-text (get-id "field-size") 'text 
-				     (number->string (convert-output (entity-get-value "size") 
-								     "hectares"))))))
-    
-    (scroll-view-vert
-     0 (layout 'fill-parent 'wrap-content 0.75 'centre 0)
-     (list
+		       (index-for-each 
+			(lambda (i coord)
+			  (entity-init&save! 
+			   db "farm" "coord"
+			   (list
+			    (ktv "name" "varchar" "") ;; argh
+			    (ktv "parent" "varchar" (get-current 'field-id #f)) 
+			    (ktv "order" "int" i) 
+			    (ktv "lat" "real" (list-ref coord 0))
+			    (ktv "lng" "real" (list-ref coord 1)))))
+			polygon)
+		       ;; reset the field again
+		       (entity-init! db "farm" "field" 
+				     (get-entity-by-unique db "farm" (get-current 'field-id #f)))
+		       ;; update area calculation
+		       (entity-update-single-value! 
+			(ktv "size" "real" (m2->hectares (area-metres polygon))))
+		       (list
+			(update-widget 'edit-text (get-id "field-size") 'text 
+				       (number->string (convert-output (entity-get-value "size") 
+								       "hectares"))))))
       (vert
-    
-    (horiz
-     (medit-text-scale 'field-name "normal" 
-		       (lambda (v) (entity-update-single-value! 
-				    (ktv "name" "varchar" v)) '()))
-     (medit-text-scale 'field-size "numeric" 
-		       (lambda (v)
-			 (entity-update-single-value! 
-			  (ktv "size" "real" (convert-input (safe-string->number v) "hectares"))) '())))
-    
-    (build-list-widget db "farm" 'events (list "date" "type") "event" "fieldcalc"
-		       (lambda () (get-current 'field-id #f))
-		       (lambda ()
-			 (list '("name" "varchar" "not used")
-			       '("parent" "varchar" "")
-			       '("type" "varchar" "cattle")
-			       (list "date" "varchar" (date->string (current-date)))
-			       '("nutrients-n" "real" 0)
-			       '("nutrients-p" "real" 0)
-			       '("nutrients-k" "real" 0)
-			       '("require-n" "real" 0)
-			       '("require-p" "real" 0)
-			       '("require-k" "real" 0)
-			       '("sns" "int" 0)
-			       '("soil" "varchar" "normal")
-			       '("size" "real" 0)
-			       '("amount" "real" 0)
-			       '("quality" "varchar" "DM2")
-			       '("application" "varchar" "splash-surface")
-			       '("season" "varchar" "winter")
-			       '("crop" "varchar" "normal"))))
+      (scroll-view-vert
+       0 (layout 'fill-parent 'wrap-content 0 'centre 0)
+       (list
+	(vert
+	 
+	 (horiz
+	  (medit-text-scale 'field-name "normal" 
+			    (lambda (v) (entity-update-single-value! 
+					 (ktv "name" "varchar" v)) '()))
+	  (medit-text-scale 'field-size "numeric" 
+			    (lambda (v)
+			      (entity-update-single-value! 
+			       (ktv "size" "real" (convert-input (safe-string->number v) "hectares"))) '())))
+	 
+	 (build-list-widget db "farm" 'events (list "date" "type") "event" "fieldcalc"
+			    (lambda () (get-current 'field-id #f))
+			    (lambda ()
+			      (list '("name" "varchar" "not used")
+				    '("parent" "varchar" "")
+				    '("type" "varchar" "cattle")
+				    (list "date" "varchar" (date->string (current-date)))
+				    '("nutrients-n" "real" 0)
+				    '("nutrients-p" "real" 0)
+				    '("nutrients-k" "real" 0)
+				    '("require-n" "real" 0)
+				    '("require-p" "real" 0)
+				    '("require-k" "real" 0)
+				    '("sns" "int" 0)
+				    '("soil" "varchar" "normal")
+				    '("size" "real" 0)
+				    '("amount" "real" 0)
+				    '("quality" "varchar" "DM2")
+				    '("application" "varchar" "splash-surface")
+				    '("season" "varchar" "winter")
+				    '("crop" "varchar" "normal"))))
 
-    (vert-colour 
-     list-colour
-     (mtitle 'soil-info)
-     (mspinner 
-      'soil-type soil-type-list
-      (lambda (v) (entity-update-single-value! 
-		   (ktv "soil" "varchar" 
-			(spinner-choice soil-type-list v)))
+	 (vert-colour 
+	  list-colour
+	  (mtitle 'soil-info)
+	  (mspinner 
+	   'soil-type soil-type-list
+	   (lambda (v) (entity-update-single-value! 
+			(ktv "soil" "varchar" 
+			     (spinner-choice soil-type-list v)))
+		   (update-field-cropsoil-calc-from-current)))
+
+	  (mspinner 
+	   'regular-organic yesno-list 
+	   (lambda (v) 
+	     (entity-update-single-value! 
+	      (ktv "regularly-manure" "varchar" 
+		   (spinner-choice yesno-list v)))
+	     (update-field-cropsoil-calc-from-current)))
+	  
+	  (mtext 'soil-test)
+	  (horiz
+	   (mspinner 
+	    'soil-test-p soil-test-p-list 
+	    (lambda (v) 
+	      (entity-update-single-value! 
+	       (ktv "soil-test-p" "varchar" 
+		    (spinner-choice soil-test-p-list v)))
 	      (update-field-cropsoil-calc-from-current)))
+	   (mspinner 
+	    'soil-test-k soil-test-k-list 
+	    (lambda (v) 
+	      (entity-update-single-value! 
+	       (ktv "soil-test-k" "varchar" 
+		    (spinner-choice soil-test-k-list v)))
+	      (update-field-cropsoil-calc-from-current))))
 
-     (mspinner 
-      'regular-organic yesno-list 
-      (lambda (v) 
-	(entity-update-single-value! 
-	 (ktv "regularly-manure" "varchar" 
-	      (spinner-choice yesno-list v)))
-	(update-field-cropsoil-calc-from-current)))
-  
-     (mtext 'soil-test)
-     (horiz
-     (mspinner 
-      'soil-test-p soil-test-p-list 
-      (lambda (v) 
-	(entity-update-single-value! 
-	 (ktv "soil-test-p" "varchar" 
-	      (spinner-choice soil-test-p-list v)))
-	(update-field-cropsoil-calc-from-current)))
-     (mspinner 
-      'soil-test-k soil-test-k-list 
-      (lambda (v) 
-	(entity-update-single-value! 
-	 (ktv "soil-test-k" "varchar" 
-	      (spinner-choice soil-test-k-list v)))
-	(update-field-cropsoil-calc-from-current))))
+	  (mtitle 'soil-supply)
+	  (mtext-scale 'sns-output)
+	  (text-view (make-id "supply-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	  )
 
-     (mtitle 'soil-supply)
-     (mtext-scale 'sns-output)
-     (text-view (make-id "supply-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-     )
+	 (vert-colour
+	  list-colour
+	  (mtitle 'crop-info)
+	  (horiz
+	   (mspinner 
+	    'previous-crop-type previous-crop-type-list 
+	    (lambda (v) 
+	      (entity-update-single-value! 
+	       (ktv "previous-crop" "varchar" 
+		    (spinner-choice previous-crop-type-list v)))
+	      (update-field-cropsoil-calc-from-current)))  
+	   (mspinner 
+	    'grown-grass yesno-list 
+	    (lambda (v) 
+	      (entity-update-single-value! 
+	       (ktv "recently-grown-grass" "varchar" 
+		    (spinner-choice yesno-list v)))'())))
 
-    (vert-colour
-     list-colour
-     (mtitle 'crop-info)
-     (horiz
-      (mspinner 
-       'previous-crop-type previous-crop-type-list 
-       (lambda (v) 
-	 (entity-update-single-value! 
-	  (ktv "previous-crop" "varchar" 
-	       (spinner-choice previous-crop-type-list v)))
-	 (update-field-cropsoil-calc-from-current)))  
-      (mspinner 
-       'grown-grass yesno-list 
-       (lambda (v) 
-	 (entity-update-single-value! 
-	  (ktv "recently-grown-grass" "varchar" 
-	       (spinner-choice yesno-list v)))'())))
+	  (mspinner 'crop-type crop-type-list
+		    (lambda (v) (entity-update-single-value! 
+				 (ktv "crop" "varchar" 
+				      (spinner-choice crop-type-list v))) 
+			    (update-field-cropsoil-calc-from-current)))
 
-     (mspinner 'crop-type crop-type-list
-	       (lambda (v) (entity-update-single-value! 
-			    (ktv "crop" "varchar" 
-				 (spinner-choice crop-type-list v))) 
-		       (update-field-cropsoil-calc-from-current)))
+	  (mtitle 'crop-requirements)
+	  (horiz
+	   (mtext-scale 'nutrient-n-output)
+	   (mtext-scale 'nutrient-p-output)
+	   (mtext-scale 'nutrient-k-output))
+	  (horiz
+	   (text-view (make-id "require-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	   (text-view (make-id "require-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	   (text-view (make-id "require-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+	  )
 
-     (mtitle 'crop-requirements)
-     (horiz
-      (mtext-scale 'nutrient-n-output)
-      (mtext-scale 'nutrient-p-output)
-      (mtext-scale 'nutrient-k-output))
-     (horiz
-      (text-view (make-id "require-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-      (text-view (make-id "require-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-      (text-view (make-id "require-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
-     )
+	 (mtitle 'graph-title)
+	 (canvas (make-id "graph")
+		 (layout 'fill-parent 250 1 'centre 0)
+		 (list))
 
-    (mtitle 'graph-title)
-    (canvas (make-id "graph")
-	    (layout 'fill-parent 250 1 'centre 0)
-	    (list))
-
-    (spacer 20)
- 
-    (horiz
-     (delete-button)
-     (mbutton-scale 'back (lambda () (list (finish-activity 99)))))))))
+	 (spacer 20)
+	 
+	 (horiz
+	  (delete-button)
+	  (mbutton-scale 'back (lambda () (list (finish-activity 99))))))))))))
    
    (lambda (activity arg)
      (activity-layout activity))
@@ -380,6 +394,8 @@
 	   (update-text-view-units 'nutrient-n-output 'nutrient-n-metric 'nutrient-n-imperial)
 	   (update-text-view-units 'nutrient-p-output 'nutrient-p-metric 'nutrient-p-imperial)
 	   (update-text-view-units 'nutrient-k-output 'nutrient-k-metric 'nutrient-k-imperial)
+	   ;; updates for orientation change
+	   (update-widget 'linear-layout (get-id "top") 'orientation (if (eq? screen-orientation 'portrait) 'vertical 'horizontal)) 
 	   )))))
    (lambda (activity) '())
    (lambda (activity) '())

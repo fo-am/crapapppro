@@ -118,6 +118,10 @@ public class StarwispLinearLayout
                     b.Build(ctx,ctxname,new JSONArray(children.getString(i)), v);
                 }
             }
+            if (token.equals("orientation")) {
+		v.setOrientation(BuildOrientation(arr.getString(3)));
+            }
+
         } catch (JSONException e) {
             Log.e("starwisp", "Error parsing data in StarwispLinearLayout " + e.toString());
         }
