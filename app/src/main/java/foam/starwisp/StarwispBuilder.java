@@ -28,6 +28,9 @@ import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.webkit.MimeTypeMap;
 
+// stuff for correct subscript rendering
+import android.widget.TextView.BufferType;
+
 // removed due to various aggravating factors
 //import android.support.v7.widget.GridLayout;
 //import android.widget.GridLayout;
@@ -609,7 +612,7 @@ public class StarwispBuilder
             if (type.equals("text-view")) {
                 TextView v = new TextView(ctx);
                 v.setId(arr.getInt(1));
-                v.setText(Html.fromHtml(arr.getString(2)));
+                v.setText(Html.fromHtml(arr.getString(2)),BufferType.SPANNABLE);
                 v.setTextSize(arr.getInt(3));
                 v.setLayoutParams(BuildLayoutParams(arr.getJSONArray(4)));
                 v.setLinkTextColor(0xffffffaa);
@@ -1679,7 +1682,7 @@ public class StarwispBuilder
                     if (type.equals("debug-text-view")) {
                         //v.setMovementMethod(new ScrollingMovementMethod());
                     }
-                    v.setText(Html.fromHtml(arr.getString(3)));
+                    v.setText(Html.fromHtml(arr.getString(3)),BufferType.SPANNABLE);
 //                    v.invalidate();
                 }
                 if (token.equals("file")) {

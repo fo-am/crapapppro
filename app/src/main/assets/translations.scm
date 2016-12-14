@@ -37,11 +37,11 @@
    (list 'quality (list "Quality"))
    (list 'crop-availible (list "Crop available"))
    (list 'nutrient-n-metric (list "N Kg/ha"))
-   (list 'nutrient-p-metric (list "P<sub>2</sub>O<sub>5</sub> Kg/ha"))
-   (list 'nutrient-k-metric (list "K<sub>2</sub>O Kg/ha"))
+   (list 'nutrient-p-metric (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub> Kg/ha"))
+   (list 'nutrient-k-metric (list "K<sub><small>2</small></sub>O Kg/ha"))
    (list 'nutrient-n-imperial (list "N units/acre"))
-   (list 'nutrient-p-imperial (list "P<sub>2</sub>O<sub>5</sub> units/acre"))
-   (list 'nutrient-k-imperial (list "K<sub>2</sub>O units/acre"))
+   (list 'nutrient-p-imperial (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub> units/acre"))
+   (list 'nutrient-k-imperial (list "K<sub><small>2</small></sub>O units/acre"))
    (list 'cost-saving (list "Fertiliser Savings"))
 
    (list 'field-calc-blurb (list "Enter new crap spreading event"))
@@ -163,8 +163,8 @@
    (list 'fertiliser-costs (list "Your fertiliser costs"))
    (list 'costs-blurb (list "How much do you pay for your fertiliser? This is used to calculate your cost savings."))
    (list 'n-cost (list "N"))
-   (list 'p-cost (list "P<sub>2</sub>O<sub>5</sub>"))
-   (list 'k-cost (list "K<sub>2</sub>O"))
+   (list 'p-cost (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub>"))
+   (list 'k-cost (list "K<sub><small>2</small></sub>O"))
 
    ;; soil tests
    (list 'soil-test-p (list "P"))
@@ -191,8 +191,8 @@
    (list 'manures-blurb (list "Here you can add custom manure types"))
    (list 'manure-name (list "Manure name"))
    (list 'manure-n (list "N content"))
-   (list 'manure-p (list "P<sub>2</sub>O<sub>5</sub> content"))
-   (list 'manure-k (list "K<sub>2</sub>O content"))
+   (list 'manure-p (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub> content"))
+   (list 'manure-k (list "K<sub><small>2</small></sub>O content"))
    
    (list 'delete-are-you-sure (list "Are you sure you want to delete this?"))
 

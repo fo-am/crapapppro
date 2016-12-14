@@ -237,8 +237,9 @@
  	  "tons/acre")))
 
 (define (get-cost-string-from-nutrient nutrient-index amounts mul)
-  (padcash->string (* (list-ref amounts nutrient-index)
-                      (list-ref costs nutrient-index) mul)))
+  ;; i18n??
+  (string-append "£" (padcash->string (* (list-ref amounts nutrient-index)
+					 (list-ref costs nutrient-index) mul))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; the complex bit

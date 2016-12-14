@@ -56,7 +56,6 @@
     (mtitle 'title)
     (build-drawmap (make-id "fieldmap") "readonly" fillwrap
 		   (lambda (id) 
-		     (msg "map button returned" id)
 		     (list (start-activity "field" 2 id))))
 
     (scroll-view-vert
