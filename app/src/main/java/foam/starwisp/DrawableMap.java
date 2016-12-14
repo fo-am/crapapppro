@@ -28,8 +28,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.text.Html;
+import android.view.Gravity;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,6 +45,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +55,7 @@ import java.util.Vector;
 
 public class DrawableMap {
     FrameLayout fram_map;
+    LinearLayout map_cont;
     Button scribble_button;
     Boolean draw_mode;
     Boolean button_mode;
@@ -65,8 +70,14 @@ public class DrawableMap {
     double centre_lon;
     int centre_zoom;
 
+    boolean draw_indicator;
+    double indicator_lat;
+    double indicator_lon;
+
     StarwispActivity m_Context;
     StarwispBuilder m_Builder;
+    
+    TextView m_instructions;
 
     Vector<LatLng> current_polygon;
 
@@ -95,6 +106,9 @@ public class DrawableMap {
         centre_lat=49.198935;
         centre_lon=2.988281;
         centre_zoom=4;
+	draw_indicator=false;
+	indicator_lat=0;
+	indicator_lon=0;
 
         FrameLayout outer_map = new FrameLayout(c);
         outer_map.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,
@@ -113,20 +127,43 @@ public class DrawableMap {
 
         fram_map = new FrameLayout(c);
         fram_map.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,
-                FrameLayout.LayoutParams.FILL_PARENT));
+							      FrameLayout.LayoutParams.FILL_PARENT));
         outer_map.addView(fram_map);
+	
 
         if (map_mode.equals("edit")) {
+	    map_cont = new LinearLayout(c);
+	    map_cont.setOrientation(LinearLayout.VERTICAL);
+	    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,								     									
+									 LinearLayout.LayoutParams.FILL_PARENT);
+	    lp.gravity=Gravity.CENTER;
+	    map_cont.setLayoutParams(lp);
+	    
             scribble_button = new Button(c);
-            scribble_button.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT));
+	    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+					       LinearLayout.LayoutParams.WRAP_CONTENT);
+	    lp.gravity=Gravity.CENTER;
+            scribble_button.setLayoutParams(lp);
+
             scribble_button.setTextSize(20);
             scribble_button.setTypeface(((StarwispActivity) c).m_Typeface);
             scribble_button.setText("Draw field");
-            fram_map.addView(scribble_button);
+            map_cont.addView(scribble_button);
+	    
+	    m_instructions = new TextView(c);
+            m_instructions.setLayoutParams(lp);
+	    m_instructions.setTextSize(20);
+	    m_instructions.setTypeface(m_Context.m_Typeface);
+	    m_instructions.setTextColor(Color.WHITE);
+	    // arg i18n
+            map_cont.addView(m_instructions);
+
+	    fram_map.addView(map_cont);
+	    
         } else {
             //button_mode=true;
         }
+
 
         parent.addView(outer_map);
 
@@ -265,11 +302,14 @@ public class DrawableMap {
                         SendPolygon(poly.m_Verts);
                         current_polygon = new Vector<LatLng>();
                         scribble_button.setText("Draw field");
+			m_instructions.setText("");
+			draw_indicator=false;
 			DrawMap();
                     } else {
 			RemoveSelected();
 			DrawMap();
                         scribble_button.setText("Save field");
+			m_instructions.setText("Touch each corner of your field to draw around it.");
                     }
                 }
             });
@@ -298,6 +338,9 @@ public class DrawableMap {
                     case MotionEvent.ACTION_DOWN:
                         // finger touches the screen
                         if (map_mode.equals("edit")) {
+			    draw_indicator=true;
+			    indicator_lat = latitude;
+			    indicator_lon = longitude;
                             current_polygon.add(new LatLng(latitude, longitude));
                         } else {
                             String clicked_in = CheckPolygons(latitude, longitude);
@@ -402,6 +445,32 @@ public class DrawableMap {
             rectOptions.fillColor(0x30aaFFaa);
             map.addPolygon(rectOptions);
         }
+
+	if (draw_indicator) {
+	    CircleOptions iOptions = new CircleOptions();
+            iOptions.center(new LatLng(indicator_lat,indicator_lon));
+            iOptions.radius(50);
+            iOptions.strokeColor(0xffffffff);
+            iOptions.strokeWidth(1);
+            iOptions.fillColor(0x00000000);
+            map.addCircle(iOptions);
+	    {
+            PolylineOptions pOptions = new PolylineOptions();
+            pOptions.add(new LatLng(indicator_lat+0.0007,indicator_lon));
+            pOptions.add(new LatLng(indicator_lat-0.0007,indicator_lon));
+            pOptions.color(0xffffffff);
+            pOptions.width(1);
+            map.addPolyline(pOptions);
+	    }
+	    {
+            PolylineOptions pOptions = new PolylineOptions();
+            pOptions.add(new LatLng(indicator_lat,indicator_lon+0.001));
+            pOptions.add(new LatLng(indicator_lat,indicator_lon-0.001));
+            pOptions.color(0xffffffff);
+            pOptions.width(1);
+            map.addPolyline(pOptions);
+	    }
+	}
     }
 
     public Marker AddText(final LatLng location, final String text, final int padding, final int fontSize, int colour) {

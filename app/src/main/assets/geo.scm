@@ -42,7 +42,9 @@
 	 (+ r (* (vx (wrap-ref points i))
 		 (- (vy (wrap-ref points (+ i 1)))
 		    (vy (wrap-ref points (- i 1))))))))))
-  (abs (/ (_ -1 0) 2.0)))
+  (if (zero? (length points)) 
+      0
+      (abs (/ (_ -1 0) 2.0))))
 
 ;; not quite sure of this yet, needs checking properly
 (define (recentre polygon)
