@@ -150,10 +150,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define graph-width 320)
-
 (define (maximum a b)
   (if (> a b) a b))
+
+(define graph-width 320)
+(define graph-n-col (map (lambda (x) (maximum 0 (- x 20))) '(0 255 107)))
+(define graph-p-col (map (lambda (x) (maximum 0 (- x 20))) '(238 239 119)))
+(define graph-k-col (map (lambda (x) (maximum 0 (- x 20))) '(255 0 249)))
 
 (define (build-lines events min max colour n)
   (let ((twidth (maximum (- max min) 1)))
@@ -186,13 +189,13 @@
 	 (append
 	  (if (< month-width 20)
 	      (list
-	       (drawlist-line '(200 0 0) 3 (list x 250 x y1))
-	       (drawlist-line '(200 200 0) 3 (list (+ x 3) 250 (+ x 3) y2))
-	       (drawlist-line '(0 0 200) 3 (list (+ x 6) 250 (+ x 6) y3)))
+	       (drawlist-line graph-n-col 3 (list x 250 x y1))
+	       (drawlist-line graph-p-col 3 (list (+ x 3) 250 (+ x 3) y2))
+	       (drawlist-line graph-k-col 3 (list (+ x 6) 250 (+ x 6) y3)))
 	      (list
-	       (drawlist-line '(200 0 0) 10 (list x 250 x y1))
-	       (drawlist-line '(200 200 0) 10 (list (+ x 5) 250 (+ x 5) y2))
-	       (drawlist-line '(0 0 200) 10 (list (+ x 10) 250 (+ x 10) y3))))
+	       (drawlist-line graph-n-col 10 (list x 250 x y1))
+	       (drawlist-line graph-p-col 10 (list (+ x 5) 250 (+ x 5) y2))
+	       (drawlist-line graph-k-col 10 (list (+ x 10) 250 (+ x 10) y3))))
 	  r)))
      '()
      events)))
@@ -263,9 +266,9 @@
      (drawlist-text b 20 100 '(0 0 0) 10 "horizontal")
      (drawlist-text c 20 150 '(0 0 0) 10 "horizontal")
      (drawlist-text d 20 200 '(0 0 0) 10 "horizontal")
-     (drawlist-text "N" 280 30 '(200 0 0) 20 "horizontal")
-     (drawlist-text "P" 280 60 '(200 200 0) 20 "horizontal")
-     (drawlist-text "K" 280 90 '(0 0 200) 20 "horizontal")
+     (drawlist-text "N" 280 30 graph-n-col 20 "horizontal")
+     (drawlist-text "P" 280 60 graph-p-col 20 "horizontal")
+     (drawlist-text "K" 280 90 graph-k-col 20 "horizontal")
      )))
 
 (define (newest-event-day events)

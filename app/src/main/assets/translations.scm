@@ -208,4 +208,6 @@
    (list 'email-button (list "Email"))
    (list 'none (list "None"))
 
+   (list 'graph-title (list "Crop available nutrients added to field"))
+
    ))

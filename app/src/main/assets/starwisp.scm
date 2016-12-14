@@ -242,10 +242,6 @@
 			 (entity-update-single-value! 
 			  (ktv "size" "real" (convert-input (safe-string->number v) "hectares"))) '())))
     
-    (canvas (make-id "graph")
-	    (layout 'fill-parent 250 1 'centre 0)
-	    (list))
-
     (build-list-widget db "farm" 'events (list "date" "type") "event" "fieldcalc"
 		       (lambda () (get-current 'field-id #f))
 		       (lambda ()
@@ -342,6 +338,11 @@
       (text-view (make-id "require-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
       (text-view (make-id "require-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
      )
+
+    (mtitle 'graph-title)
+    (canvas (make-id "graph")
+	    (layout 'fill-parent 250 1 'centre 0)
+	    (list))
 
     (spacer 20)
  
