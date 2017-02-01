@@ -63,7 +63,17 @@
   (db-exec db (string-append "create table " table "_value_file ( id integer primary key autoincrement, entity_id integer, attribute_id varchar(255), value varchar(4096), dirty integer, version integer)"))
   (upgrade-table db (string-append table "_value_file"))
   (db-exec db (string-append "create index if not exists index_" table "_value_file on " table "_value_file (entity_id,attribute_id)"))
+  
+  )
 
+(define (nuke db table)
+  (db-exec db (string-append "drop table " table "_entity;"))
+  (db-exec db (string-append "drop table " table "_attribute;"))
+  (db-exec db (string-append "drop table " table "_value_varchar;"))
+  (db-exec db (string-append "drop table " table "_value_int;"))
+  (db-exec db (string-append "drop table " table "_value_real;"))
+  (db-exec db (string-append "drop table " table "_value_file;"))
+  (msg (db-status db))
   )
 
 

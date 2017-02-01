@@ -5329,7 +5329,7 @@ static void dump_stack_print(scheme *sc, char *str)
      
      // remove for release!!
      if (num_errors>=MAX_ERRORS) {
-	  exit(1);
+	  //exit(1);
      }
      num_errors++;
 }

@@ -17,7 +17,7 @@
 (define i18n-text
   (list
 
-   (list 'title (list "The Farm Crap App"))
+   (list 'title (list "The Farm Crap App: Pro Edition"))
    (list 'splash-about (list "Manage your muck with the Farm Crap App"))
    (list 'splash-blurb (list "Developed by <a href='http://fo.am/kernow'>FoAM Kernow</a> on behalf of the <a href='www.swarmhub.co.uk'>SWARM Knowledge Hub</a>, a Rural Development Programme for England (RDPE) initiative managed by <a href='http://www.duchy.ac.uk/'>Duchy College Rural Business School</a>, in partnership with Rothamsted Research North Wyke."))
    (list 'splash-discl (list "The Farm Crap App offers information for guidance purposes only and is not intended to amount to professional advice or opinion. FoAM Kernow, Duchy College, and Rothamsted Research North Wyke cannot be held responsible for any losses or damage resulting from the use of information provided by this app."))
@@ -25,7 +25,7 @@
 
    (list 'choose-units (list "Choose units"))
    (list 'calculator (list "Calculator"))
-   (list 'email (list "Email"))
+   (list 'email (list "Email export"))
    (list 'about (list "About"))
    (list 'back (list "Back"))
    (list 'done (list "Done"))
@@ -83,7 +83,7 @@
    (list 'medium-n-veg (list "Medium N veg"))
    (list 'forage (list "Forage crops (cut)"))
    (list 'uncropped (list "Uncropped land"))
-   (list 'grass-low-n (list "Grass (low-n/1 or more cuts)"))
+   (list 'grass-low-n (list "Grass (low N/1 or more cuts)"))
    (list 'grass-high-n (list "Grass (3-5yr, high N, grazed)"))
    (list 'grass-other (list "Any other grass"))
    
@@ -203,11 +203,13 @@
    (list 'load-gallery (list "Load gallery"))
    (list 'gallery (list "Gallery"))
 
-   (list 'export (list "Export"))
-   (list 'export-blurb (list "Email export all field data"))
+   (list 'export (list "Export all data"))
+   (list 'export-blurb (list "Email export all field data as a CSV spreadsheet file"))
    (list 'email-button (list "Email"))
    (list 'none (list "None"))
 
    (list 'graph-title (list "Crop available nutrients added to field"))
+   (list 'factory-reset (list "Factory reset"))
+   (list 'factory-reset-are-you-sure (list "Are you sure? This will permenantly delete everything."))
 
    ))

@@ -131,7 +131,7 @@ public class starwisp extends StarwispActivity
                       "(define date-month "+month+")"+
                       "(define date-year "+year+")"+
                       "(define timezone-offset-mins "+timezone_offset_mins+")"+
-                      "(define app-version "+version+")");
+                      "(define app-version \""+version+"\")");
 
 	// also updated in StarwispActivity::onCreate()
 	String ori = "'portrait";

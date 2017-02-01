@@ -18,7 +18,19 @@
    (list 'poultry
          (list
           (list 5 "poultry_5t")
-          (list 10 "poultry_10t")))))
+          (list 10 "poultry_10t")))
+   (list 'compost
+         (list
+          (list 5 "compost_5t")
+          (list 10 "compost_10t")
+          (list 15 "compost_15t")
+          (list 20 "compost_20t")
+          (list 25 "compost_25t")
+          (list 30 "compost_30t")
+          (list 35 "compost_35t")
+          (list 40 "compost_40t")
+          (list 45 "compost_45t")
+          (list 50 "compost_50t")))))
 
 (define (find-image type amount)
   (define (_type images)

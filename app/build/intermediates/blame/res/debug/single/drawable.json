@@ -12,6 +12,10 @@
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/maybe_on.png"
     },
     {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_5t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_5t.jpg"
+    },
+    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/swarmspinner.xml",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/swarmspinner.xml"
     },
@@ -72,6 +76,10 @@
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/seekprogress_fill.xml"
     },
     {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_15t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_15t.jpg"
+    },
+    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/button.png",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/button.png"
     },
@@ -80,8 +88,20 @@
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/logo.png"
     },
     {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_40t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_40t.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_20t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_20t.jpg"
+    },
+    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/seekprogress.xml",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/seekprogress.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_35t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_35t.jpg"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/common_google_signin_btn_text_dark.xml",
@@ -164,12 +184,20 @@
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/no_on.png"
     },
     {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_25t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_25t.jpg"
+    },
+    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/button_bg.xml",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/button_bg.xml"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/image_button_style.xml",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/image_button_style.xml"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_10t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_10t.jpg"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/bg.png",
@@ -180,8 +208,20 @@
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/tick.png"
     },
     {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_30t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_30t.jpg"
+    },
+    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/yes_off.png",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/yes_off.png"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_50t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_50t.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_45t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_45t.jpg"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/cattle_50m3.jpg",

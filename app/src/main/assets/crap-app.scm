@@ -35,6 +35,11 @@
     (ktv "cost-p" "real" 0.62)
     (ktv "cost-k" "real" 0.49))))
 
+(define (nuke-database!)
+  (nuke db "local")
+  (nuke db "farm")
+  (setup-database!))
+  
 ;; stuff here depends on the android update mechanism
 
 (define (get-custom-types)
@@ -455,7 +460,6 @@
 	r)))
 
 (define (polygons-empty? p)
-  (msg p)
   (or (null? p)
       (null? (list-ref (car p) 3))))
 
@@ -631,7 +635,6 @@
     (mbutton 'load-gallery
 	     (lambda ()
 	      (let ((path (photo-path)))
-		(msg path)
 		(list
 		 (list-files
 		  (string-append "filelister-" path)

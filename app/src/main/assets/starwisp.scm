@@ -31,6 +31,8 @@
    "splash"
    (vert
     (mtitle 'title)
+    (text-view (make-id "version")
+               (string-append "Version " app-version) 20 fillwrap)
     (mtext 'splash-about)
     (spacer 20)
     (mtext 'splash-blurb)
@@ -80,7 +82,7 @@
 				("regularly-manure" "varchar" "no")
 				("recently-grown-grass" "varchar" "no")
 				("size" "real" 0))))
-
+	  
 	 (spacer 20)
 	 (mtoggle-button 
 	  'fertiliser-costs 
@@ -121,13 +123,13 @@
 	  (mspinner 'rainfall rainfall-list
 		    (lambda (v) (mutate-rainfall! (list-ref rainfall-list v)) '())))
 	 (mbutton 'email (lambda () (list (start-activity "email" 2 ""))))
-	 (mbutton 'about (lambda () (list (start-activity "about" 2 ""))))))))))
+	 ;(mbutton 'about (lambda () (list (start-activity "about" 2 ""))))
+	 ))))))
      
    
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
-     (msg screen-orientation)
      (let ((polygons (get-polygons)))
        (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in))
 	     (centre (get-farm-centre polygons)))
@@ -449,7 +451,6 @@
       (calc-amount-widget
        (lambda (v) 
 	 (let ((amount (convert-input (* (current-seek-mul) v) (get-units))))
-	   (msg "setting amount" amount)
 	   (entity-set-value! "amount" "real" amount))))
       
       (text-view (make-id "amount-value") "4500 gallons" 30
@@ -482,7 +483,6 @@
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
-     (msg "entering fieldcalc")
      (set-current! 'calc-mode 'fieldcalc)
      (entity-init! db "farm" "event" (get-entity-by-unique db "farm" arg))
      (set-current! 'event-id arg)
@@ -676,6 +676,15 @@
 		(send-mail "" "From your Crap Calculator"
 			   "Please find attached your field data."
 			   (list (string-append dirname "fields.csv"))))))
+    (mbutton 'factory-reset
+	     (lambda ()
+	       (list
+		(alert-dialog
+		 "factory-reset"
+		 (mtext-lookup 'factory-reset-are-you-sure)
+		 (lambda (v)
+		   (when (eqv? v 1)
+			 (nuke-database!)))))))
     (mbutton 'done (lambda () (list (finish-activity 99)))))
    (lambda (activity arg)
      (activity-layout activity))
