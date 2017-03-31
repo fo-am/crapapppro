@@ -162,9 +162,12 @@
 
    (list 'fertiliser-costs (list "Your fertiliser costs"))
    (list 'costs-blurb (list "How much do you pay for your fertiliser? This is used to calculate your cost savings."))
-   (list 'n-cost (list "N"))
-   (list 'p-cost (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub>"))
-   (list 'k-cost (list "K<sub><small>2</small></sub>O"))
+   (list 'n-cost (list "N (£ per Kg)"))
+   (list 'p-cost (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub> (£ per Kg)"))
+   (list 'k-cost (list "K<sub><small>2</small></sub>O (£ per Kg)"))
+   (list 'n-cost-imperial (list "N (£ per unit)"))
+   (list 'p-cost-imperial (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub> (£ per unit)"))
+   (list 'k-cost-imperial (list "K<sub><small>2</small></sub>O (£ per unit)"))
 
    ;; soil tests
    (list 'soil-test-p (list "P"))

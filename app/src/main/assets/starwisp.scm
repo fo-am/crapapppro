@@ -119,7 +119,17 @@
 	 (spacer 20)
 	 (horiz
 	  (mspinner 'choose-units units-list
-		    (lambda (v) (mutate-units! (list-ref units-list v)) '()))
+		    (lambda (v) 
+		      (mutate-units! (list-ref units-list v)) 
+		      (if (equal? (current-units) 'metric) 
+			  (list
+			   (update-widget 'text-view (get-id "n-cost-text") 'text (mtext-lookup 'n-cost))
+			   (update-widget 'text-view (get-id "p-cost-text") 'text (mtext-lookup 'p-cost))
+			   (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost)))
+			  (list
+			   (update-widget 'text-view (get-id "n-cost-text") 'text (mtext-lookup 'n-cost-imperial))
+			   (update-widget 'text-view (get-id "p-cost-text") 'text (mtext-lookup 'p-cost-imperial))
+			   (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost-imperial))))))
 	  (mspinner 'rainfall rainfall-list
 		    (lambda (v) (mutate-rainfall! (list-ref rainfall-list v)) '())))
 	 (mbutton 'email (lambda () (list (start-activity "email" 2 ""))))
@@ -133,23 +143,30 @@
      (let ((polygons (get-polygons)))
        (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in))
 	     (centre (get-farm-centre polygons)))
-	 (list
-	  (update-widget 'linear-layout (get-id "costs-list") 'hide 1)
-	  (update-widget 'linear-layout (get-id "custom-manures-list") 'hide 1)
-	  (update-widget 'edit-text (get-id "n-cost") 'text (number->string (rounding-cash (current-cost-n))))
-	  (update-widget 'edit-text (get-id "p-cost") 'text (number->string (rounding-cash (current-cost-p))))
-	  (update-widget 'edit-text (get-id "k-cost") 'text (number->string (rounding-cash (current-cost-k))))
-	  (update-widget 'draw-map (get-id "fieldmap") 'polygons (list "none highlighted" (get-polygons)))
-	  (update-widget 'draw-map (get-id "fieldmap") 'centre (list (vx centre) (vy centre) zoom))
-	  (update-list-widget db "farm" (list "name") "field" "field" #f)
-	  (update-list-widget db "farm" (list "name") "manure" "manure" #f)
-	  (update-widget 'spinner (get-id "choose-units-spinner") 'selection
-			 (if (eq? (current-units) 'metric) 0 1))
-	  (update-widget 'spinner (get-id "rainfall-spinner") 'selection
-			 (index-find (current-rainfall) rainfall-list))
-	  ;; updates for orientation change
-	  (update-widget 'linear-layout (get-id "top") 'orientation (if (eq? screen-orientation 'portrait) 'vertical 'horizontal)) 
-	  ))))
+	 (append
+	  (if (equal? (current-units) 'metric) 
+	      '()
+	      (list
+	       (update-widget 'text-view (get-id "n-cost-text") 'text (mtext-lookup 'n-cost-imperial))
+	       (update-widget 'text-view (get-id "p-cost-text") 'text (mtext-lookup 'p-cost-imperial))
+	       (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost-imperial))))
+	  (list	  
+	   (update-widget 'linear-layout (get-id "costs-list") 'hide 1)
+	   (update-widget 'linear-layout (get-id "custom-manures-list") 'hide 1)
+	   (update-widget 'edit-text (get-id "n-cost") 'text (number->string (rounding-cash (current-cost-n))))
+	   (update-widget 'edit-text (get-id "p-cost") 'text (number->string (rounding-cash (current-cost-p))))
+	   (update-widget 'edit-text (get-id "k-cost") 'text (number->string (rounding-cash (current-cost-k))))
+	   (update-widget 'draw-map (get-id "fieldmap") 'polygons (list "none highlighted" (get-polygons)))
+	   (update-widget 'draw-map (get-id "fieldmap") 'centre (list (vx centre) (vy centre) zoom))
+	   (update-list-widget db "farm" (list "name") "field" "field" #f)
+	   (update-list-widget db "farm" (list "name") "manure" "manure" #f)
+	   (update-widget 'spinner (get-id "choose-units-spinner") 'selection
+			  (if (eq? (current-units) 'metric) 0 1))
+	   (update-widget 'spinner (get-id "rainfall-spinner") 'selection
+			  (index-find (current-rainfall) rainfall-list))
+	   ;; updates for orientation change
+	   (update-widget 'linear-layout (get-id "top") 'orientation (if (eq? screen-orientation 'portrait) 'vertical 'horizontal)) 
+	   )))))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
