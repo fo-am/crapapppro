@@ -196,7 +196,7 @@
    
    (list 'delete-are-you-sure (list "Are you sure you want to delete this?"))
 
-   (list 'still-needed (list "Fertiliser still needed"))
+   (list 'still-needed (list "Nutrients still needed"))
 
    (list 'camera (list "Camera"))
    (list 'take-photo (list "Take photo"))

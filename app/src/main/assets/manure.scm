@@ -45,8 +45,8 @@
      (pig ;; 2016 recommended no change
       (quality
        ((DM2 3.0) 
-	(DM6 3.6) 
-	(DM10 4.7)))) 
+	(DM4 3.6) 
+	(DM6 4.7)))) 
      (poultry
       (quality
        ((layer 19) ;; 2016 data no exact DM match

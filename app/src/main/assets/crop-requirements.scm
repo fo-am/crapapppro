@@ -89,7 +89,7 @@
 	 (p-index ((soil-p-0 100) (soil-p-1 70) (soil-p-2 40) (soil-p-3 0))))
 	;; spring cut values for k
 	(potassium
-	 (k-index ((soil-k-0 80) (soil-k-1 80) (soil-p-2- 80) (soil-k-2+ 30) (soil-k-3 0)))))))
+	 (k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 30) (soil-k-3 0)))))))
      
      ;; pp 210
      (grass-grazed 
@@ -97,7 +97,7 @@
        ((phosphorous
 	 (p-index ((soil-p-0 80) (soil-p-1 50) (soil-p-2 20) (soil-p-3 0))))
 	(potassium
-	 (k-index ((soil-k-0 60) (soil-k-1 30) (soil-p-2- 0) (soil-k-2+ 0) (soil-k-3 0))))))))))
+	 (k-index ((soil-k-0 60) (soil-k-1 30) (soil-k-2- 0) (soil-k-2+ 0) (soil-k-3 0))))))))))
 
      
 
