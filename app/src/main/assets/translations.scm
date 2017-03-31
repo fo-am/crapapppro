@@ -156,9 +156,9 @@
    (list 'custom-manure (list "Custom"))
 
    (list 'rainfall (list "Your farm's rainfall"))
-   (list 'high (list "High"))
-   (list 'medium (list "Medium"))
-   (list 'low (list "Low"))
+   (list 'rain-high (list "High (>700mm)"))
+   (list 'rain-medium (list "Medium (600-700mm)"))
+   (list 'rain-low (list "Low (<600mm)"))
 
    (list 'fertiliser-costs (list "Your fertiliser costs"))
    (list 'costs-blurb (list "How much do you pay for your fertiliser? This is used to calculate your cost savings."))

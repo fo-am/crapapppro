@@ -16,7 +16,7 @@
 ;; taken from RB209 page 91-94
 
 (define low-rainfall-sns-tree
-  (choice 'low
+  (choice 'rain-low
 	  (dtree 'soil
 		 (list (choice 'sandyshallow 
 			       (dtree 'previous-crop 
@@ -75,7 +75,7 @@
 		       (choice 'peat 5)))))
 
 (define medium-rainfall-sns-tree
-  (choice 'medium
+  (choice 'rain-medium
 	  (dtree 'soil
 		 (list (choice 'sandyshallow 
 			       (dtree 'previous-crop 
@@ -134,7 +134,7 @@
 		       (choice 'peat 5)))))
 
 (define high-rainfall-sns-tree
-  (choice 'high
+  (choice 'rain-high
 	  (dtree 'soil
 		 (list (choice 'sandyshallow 
 			       (dtree 'previous-crop 

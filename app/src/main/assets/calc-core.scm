@@ -48,7 +48,7 @@
 (define cattle-application-list
   (list 'splash-surface 'splash-incorporated 'shoe-bar-spreader 'shallow-injected))
 
-(define rainfall-list (list 'high 'medium 'low))
+(define rainfall-list (list 'rain-high 'rain-medium 'rain-low))
 
 ;; metric/imperial conversion
 (define (tons/acre->tons/ha a) (* a 2.47105381))
