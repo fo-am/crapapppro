@@ -534,7 +534,7 @@
     (text-view (make-id "na") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
     (text-view (make-id "pa") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
     (text-view (make-id "ka") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
-   
+    
    (mtext 'cost-saving)
    (horiz
     (text-view (make-id "costn") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
