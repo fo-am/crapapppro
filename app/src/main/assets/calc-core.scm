@@ -219,7 +219,11 @@
 	(application (calc-application calc))
 	(soil-test (calc-soil-test calc)))
     (if custom-override  
-	(process-nutrients amount custom-override)
+	(list 
+	 ;; total
+	 (process-nutrients amount custom-override)
+	 ;; avail (duplicate)
+	 (process-nutrients amount custom-override))
 	(get-nutrients type amount quality season crop soil application soil-test))))
 
 
@@ -354,15 +358,27 @@
 			     (eq? (cadr soil-test) 'soil-k-3))
 			 'k-total
 			 'k-avail)))
-
-      (process-nutrients 
-       amount 
-       (list
-	;; if pig or cattle slurry, then this is the percent value
-	(let ((n (decision manure-tree (append (quote ((nutrient nitrogen))) params))))
-	  ;; N/A value
-	  (if (eq? n 'NA) n
-	      ;; apply percent or return straight value
-	      (if (zero? total) n (pc total n))))
-	(decision manure-tree (append (list (list 'nutrient phosphorous)) params))
-	(decision manure-tree (append (list (list 'nutrient potassium)) params)))))))
+      (list
+       ;; total values
+       (process-nutrients 
+	amount 
+	(list
+	 ;; if pig or cattle slurry, then this is the percent value
+	 (if (zero? total) 
+	     (decision manure-tree (append (list (list 'nutrient 'n-total))) params)
+	     total)
+	 (decision manure-tree (append (list (list 'nutrient 'p-total)) params))
+	 (decision manure-tree (append (list (list 'nutrient 'k-total)) params))))
+       
+       ;; crop availible values
+       (process-nutrients 
+	amount 
+	(list
+	 ;; if pig or cattle slurry, then this is the percent value
+	 (let ((n (decision manure-tree (append (quote ((nutrient n-avail))) params))))
+	   ;; N/A value
+	   (if (eq? n 'NA) n
+	       ;; apply percent or return straight value
+	       (if (zero? total) n (pc total n))))
+	 (decision manure-tree (append (list (list 'nutrient phosphorous)) params))
+	 (decision manure-tree (append (list (list 'nutrient potassium)) params))))))))

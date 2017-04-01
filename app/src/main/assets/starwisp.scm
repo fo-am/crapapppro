@@ -481,8 +481,8 @@
        (mbutton-scale 
 	'save 
 	(lambda () 
-	  ;; update nutrient values now...
-	  (let ((nutrients (calc-nutrients)))
+	  ;; update nutrient values now... (use available values)
+	  (let ((nutrients (cadr (calc-nutrients))))
 	    ;; store everything in metric
 	    (if (eq? (list-ref nutrients 0) 'NA)
 		(entity-set-value! "nutrients-n" "real" "0")

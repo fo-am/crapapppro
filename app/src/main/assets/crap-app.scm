@@ -112,23 +112,38 @@
   (set! calc (calc-modify-seek-mul calc a)))
 
 (define (run-calc)
-  (let ((amounts (calc-nutrients))
-        (amount (calc-amount calc))
-        (type (calc-type calc))
-	(size (calc-fieldsize calc)))
+  (let* ((nutrients (calc-nutrients))
+	 (amounts (cadr nutrients))
+	 (total-amounts (car nutrients))
+	 (amount (calc-amount calc))
+	 (type (calc-type calc))
+	 (size (calc-fieldsize calc)))
     (append
      (list
       (update-widget 'text-view (get-id "amount-value") 'text
 		     (string-append (number->string (convert-output amount (get-units))) " " (get-units)))
+
+      ;; nutrient values: "crop-avail (total)"
       (update-widget 'text-view (get-id "na")
 		     'text 
-		     (if (eq? (list-ref amounts 0) 'NA)
-			 "N/A"
-			 (number->string (convert-output (list-ref amounts 0) "kg/ha"))))
+		     (string-append
+		      (if (eq? (list-ref amounts 0) 'NA)
+			  "N/A" (number->string (convert-output (list-ref amounts 0) "kg/ha")))
+		      " ("
+		      (if (eq? (list-ref total-amounts 0) 'NA)
+			  "N/A" (number->string (convert-output (list-ref total-amounts 0) "kg/ha")))
+		      ")"))
+      
       (update-widget 'text-view (get-id "pa")
-		     'text (number->string (convert-output (list-ref amounts 1) "kg/ha")))
+		     'text (string-append 
+			    (number->string (convert-output (list-ref amounts 1) "kg/ha"))
+			    " (" (number->string (convert-output (list-ref total-amounts 1) "kg/ha")) ")"))
+
       (update-widget 'text-view (get-id "ka")
-		     'text (number->string (convert-output (list-ref amounts 2) "kg/ha")))
+		     'text (string-append
+			    (number->string (convert-output (list-ref amounts 2) "kg/ha"))
+			    " (" (number->string (convert-output (list-ref total-amounts 2) "kg/ha")) ")"))
+
       ;; costs
       (update-widget 'text-view (get-id "costn")
 		     'text (get-cost-string-from-nutrient 0 amounts size))
@@ -492,6 +507,7 @@
     (mtext-scale 'nutrient-n-metric)
     (mtext-scale 'nutrient-p-metric)
     (mtext-scale 'nutrient-k-metric))
+
    (horiz
     (text-view (make-id "na") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
     (text-view (make-id "pa") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
@@ -513,6 +529,7 @@
     (mtext-scale 'nutrient-n-metric)
     (mtext-scale 'nutrient-p-metric)
     (mtext-scale 'nutrient-k-metric))
+
    (horiz
     (text-view (make-id "na") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
     (text-view (make-id "pa") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))

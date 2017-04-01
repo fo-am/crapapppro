@@ -176,7 +176,7 @@
 (define cattle-slurry-tree
   (choice 'cattle
 	  (dtree 'nutrient
-		 (list (choice 'nitrogen cattle-slurry-n-pc-tree)
+		 (list (choice 'n-avail cattle-slurry-n-pc-tree)
 		       (quote (p-total (quality ((DM2 0.5) 
 						 (DM6 1.1) 
 						 (DM10 1.6))))) 
@@ -316,7 +316,7 @@
 (define pig-slurry-tree
   (choice 'pig
 	  (dtree 'nutrient
-		 (list (choice 'nitrogen pig-slurry-n-pc-tree)
+		 (list (choice 'n-avail pig-slurry-n-pc-tree)
  		       (quote (p-total (quality ((DM2 0.8)
 						 (DM4 1.5)
 						 (DM6 2.2)))))
@@ -332,36 +332,6 @@
 		       (quote (k-avail (quality ((DM2 1.62) ;; RB209 8th ed: 1.8
 						 (DM4 1.98) ;; RB209 8th ed: 2.2
 						 (DM6 2.34))))))))) ;; RB209 8th ed: 2.5
-;; no longer used...
-(define old-poultry-tree
-  (quote (poultry
-	  (quality
-	   ((layer
-	     (nutrient 
-	      ((nitrogen
-		(season		
-		 ((autumn
-		   (soil 
-		    ((sandyshallow (crop ((normal 19) (grass-oilseed 28.5))))
-		     (mediumheavy (crop ((normal 47.5) (grass-oilseed 57)))))))
-		  (winter 47.5)
-		  (summer 66.5)
-		  (spring 66.5))))
-	       (phosphorous 84) 
-	       (potassium 86))))
-	    (broiler 
-	     (nutrient
-	      ((nitrogen 
-		(season
-		 ((autumn 
-		   (soil 
-		    ((sandyshallow (crop ((normal 30) (grass-oilseed 45))))
-		     (mediumheavy (crop ((normal 75) (grass-oilseed 90)))))))
-		  (winter (soil ((sandyshallow 60) (mediumheavy 75))))
-		  (summer 90)
-		  (spring 90))))
-	       (phosphorous 150)
-	       (potassium 162)))))))))
 
 ;; N is in perecent of total
 (define poultry-tree 
@@ -369,7 +339,7 @@
 	  (quality
 	   ((layer
 	     (nutrient 
-	      ((nitrogen
+	      ((n-avail
 		(season		
 		 ((autumn
 		   (soil 
@@ -385,7 +355,7 @@
 	       (k-avail 8.6))))  ;; 2016 no exact match  RB209 8th ed: 8.6 (90%)
 	    (broiler 
 	     (nutrient
-	      ((nitrogen 
+	      ((n-avail 
 		(season
 		 ((autumn 
 		   (soil 
@@ -406,42 +376,48 @@
     'quality
     (list (choice 'fym-cattle
 		  (dtree 'nutrient 
-			 (list (choice 'nitrogen (fym-seasonal-nitrogen 6.7)) ;; RB209 8th ed: 6.0
+			 (list (choice 'n-total 6.7) ;; RB209 8th ed: 6.0			  
+			       (choice 'n-avail (fym-seasonal-nitrogen 6.7)) ;; RB209 8th ed: 6.0
 			       (choice 'p-total 3.2) ;; RB209 2016 not significant change
 			       (choice 'p-avail 1.9) ;; RB209 2016 not significant change
 			       (choice 'k-total 9.4) ;; 2016 value
 			       (choice 'k-avail 8.46)))) ;; (90% of 9.4) RB209 8th ed: 7.2
 	  (choice 'fym-pig
 		  (dtree 'nutrient 
-			 (list (choice 'nitrogen (fym-seasonal-nitrogen 7.0)) ;; RB209 2016 no recommended changes
+			 (list (choice 'n-total 7.0)
+			       (choice 'n-avail (fym-seasonal-nitrogen 7.0)) ;; RB209 2016 no recommended changes
 			       (choice 'p-total 6.0)
 			       (choice 'p-avail 3.6)
 			       (choice 'k-total 8.0)
 			       (choice 'k-avail 7.2)))) 
 	  (choice 'fym-sheep
 		  (dtree 'nutrient 
-			 (list (choice 'nitrogen (fym-seasonal-nitrogen 7.0)) ;; RB209 2016 not significant change
+			 (list (choice 'n-total 7.0)
+                               (choice 'n-avail (fym-seasonal-nitrogen 7.0)) ;; RB209 2016 not significant change
 			       (choice 'p-total 3.2)
 			       (choice 'p-avail 1.9)  ;; RB209 2016 not significant change
 			       (choice 'k-total 8)
 			       (choice 'k-avail 7.2))))  ;; RB209 2016 not significant change
 	  (choice 'fym-duck
 		  (dtree 'nutrient 
-			 (list (choice 'nitrogen (fym-seasonal-nitrogen 6.5))
+			 (list (choice 'n-total 6.5)
+                               (choice 'n-avail (fym-seasonal-nitrogen 6.5))
 			       (choice 'p-total 5.5) 
 			       (choice 'p-avail 3.3) 
 			       (choice 'k-total 7.5)
 			       (choice 'k-avail 6.8))))
 	  (choice 'fym-horse ;; 2016 previous RB209 values seem wrong? so leaving as is
 		  (dtree 'nutrient 
-			 (list (choice 'nitrogen (fym-seasonal-nitrogen 7.0))
+			 (list (choice 'n-total 7.0)
+                               (choice 'n-avail (fym-seasonal-nitrogen 7.0))
 			       (choice 'p-total 5.0)
 			       (choice 'p-avail 3.0)
 			       (choice 'k-total 6.0)
 			       (choice 'k-avail 5.4))))
 	  (choice 'fym-goat ;; added from 2016 study (6 samples though)
 		  (dtree 'nutrient 
-			 (list (choice 'nitrogen (fym-seasonal-nitrogen 9.5))
+			 (list (choice 'n-total 9.5)
+                               (choice 'n-avail (fym-seasonal-nitrogen 9.5))
 			       (choice 'p-total 4.5)
 			       (choice 'p-avail 2.7) 
 			       (choice 'k-total 12.2)
@@ -450,12 +426,14 @@
 (define compost-manure-tree
   (quote (compost
 	  (quality
-	   ((green (nutrient ((nitrogen 0.01) ;; (5% of total 0.2)
+	   ((green (nutrient ((n-total 0.2)
+			      (n-avail 0.01) ;; (5% of total 0.2)
 			      (p-total 3.4)
 			      (p-avail 1.7) ;; (5%) RB209 8th ed: 3.0
 			      (k-total 6.8)
 			      (k-avail 5.44)))) ;; (80%) RB209 8th ed: 5.5
-	    (green-food (nutrient ((nitrogen 0.045) ;; (5% of total 0.6)
+	    (green-food (nutrient ((n-total 0.6)
+				   (n-avail 0.045) ;; (5% of total 0.6)
 				   (p-total 4.9)
 				   (p-avail 2.45)  ;; (50%) RB209 8th ed: 3.8
 				   (k-total 8.0)
