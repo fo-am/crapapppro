@@ -509,15 +509,15 @@
     (mtext-scale 'nutrient-k-metric))
 
    (horiz
-    (text-view (make-id "na") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "pa") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "ka") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+    (text-view (make-id "na") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "pa") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "ka") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
    
    (mtext 'cost-saving)
    (horiz
-    (text-view (make-id "costn") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costp") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costk") "12" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+    (text-view (make-id "costn") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "costp") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "costk") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
    (spacer 10)
    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
    (spacer 10)))
@@ -733,6 +733,9 @@
    "Field name,"
    "Manure type,"
    "Date," 
+   "Manure total N,"
+   "Manure total P,"
+   "Manure total K,"
    "Crop avail N,"
    "Crop avail P,"
    "Crop avail K,"
@@ -757,6 +760,9 @@
 	     '("parent" "varchar")
 	     '("type" "varchar")
 	     '("date" "varchar")
+	     '("total-nutrients-n" "real")
+	     '("total-nutrients-p" "real")
+	     '("total-nutrients-k" "real")
 	     '("nutrients-n" "real")
 	     '("nutrients-p" "real")
 	     '("nutrients-k" "real")

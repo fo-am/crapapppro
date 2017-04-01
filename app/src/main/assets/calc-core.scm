@@ -156,23 +156,24 @@
        (else (msg "I don't understand how to convert" units)))))
 
 (define (convert-output amount units)
-  (rounding
-   (if (eq? (current-units) 'metric)
-       amount
-       (cond
-        ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
-         (m3/ha->gallons/acre amount))
-        ((or (equal? units "tons/ha") (equal? units "tons/acre"))
-         (tons/ha->tons/acre amount))
-        ((or (equal? units "kg/ha") (equal? units "units/acre"))
-         (kg/ha->units/acre amount))
-        ((or (equal? units "hectares") (equal? units "acres"))
-         (hectares->acres amount))
-        ((or (equal? units "m3") (equal? units "gallons"))
-         (m3->gallons amount))
-        ((equal? units "tonnes") amount) ;; tonnes are metric everywhere!?
-        (else (msg "I don't understand how to convert" units))))))
-
+  (if (eq? #f amount) 0 ;; if it's missing from the database
+      (rounding
+       (if (eq? (current-units) 'metric)
+	   amount
+	   (cond
+	    ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
+	     (m3/ha->gallons/acre amount))
+	    ((or (equal? units "tons/ha") (equal? units "tons/acre"))
+	     (tons/ha->tons/acre amount))
+	    ((or (equal? units "kg/ha") (equal? units "units/acre"))
+	     (kg/ha->units/acre amount))
+	    ((or (equal? units "hectares") (equal? units "acres"))
+	     (hectares->acres amount))
+	    ((or (equal? units "m3") (equal? units "gallons"))
+	     (m3->gallons amount))
+	    ((equal? units "tonnes") amount) ;; tonnes are metric everywhere!?
+	    (else (msg "I don't understand how to convert" units)))))))
+  
 ;; the manure calculator
 (define calc
   (list 'pig 25 'DM2 'autumn 'normal 'mediumshallow 'splash-surface

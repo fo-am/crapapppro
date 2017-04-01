@@ -37,6 +37,7 @@
    (list 'quality (list "Quality"))
    (list 'total-availible (list "Total in manure"))
    (list 'crop-availible (list "Crop available nutrients (Total in manure)"))
+   (list 'crop-availible-event (list "Crop available nutrients"))
    (list 'nutrient-n-metric (list "N Kg/ha"))
    (list 'nutrient-p-metric (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub> Kg/ha"))
    (list 'nutrient-k-metric (list "K<sub><small>2</small></sub>O Kg/ha"))
