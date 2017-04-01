@@ -381,6 +381,44 @@
                         "endOffset": 3231
                     }
                 }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 3252,
+                    "endColumn": 114,
+                    "endOffset": 3362
+                },
+                "from": {
+                    "file": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.6.0/res/values-ru/values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 293,
+                        "endColumn": 114,
+                        "endOffset": 403
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 3367,
+                    "endColumn": 94,
+                    "endOffset": 3457
+                },
+                "from": {
+                    "file": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.6.0/res/values-ru/values.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 408,
+                        "endColumn": 94,
+                        "endOffset": 498
+                    }
+                }
             }
         ]
     }

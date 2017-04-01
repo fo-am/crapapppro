@@ -311,12 +311,13 @@ public class StarwispBuilder
             }
 
             if (type.equals("drawmap")) {
+                int ID = arr.getInt(1);
                 final LinearLayout inner = new LinearLayout(ctx);
                 inner.setLayoutParams(BuildLayoutParams(arr.getJSONArray(2)));
                 DrawableMap dm = new DrawableMap();
-                dm.init(arr.getInt(1),inner,(StarwispActivity)ctx,this,arr.getString(3));
+                dm.init(ID,inner,(StarwispActivity)ctx,this,arr.getString(3));
                 parent.addView(inner);
-                m_DMaps.put(arr.getInt(1),dm);
+                m_DMaps.put(ID,dm);
                 return;
             }
 

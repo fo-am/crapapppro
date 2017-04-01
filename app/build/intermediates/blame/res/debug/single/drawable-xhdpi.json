@@ -1,13 +1,5 @@
 [
     {
-        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable-xhdpi/bubble_shadow.9.png",
-        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/drawable-xhdpi/bubble_shadow.9.png"
-    },
-    {
-        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable-xhdpi/bubble_mask.9.png",
-        "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.maps.android/android-maps-utils/0.4/res/drawable-xhdpi/bubble_mask.9.png"
-    },
-    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_launcher.png",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable-xhdpi/ic_launcher.png"
     }

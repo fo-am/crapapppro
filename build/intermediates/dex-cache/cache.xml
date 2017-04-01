@@ -75,6 +75,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.6.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="3270d392adef5decc7bace1a3c2e749bec7bf19e">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-places-9.6.0_2953c889e1c4d40b7e75b42aaccfa040ad8568a5.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/home/dave/opt/android/extras/android/m2repository/com/android/support/support-annotations/24.0.0/support-annotations-24.0.0.jar"
         jumboMode="false"
         optimize="true"

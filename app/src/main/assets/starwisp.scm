@@ -171,7 +171,9 @@
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
-   (lambda (activity requestcode resultcode) '()))
+   (lambda (activity requestcode resultcode) 
+     (msg requestcode resultcode)
+     '()))
   
   
   (activity

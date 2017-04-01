@@ -264,17 +264,35 @@ containing a value of this type.
     public static final class color {
         public static final int bg=0x7f060000;
         public static final int buttonbg=0x7f060001;
-        public static final int common_google_signin_btn_text_dark=0x7f06000b;
+        public static final int common_google_signin_btn_text_dark=0x7f060011;
         public static final int common_google_signin_btn_text_dark_default=0x7f060002;
         public static final int common_google_signin_btn_text_dark_disabled=0x7f060003;
         public static final int common_google_signin_btn_text_dark_focused=0x7f060004;
         public static final int common_google_signin_btn_text_dark_pressed=0x7f060005;
-        public static final int common_google_signin_btn_text_light=0x7f06000c;
+        public static final int common_google_signin_btn_text_light=0x7f060012;
         public static final int common_google_signin_btn_text_light_default=0x7f060006;
         public static final int common_google_signin_btn_text_light_disabled=0x7f060007;
         public static final int common_google_signin_btn_text_light_focused=0x7f060008;
         public static final int common_google_signin_btn_text_light_pressed=0x7f060009;
-        public static final int text=0x7f06000a;
+        public static final int place_autocomplete_prediction_primary_text=0x7f06000a;
+        public static final int place_autocomplete_prediction_primary_text_highlight=0x7f06000b;
+        public static final int place_autocomplete_prediction_secondary_text=0x7f06000c;
+        public static final int place_autocomplete_search_hint=0x7f06000d;
+        public static final int place_autocomplete_search_text=0x7f06000e;
+        public static final int place_autocomplete_separator=0x7f06000f;
+        public static final int text=0x7f060010;
+    }
+    public static final class dimen {
+        public static final int place_autocomplete_button_padding=0x7f070000;
+        public static final int place_autocomplete_powered_by_google_height=0x7f070001;
+        public static final int place_autocomplete_powered_by_google_start=0x7f070002;
+        public static final int place_autocomplete_prediction_height=0x7f070003;
+        public static final int place_autocomplete_prediction_horizontal_margin=0x7f070004;
+        public static final int place_autocomplete_prediction_primary_text=0x7f070005;
+        public static final int place_autocomplete_prediction_secondary_text=0x7f070006;
+        public static final int place_autocomplete_progress_horizontal_margin=0x7f070007;
+        public static final int place_autocomplete_progress_size=0x7f070008;
+        public static final int place_autocomplete_separator_start=0x7f070009;
     }
     public static final class drawable {
         public static final int arrow_left=0x7f020000;
@@ -337,68 +355,84 @@ containing a value of this type.
         public static final int pig_25m3=0x7f020039;
         public static final int pig_50m3=0x7f02003a;
         public static final int pig_75m3=0x7f02003b;
-        public static final int poultry_10t=0x7f02003c;
-        public static final int poultry_5t=0x7f02003d;
-        public static final int pound=0x7f02003e;
-        public static final int seekbg_fill=0x7f02003f;
-        public static final int seekprogress=0x7f020040;
-        public static final int seekprogress_fill=0x7f020041;
-        public static final int seekthumb=0x7f020042;
-        public static final int swarmbutton=0x7f020043;
-        public static final int swarmspinner=0x7f020044;
-        public static final int swarmtoggle=0x7f020045;
-        public static final int swarmtoggledrawable=0x7f020046;
-        public static final int swarmtoggledrawable_maybe=0x7f020047;
-        public static final int swarmtoggledrawable_no=0x7f020048;
-        public static final int swarmtoggledrawable_yes=0x7f020049;
-        public static final int tick=0x7f02004a;
-        public static final int yes_off=0x7f02004b;
-        public static final int yes_on=0x7f02004c;
+        public static final int places_ic_clear=0x7f02003c;
+        public static final int places_ic_search=0x7f02003d;
+        public static final int poultry_10t=0x7f02003e;
+        public static final int poultry_5t=0x7f02003f;
+        public static final int pound=0x7f020040;
+        public static final int powered_by_google_dark=0x7f020041;
+        public static final int powered_by_google_light=0x7f020042;
+        public static final int seekbg_fill=0x7f020043;
+        public static final int seekprogress=0x7f020044;
+        public static final int seekprogress_fill=0x7f020045;
+        public static final int seekthumb=0x7f020046;
+        public static final int swarmbutton=0x7f020047;
+        public static final int swarmspinner=0x7f020048;
+        public static final int swarmtoggle=0x7f020049;
+        public static final int swarmtoggledrawable=0x7f02004a;
+        public static final int swarmtoggledrawable_maybe=0x7f02004b;
+        public static final int swarmtoggledrawable_no=0x7f02004c;
+        public static final int swarmtoggledrawable_yes=0x7f02004d;
+        public static final int tick=0x7f02004e;
+        public static final int yes_off=0x7f02004f;
+        public static final int yes_on=0x7f020050;
     }
     public static final class id {
-        public static final int adjust_height=0x7f090000;
-        public static final int adjust_width=0x7f090001;
-        public static final int auto=0x7f09000a;
-        public static final int btn_draw_State=0x7f09000f;
-        public static final int dark=0x7f09000b;
-        public static final int fram_map=0x7f09000e;
-        public static final int hybrid=0x7f090003;
-        public static final int icon_only=0x7f090007;
-        public static final int inner_fragment=0x7f090011;
-        public static final int light=0x7f09000c;
-        public static final int main=0x7f090010;
-        public static final int none=0x7f090002;
-        public static final int normal=0x7f090004;
-        public static final int satellite=0x7f090005;
-        public static final int seekprogress=0x7f090014;
-        public static final int spinnerTarget=0x7f090013;
-        public static final int standard=0x7f090008;
-        public static final int standard_spinner_format=0x7f090012;
-        public static final int terrain=0x7f090006;
-        public static final int themap=0x7f09000d;
-        public static final int wide=0x7f090009;
+        public static final int adjust_height=0x7f0a0000;
+        public static final int adjust_width=0x7f0a0001;
+        public static final int auto=0x7f0a000a;
+        public static final int btn_draw_State=0x7f0a000f;
+        public static final int dark=0x7f0a000b;
+        public static final int fram_map=0x7f0a000e;
+        public static final int hybrid=0x7f0a0003;
+        public static final int icon_only=0x7f0a0007;
+        public static final int inner_fragment=0x7f0a0011;
+        public static final int light=0x7f0a000c;
+        public static final int main=0x7f0a0010;
+        public static final int none=0x7f0a0002;
+        public static final int normal=0x7f0a0004;
+        public static final int place_autocomplete_clear_button=0x7f0a0014;
+        public static final int place_autocomplete_powered_by_google=0x7f0a0016;
+        public static final int place_autocomplete_prediction_primary_text=0x7f0a0018;
+        public static final int place_autocomplete_prediction_secondary_text=0x7f0a0019;
+        public static final int place_autocomplete_progress=0x7f0a0017;
+        public static final int place_autocomplete_search_button=0x7f0a0012;
+        public static final int place_autocomplete_search_input=0x7f0a0013;
+        public static final int place_autocomplete_separator=0x7f0a0015;
+        public static final int satellite=0x7f0a0005;
+        public static final int seekprogress=0x7f0a001c;
+        public static final int spinnerTarget=0x7f0a001b;
+        public static final int standard=0x7f0a0008;
+        public static final int standard_spinner_format=0x7f0a001a;
+        public static final int terrain=0x7f0a0006;
+        public static final int themap=0x7f0a000d;
+        public static final int wide=0x7f0a0009;
     }
     public static final class integer {
-        public static final int google_play_services_version=0x7f070000;
+        public static final int google_play_services_version=0x7f080000;
     }
     public static final class layout {
         public static final int debug_text=0x7f030000;
         public static final int drawablemap=0x7f030001;
         public static final int main=0x7f030002;
         public static final int main_fragment=0x7f030003;
-        public static final int spinner_item=0x7f030004;
-        public static final int spinner_layout=0x7f030005;
-        public static final int toggle_button_fancy=0x7f030006;
-        public static final int toggle_button_maybe=0x7f030007;
-        public static final int toggle_button_no=0x7f030008;
-        public static final int toggle_button_yes=0x7f030009;
+        public static final int place_autocomplete_fragment=0x7f030004;
+        public static final int place_autocomplete_item_powered_by_google=0x7f030005;
+        public static final int place_autocomplete_item_prediction=0x7f030006;
+        public static final int place_autocomplete_progress=0x7f030007;
+        public static final int spinner_item=0x7f030008;
+        public static final int spinner_layout=0x7f030009;
+        public static final int toggle_button_fancy=0x7f03000a;
+        public static final int toggle_button_maybe=0x7f03000b;
+        public static final int toggle_button_no=0x7f03000c;
+        public static final int toggle_button_yes=0x7f03000d;
     }
     public static final class raw {
         public static final int active=0x7f040000;
         public static final int ping=0x7f040001;
     }
     public static final class string {
-        public static final int app_name=0x7f050014;
+        public static final int app_name=0x7f050016;
         public static final int common_google_play_services_enable_button=0x7f050000;
         public static final int common_google_play_services_enable_text=0x7f050001;
         public static final int common_google_play_services_enable_title=0x7f050002;
@@ -419,18 +453,20 @@ containing a value of this type.
         public static final int common_open_on_phone=0x7f050011;
         public static final int common_signin_button_text=0x7f050012;
         public static final int common_signin_button_text_long=0x7f050013;
+        public static final int place_autocomplete_clear_button=0x7f050014;
+        public static final int place_autocomplete_search_hint=0x7f050015;
     }
     public static final class style {
-        public static final int StarwispButton=0x7f080000;
-        public static final int StarwispFancyToggleButton=0x7f080001;
-        public static final int StarwispMaybeToggleButton=0x7f080002;
-        public static final int StarwispNoToggleButton=0x7f080003;
-        public static final int StarwispSeekBar=0x7f080004;
-        public static final int StarwispSpinner=0x7f080005;
-        public static final int StarwispSpinnerItem=0x7f080006;
-        public static final int StarwispTextAppearanceSpinnerItem=0x7f080007;
-        public static final int StarwispTheme=0x7f080008;
-        public static final int StarwispYesToggleButton=0x7f080009;
+        public static final int StarwispButton=0x7f090000;
+        public static final int StarwispFancyToggleButton=0x7f090001;
+        public static final int StarwispMaybeToggleButton=0x7f090002;
+        public static final int StarwispNoToggleButton=0x7f090003;
+        public static final int StarwispSeekBar=0x7f090004;
+        public static final int StarwispSpinner=0x7f090005;
+        public static final int StarwispSpinnerItem=0x7f090006;
+        public static final int StarwispTextAppearanceSpinnerItem=0x7f090007;
+        public static final int StarwispTheme=0x7f090008;
+        public static final int StarwispYesToggleButton=0x7f090009;
     }
     public static final class styleable {
         /** Attributes that can be used with a LoadingImageView.

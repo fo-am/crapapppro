@@ -21,7 +21,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +31,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.text.Html;
 import android.view.Gravity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+
+import android.content.Intent;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,6 +42,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete.IntentBuilder;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.maps.model.LatLngBounds;
+
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -119,18 +131,69 @@ public class DrawableMap {
                 FrameLayout.LayoutParams.FILL_PARENT));
 
         map_container.setId(ID);
-        SupportMapFragment mapfrag = SupportMapFragment.newInstance();
+	SupportMapFragment mapfrag = SupportMapFragment.newInstance();
         FragmentTransaction fragmentTransaction = c.getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(ID,mapfrag);
         fragmentTransaction.commit();
         outer_map.addView(map_container);
-
+	
         fram_map = new FrameLayout(c);
         fram_map.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,
 							      FrameLayout.LayoutParams.FILL_PARENT));
         outer_map.addView(fram_map);
-	
 
+
+	Button place_button = new Button(c);
+	LinearLayout.LayoutParams plp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+					   LinearLayout.LayoutParams.WRAP_CONTENT);
+	plp.gravity=Gravity.CENTER;
+	place_button.setLayoutParams(plp);
+	place_button.setTextSize(20);
+	place_button.setTypeface(((StarwispActivity) c).m_Typeface);
+	place_button.setText("Find farm");
+	fram_map.addView(place_button);
+	final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1092;
+
+	place_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+		    try {
+			Intent intent =
+			    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+			    .build(m_Context);
+			m_Context.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+			//PLACE_AUTOCOMPLETE_REQUEST_CODE is integer for request code
+		    } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+			// TODO: Handle the error.
+		    }
+		    
+		}
+	    });
+
+	StarwispActivity sw = (StarwispActivity) c;
+	StarwispActivity.ResultHandler rh;
+	sw.m_ResultHandler = sw.new ResultHandler() {
+		@Override
+		public void Result(int requestCode, int resultCode, Intent data) 
+		{
+		    if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+			if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+			    Status status = PlaceAutocomplete.getStatus(m_Context, data);
+			    // TODO: Handle the error.
+			    Log.i("starwisp", status.getStatusMessage());
+			} else {
+			    Place place = PlaceAutocomplete.getPlace(m_Context, data);
+			    LatLng ll = place.getLatLng();
+			    LatLngBounds llb = place.getViewport();
+			    double radius = distanceTo(llb.southwest,llb.northeast)/2;
+			    double scale = radius / 500;
+			    int zoom = ((int) (16 - Math.log(scale) / Math.log(2)));
+			    Centre(ll.latitude, ll.longitude, zoom);
+			} 		    
+		    }
+		}
+	    };
+	
         if (map_mode.equals("edit")) {
 	    map_cont = new LinearLayout(c);
 	    map_cont.setOrientation(LinearLayout.VERTICAL);
@@ -167,7 +230,7 @@ public class DrawableMap {
 
         parent.addView(outer_map);
 
-        mapfrag.getMapAsync(new OnMapReadyCallback() {
+	mapfrag.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
@@ -189,7 +252,7 @@ public class DrawableMap {
                     .newCameraPosition(cameraPosition));
 
                 map_ready=true;
-            }});
+	    }});
 
     }
 
@@ -315,7 +378,7 @@ public class DrawableMap {
             });
         }
 
-        fram_map.setOnTouchListener(new View.OnTouchListener() {
+	fram_map.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (!draw_mode && !button_mode) return false;
@@ -365,7 +428,20 @@ public class DrawableMap {
                 return true;
 
             }
-        });
+	    });
+    }
+
+    double distanceTo(LatLng lla, LatLng llb) {
+	double earthRadius = 3958.75;
+	double latDiff = Math.toRadians(llb.latitude-lla.latitude);
+	double lngDiff = Math.toRadians(llb.longitude-lla.longitude);
+	double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
+	    Math.cos(Math.toRadians(lla.latitude)) * Math.cos(Math.toRadians(llb.latitude)) *
+	    Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
+	double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	double distance = earthRadius * c;
+	int meterConversion = 1609;
+	return new Float(distance * meterConversion).floatValue();
     }
 
     LatLng GetCentre(Polygon poly) {

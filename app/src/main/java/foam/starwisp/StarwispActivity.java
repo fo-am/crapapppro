@@ -48,10 +48,19 @@ public class StarwispActivity extends FragmentActivity
     public Typeface m_Typeface;
     static public String m_AppDir;
 
+    // so we can hook into results from outside...
+    public class ResultHandler {
+	public void Result(int requestCode, int resultCode, Intent data) {}
+    }
+
+    public ResultHandler m_ResultHandler;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+	m_ResultHandler = new ResultHandler();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -184,14 +193,16 @@ public class StarwispActivity extends FragmentActivity
         }
     }
 
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String ret=m_Scheme.eval("(activity-callback 'on-activity-result \""+m_Name+"\" '("+requestCode+" "+resultCode+"))");
+	m_ResultHandler.Result(requestCode, resultCode, data);
         try {
             m_Builder.UpdateList(this, m_Name, new JSONArray(ret));
         } catch (JSONException e) {
             Log.e("starwisp", "Error parsing ["+ret+"] " + e.toString());
         }
-	}
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

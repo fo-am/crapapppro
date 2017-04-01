@@ -52,12 +52,12 @@
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/swarmtoggle.xml"
     },
     {
-        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/button_style.xml",
-        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/button_style.xml"
-    },
-    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/pig_75m3.jpg",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/pig_75m3.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/button_style.xml",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/button_style.xml"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/button_bg2.xml",
@@ -176,16 +176,16 @@
         "source": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable/common_google_signin_btn_text_light.xml"
     },
     {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_25t.jpg",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_25t.jpg"
+    },
+    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/bgpaw.png",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/bgpaw.png"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/no_on.png",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/no_on.png"
-    },
-    {
-        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_25t.jpg",
-        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_25t.jpg"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/button_bg.xml",
@@ -212,16 +212,16 @@
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_30t.jpg"
     },
     {
-        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/yes_off.png",
-        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/yes_off.png"
-    },
-    {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_50t.jpg",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_50t.jpg"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/compost_45t.jpg",
         "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/compost_45t.jpg"
+    },
+    {
+        "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/yes_off.png",
+        "source": "/home/dave/StudioProjects/crapapppro/app/src/main/res/drawable/yes_off.png"
     },
     {
         "merged": "/home/dave/StudioProjects/crapapppro/app/build/intermediates/res/merged/debug/drawable/cattle_50m3.jpg",
