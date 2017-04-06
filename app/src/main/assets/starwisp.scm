@@ -270,8 +270,11 @@
 	 
 	 (horiz
 	  (medit-text-scale 'field-name "normal" 
-			    (lambda (v) (entity-update-single-value! 
-					 (ktv "name" "varchar" v)) '()))
+			    (lambda (v) 
+			      (entity-update-single-value! 
+			       (ktv "name" "varchar" v)) 
+			      ;; update the name on the map
+			      (list (update-widget 'draw-map (get-id "map") 'update-name v))))
 	  (medit-text-scale 'field-size "numeric" 
 			    (lambda (v)
 			      (entity-update-single-value! 

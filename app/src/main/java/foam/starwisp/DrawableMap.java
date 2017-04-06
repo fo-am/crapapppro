@@ -67,8 +67,9 @@ import java.util.Vector;
 
 public class DrawableMap {
     FrameLayout fram_map;
-    LinearLayout map_cont;
     Button scribble_button;
+    Button trash_button;
+    Button place_button;
     Boolean draw_mode;
     Boolean button_mode;
     GoogleMap map;
@@ -103,6 +104,8 @@ public class DrawableMap {
     ViewGroup m_parent;
 
     Vector<Polygon> polygons;
+    
+    final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1092;
 
     public void init(int id, ViewGroup parent, StarwispActivity c, StarwispBuilder b, String mode) {
 	m_parent=parent;
@@ -124,11 +127,11 @@ public class DrawableMap {
 
         FrameLayout outer_map = new FrameLayout(c);
         outer_map.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,
-                FrameLayout.LayoutParams.FILL_PARENT));
+							       FrameLayout.LayoutParams.FILL_PARENT));
 
         FrameLayout map_container = new FrameLayout(c);
         map_container.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT,
-                FrameLayout.LayoutParams.FILL_PARENT));
+								   FrameLayout.LayoutParams.FILL_PARENT));
 
         map_container.setId(ID);
 	SupportMapFragment mapfrag = SupportMapFragment.newInstance();
@@ -142,33 +145,22 @@ public class DrawableMap {
 							      FrameLayout.LayoutParams.FILL_PARENT));
         outer_map.addView(fram_map);
 
+	LinearLayout map_cont = new LinearLayout(c);
+	map_cont.setOrientation(LinearLayout.VERTICAL);
+	LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
+								     LinearLayout.LayoutParams.FILL_PARENT);
+	lp.gravity=Gravity.CENTER;
+	map_cont.setLayoutParams(lp);
+	fram_map.addView(map_cont);
 
-	Button place_button = new Button(c);
-	LinearLayout.LayoutParams plp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+	LinearLayout button_cont = new LinearLayout(c);
+	button_cont.setOrientation(LinearLayout.HORIZONTAL);
+	lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 					   LinearLayout.LayoutParams.WRAP_CONTENT);
-	plp.gravity=Gravity.CENTER;
-	place_button.setLayoutParams(plp);
-	place_button.setTextSize(20);
-	place_button.setTypeface(((StarwispActivity) c).m_Typeface);
-	place_button.setText("Find farm");
-	fram_map.addView(place_button);
-	final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1092;
+	lp.gravity=Gravity.CENTER;
+	button_cont.setLayoutParams(lp);
+	map_cont.addView(button_cont);
 
-	place_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-		    try {
-			Intent intent =
-			    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
-			    .build(m_Context);
-			m_Context.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-			//PLACE_AUTOCOMPLETE_REQUEST_CODE is integer for request code
-		    } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
-			// TODO: Handle the error.
-		    }
-		    
-		}
-	    });
 
 	StarwispActivity sw = (StarwispActivity) c;
 	StarwispActivity.ResultHandler rh;
@@ -194,14 +186,34 @@ public class DrawableMap {
 		}
 	    };
 	
-        if (map_mode.equals("edit")) {
-	    map_cont = new LinearLayout(c);
-	    map_cont.setOrientation(LinearLayout.VERTICAL);
-	    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,								     									
-									 LinearLayout.LayoutParams.FILL_PARENT);
-	    lp.gravity=Gravity.CENTER;
-	    map_cont.setLayoutParams(lp);
-	    
+        if (map_mode.equals("edit")) {	    
+	    place_button = new Button(c);
+	    LinearLayout.LayoutParams plp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+									  LinearLayout.LayoutParams.WRAP_CONTENT);
+	    plp.gravity=Gravity.CENTER;
+	    place_button.setLayoutParams(plp);
+	    place_button.setTextSize(20);
+	    place_button.setTypeface(((StarwispActivity) c).m_Typeface);
+	    place_button.setText("Place search");
+	    button_cont.addView(place_button);
+
+	    place_button.setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			try {
+			    Intent intent =
+				new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+				.build(m_Context);
+			    m_Context.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+			    //PLACE_AUTOCOMPLETE_REQUEST_CODE is integer for request code
+			} catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+			    // TODO: Handle the error.
+			}
+		    
+		    }
+		});
+
+
             scribble_button = new Button(c);
 	    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 					       LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -210,18 +222,46 @@ public class DrawableMap {
 
             scribble_button.setTextSize(20);
             scribble_button.setTypeface(((StarwispActivity) c).m_Typeface);
-            scribble_button.setText("Draw field");
-            map_cont.addView(scribble_button);
+            scribble_button.setText("Draw boundary");
+            button_cont.addView(scribble_button);
+
+            trash_button = new Button(c);
+	    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+					       LinearLayout.LayoutParams.WRAP_CONTENT);
+	    lp.gravity=Gravity.CENTER;
+            trash_button.setLayoutParams(lp);
+            trash_button.setTextSize(20);
+            trash_button.setTypeface(((StarwispActivity) c).m_Typeface);
+            trash_button.setText("Delete boundary");
+            button_cont.addView(trash_button);
+	    trash_button.setVisibility(View.GONE);
+
+            trash_button.setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			if (draw_mode) {
+			    draw_indicator=false;
+			    current_polygon.clear();
+			} else {
+			    RemoveSelected();
+			}
+			DrawMap();
+		    }
+		});
+	    
 	    
 	    m_instructions = new TextView(c);
-            m_instructions.setLayoutParams(lp);
+	    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+					       LinearLayout.LayoutParams.WRAP_CONTENT);
+	    lp.gravity=Gravity.CENTER;
+	    lp.setMargins(10,10,10,10);
+	    m_instructions.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+	    m_instructions.setLayoutParams(lp);
 	    m_instructions.setTextSize(20);
 	    m_instructions.setTypeface(m_Context.m_Typeface);
 	    m_instructions.setTextColor(Color.WHITE);
 	    // arg i18n
             map_cont.addView(m_instructions);
-
-	    fram_map.addView(map_cont);
 	    
         } else {
             //button_mode=true;
@@ -286,6 +326,17 @@ public class DrawableMap {
 	polygons = new_polygons;
     }
 
+    public void UpdateName(String name) {
+        for (Polygon poly : polygons) {
+	    if (poly.m_UniqueID.equals(selected_polygon)) {
+		poly.m_Name=name;
+	    }
+	}
+	if (map_ready) {
+	    DrawMap();
+	}
+    }
+    
     public void UpdateFromJSON(JSONArray map) {
         Clear();
         // json format
@@ -312,12 +363,22 @@ public class DrawableMap {
 		    new_poly.m_Info.add(info_list.getString(j));
 		}
 
+                JSONArray verts = poly.getJSONArray(3);
+
 		// pick out the selected poly's name
 		if (new_poly.m_UniqueID.equals(selected_polygon)) {
 		    selected_polygon_name=new_poly.m_Name;
+		    if (verts.length()==0) {
+			trash_button.setVisibility(View.GONE);
+			scribble_button.setText("Create boundary");
+			m_instructions.setText("Zoom in to your field and press 'Create boundary' when you are ready.");
+		    } else {
+			trash_button.setVisibility(View.GONE);
+			scribble_button.setText("Redraw boundary");
+			m_instructions.setText("");
+		    }
 		}
 
-                JSONArray verts = poly.getJSONArray(3);
                 new_poly.m_Verts = new Vector<LatLng>();
                 for (int v=0; v<verts.length(); v++) {
 		    Log.e("starwisp", "vert "+v);
@@ -357,22 +418,28 @@ public class DrawableMap {
                 public void onClick(View v) {
                     draw_mode = !draw_mode;
                     if (!draw_mode) {
-                        Polygon poly = new Polygon();
-                        poly.m_Verts = current_polygon;
-                        poly.m_Name = selected_polygon_name;
-                        poly.m_UniqueID = selected_polygon;
-                        polygons.add(poly);
-                        SendPolygon(poly.m_Verts);
+			if (current_polygon.size()>2) {
+			    Polygon poly = new Polygon();
+			    poly.m_Verts = current_polygon;
+			    poly.m_Name = selected_polygon_name;
+			    poly.m_UniqueID = selected_polygon;
+			    polygons.add(poly);
+			    SendPolygon(poly.m_Verts);
+			}
                         current_polygon = new Vector<LatLng>();
-                        scribble_button.setText("Draw field");
+                        scribble_button.setText("Redraw boundary");
+			trash_button.setVisibility(View.GONE);
+			place_button.setVisibility(View.VISIBLE);
 			m_instructions.setText("");
 			draw_indicator=false;
 			DrawMap();
                     } else {
 			RemoveSelected();
 			DrawMap();
-                        scribble_button.setText("Save field");
-			m_instructions.setText("Touch each corner of your field to draw around it.");
+                        scribble_button.setText("Save boundary");
+			place_button.setVisibility(View.GONE);
+			trash_button.setVisibility(View.VISIBLE);
+			m_instructions.setText("Describe the boundary of your field by creating points in a clockwise fashion. Press 'delete boundary' at any time to start again.");
                     }
                 }
             });
@@ -531,20 +598,20 @@ public class DrawableMap {
             iOptions.fillColor(0x00000000);
             map.addCircle(iOptions);
 	    {
-            PolylineOptions pOptions = new PolylineOptions();
-            pOptions.add(new LatLng(indicator_lat+0.0007,indicator_lon));
-            pOptions.add(new LatLng(indicator_lat-0.0007,indicator_lon));
-            pOptions.color(0xffffffff);
-            pOptions.width(1);
-            map.addPolyline(pOptions);
+		PolylineOptions pOptions = new PolylineOptions();
+		pOptions.add(new LatLng(indicator_lat+0.0007,indicator_lon));
+		pOptions.add(new LatLng(indicator_lat-0.0007,indicator_lon));
+		pOptions.color(0xffffffff);
+		pOptions.width(1);
+		map.addPolyline(pOptions);
 	    }
 	    {
-            PolylineOptions pOptions = new PolylineOptions();
-            pOptions.add(new LatLng(indicator_lat,indicator_lon+0.001));
-            pOptions.add(new LatLng(indicator_lat,indicator_lon-0.001));
-            pOptions.color(0xffffffff);
-            pOptions.width(1);
-            map.addPolyline(pOptions);
+		PolylineOptions pOptions = new PolylineOptions();
+		pOptions.add(new LatLng(indicator_lat,indicator_lon+0.001));
+		pOptions.add(new LatLng(indicator_lat,indicator_lon-0.001));
+		pOptions.color(0xffffffff);
+		pOptions.width(1);
+		map.addPolyline(pOptions);
 	    }
 	}
     }

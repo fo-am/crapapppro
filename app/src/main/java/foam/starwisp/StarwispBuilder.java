@@ -27,6 +27,7 @@ import android.support.v4.view.ViewPager;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.webkit.MimeTypeMap;
+import android.view.inputmethod.EditorInfo;
 
 // stuff for correct subscript rendering
 import android.widget.TextView.BufferType;
@@ -695,6 +696,8 @@ public class StarwispBuilder
                 v.setText(arr.getString(2));
                 v.setTextSize(arr.getInt(3));
                 v.setGravity(Gravity.LEFT|Gravity.TOP);
+		v.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		v.setSingleLine(true);
 
                 String inputtype = arr.getString(4);
                 if (inputtype.equals("text")) {
@@ -1894,6 +1897,9 @@ public class StarwispBuilder
 		if (v != null) {
 		    if (token.equals("polygons")) {
                         v.UpdateFromJSON(arr.getJSONArray(3));
+                    }
+		    if (token.equals("update-name")) {
+                        v.UpdateName(arr.getString(3));
                     }
                     if (token.equals("centre")) {
 			JSONArray tokens=arr.getJSONArray(3);
