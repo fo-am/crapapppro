@@ -175,12 +175,14 @@ public class DrawableMap {
 			    Log.i("starwisp", status.getStatusMessage());
 			} else {
 			    Place place = PlaceAutocomplete.getPlace(m_Context, data);
-			    LatLng ll = place.getLatLng();
-			    LatLngBounds llb = place.getViewport();
-			    double radius = distanceTo(llb.southwest,llb.northeast)/2;
-			    double scale = radius / 500;
-			    int zoom = ((int) (16 - Math.log(scale) / Math.log(2)));
-			    Centre(ll.latitude, ll.longitude, zoom);
+			    if (place!=null) {
+				LatLng ll = place.getLatLng();
+				LatLngBounds llb = place.getViewport();
+				double radius = distanceTo(llb.southwest,llb.northeast)/2;
+				double scale = radius / 500;
+				int zoom = ((int) (16 - Math.log(scale) / Math.log(2)));
+				Centre(ll.latitude, ll.longitude, zoom);
+			    }
 			} 		    
 		    }
 		}
@@ -472,6 +474,8 @@ public class DrawableMap {
 			    indicator_lat = latitude;
 			    indicator_lon = longitude;
                             current_polygon.add(new LatLng(latitude, longitude));
+			    // hide the instructions so they don't get in the way
+			    m_instructions.setText("");
                         } else {
                             String clicked_in = CheckPolygons(latitude, longitude);
                             if (!clicked_in.equals("")) {
@@ -568,9 +572,10 @@ public class DrawableMap {
 
 	    // only show text for one field in edit mode
 	    if (!map_mode.equals("edit")) {
-		AddText(GetCentre(poly), poly.m_Name, 40, 20, Color.WHITE);
+		final float scale = m_Context.getResources().getDisplayMetrics().density;
+		AddText(GetCentre(poly), poly.m_Name, (int)(40.0*scale), 20, Color.WHITE);
 		for (int j=0; j<poly.m_Info.size(); j++) {
-		    AddText(GetCentre(poly), poly.m_Info.get(j), j*20, 14, 0xffccFFcc);
+		    AddText(GetCentre(poly), poly.m_Info.get(j), j*(int)(20.0*scale), 14, 0xffccFFcc);
 		}
 	    } else {
 		if (selected_polygon.equals(poly.m_UniqueID)) {
@@ -618,6 +623,7 @@ public class DrawableMap {
 
     public Marker AddText(final LatLng location, final String text, final int padding, final int fontSize, int colour) {
         Marker marker = null;
+	if (text.equals("")) return marker;
 
         final TextView textView = new TextView(m_Context);
         textView.setText(text);

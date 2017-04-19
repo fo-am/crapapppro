@@ -19,7 +19,7 @@
   (list))
 
 (define large-text-size 30)
-(define button-text-size 30)
+(define button-text-size 25)
 (define normal-text-size 20)
 (define small-text-size 15)
 (define margin-size 10)

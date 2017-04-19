@@ -29,20 +29,23 @@
 
   (activity
    "splash"
-   (vert
-    (mtitle 'title)
-    (text-view (make-id "version")
-               (string-append "Version " app-version) 20 fillwrap)
-    (mtext 'splash-about)
-    (spacer 20)
-    (mtext 'splash-blurb)
-    (spacer 20)
-    (mbutton 'splash-start 
-	     (lambda () (list (start-activity-goto "main" 2 ""))))
-    (spacer 20)
-    (mtext 'splash-discl)
-    (image-view (make-id "about-logo") "logo" fillwrap)
-    )
+   (scroll-view-vert
+    0 (layout 'fill-parent 'wrap-content 0 'centre 0)
+    (list
+     (vert
+      (mtitle 'title)
+      (text-view (make-id "version")
+		 (string-append "Version " app-version) 20 fillwrap)
+      (mtext 'splash-about)
+      (spacer 20)
+      (mtext 'splash-blurb)
+      (spacer 20)
+      (mbutton 'splash-start 
+	       (lambda () (list (start-activity-goto "main" 2 ""))))
+      (spacer 20)
+      (mtext 'splash-discl)
+      (image-view (make-id "about-logo") "logo" fillwrap)
+      )))
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg) '())
@@ -151,6 +154,7 @@
 	       (update-widget 'text-view (get-id "p-cost-text") 'text (mtext-lookup 'p-cost-imperial))
 	       (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost-imperial))))
 	  (list	  
+	   (update-widget 'toggle-button (get-id "custom-manures") 'checked 0) 
 	   (update-widget 'linear-layout (get-id "costs-list") 'hide 1)
 	   (update-widget 'linear-layout (get-id "custom-manures-list") 'hide 1)
 	   (update-widget 'edit-text (get-id "n-cost") 'text (number->string (rounding-cash (current-cost-n))))

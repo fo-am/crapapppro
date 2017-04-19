@@ -82,7 +82,9 @@ class StarwispCanvas extends SurfaceView implements SurfaceHolder.Callback {
             Paint myPaint = new Paint();
             JSONArray c = prim.getJSONArray(4);
             myPaint.setColor(Color.rgb(c.getInt(0), c.getInt(1), c.getInt(2)));
-            myPaint.setTextSize(prim.getInt(5));
+
+	    final float scale = getContext().getResources().getDisplayMetrics().density;
+            myPaint.setTextSize(prim.getInt(5)*scale);
             myPaint.setTypeface(m_Typeface);
             canvas.drawText(prim.getString(1),
                             prim.getInt(2)*sx,
