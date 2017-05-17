@@ -402,13 +402,19 @@
      (set-current! 'field-id arg)     
      (set-current! 'field-name (entity-get-value "name"))     
      (let ((polygons (get-polygons)))
-       (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in))
-	     (centre (get-field-centre arg polygons)))
+       (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in)))
 	 (append
 	  (update-field-cropsoil-calc-from-current)
+	  ;; if the current field is empty, keep the previous map position, don't recentre
+	  (if (field-exists-yet? arg polygons) 
+		(let ((centre (get-field-centre arg polygons)))
+		  (msg "FIELD DATA CENTRING")		 
+		  (list (update-widget 'draw-map (get-id "map") 'centre (list (vx centre) (vy centre) zoom))))
+		(begin
+		  (msg "NO FIELD DATA NOT CENTRING")
+		  '()))
 	  (list
 	   (update-widget 'draw-map (get-id "map") 'polygons (list (entity-get-value "unique_id") (get-polygons)))
-	   (update-widget 'draw-map (get-id "map") 'centre (list (vx centre) (vy centre) zoom))
 	   (mupdate 'edit-text 'field-name "name")
 	   (update-list-widget db "farm" (list "date") "event" "eventview" (get-current 'field-id #f))
 	   (mupdate-spinner 'soil-type "soil" soil-type-list)

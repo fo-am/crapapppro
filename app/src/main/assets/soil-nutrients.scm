@@ -205,7 +205,7 @@
 	  (choice 'deepclay
 		  (dtree 'rainfall
 			 (list
-			  (choice 'low
+			  (choice 'rain-low
 				  (dtree 'previous-crop
 					 (list
 					  (choice 'grass-low-n 2)
@@ -220,7 +220,7 @@
 	  (choice 'deepsilt ;; repeat of above
 		  (dtree 'rainfall
 			 (list
-			  (choice 'low
+			  (choice 'rain-low
 				  (dtree 'previous-crop
 					 (list
 					  (choice 'grass-low-n 2)

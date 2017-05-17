@@ -10,7 +10,7 @@ ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 	android:versionCode
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:4:5-28
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:4:5-29
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 	xmlns:android

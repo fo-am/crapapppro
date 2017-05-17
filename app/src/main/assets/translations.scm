@@ -71,8 +71,8 @@
    (list 'winter-wheat-incorporated (list "Winter wheat, straw incorporated")) 
    (list 'spring-barley-removed (list "Spring barley, straw removed"))
    (list 'spring-barley-incorporated (list "Spring barley, straw incorporated"))
-   (list 'grass-cut (list "Grass cut (yield 6-8k, conc 1.5, stock med)"))
-   (list 'grass-grazed (list "Grass grazed (yield 6-8k, conc 1.5, stock med)"))
+   (list 'grass-cut (list "Grass cut"));; (yield 6-8k, conc 1.5, stock med)"))
+   (list 'grass-grazed (list "Grass grazed"));; (yield 6-8k, conc 1.5, stock med)"))
    
    ;; previous crop types
    (list 'cereals (list "Cereals"))

@@ -81,8 +81,18 @@ public class DrawableMap {
     boolean map_ready;
     double centre_lat;
     double centre_lon;
-    int centre_zoom;
+    float centre_zoom;
 
+    static double last_centre_lat;
+    static double last_centre_lon;
+    static float last_centre_zoom;
+
+    static {
+        last_centre_lat=49.198935;
+        last_centre_lon=2.988281;
+        last_centre_zoom=4;
+    }
+    
     boolean draw_indicator;
     double indicator_lat;
     double indicator_lon;
@@ -121,6 +131,9 @@ public class DrawableMap {
         centre_lat=49.198935;
         centre_lon=2.988281;
         centre_zoom=4;
+        centre_lat=last_centre_lat;
+	centre_lon=last_centre_lon;
+        centre_zoom=last_centre_zoom;
 	draw_indicator=false;
 	indicator_lat=0;
 	indicator_lon=0;
@@ -281,19 +294,27 @@ public class DrawableMap {
 	        	map.getUiSettings().setZoomControlsEnabled(true);
                 SetupStuff();
                 DrawMap();
-                Log.i("starwisp","map made");
-                Log.i("starwisp","updating map centre to "+centre_lat+" "+centre_lon);
                 //CameraUpdate center_map=CameraUpdateFactory.newLatLng(new LatLng(centre_lat,centre_lon));
                 //CameraUpdate zoom_map=CameraUpdateFactory.zoomTo(centre_zoom);
                 //map.moveCamera(center_map);
                 //map.animateCamera(zoom_map);
-
+		
                 CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(centre_lat, centre_lon)).zoom(centre_zoom).build();
-                 map.animateCamera(CameraUpdateFactory
-                    .newCameraPosition(cameraPosition));
-
-                map_ready=true;
+		map.moveCamera(CameraUpdateFactory
+			       .newCameraPosition(cameraPosition)); 
+		
+		map.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+			@Override
+			public void onCameraMove() {
+			    LatLng pos = map.getCameraPosition().target;
+			    last_centre_zoom = map.getCameraPosition().zoom;
+			    last_centre_lat = pos.latitude;
+			    last_centre_lon = pos.longitude;
+			}
+		    });
+                
+		map_ready=true;
 	    }});
 
     }
@@ -307,14 +328,15 @@ public class DrawableMap {
         centre_lat = lat;
         centre_lon = lng;
         centre_zoom = z;
-
-        Log.i("starwisp","updating map centre to "+lat+" "+lng);
+        last_centre_lat=centre_lat;
+        last_centre_lon=centre_lon;
+        last_centre_zoom=centre_zoom;
 
         if (map_ready) {
             CameraUpdate center_map=CameraUpdateFactory.newLatLng(new LatLng(centre_lat,centre_lon));
             CameraUpdate zoom_map=CameraUpdateFactory.zoomTo(centre_zoom);
             map.moveCamera(center_map);
-            map.animateCamera(zoom_map);
+            map.moveCamera(zoom_map);
         }
     }
 

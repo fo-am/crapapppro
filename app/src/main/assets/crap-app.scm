@@ -467,6 +467,9 @@
 	  (list-ref field 3))
 	field-polygons)))
 
+(define (field-exists-yet? field-uid polygons)
+  (> (length (get-field-polygon field-uid)) 0))
+
 (define (get-field-centre field-uid polygons)
   (let ((r (polygon-centroid (get-field-polygon field-uid))))
     ;; default to farm centre if there is no field poly yet
@@ -475,8 +478,9 @@
 	r)))
 
 (define (polygons-empty? p)
-  (or (null? p)
-      (null? (list-ref (car p) 3))))
+  (null? p))
+;; removed as it zooms out when the first field is empty
+;; (null? (list-ref (car p) 3))))
 
 (define (event-view-item id title bg)
   (linear-layout

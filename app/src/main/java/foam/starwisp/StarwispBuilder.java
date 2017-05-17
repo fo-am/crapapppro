@@ -806,6 +806,13 @@ public class StarwispBuilder
 
                 v.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     public void onProgressChanged(SeekBar v, int a, boolean s) {
+			// go red to indicate 'high' nutrient levels
+                        LayerDrawable ld = (LayerDrawable) v.getProgressDrawable();
+                        ClipDrawable d1 = (ClipDrawable) ld.findDrawableByLayerId(R.id.seekprogress);
+                        int c=(int)((a/100.0f)*255.0f);
+                        int mc = 255-c;
+                        d1.setColorFilter(Color.argb(127,c,mc,mc), PorterDuff.Mode.SRC_OVER);
+
                         CallbackArgs(ctx,ctxname,v.getId(),Integer.toString(a));
                     }
                     public void onStartTrackingTouch(SeekBar v) {}
