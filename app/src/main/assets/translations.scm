@@ -195,9 +195,9 @@
    (list 'custom-manures (list "Your manures"))
    (list 'manures-blurb (list "Here you can add custom manure types"))
    (list 'manure-name (list "Manure name"))
-   (list 'manure-n (list "N content"))
-   (list 'manure-p (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub> content"))
-   (list 'manure-k (list "K<sub><small>2</small></sub>O content"))
+   (list 'manure-n (list "N content (elemental)"))
+   (list 'manure-p (list "P content (elemental)"))
+   (list 'manure-k (list "K content (elemental)"))
    
    (list 'delete-are-you-sure (list "Are you sure you want to delete this?"))
 

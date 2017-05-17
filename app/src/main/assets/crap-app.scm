@@ -51,10 +51,16 @@
     (list)
     (list (list "name" "varchar")))))
 
+(define p-oxide-conv 2.241)
+(define k-oxide-conv 1.205)
+
 (define (get-custom-type name)
   (map
    (lambda (e)
-     (list (ktv-get e "N") (ktv-get e "P") (ktv-get e "K")))
+     ;; convert from elemental to oxide form here
+     (list (ktv-get e "N") 
+	   (* (ktv-get e "P") p-oxide-conv) 
+	   (* (ktv-get e "K") k-oxide-conv)))
    (db-filter-only 
     db "farm" "manure" 
     (list (list "name" "varchar" "=" name))
