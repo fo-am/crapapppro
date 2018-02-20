@@ -307,7 +307,7 @@
 				    '("quality" "varchar" "DM2")
 				    '("application" "varchar" "splash-surface")
 				    '("season" "varchar" "winter")
-				    '("crop" "varchar" "grass-grazed"))))
+				    '("crop" "varchar" "normal"))))
 
 	 (vert-colour 
 	  list-colour
