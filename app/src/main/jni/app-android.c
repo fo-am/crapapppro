@@ -17,27 +17,21 @@ void Java_foam_starwisp_Scheme_nativeInit(JNIEnv* env)
 /* Call to initialize the graphics state */
 void Java_foam_starwisp_Scheme_nativeInitGL( JNIEnv*  env )
 {
-    importGLInit();
-    initGL();
 }
 
 void Java_foam_starwisp_Scheme_nativeResize( JNIEnv*  env, jobject  thiz, jint w, jint h )
 {
-    sWindowWidth  = w;
-    sWindowHeight = h;
-    __android_log_print(ANDROID_LOG_INFO, "SanAngeles", "resize w=%d h=%d", w, h);
+   __android_log_print(ANDROID_LOG_INFO, "SanAngeles", "resize w=%d h=%d", w, h);
 }
 
 
 void Java_foam_starwisp_Scheme_nativeDone(JNIEnv* env)
 {
     appDeinit();
-    importGLDeinit();
 }
 
 void Java_foam_starwisp_Scheme_nativeRender( JNIEnv*  env )
 {
-    appRender(sWindowWidth, sWindowHeight);
 }
 
 
@@ -57,24 +51,9 @@ jstring Java_foam_starwisp_Scheme_nativeEval(JNIEnv* env, jobject thiz, jstring 
 
 void Java_foam_starwisp_Scheme_nativeLoadTexture(JNIEnv* env, jobject thiz, jstring texname, jbyteArray arr, jint w, jint h)
 {
-    char *data = (char *) (*env)->GetByteArrayElements(env,arr,NULL);
-    int len = (*env)->GetArrayLength(env, arr);
-    const char *filename = (*env)->GetStringUTFChars(env, texname, 0);
-
-    __android_log_print(ANDROID_LOG_INFO, "starwisp", "loading texture");
-
-
-    int id=appLoadTexture(filename,w,h,data);
-
-    __android_log_print(ANDROID_LOG_INFO, "starwisp", "loaded texture");
-
-    (*env)->ReleaseStringUTFChars(env, texname, filename);
-    (*env)->ReleaseByteArrayElements(env,arr,data,JNI_ABORT);
 }
 
 // create the engine and output mix objects
 void Java_foam_starwisp_Scheme_createEngine(JNIEnv* env, jclass clazz)
 {
-    audio_init();
-    create_audio_engine();
 }

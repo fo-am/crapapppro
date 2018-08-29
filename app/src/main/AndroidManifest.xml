@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="foam.starwisp"
-    android:versionCode="11"
-    android:versionName="2.7">
+    android:versionCode="12"
+    android:versionName="2.8">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false"/>
@@ -11,9 +11,13 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="11" />
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:resizeable="true"
+        android:anyDensity="true" />
 
     <application android:label="@string/app_name"
         android:icon="@drawable/logo"
@@ -43,16 +47,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD0e8ExTnpvi-GpIJ0Ct8mW43kzXcGgwmQ"/>
 
-
     </application>
 
-    <supports-screens
-        android:smallScreens="true"
-        android:normalScreens="true"
-        android:largeScreens="true"
-        android:xlargeScreens="true"
-        android:resizeable="true"
-        android:anyDensity="true" />
 
 </manifest>
 
