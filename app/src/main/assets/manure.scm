@@ -1,3 +1,4 @@
+#lang scheme
 ;; -*- mode: scheme; -*-
 ;; Farm Crap App Pro Copyright (C) 2016 FoAM Kernow
 ;;
@@ -177,20 +178,20 @@
   (choice 'cattle
 	  (dtree 'nutrient
 		 (list (choice 'n-avail cattle-slurry-n-pc-tree)
-		       (quote (p-total (quality ((DM2 0.5) 
-						 (DM6 1.1) 
-						 (DM10 1.6))))) 
+		       (quote (p-total (quality ((DM2 0.6) ;; RB209 8th ed
+						 (DM6 1.2) ;; RB209 8th ed
+						 (DM10 1.8))))) ;; RB209 8th ed
 		       ;; crop avail is 50% of total value (pp 67) 
-		       (quote (p-avail (quality ((DM2 0.25) ;; RB209 8th ed: 0.3
-						 (DM6 0.55)  ;; RB209 8th ed: 0.6
-						 (DM10 0.8))))) ;; RB209 8th ed: 0.9 
-		       (quote (k-total (quality ((DM2 2.4) 
-						 (DM6 3.2) 
-						 (DM10 3.6)))))
+		       (quote (p-avail (quality ((DM2 0.3) ;; RB209 8th ed
+						 (DM6 0.6)  ;; RB209 8th ed 
+						 (DM10 0.9))))) ;; RB209 8th ed
+		       (quote (k-total (quality ((DM2 1.7) ;; 2017 update
+						 (DM6 2.5) ;; 2017 update
+						 (DM10 3.4))))) ;; 2017 update
 		       ;; crop avail is 90% of total value (pp 67)
-		       (quote (k-avail (quality ((DM2 1.53) ;; RB209 8th ed: 2.2 
-						 (DM6 2.25) ;; RB209 8th ed: 2.9
-						 (DM10 3.06))))))))) ;; RB209 8th ed: 3.6
+		       (quote (k-avail (quality ((DM2 1.5) ;; 2017 update 
+						 (DM6 2.3) ;; 2017 update
+						 (DM10 3.0))))))))) ;; 2017 update
 
 (define pig-slurry-n-pc-tree
   (quote
@@ -317,57 +318,142 @@
   (choice 'pig
 	  (dtree 'nutrient
 		 (list (choice 'n-avail pig-slurry-n-pc-tree)
- 		       (quote (p-total (quality ((DM2 0.8)
-						 (DM4 1.5)
-						 (DM6 2.2)))))
+ 		       (quote (p-total (quality ((DM2 0.8) ;; 2017 update
+						 (DM4 1.5) ;; 2017 update
+						 (DM6 2.2))))) ;; 2017 update
 		       ;; 50% of total like cattle slurry
- 		       (quote (p-avail (quality ((DM2 0.4) ;; RB209 8th ed: 0.5 
-						 (DM4 0.75) ;; RB209 8th ed: 0.9
-						 (DM6 1.1))))) ;; RB209 8th ed: 1.3
+ 		       (quote (p-avail (quality ((DM2 0.4) ;; 2017 update
+						 (DM4 0.8) ;; 2017 update
+						 (DM6 1.1))))) ;; 2017 update
 
-		       (quote (k-total (quality ((DM2 1.8) 
-						 (DM4 2.2) 
-						 (DM6 2.6)))))
+		       (quote (k-total (quality ((DM2 1.8) ;; 2017 update 
+						 (DM4 2.2) ;; 2017 update
+						 (DM6 2.6))))) ;; 2017 update
 		       ;; 90% of total like cattle slurry
-		       (quote (k-avail (quality ((DM2 1.62) ;; RB209 8th ed: 1.8
-						 (DM4 1.98) ;; RB209 8th ed: 2.2
-						 (DM6 2.34))))))))) ;; RB209 8th ed: 2.5
+		       (quote (k-avail (quality ((DM2 1.6) ;; 2017 update
+						 (DM4 2.0) ;; 2017 update
+						 (DM6 2.3))))))))) ;; 2017 update
 
 ;; N is in perecent of total
 (define poultry-tree 
   (quote (poultry
-	  (quality
-	   ((layer
-	     (nutrient 
-	      ((n-avail
-		(season		
-		 ((autumn
-		   (soil 
-		    ((sandyshallow (crop ((normal 10) (grass-oilseed 15))))
-		     (mediumheavy (crop ((normal 25) (grass-oilseed 30)))))))
-		  (winter 25)
-		  (summer 35)
-		  (spring 35))))
-	       ;; recommend changing from broiler/layer to DM values??
-	       (p-total 14) ;; 8th ed value
-	       (p-avail 8.4)   ;; 2016 no exact match RB209 8th ed: 8.4 (60%)
-	       (k-total 17) ;; 2016 value
-	       (k-avail 8.6))))  ;; 2016 no exact match  RB209 8th ed: 8.6 (90%)
-	    (broiler 
-	     (nutrient
-	      ((n-avail 
-		(season
-		 ((autumn 
-		   (soil 
-		    ((sandyshallow (crop ((normal 10) (grass-oilseed 15))))
-		     (mediumheavy (crop ((normal 25) (grass-oilseed 30)))))))
-		  (winter (soil ((sandyshallow 20) (mediumheavy 25))))
-		  (summer 30)
-		  (spring 30))))
-	       (p-total 17) ;; 2016 value
-	       (p-avail 10.2) ;; RB209 8th ed: 15.0
-	       (k-total 21) ;; 2016 value
-	       (k-avail 18.9))))))))) ;; RB209 8th ed: 16.2
+          (quality
+           ((DM20 ;; changed to DM instead of broiler/layer throughout 2017 update
+             (nutrient 
+              ((n-avail
+                (application
+                 ((surface
+                   (season		
+                    ((autumn
+                      (soil 
+                       ((sandyshallow (crop ((normal 15) (grass-oilseed 20)))) ;; 2017 update
+                        (mediumheavy (crop ((normal 25) (grass-oilseed 30))))))) ;; 2017 update
+                     (winter 25) ;; 2017 update
+                     (summer 35) ;; 2017 update
+                     (spring 35)))) ;; 2017 update
+                 (ploughed
+                  (season		
+                   ((autumn
+                     (soil 
+                      ((sandyshallow (crop ((normal 15) (grass-oilseed 20)))) ;; 2017 update
+                       (mediumheavy (crop ((normal 35) (grass-oilseed 40))))))) ;; 2017 update
+                    (winter ;; 2017 update
+                     (soil 
+                      ((sandyshallow 25) ;; 2017 update
+                       (mediumheavy 40)))) ;; 2017 update
+                    (summer NA) ;; 2017 update
+                    (spring 50))))))) ;; 2017 update
+                (p-total 8.0) ;; 2017 update
+                (p-avail 4.8)   ;; 2017 update (60%)
+                (k-total 8.5) ;; 2017 update
+                (k-avail 7.7))))  ;; 2017 update (90%)
+            (DM40  ;; 2017 update
+             (nutrient
+              ((n-avail 
+                (application
+                 ((surface
+                   (season
+                    ((autumn 
+                      (soil 
+                       ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
+                        (mediumheavy (crop ((normal 25) (grass-oilseed 30))))))) ;; 2017 update
+                     (winter (soil ((sandyshallow 20) (mediumheavy 25)))) ;; 2017 update
+                     (summer 30) ;; 2017 update
+                     (spring 30)))) ;; 2017 update
+                  (ploughed
+                   (season		
+                    ((autumn
+                      (soil 
+                       ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
+                        (mediumheavy (crop ((normal 30) (grass-oilseed 35))))))) ;; 2017 update
+                     (winter ;; 2017 update
+                      (soil 
+                       ((sandyshallow 20) ;; 2017 update
+                        (mediumheavy 30)))) ;; 2017 update
+                     (summer NA) ;; 2017 update
+                     (spring 40))))))) ;; 2017 update
+                 (p-total 12) ;; 2017 update
+                 (p-avail 7.2) ;; 2017 update
+                 (k-total 15) ;; 2017 update
+                 (k-avail 14)))) ;; 2017 update
+         (DM60  ;; 2017 update
+          (nutrient
+           ((n-avail
+             (application
+              ((surface 
+                (season
+                 ((autumn 
+                   (soil 
+                    ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
+                     (mediumheavy (crop ((normal 25) (grass-oilseed 30))))))) ;; 2017 update
+                  (winter (soil ((sandyshallow 20) (mediumheavy 25)))) ;; 2017 update
+                  (summer 30) ;; 2017 update
+                  (spring 30)))) ;; 2017 update
+               (ploughed
+                (season		
+                 ((autumn
+                   (soil 
+                    ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
+                     (mediumheavy (crop ((normal 30) (grass-oilseed 35))))))) ;; 2017 update
+                  (winter ;; 2017 update
+                   (soil 
+                    ((sandyshallow 20) ;; 2017 update
+                     (mediumheavy 30)))) ;; 2017 update
+                  (summer NA) ;; 2017 update
+                  (spring 40))))))) ;; 2017 update
+            (p-total 17) ;; 2017 update
+            (p-avail 10.2) ;; 2017 update
+            (k-total 21) ;; 2017 update
+            (k-avail 19)))) ;; 2017 update
+         (DM80  ;; 2017 update
+          (nutrient
+           ((n-avail 
+             (application
+              ((surface 
+                (season
+                 ((autumn 
+                   (soil 
+                    ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
+                     (mediumheavy (crop ((normal 25) (grass-oilseed 30))))))) ;; 2017 update
+                  (winter (soil ((sandyshallow 20) (mediumheavy 25)))) ;; 2017 update
+                  (summer 30) ;; 2017 update
+                  (spring 30)))) ;; 2017 update
+               (ploughed
+                (season		
+                 ((autumn
+                   (soil 
+                    ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
+                     (mediumheavy (crop ((normal 30) (grass-oilseed 35))))))) ;; 2017 update
+                  (winter ;; 2017 update
+                   (soil 
+                    ((sandyshallow 20) ;; 2017 update
+                     (mediumheavy 30)))) ;; 2017 update
+                  (summer NA) ;; 2017 update
+                  (spring 40))))))) ;; 2017 update
+              (p-total 21) ;; 2017 update
+              (p-avail 12.6) ;; 2017 update
+              (k-total 27) ;; 2017 update
+              (k-avail 24))))))))) ;; 2017 update
 
 (define fym-tree
   (choice 
@@ -380,8 +466,8 @@
 			       (choice 'n-avail (fym-seasonal-nitrogen 6.7)) ;; RB209 8th ed: 6.0
 			       (choice 'p-total 3.2) ;; RB209 2016 not significant change
 			       (choice 'p-avail 1.9) ;; RB209 2016 not significant change
-			       (choice 'k-total 9.4) ;; 2016 value
-			       (choice 'k-avail 8.46)))) ;; (90% of 9.4) RB209 8th ed: 7.2
+			       (choice 'k-total 9.4) ;; 2017 update
+			       (choice 'k-avail 8.5)))) ;; (90% of 9.4) 2017 update
 	  (choice 'fym-pig
 		  (dtree 'nutrient 
 			 (list (choice 'n-total 7.0)

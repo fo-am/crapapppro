@@ -105,6 +105,8 @@
    (list 'deepsilt (list "Deep silt"))
 
    ;; application types
+   (list 'surface (list "Surface"))
+   (list 'ploughed (list "Ploughed"))
    (list 'straight-surface (list "Straight to surface"))
    (list 'straight-ploughed (list "Straight and ploughed"))
    (list 'stored-spread (list "Stored to surface"))
@@ -142,6 +144,10 @@
    (list 'DM10 (list "10% DM (Porridge)"))
    (list 'DM4 (list "4% DM (Thick soup)"))
    (list 'DM6 (list "6% DM (Porridge)"))
+   (list 'DM20 (list "20% DM"))
+   (list 'DM40 (list "40% DM"))
+   (list 'DM60 (list "60% DM"))
+   (list 'DM80 (list "80% DM"))
    (list 'green (list "Green compost"))
    (list 'green-food (list "Green and foodwaste"))
 

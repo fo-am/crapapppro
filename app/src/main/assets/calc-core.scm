@@ -39,7 +39,7 @@
 
 (define cattle-quality-list (list 'DM2 'DM6 'DM10))
 (define pig-quality-list (list 'DM2 'DM4 'DM6))
-(define poultry-quality-list (list 'layer 'broiler))
+(define poultry-quality-list (list 'DM20 'DM40 'DM60 'DM80))
 (define fym-quality-list (list 'fym-cattle 'fym-pig 'fym-sheep 'fym-duck 'fym-horse 'fym-goat))
 (define compost-quality-list (list 'green 'green-food))
 (define yesno-list (list 'yes 'no))
@@ -50,6 +50,8 @@
   (list 'splash-surface 'splash-incorporated 'shoe-bar-spreader 'shallow-injected))
 (define cattle-application-list
   (list 'splash-surface 'splash-incorporated 'shoe-bar-spreader 'shallow-injected))
+(define poultry-application-list
+  (list 'surface 'ploughed))
 
 (define rainfall-list (list 'rain-high 'rain-medium 'rain-low))
 
@@ -88,7 +90,7 @@
     (else (find n (cdr l)))))
 
 (define (process-nutrients amount nutrients)
-  (msg "amount is:" amount)
+  ;;(msg "amount is:" amount)
   (map
    (lambda (q)
      (if (number? q)
@@ -112,6 +114,7 @@
    ((eq? t 'cattle) cattle-application-list)
    ((eq? t 'pig) pig-application-list)
    ((eq? t 'fym) fym-application-list)
+   ((eq? t 'poultry) poultry-application-list)
    (else '())))
 
 (define (get-units-for-type t)
