@@ -27,6 +27,7 @@
   (list	'winter-wheat-removed-feed 'winter-wheat-incorporated-feed 
 	'spring-barley-removed-feed 'spring-barley-incorporated-feed
 	'winter-wheat-removed-malt 'winter-wheat-incorporated-malt 
+	'winter-wheat-removed-mill 'winter-wheat-incorporated-mill 
 	'spring-barley-removed-malt 'spring-barley-incorporated-malt
 	'grass-cut 'grass-grazed))
 
