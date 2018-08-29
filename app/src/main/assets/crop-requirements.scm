@@ -91,49 +91,63 @@
 	  (choice 'grass-cut 260)
 	  (choice 'grass-grazed 240)))) 
 
-(define crop-requirements-pk-tree 
-  '(crop
-    ((winter-wheat-incorporated ;;2017 update both feed and mill should use this table 
-      (nutrient
-       ((phosphorous
-	 (p-index ((soil-p-0 120) (soil-p-1  90) (soil-p-2  60) (soil-p-3   0))))
-	(potassium
-	 (k-index ((soil-k-0 105) (soil-k-1  75) (soil-k-2- 45) (soil-k-2+ 20) (soil-k-3   0)))))))
-     (spring-barley-incorporated ;;2017 update both feed and malt should use this table 
-      (nutrient
-       ((phosphorous
-	 (p-index ((soil-p-0 105) (soil-p-1  75) (soil-p-2  45) (soil-p-3   0))))
-	(potassium
-	 (k-index ((soil-k-0  95) (soil-k-1  65) (soil-k-2- 35) (soil-k-2+  0) (soil-k-3   0)))))))
-     (winter-wheat-removed ;;2017 update both feed and mill should use this table
-      (nutrient
-       ((phosphorous
-	 (p-index ((soil-p-0 125) (soil-p-1  95) (soil-p-2  65) (soil-p-3   0))))
-	(potassium
-	 (k-index ((soil-k-0 145) (soil-k-1 115) (soil-k-2- 85) (soil-k-2+ 55) (soil-k-3   0)))))))
-     (spring-barley-removed ;;2017 update both feed and malt should use this table 
-      (nutrient
-       ((phosphorous
-	 (p-index ((soil-p-0 110) (soil-p-1  80) (soil-p-2  50) (soil-p-3   0))))
-	(potassium
-	 (k-index ((soil-k-0 130) (soil-k-1 100) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   0)))))))
+(define winter-wheat-incorporated-pk-tree ;;2017 update both feed and malt should use this table 
+  '(nutrient
+    ((phosphorous
+      (p-index ((soil-p-0 120) (soil-p-1  90) (soil-p-2  60) (soil-p-3   0))))
+     (potassium
+      (k-index ((soil-k-0 105) (soil-k-1  75) (soil-k-2- 45) (soil-k-2+ 20) (soil-k-3   0)))))))
 
-     ;; first cut, pp 211
-     (grass-cut
-      (nutrient 
-       ((phosphorous
-	 (p-index ((soil-p-0 100) (soil-p-1 70) (soil-p-2 40) (soil-p-3 0))))
-	;; spring cut values for k
-	(potassium
-	 (k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 30) (soil-k-3 0)))))))
-     
-     ;; pp 210
-     (grass-grazed 
-      (nutrient 
-       ((phosphorous
-	 (p-index ((soil-p-0 80) (soil-p-1 50) (soil-p-2 20) (soil-p-3 0))))
-	(potassium
-	 (k-index ((soil-k-0 60) (soil-k-1 30) (soil-k-2- 0) (soil-k-2+ 0) (soil-k-3 0))))))))))
+(define spring-barley-incorporated-pk-tree ;;2017 update both feed and malt should use this table 
+  '(nutrient
+    ((phosphorous
+      (p-index ((soil-p-0 105) (soil-p-1  75) (soil-p-2  45) (soil-p-3   0))))
+     (potassium
+      (k-index ((soil-k-0  95) (soil-k-1  65) (soil-k-2- 35) (soil-k-2+  0) (soil-k-3   0)))))))
+
+(define winter-wheat-removed-pk-tree ;;2017 update both feed and mill should use this table
+  '(nutrient
+    ((phosphorous
+      (p-index ((soil-p-0 125) (soil-p-1  95) (soil-p-2  65) (soil-p-3   0))))
+     (potassium
+      (k-index ((soil-k-0 145) (soil-k-1 115) (soil-k-2- 85) (soil-k-2+ 55) (soil-k-3   0)))))))
+
+(define spring-barley-removed-pk-tree ;;2017 update both feed and malt should use this table 
+  '(nutrient
+    ((phosphorous
+      (p-index ((soil-p-0 110) (soil-p-1  80) (soil-p-2  50) (soil-p-3   0))))
+     (potassium
+      (k-index ((soil-k-0 130) (soil-k-1 100) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   0)))))))
+
+(define crop-requirements-pk-tree 
+  (dtree 
+   'crop
+   (list
+    (choice 'winter-wheat-incorporated-feed winter-wheat-incorporated-pk-tree)
+    (choice 'winter-wheat-incorporated-mill winter-wheat-incorporated-pk-tree)
+    (choice 'spring-barley-incorporated-feed spring-barley-incorporated-pk-tree)
+    (choice 'spring-barley-incorporated-malt spring-barley-incorporated-pk-tree)
+    (choice 'winter-wheat-removed-feed winter-wheat-removed-pk-tree)
+    (choice 'winter-wheat-removed-mill winter-wheat-removed-pk-tree)
+    (choice 'spring-barley-removed-feed spring-barley-removed-pk-tree) 
+    (choice 'spring-barley-removed-malt spring-barley-removed-pk-tree)
+    
+    ;; first cut, pp 211
+    (choice 'grass-cut
+	    '(nutrient 
+	      ((phosphorous
+		(p-index ((soil-p-0 100) (soil-p-1 70) (soil-p-2 40) (soil-p-3 0))))
+	       ;; spring cut values for k
+	       (potassium
+		(k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 30) (soil-k-3 0)))))))
+    
+    ;; pp 210
+    (choice 'grass-grazed 
+	    '(nutrient 
+	      ((phosphorous
+		(p-index ((soil-p-0 80) (soil-p-1 50) (soil-p-2 20) (soil-p-3 0))))
+	       (potassium
+		(k-index ((soil-k-0 60) (soil-k-1 30) (soil-k-2- 0) (soil-k-2+ 0) (soil-k-3 0))))))))))
 
      
 

@@ -24,11 +24,14 @@
 (define soil-test-p-list (list 'soil-p-0 'soil-p-1 'soil-p-2 'soil-p-3))
 (define soil-test-k-list (list 'soil-k-0 'soil-k-1 'soil-k-2- 'soil-k-2+ 'soil-k-3))
 (define crop-type-list 
-  (list	'winter-wheat-removed-feed 'winter-wheat-incorporated-feed 
-	'spring-barley-removed-feed 'spring-barley-incorporated-feed
-	'winter-wheat-removed-malt 'winter-wheat-incorporated-malt 
-	'winter-wheat-removed-mill 'winter-wheat-incorporated-mill 
-	'spring-barley-removed-malt 'spring-barley-incorporated-malt
+  (list 'spring-barley-incorporated-feed
+	'spring-barley-incorporated-malt
+	'spring-barley-removed-feed
+	'spring-barley-removed-malt
+	'winter-wheat-incorporated-feed
+	'winter-wheat-incorporated-mill
+	'winter-wheat-removed-feed
+	'winter-wheat-removed-mill  	 
 	'grass-cut 'grass-grazed))
 
 (define previous-crop-type-list 

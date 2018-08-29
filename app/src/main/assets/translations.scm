@@ -67,16 +67,14 @@
    (list 'field-size-i (list "Field size (acres)"))
    
    ;; crop types
-   (list 'winter-wheat-removed-feed (list "Winter wheat, straw removed, feed"))
-   (list 'winter-wheat-incorporated-feed (list "Winter wheat, straw incorporated, feed")) 
-   (list 'spring-barley-removed-feed (list "Spring barley, straw removed, feed"))
    (list 'spring-barley-incorporated-feed (list "Spring barley, straw incorporated, feed"))
-   (list 'winter-wheat-removed-malt (list "Winter wheat, straw removed, malt"))
-   (list 'winter-wheat-incorporated-malt (list "Winter wheat, straw incorporated, malt")) 
-   (list 'winter-wheat-removed-mill (list "Winter wheat, straw removed, mill"))
-   (list 'winter-wheat-incorporated-mill (list "Winter wheat, straw incorporated, mill")) 
-   (list 'spring-barley-removed-malt (list "Spring barley, straw removed, malt"))
    (list 'spring-barley-incorporated-malt (list "Spring barley, straw incorporated, malt"))
+   (list 'spring-barley-removed-feed (list "Spring barley, straw removed, feed"))
+   (list 'spring-barley-removed-malt (list "Spring barley, straw removed, malt"))
+   (list 'winter-wheat-incorporated-feed (list "Winter wheat, straw incorporated, feed")) 
+   (list 'winter-wheat-incorporated-mill (list "Winter wheat, straw incorporated, mill")) 
+   (list 'winter-wheat-removed-feed (list "Winter wheat, straw removed, feed"))
+   (list 'winter-wheat-removed-mill (list "Winter wheat, straw removed, mill"))
    (list 'grass-cut (list "Grass cut"));; (yield 6-8k, conc 1.5, stock med)"))
    (list 'grass-grazed (list "Grass grazed"));; (yield 6-8k, conc 1.5, stock med)"))
    
