@@ -375,8 +375,6 @@ public class DrawableMap {
             JSONArray polygon_list = map.getJSONArray(1);
             for (int i=0; i<polygon_list.length(); i++) {
 
-		Log.e("starwisp", "poly "+i);
-
                 JSONArray poly = polygon_list.getJSONArray(i);
                 Polygon new_poly = new Polygon();
                 new_poly.m_Name = poly.getString(0);
@@ -405,7 +403,6 @@ public class DrawableMap {
 
                 new_poly.m_Verts = new Vector<LatLng>();
                 for (int v=0; v<verts.length(); v++) {
-		    Log.e("starwisp", "vert "+v);
                     JSONArray latlng = verts.getJSONArray(v);
                     new_poly.m_Verts.add(new LatLng(latlng.getDouble(0),latlng.getDouble(1)));
                 }

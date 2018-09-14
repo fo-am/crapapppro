@@ -32,7 +32,7 @@
 	'winter-wheat-incorporated-mill
 	'winter-wheat-removed-feed
 	'winter-wheat-removed-mill  	 
-	'grass-cut 'grass-grazed))
+	'expert))
 
 (define previous-crop-type-list 
   (list 'cereals 'oilseed 'potatoes 
@@ -267,6 +267,7 @@
       (eq? previous-crop 'grass-high-n)
       (eq? previous-crop 'grass-other)))
 
+;; todo: + grazed, silage, hay, esablished (not rye)
 (define (is-crop-arable? c)
   (not (or (eq? c 'grass-cut) 
 	   (eq? c 'grass-grazed))))
@@ -315,23 +316,30 @@
 (define (get-crop-requirements/supply rainfall crop soil previous-crop regularly-manure soil-test-p soil-test-k recently-grown-grass)
   (let ((sns (calc-sns rainfall soil crop previous-crop regularly-manure recently-grown-grass)))
     (let ((choices 
-	   (list 
-	    (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
-	    (list 'rainfall rainfall)
-	    (list 'soil soil)
-	    (list 'crop crop)
-	    (list 'p-index soil-test-p)
-	    (list 'k-index soil-test-k))))
+	   (append
+	    (get-current 'crop-menu-options '())
+	    (list 
+	     (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
+	     (list 'rainfall rainfall)
+	     (list 'soil soil)
+	     (list 'crop crop) ;; remove this...
+	     (list 'p-index soil-test-p)
+	     (list 'k-index soil-test-k)))))
       (list 
        (+ (decision crop-requirements-n-tree choices) 
 	  ;; add/subtract based on table on pp 188
 	  (cond
+	   ;; todo: should be just grazed - otherwise silage is dependant on cut
 	   ((eqv? sns grassland-high-sns) -30)
 	   ((eqv? sns grassland-low-sns) 30)
 	   (else 0)))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorous) choices))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))
        sns))))
+
+
+;; if poultry manure, autumn, crop is grassland/winteroilseed cropped
+;; then add 5 to % nitrogen
 
 
 (define (get-nutrients type amount quality season crop soil application soil-test)

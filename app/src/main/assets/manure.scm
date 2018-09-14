@@ -50,8 +50,10 @@
 	(DM6 4.7)))) 
      (poultry
       (quality
-       ((layer 19) ;; 2016 data no exact DM match
-	(broiler 28)))))))) ;; RB209 8th ed: 30
+       ((DM20 9.4) ;; 2017 update
+	(DM40 19.0) ;; 2017 update
+        (DM60 28.0) ;; 2017 update
+        (DM80 37.0)))))))) ;; 2017 update
 
 (define cattle-slurry-n-pc-tree
   (quote

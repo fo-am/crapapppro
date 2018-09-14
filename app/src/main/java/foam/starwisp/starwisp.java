@@ -76,7 +76,7 @@ public class starwisp extends StarwispActivity
         ActivityManager.RegisterActivity("about",AboutActivity.class);
         ActivityManager.RegisterActivity("email",EmailActivity.class);
         ActivityManager.RegisterActivity("manure",ManureActivity.class);
-        //ActivityManager.Register("nvz",NVZActivity.class);
+        ActivityManager.RegisterActivity("cropselect",CropSelectActivity.class);
     };
 
 
@@ -152,6 +152,7 @@ public class starwisp extends StarwispActivity
         m_Scheme.Load("geo.scm");
         m_Scheme.Load("crap-app.scm");
         m_Scheme.Load("translations.scm");
+        m_Scheme.Load("crop-tree-menu.scm");
 
         // pass in a bunch of useful stuff
         m_Scheme.eval("(define dirname \"/sdcard/"+dirname+"\")(define date-day "+day+") (define date-month "+month+") (define date-year "+year+")");

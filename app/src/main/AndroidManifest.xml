@@ -42,6 +42,7 @@
         <activity android:name="foam.starwisp.MainActivity"></activity>
         <activity android:name="foam.starwisp.EmailActivity"></activity>
         <activity android:name="foam.starwisp.ManureActivity"></activity>
+        <activity android:name="foam.starwisp.CropSelectActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -1,5 +1,6 @@
 #lang scheme
 
+
 ;; Farm Crap App Pro Copyright (C) 2016 FoAM Kernow
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -64,7 +65,7 @@
        (sns ((0 160) (1 140) (2 110) (3  70) (4  30) (5  15) (6   0))))
      )))
 
-(define barley-nitrogen-tree-malt ;;2017update
+(define barley-nitrogen-tree-malt ;;2017 update
   '(soil
     ((sandyshallow ;; light sand
       (sns ((0 110) (1  80) (2  40) (3  20) (4  0) (5   0) (6   0)))) ;; 2017 update
@@ -76,7 +77,59 @@
        (sns ((0 130) (1 110) (2 70) (3  40) (4  15) (5  0) (6   0)))) ;;2017 update
      )))
 
-
+(define grass-nitrogen-tree ;;2017 update
+  '(subtype
+    ((silage 
+      (targetyield
+       ((DM5-7
+         (cut ((1 70) (2 NA) (3 NA) (4 NA))))
+        (DM7-9
+         (cut ((1 80) (2 50) (3 NA) (4 NA))))
+        (DM9-12
+         (cut ((1 100) (2 75) (3 75) (4 NA))))  
+        (DM12-15+
+         (cut ((1 120) (2 90) (3 70) (4 30))))
+        ))))
+    (grazed
+     (targetyield
+      ((DM4-5
+	(month ((mar 30) (default NA))))
+       (DM5-7
+	(month ((mar 30) (may 20) (default NA))))
+       (DM6-8
+	(month ((mar 30) (may 30) (jul 20) (default NA))))
+       (DM7-9
+	(month ((mar 40) (may 30) (jun 30) (jul 30) (default NA))))
+       (DM9-12
+	(month ((mar 30) (apr 30) (may 30) (jun 30) (jul 30) (aug 30) (default NA))))
+       (DM10-13
+	(month ((jan 30) (feb 30) (mar 40) (apr 40) (may 30) (jun 30) (jul 30) (aug 30) (default NA))))
+       (DM12-15+
+	(month ((jan 30) (feb 30) (mar 40) (apr 50) (may 50) (jun 40) (jul 30) (aug 30) (default NA))))
+       )))
+    (hay
+     (sns ((grassland-low-sns 100) (grassland-med-sns 70) (grassland-high-sns 40)))
+     )
+    (established
+     (sown
+      ((spring
+	(sns ((grassland-low-sns 60) (grassland-med-sns 60) (grassland-high-sns 60))))
+       (summer-autumn
+	(sns ((grassland-low-sns 40) (grassland-med-sns 15) (grassland-high-sns 0))))
+       (clover 0)
+       )))
+    (rye ;; in forage section but becky put it under grass
+     (soil
+      ((sandyshallow ;; light sand
+	(sns ((0 160) (1  110) (2  60) (3  20) (4  0) (5   0) (6   0))))
+       (organic
+	(sns ((0   NA) (1   NA) (2   NA) (3  60) (4  20) (5  0) (6   0)))) 
+       (peat
+	(sns ((0   NA) (1   NA) (2   NA) (3   NA) (4   NA) (5  20) (6  20))))
+       (default ;; other mineral soils
+	 (sns ((0 NA) (1 160) (2 110) (3  60) (4  20) (5  0) (6   0))))
+       )))))
+      
 (define crop-requirements-n-tree
   (dtree 'crop
 	 (list 
@@ -88,8 +141,7 @@
           (choice 'winter-wheat-incorporated-mill wheat-nitrogen-tree-mill)
 	  (choice 'winter-wheat-removed-feed wheat-nitrogen-tree-feed)
           (choice 'winter-wheat-removed-mill wheat-nitrogen-tree-mill)  
-	  (choice 'grass-cut 260)
-	  (choice 'grass-grazed 240)))) 
+	  (choice 'grass grass-nitrogen-tree))))
 
 (define winter-wheat-incorporated-pk-tree ;;2017 update both feed and malt should use this table 
   '(nutrient
@@ -119,6 +171,59 @@
      (potassium
       (k-index ((soil-k-0 130) (soil-k-1 100) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   0)))))))
 
+(define grass-pk-tree ;;2017 update
+  '(subtype
+    ((silage
+      (cut
+       ((1
+         (nutrient
+          ((phosphorous
+            (p-index ((soil-p-0 100) (soil-p-1  70) (soil-p-2  40) (soil-p-3   20))))
+           (potassium
+            (k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 20) (soil-k-3   30)))))))) ;; not sure how to deal with potash previous autumn/spring so used spring numbers
+        (2
+         (nutrient
+          ((phosphorous
+            (p-index ((soil-p-0 25) (soil-p-1  25) (soil-p-2  25) (soil-p-3   0))))
+           (potassium
+            (k-index ((soil-k-0 120) (soil-k-1 100) (soil-k-2- 90) (soil-k-2+ 60) (soil-k-3   40)))))))
+        (3
+         (nutrient
+          ((phosphorous
+            (p-index ((soil-p-0 15) (soil-p-1  15) (soil-p-2  15) (soil-p-3   0))))
+           (potassium
+            (k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 40) (soil-k-3   20)))))))
+        (4
+         (nutrient
+          ((phosphorous
+            (p-index ((soil-p-0 10) (soil-p-1  10) (soil-p-2  10) (soil-p-3   0))))
+           (potassium
+            (k-index ((soil-k-0 70) (soil-k-1 70) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   20))))))))))
+      (grazed
+       (nutrient
+       ((phosphorous
+         (p-index ((soil-p-0 80) (soil-p-1  50) (soil-p-2  20) (soil-p-3   0))))
+        (potassium
+         (k-index ((soil-k-0 60) (soil-k-1 30) (soil-k-2- 0) (soil-k-2+ 0) (soil-k-3   0)))))))  
+      (hay
+       (nutrient
+       ((phosphorous
+         (p-index ((soil-p-0 80) (soil-p-1  50) (soil-p-2  30) (soil-p-3   0))))
+        (potassium
+         (k-index ((soil-k-0 140) (soil-k-1 115) (soil-k-2- 90) (soil-k-2+ 65) (soil-k-3   20)))))))
+      (established
+       (nutrient
+       ((phosphorous
+         (p-index ((soil-p-0 120) (soil-p-1  80) (soil-p-2  50) (soil-p-3   30))))
+        (potassium
+         (k-index ((soil-k-0 120) (soil-k-1 80) (soil-k-2- 60) (soil-k-2+ 40) (soil-k-3   0)))))))
+      (rye ;; in forage section but becky put it under grass
+       (nutrient
+       ((phosphorous
+         (p-index ((soil-p-0 90) (soil-p-1  60) (soil-p-2  30) (soil-p-3   0))))
+        (potassium
+         (k-index ((soil-k-0 150) (soil-k-1 120) (soil-k-2- 90) (soil-k-2+ 60) (soil-k-3   0)))))))))
+      
 (define crop-requirements-pk-tree 
   (dtree 
    'crop
@@ -131,23 +236,8 @@
     (choice 'winter-wheat-removed-mill winter-wheat-removed-pk-tree)
     (choice 'spring-barley-removed-feed spring-barley-removed-pk-tree) 
     (choice 'spring-barley-removed-malt spring-barley-removed-pk-tree)
-    
-    ;; first cut, pp 211
-    (choice 'grass-cut
-	    '(nutrient 
-	      ((phosphorous
-		(p-index ((soil-p-0 100) (soil-p-1 70) (soil-p-2 40) (soil-p-3 0))))
-	       ;; spring cut values for k
-	       (potassium
-		(k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 30) (soil-k-3 0)))))))
-    
-    ;; pp 210
-    (choice 'grass-grazed 
-	    '(nutrient 
-	      ((phosphorous
-		(p-index ((soil-p-0 80) (soil-p-1 50) (soil-p-2 20) (soil-p-3 0))))
-	       (potassium
-		(k-index ((soil-k-0 60) (soil-k-1 30) (soil-k-2- 0) (soil-k-2+ 0) (soil-k-3 0))))))))))
+    (choice 'grass grass-pk-tree))))
+
 
      
 

@@ -206,6 +206,17 @@
             (layout 'wrap-content 'wrap-content 1 'centre 0)
             (lambda (c) (fn c)))))
 
+(define (mreselect-spinner id types fn)
+  (vert
+   (text-view (symbol->id id)
+              (mtext-lookup id)
+              normal-text-size (layout 'wrap-content 'wrap-content 1 'centre 0))
+   (reselect-spinner (make-id (string-append (symbol->string id) "-spinner"))
+            (map mtext-lookup types)
+            (layout 'wrap-content 'wrap-content 1 'centre 0)
+            (lambda (c) (fn c)))))
+
+
 (define (mspinner-other id types fn)
   (linear-layout
    (make-id (string-append (symbol->string id) "-container"))

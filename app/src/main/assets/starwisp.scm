@@ -199,8 +199,11 @@
 
 	(mspinner 
 	 'crop-type crop-type-list 
-	 (lambda (v) (update-crop! (list-ref crop-type-list v)))))
-
+	 (lambda (v)
+	   (if (eq? (list-ref crop-type-list v) 'expert)
+	       (list (start-activity "cropselect" 0 ""))
+	       (update-crop! (list-ref crop-type-list v))))))
+	
        (horiz
 	(mspinner 'season season-list (lambda (v) (update-season! (list-ref season-list v))))
 	(calc-manure-quality-widget (lambda (v))))
@@ -223,7 +226,7 @@
 	 (list
 	  (update-widget 'text-view (get-id "nutrient-n-metric") 'text (mtext-lookup 'nutrient-n-imperial))
 	  (update-widget 'text-view (get-id "nutrient-p-metric") 'text (mtext-lookup 'nutrient-p-imperial))
-	  (update-widget 'text-view (get-id "nutrient-k-metric") 'text (mtext-lookup 'nutrient-k-imperial)))))     
+	  (update-widget 'text-view (get-id "nutrient-k-metric") 'text (mtext-lookup 'nutrient-k-imperial)))))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
@@ -368,11 +371,16 @@
 		    (spinner-choice yesno-list v)))'())))
 
 	  (mspinner 'crop-type crop-type-list
-		    (lambda (v) (entity-update-single-value! 
-				 (ktv "crop" "varchar" 
-				      (spinner-choice crop-type-list v))) 
-			    (update-field-cropsoil-calc-from-current)))
-
+		    (lambda (v)
+		      (cond
+		       ((eq? (list-ref crop-type-list v) 'expert)
+			(list (start-activity "cropselect" 0 "")))
+		       (else
+			(entity-update-single-value! 
+			 (ktv "crop" "varchar" 
+			      (spinner-choice crop-type-list v))) 
+			(update-field-cropsoil-calc-from-current)))))
+	  
 	  (mtitle 'crop-requirements)
 	  (horiz
 	   (mtext-scale 'nutrient-n-output)
@@ -736,5 +744,59 @@
    (lambda (activity) '())
    (lambda (activity requestcode resultcode) '()))
 
+  (activity
+   "cropselect"
+   (vert
+    (mtitle 'crop-select)
+    
+    ;; to store the current selection list
+    (linear-layout
+     (make-id "crop-select-list") 'horizontal
+     (layout 'fill-parent 'wrap-content 1 'centre margin-size)
+     (list 0 0 0 0)
+     '())
 
+    (text-view (make-id "crop-select-category") "" 30
+	       (layout 'wrap-content 'wrap-content 1 'centre 0))
+    
+    ;; current selection buttons
+    (scroll-view-vert
+     0 (layout 'fill-parent 'wrap-content 0.75 'centre 0)
+     (list
+      (linear-layout
+       (make-id "crop-select-buttons") 'vertical
+       (layout 'fill-parent 'wrap-content 1 'centre margin-size)
+       (list 0 0 0 0)
+       '())))
+     
+    (horiz
+     (mbutton-scale 
+      'back (lambda () 
+	      (set-current! 
+	       'crop-menu-options 
+	       ;; chop off the last (cumbersomely)
+	       (reverse (cdr (reverse (get-current 'crop-menu-options '())))))
+	      (msg (get-current 'crop-menu-options '()))
+	      (list
+	       ;; for now just clear the selection indicator
+	       (update-widget 'linear-layout (get-id "crop-select-list") 'contents '())
+	       (update-tree-menu 
+		"crop-select-buttons"
+		crop-tree-menu (get-current 'crop-menu-options '())))))
+     (mbutton-scale 'cancel (lambda () (list (finish-activity 99))))))
+   (lambda (activity arg)
+     (activity-layout activity))
+   (lambda (activity arg) 
+     (set-current! 'crop-menu-options '())
+     (list
+      (update-tree-menu 
+       "crop-select-buttons"
+       crop-tree-menu (get-current 'crop-menu-options '()))))
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity requestcode resultcode) '()))
+
+  
   )

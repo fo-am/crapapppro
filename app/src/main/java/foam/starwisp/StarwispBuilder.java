@@ -827,7 +827,7 @@ public class StarwispBuilder
                 v.setId(wid);
                 final JSONArray items = arr.getJSONArray(2);
                 v.setLayoutParams(BuildLayoutParams(arr.getJSONArray(3)));
-		v.setMinimumWidth(100); // stops tiny buttons
+		        v.setMinimumWidth(100); // stops tiny buttons
                 ArrayList<String> spinnerArray = new ArrayList<String>();
 
                 for (int i=0; i<items.length(); i++) {
@@ -848,6 +848,7 @@ public class StarwispBuilder
                 spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
 
                 v.setAdapter(spinnerArrayAdapter);
+
                 v.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     public void onItemSelected(AdapterView<?> a, View v, int pos, long id) {
                         CallbackArgs(ctx,ctxname,wid,""+pos);
@@ -857,6 +858,7 @@ public class StarwispBuilder
 
                 parent.addView(v);
             }
+
 
             if (type.equals("nomadic")) {
                 final int wid = arr.getInt(1);
@@ -1856,14 +1858,17 @@ public class StarwispBuilder
                 }
             }
 
-
             if (type.equals("spinner")) {
                 Spinner v = (Spinner)vv;
 
                 if (token.equals("selection")) {
                     v.setSelection(arr.getInt(3));
                 }
-		
+
+                if (token.equals("trigger")) {
+                    v.performClick();
+                }
+
                 if (token.equals("array")) {
                     final JSONArray items = arr.getJSONArray(3);
                     ArrayList<String> spinnerArray = new ArrayList<String>();
@@ -1871,7 +1876,7 @@ public class StarwispBuilder
                     for (int i=0; i<items.length(); i++) {
                         spinnerArray.add(items.getString(i));
                     }
-
+		    
                     ArrayAdapter spinnerArrayAdapter =
                         new ArrayAdapter<String>(ctx,
                                                  R.layout.spinner_item,
@@ -1886,7 +1891,7 @@ public class StarwispBuilder
                     spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_layout);
                     v.setAdapter(spinnerArrayAdapter);
 
-                    final int wid = id;
+		    final int wid = id;
                     // need to update for new values
                     v.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         public void onItemSelected(AdapterView<?> a, View v, int pos, long id) {
