@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="foam.starwisp"
     android:versionCode="13"
-    android:versionName="3.0">
+    android:versionName="3.0 beta 1">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false"/>
