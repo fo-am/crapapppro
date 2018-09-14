@@ -746,6 +746,9 @@
 
   (activity
    "cropselect"
+   (scroll-view-vert
+    0 (layout 'fill-parent 'wrap-content 0.75 'centre 0)
+    (list
    (vert
     (mtitle 'crop-select)
     
@@ -761,7 +764,7 @@
     
     ;; current selection buttons
     (scroll-view-vert
-     0 (layout 'fill-parent 'wrap-content 0.75 'centre 0)
+     0 (layout 'fill-parent 'wrap-content 1 'centre 0)
      (list
       (linear-layout
        (make-id "crop-select-buttons") 'vertical
@@ -783,7 +786,7 @@
 	       (update-tree-menu 
 		"crop-select-buttons"
 		crop-tree-menu (get-current 'crop-menu-options '())))))
-     (mbutton-scale 'cancel (lambda () (list (finish-activity 99))))))
+     (mbutton-scale 'cancel (lambda () (list (finish-activity 99))))))))
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg) 

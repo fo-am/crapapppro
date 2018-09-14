@@ -31,7 +31,8 @@
 	'winter-wheat-incorporated-feed
 	'winter-wheat-incorporated-mill
 	'winter-wheat-removed-feed
-	'winter-wheat-removed-mill  	 
+	'winter-wheat-removed-mill
+	'grass
 	'expert))
 
 (define previous-crop-type-list 
@@ -322,7 +323,7 @@
 	     (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
 	     (list 'rainfall rainfall)
 	     (list 'soil soil)
-	     (list 'crop crop) ;; remove this...
+	     (dbg (list 'crop crop)) ;; remove this...
 	     (list 'p-index soil-test-p)
 	     (list 'k-index soil-test-k)))))
       (list 

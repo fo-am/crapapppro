@@ -10,17 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d53a68a-2874-4dbd-b983-e0eb76fbd569" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/calc-core.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/calc-core.scm" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/crop-requirements.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/crop-requirements.scm" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/interface.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/interface.scm" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/lib.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/lib.scm" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/manure.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/manure.scm" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/starwisp.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/starwisp.scm" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/DrawableMap.java" afterPath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/DrawableMap.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" afterPath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/starwisp.java" afterPath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/starwisp.java" />
     </list>
     <ignored path="crapapppro.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,7 +44,7 @@
       <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="90">
               <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
               <folding />
             </state>
@@ -63,14 +53,14 @@
       </file>
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider editor-type-id="android-manifest">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="288">
               <caret line="16" column="35" lean-forward="false" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
               <folding />
             </state>
-          </provider>
-          <provider editor-type-id="android-manifest">
-            <state />
           </provider>
         </entry>
       </file>
@@ -123,42 +113,9 @@
       <file leaf-file-name="StarwispBuilder.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="299" column="0" lean-forward="false" selection-start-line="299" selection-start-column="0" selection-end-line="299" selection-end-column="0" />
-              <folding>
-                <element signature="e#42655#42878#0" expanded="true" />
-                <element signature="e#42877#42878#0" expanded="true" />
-                <element signature="e#43451#43803#0" expanded="true" />
-                <element signature="e#43802#43803#0" expanded="true" />
-                <element signature="e#52663#52672#0" expanded="true" />
-                <element signature="e#54028#54188#0" expanded="true" />
-                <element signature="e#54187#54188#0" expanded="true" />
-                <element signature="e#57517#57525#0" expanded="true" />
-                <element signature="e#58309#58582#0" expanded="true" />
-                <element signature="e#58581#58582#0" expanded="true" />
-                <element signature="e#58894#59269#0" expanded="true" />
-                <element signature="e#59268#59269#0" expanded="true" />
-                <element signature="e#59768#60143#0" expanded="true" />
-                <element signature="e#60142#60143#0" expanded="true" />
-                <element signature="e#67714#67953#0" expanded="true" />
-                <element signature="e#67952#67953#0" expanded="true" />
-                <element signature="e#68573#68949#0" expanded="true" />
-                <element signature="e#68948#68949#0" expanded="true" />
-                <element signature="e#69569#70614#0" expanded="true" />
-                <element signature="e#70613#70614#0" expanded="true" />
-                <element signature="e#71687#71688#0" expanded="true" />
-                <element signature="e#71764#71765#0" expanded="true" />
-                <element signature="e#74424#74609#0" expanded="true" />
-                <element signature="e#74608#74609#0" expanded="true" />
-                <element signature="e#75255#75440#0" expanded="true" />
-                <element signature="e#75439#75440#0" expanded="true" />
-                <element signature="e#76070#76941#0" expanded="true" />
-                <element signature="e#76940#76941#0" expanded="true" />
-                <element signature="e#77307#79550#0" expanded="true" />
-                <element signature="e#79549#79550#0" expanded="true" />
-                <element signature="e#80657#80665#0" expanded="true" />
-                <element signature="e#82605#82613#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-46">
+              <caret line="276" column="0" lean-forward="false" selection-start-line="276" selection-start-column="0" selection-end-line="276" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -166,7 +123,7 @@
       <file leaf-file-name="ReselectSpinner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/ReselectSpinner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-67">
+            <state relative-caret-position="126">
               <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
@@ -2321,25 +2278,9 @@
       <pane id="Scratches" />
       <pane id="ProjectPane" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <expand>
-            <path>
-              <item name="crapapppro" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="crapapppro" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="crapapppro" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="starwisp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
             <path>
               <item name="crapapppro" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
@@ -2348,6 +2289,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2355,7 +2297,7 @@
     <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
     <property name="ExportApk.Flavors" value="" />
     <property name="ExportApk.BuildType" value="release" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536162252961" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536927536480" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -2630,7 +2572,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2691,7 +2632,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2752,7 +2692,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2813,7 +2752,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2874,7 +2812,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2896,7 +2833,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2954,21 +2890,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="90">
           <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="16" column="35" lean-forward="false" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-manifest">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/PictureTaker.java">
@@ -3011,7 +2947,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/ReselectSpinner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-67">
+        <state relative-caret-position="126">
           <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
@@ -3019,42 +2955,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="299" column="0" lean-forward="false" selection-start-line="299" selection-start-column="0" selection-end-line="299" selection-end-column="0" />
-          <folding>
-            <element signature="e#42655#42878#0" expanded="true" />
-            <element signature="e#42877#42878#0" expanded="true" />
-            <element signature="e#43451#43803#0" expanded="true" />
-            <element signature="e#43802#43803#0" expanded="true" />
-            <element signature="e#52663#52672#0" expanded="true" />
-            <element signature="e#54028#54188#0" expanded="true" />
-            <element signature="e#54187#54188#0" expanded="true" />
-            <element signature="e#57517#57525#0" expanded="true" />
-            <element signature="e#58309#58582#0" expanded="true" />
-            <element signature="e#58581#58582#0" expanded="true" />
-            <element signature="e#58894#59269#0" expanded="true" />
-            <element signature="e#59268#59269#0" expanded="true" />
-            <element signature="e#59768#60143#0" expanded="true" />
-            <element signature="e#60142#60143#0" expanded="true" />
-            <element signature="e#67714#67953#0" expanded="true" />
-            <element signature="e#67952#67953#0" expanded="true" />
-            <element signature="e#68573#68949#0" expanded="true" />
-            <element signature="e#68948#68949#0" expanded="true" />
-            <element signature="e#69569#70614#0" expanded="true" />
-            <element signature="e#70613#70614#0" expanded="true" />
-            <element signature="e#71687#71688#0" expanded="true" />
-            <element signature="e#71764#71765#0" expanded="true" />
-            <element signature="e#74424#74609#0" expanded="true" />
-            <element signature="e#74608#74609#0" expanded="true" />
-            <element signature="e#75255#75440#0" expanded="true" />
-            <element signature="e#75439#75440#0" expanded="true" />
-            <element signature="e#76070#76941#0" expanded="true" />
-            <element signature="e#76940#76941#0" expanded="true" />
-            <element signature="e#77307#79550#0" expanded="true" />
-            <element signature="e#79549#79550#0" expanded="true" />
-            <element signature="e#80657#80665#0" expanded="true" />
-            <element signature="e#82605#82613#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-46">
+          <caret line="276" column="0" lean-forward="false" selection-start-line="276" selection-start-column="0" selection-end-line="276" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
