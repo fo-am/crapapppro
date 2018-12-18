@@ -84,7 +84,7 @@ public class starwisp extends StarwispActivity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        String dirname = "farmcrapapppro/";
+        String dirname = "farmcrapapppro-beta/";
         m_AppDir = "/sdcard/"+dirname;
         File appdir = new File(m_AppDir);
         appdir.mkdirs();

@@ -18,7 +18,7 @@ INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 	android:versionName
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:5:5-30
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:5:5-37
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 	xmlns:android

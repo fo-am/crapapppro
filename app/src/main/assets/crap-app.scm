@@ -15,7 +15,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define db "/sdcard/farmcrapapppro/crapapp.db")
+(define db "/sdcard/farmcrapapppro-beta/crapapp.db")
 (set-current! 'db db)
 
 (define (setup-database!)
