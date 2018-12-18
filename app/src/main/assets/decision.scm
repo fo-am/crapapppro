@@ -71,7 +71,7 @@
        ;; search for this in the supplied list
        (let ((value (get-choice-value choices name))) 
 	 (when (not value) 
-	       (msg "could not find tree decision" name "in supplied choices"))
+	       (msg "could not find tree decision" name "in supplied choices:" choices))
 	 (decision (dtree-choose tree value) choices))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

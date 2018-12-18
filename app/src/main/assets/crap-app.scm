@@ -141,15 +141,25 @@
 		      ")"))
       
       (update-widget 'text-view (get-id "pa")
-		     'text (string-append 
-			    (number->string (convert-output (list-ref amounts 1) "kg/ha"))
-			    " (" (number->string (convert-output (list-ref total-amounts 1) "kg/ha")) ")"))
-
+		     'text 
+		     (string-append
+		      (if (eq? (list-ref amounts 1) 'NA)
+			  "N/A" (number->string (convert-output (list-ref amounts 1) "kg/ha")))
+		      " ("
+		      (if (eq? (list-ref total-amounts 1) 'NA)
+			  "N/A" (number->string (convert-output (list-ref total-amounts 1) "kg/ha")))
+		      ")"))
+      
       (update-widget 'text-view (get-id "ka")
-		     'text (string-append
-			    (number->string (convert-output (list-ref amounts 2) "kg/ha"))
-			    " (" (number->string (convert-output (list-ref total-amounts 2) "kg/ha")) ")"))
-
+		     'text 
+		     (string-append
+		      (if (eq? (list-ref amounts 2) 'NA)
+			  "N/A" (number->string (convert-output (list-ref amounts 2) "kg/ha")))
+		      " ("
+		      (if (eq? (list-ref total-amounts 2) 'NA)
+			  "N/A" (number->string (convert-output (list-ref total-amounts 2) "kg/ha")))
+		      ")"))
+      
       ;; costs
       (update-widget 'text-view (get-id "costn")
 		     'text (get-cost-string-from-nutrient 0 amounts size))
@@ -574,18 +584,26 @@
      (let ((v (list-ref manure-type-list v)))
        (update-seek-mul! v)
        (fn v)
+       (msg (convert-input (* (current-seek-mul) 50) (get-units)))
        (append
 	(update-type! v)
 	(update-amount! (convert-input (* (current-seek-mul) 50) (get-units)))
 	(list
 	 (update-widget 'seek-bar (get-id "amount") 'init 0)
-	 (update-widget 'spinner (get-id "quality-spinner") 'array
-			(symbol-list-to-names
-			 (get-qualities-for-type-inc-custom v)))
 	 (update-widget 'image-view (get-id "example") 'image
 			(find-image (calc-type calc)
 				    (calc-amount calc)))
 	 )
+	;; enable/disable the qualities and applications depending on the manure type
+	(let ((qualities (get-qualities-for-type-inc-custom v)))
+	  (if (null? qualities)
+	      (list
+	       (update-widget 'spinner (get-id "application-quality-spinner") 'disabled 0)
+	       (update-widget 'spinner (get-id "application-quality-spinner") 'array '("None")))
+	      (list
+	       (update-widget 'spinner (get-id "application-quality-spinner") 'enabled 0)
+	       (update-widget 'spinner (get-id "quality-spinner") 'array
+			      (symbol-list-to-names qualities)))))
 	(let ((applications (get-application-for-type v)))
 	  (if (null? applications)
 	      (list
@@ -611,14 +629,8 @@
 		 (else
 		  (set-custom-override! #f)
 		  (let ((quality 
-			 (list-ref 
-			  (cond
-			   ((eq? type 'cattle) cattle-quality-list)
-			   ((eq? type 'pig) pig-quality-list)
-			   ((eq? type 'poultry) poultry-quality-list)
-			   (else fym-quality-list))
-			  v)))
-		    
+			 (list-ref (get-qualities-for-type type) v)))
+		    (msg (get-qualities-for-type type))
 		    (fn quality)
 		    (update-quality! quality))))))))
 

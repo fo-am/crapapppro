@@ -17,7 +17,13 @@
 ;; these are the symbols used everywhere
 
 
-(define manure-type-list (list 'cattle 'fym 'pig 'poultry 'compost 'custom-manure))
+(define manure-type-list (list 'cattle 'fym 'pig 'poultry 'compost 
+			       'paper-crumble 'spent-mushroom 
+			       'water-treatment-cake 
+			       'food-industry-waste 'digestate-food 
+			       'digestate-farm 'biosolid 
+			       'custom-manure))
+
 (define units-list (list 'metric 'imperial))
 (define soil-type-list 
   (list 'sandyshallow 'medium 'peat 'organic 'mediumshallow 'deepclay 'deepsilt))
@@ -45,6 +51,12 @@
 (define pig-quality-list (list 'DM2 'DM4 'DM6))
 (define poultry-quality-list (list 'DM20 'DM40 'DM60 'DM80))
 (define fym-quality-list (list 'fym-cattle 'fym-pig 'fym-sheep 'fym-duck 'fym-horse 'fym-goat))
+(define paper-crumble-quality-list (list 'chemical-physical 'biological))
+(define food-industry-waste-quality-list (list 'dairy 'soft-drinks 'brewing 'general))
+(define digestate-food-quality-list (list 'whole 'separated-liquor 'separated-fibre))
+(define digestate-farm-quality-list (list 'whole 'separated-liquor 'separated-fibre))
+(define biosolid-quality-list (list 'digested-cake 'thermally-dried 'lime-stabilised 'composted))
+
 (define compost-quality-list (list 'green 'green-food))
 (define yesno-list (list 'yes 'no))
 
@@ -55,6 +67,8 @@
 (define cattle-application-list
   (list 'splash-surface 'splash-incorporated 'shoe-bar-spreader 'shallow-injected))
 (define poultry-application-list
+  (list 'surface 'ploughed))
+(define biosolid-application-list 
   (list 'surface 'ploughed))
 
 (define rainfall-list (list 'rain-high 'rain-medium 'rain-low))
@@ -110,8 +124,14 @@
    ((eq? t 'cattle) cattle-quality-list)
    ((eq? t 'pig) pig-quality-list)
    ((eq? t 'poultry) poultry-quality-list)
+   ((eq? t 'fym) fym-quality-list)
    ((eq? t 'compost) compost-quality-list)
-   (else fym-quality-list)))
+   ((eq? t 'paper-crumble) paper-crumble-quality-list)
+   ((eq? t 'food-industry-waste) food-industry-waste-quality-list)
+   ((eq? t 'digestate-food) digestate-food-quality-list)
+   ((eq? t 'digestate-farm) digestate-farm-quality-list)
+   ((eq? t 'biosolid) biosolid-quality-list)
+   (else '())))
 
 (define (get-application-for-type t)
   (cond
@@ -119,6 +139,7 @@
    ((eq? t 'pig) pig-application-list)
    ((eq? t 'fym) fym-application-list)
    ((eq? t 'poultry) poultry-application-list)
+   ((eq? t 'biosolid) biosolid-application-list)
    (else '())))
 
 (define (get-units-for-type t)
@@ -377,6 +398,7 @@
 			     (eq? (cadr soil-test) 'soil-k-3))
 			 'k-total
 			 'k-avail)))
+      (msg (decision manure-tree (append (list (list 'nutrient 'n-avail)) params)))
       (list
        ;; total values
        (process-nutrients 
@@ -384,7 +406,7 @@
 	(list
 	 ;; if pig or cattle slurry, then this is the percent value
 	 (if (zero? total) 
-	     (decision manure-tree (append (list (list 'nutrient 'n-total))) params)
+	     (decision manure-tree (append (list (list 'nutrient 'n-total)) params))
 	     total)
 	 (decision manure-tree (append (list (list 'nutrient 'p-total)) params))
 	 (decision manure-tree (append (list (list 'nutrient 'k-total)) params))))
@@ -399,5 +421,5 @@
 	   (if (eq? n 'NA) n
 	       ;; apply percent or return straight value
 	       (if (zero? total) n (pc total n))))
-	 (decision manure-tree (append (list (list 'nutrient phosphorous)) params))
-	 (decision manure-tree (append (list (list 'nutrient potassium)) params))))))))
+	 (decision manure-tree (append (list (list 'nutrient 'p-avail)) params))
+	 (decision manure-tree (append (list (list 'nutrient 'k-avail)) params))))))))

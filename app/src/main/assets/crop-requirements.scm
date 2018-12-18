@@ -1,6 +1,5 @@
 #lang scheme
 
-
 ;; Farm Crap App Pro Copyright (C) 2016 FoAM Kernow
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -19,7 +18,120 @@
 ;; taken from RB209 page 105-196
 ;; lots of midpoints used at high SNS indices here...
 
-(define wheat-nitrogen-tree-feed
+(define grass-nitrogen-tree ;;2017 update
+  '(subtype
+    ((silage 
+      (targetyield
+       ((DM5-7
+         (cut ((1 70) (2 NA) (3 NA) (4 NA))))
+        (DM7-9
+         (cut ((1 80) (2 50) (3 NA) (4 NA))))
+        (DM9-12
+         (cut ((1 100) (2 75) (3 75) (4 NA))))  
+        (DM12-15+
+         (cut ((1 120) (2 90) (3 70) (4 30))))
+        )))
+      (grazed
+       (targetyield
+        ((DM4-5
+          (month ((mar 30) (default NA))))
+         (DM5-7
+          (month ((mar 30) (may 20) (default NA))))
+         (DM6-8
+          (month ((mar 30) (may 30) (jul 20) (default NA))))
+         (DM 7-9
+          (month (mar 40) (may 30) (jun 30) (jul 30) (default NA)))
+         (DM 9-12
+          (month (mar 30) (apr 30) (may 30) (jun 30) (jul 30) (aug 30) (default NA)))
+         (DM 10-13
+          (month (jan 30) (feb 30) (mar 40) (apr 40) (may 30) (jun 30) (jul 30) (aug 30) (default NA)))
+         (DM 12-15+
+          (month (jan 30) (feb 30) (mar 40) (apr 50) (may 50) (jun 40) (jul 30) (aug 30) (default NA)))
+         )))
+      (hay
+       (sns ((grassland-low-sns 100) (grassland-med-sns 70) (grassland-high-sns 40)))
+         )
+      (established
+       (sown
+        ((spring
+          (sns ((grassland-low-sns 60) (grassland-med-sns 60) (grassland-high-sns 60))))
+         (summer-autumn
+          (sns ((grassland-low-sns 40) (grassland-med-sns 15) (grassland-high-sns 0))))
+         (clover 0)
+         )))
+      (rye ;; in forage section but becky put it under grass
+       (soil
+        ((sandyshallow ;; light sand
+          (sns ((0 160) (1  110) (2  60) (3  20) (4  0) (5   0) (6   0))))
+         (organic
+          (sns ((0   NA) (1   NA) (2   NA) (3  60) (4  20) (5  0) (6   0)))) 
+         (peat
+          (sns ((0   NA) (1   NA) (2   NA) (3   NA) (4   NA) (5  20) (6  20))))
+         (default ;; other mineral soils
+           (sns ((0 NA) (1 160) (2 110) (3  60) (4  20) (5  0) (6   0))))))))))
+
+(define barley-spring-feed-nitrogen-tree
+  '(soil
+    ((sandyshallow ;; light sand
+      (sns ((0 140) (1  110) (2  70) (3  50) (4  20) (5   0) (6   0)))) ;; 2017 update
+     (organic
+      (sns ((0   0) (1   0) (2   0) (3  70) (4  30) (5  15) (6   0))))
+     (peat
+      (sns ((0   0) (1   0) (2   0) (3   0) (4   0) (5  15) (6  15))))
+     (default ;; other mineral soils
+       (sns ((0 160) (1 140) (2 110) (3  70) (4  30) (5  15) (6   0)))))))
+
+(define barley-spring-malt-nitrogen-tree ;;2017 update
+  '(soil
+    ((sandyshallow ;; light sand
+      (sns ((0 110) (1  80) (2  40) (3  20) (4  0) (5   0) (6   0)))) ;; 2017 update
+     (organic
+      (sns ((0   0) (1   0) (2   0) (3  40) (4  15) (5  0) (6   0)))) ;;2017 update
+     (peat
+      (sns ((0   0) (1   0) (2   0) (3   0) (4   0) (5  0) (6  0)))) ;;2017 update
+     (default ;; other mineral soils
+       (sns ((0 130) (1 110) (2 70) (3  40) (4  15) (5  0) (6   0))))))) ;;2017 update
+
+(define barley-spring-wholecrop-nitrogen-tree ;; 2017 update
+  '(soil
+    ((sandyshallow ;; light sand
+      (sns ((0 140) (1  110) (2  70) (3  50) (4  20) (5   0) (6   0)))) ;; 2017 update
+     (organic
+      (sns ((0   NA) (1   NA) (2   NA) (3  70) (4  30) (5  15) (6   0)))) ;;2017 update
+     (peat
+      (sns ((0   NA) (1   NA) (2   NA) (3   NA) (4   NA) (5  15) (6  15)))) ;;2017 update
+     (default ;; other mineral soils
+       (sns ((0 160) (1 140) (2 110) (3  70) (4  30) (5  15) (6   0))))))) ;;2017 update
+
+(define barley-winter-malt-nitrogen-tree ;; 2017 update
+  '(soil
+    ((sandyshallow ;; light sand
+      (sns ((0 130) (1  90) (2  60) (3  20) (4  0) (5   0) (6   0)))) ;; 2017 update
+     (organic
+      (sns ((0   NA) (1   NA) (2   NA) (3  50) (4  20) (5  0) (6   0)))) ;;2017 update
+     (peat
+      (sns ((0   NA) (1   NA) (2   NA) (3   NA) (4   NA) (5  0) (6  0)))) ;;2017 update
+     (default ;; other mineral soils
+       (sns ((0 150) (1 120) (2 90) (3  50) (4  20) (5  0) (6   0))))))) ;;2017 update
+
+(define barley-winter-wholecrop-nitrogen-tree ;;2017 update
+  '(soil
+    ((sandyshallow ;; light sand   
+      (sns ((0 170) (1 140) (2 110) (3  80) (4  60) (5  20) (6  0)))) ;;2017 update
+     (mediumshallow ;; shallow soils
+      (sns ((0 220) (1 190) (2 150) (3 120) (4 60) (5  40) (6  10)))) ;;2017 update
+     (medium
+      (sns ((0 190) (1 170) (2 140) (3 110) (4 60) (5  40) (6  10)))) ;;2017 update
+     (deepclay
+       (sns ((0 190) (1 170) (2 140) (3 110) (4 60) (5  40) (6  10)))) ;;2017 update
+     (deepsilt
+      (sns ((0 170) (1 150) (2 120) (3 80) (4 40) (5  15) (6  0)))) ;; 2017 update
+     (organic
+      (sns ((0 NA) (1 NA) (2 NA) (3 110) (4 60) (5 20) (6 0)))) ;;2017 update
+     (peat
+      (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 20) (6 20))))))) ;; 2017 update
+
+ (define wheat-winter-feed-nitrogen-tree
   '(soil
     ((sandyshallow ;; light sand   
       (sns ((0 180) (1 150) (2 120) (3  90) (4  60) (5  30) (6  20)))) ;;2017 update
@@ -36,7 +148,7 @@
      (peat
       (sns ((0   0) (1   0) (2   0) (3   0) (4   0) (5  20) (6  20))))))) ;; 2017 update
 
-(define wheat-nitrogen-tree-mill ;;2017 update just adds 40kg N/ha to feed table above
+(define wheat-winter-mill-nitrogen-tree ;;2017 update just adds 40kg N/ha to feed table above BUT in book it says 60kg - 40kg is correct value to use
   '(soil
     ((sandyshallow ;; light sand   
       (sns ((0 220) (1 190) (2 160) (3  130) (4  100) (5  70) (6  60)))) ;;2017 update
@@ -53,123 +165,336 @@
      (peat
       (sns ((0   40) (1   40) (2   40) (3   40) (4   40) (5  60) (6  60))))))) ;; 2017 update
 
-(define barley-nitrogen-tree-feed
+(define wheat-winter-wholecrop-nitrogen-tree
+  '(soil
+    ((sandyshallow ;; light sand   
+      (sns ((0 180) (1 150) (2 120) (3  90) (4  60) (5  30) (6  20)))) ;;2017 update
+     (mediumshallow ;; shallow soils
+      (sns ((0 280) (1 240) (2 210) (3 180) (4 140) (5  80) (6  20))))
+     (medium
+      (sns ((0 250) (1 220) (2 190) (3 160) (4 120) (5  60) (6  20))))
+     (deepclay
+      (sns ((0 250) (1 220) (2 190) (3 160) (4 120) (5  60) (6  20))))
+     (deepsilt
+      (sns ((0 240) (1 210) (2 170) (3 130) (4 100) (5  40) (6  20)))) ;; 2017 update
+     (organic
+      (sns ((0   0) (1   0) (2   0) (3 120) (4  80) (5  60) (6  20))))
+     (peat
+      (sns ((0   0) (1   0) (2   0) (3   0) (4   0) (5  30) (6  30))))))) ;; 2017 update
+
+(define wheat-spring-wholecrop-nitrogen-tree
   '(soil
     ((sandyshallow ;; light sand
-      (sns ((0 140) (1  110) (2  70) (3  50) (4  20) (5   0) (6   0)))) ;; 2017 update
+      (sns ((0 160) (1  130) (2  100) (3  70) (4  40) (5   20) (6   0)))) ;; 2017 update
      (organic
-      (sns ((0   0) (1   0) (2   0) (3  70) (4  30) (5  15) (6   0))))
+      (sns ((0   NA) (1   NA) (2   NA) (3  120) (4  70) (5  40) (6   20)))) ;;2017 update
      (peat
-      (sns ((0   0) (1   0) (2   0) (3   0) (4   0) (5  15) (6  15))))
+      (sns ((0   NA) (1   NA) (2   NA) (3   NA) (4   NA) (5  20) (6  20)))) ;;2017 update
      (default ;; other mineral soils
-       (sns ((0 160) (1 140) (2 110) (3  70) (4  30) (5  15) (6   0))))
-     )))
+       (sns ((0 210) (1 180) (2 150) (3  120) (4  70) (5  40) (6   20))))))) ;;2017 update
 
-(define barley-nitrogen-tree-malt ;;2017 update
+(define wheat-spring-mill-nitrogen-tree ;; 2017 update - add 40 to spring wholecrop table
   '(soil
     ((sandyshallow ;; light sand
-      (sns ((0 110) (1  80) (2  40) (3  20) (4  0) (5   0) (6   0)))) ;; 2017 update
+      (sns ((0 200) (1  170) (2  140) (3  110) (4  80) (5   60) (6   40)))) ;; 2017 update
      (organic
-      (sns ((0   0) (1   0) (2   0) (3  40) (4  15) (5  0) (6   0)))) ;;2017 update
+      (sns ((0   NA) (1   NA) (2   NA) (3  160) (4  110) (5  80) (6   60)))) ;;2017 update
      (peat
-      (sns ((0   0) (1   0) (2   0) (3   0) (4   0) (5  0) (6  0)))) ;;2017 update
+      (sns ((0   NA) (1   NA) (2   NA) (3   NA) (4   NA) (5  60) (6  60)))) ;;2017 update
      (default ;; other mineral soils
-       (sns ((0 130) (1 110) (2 70) (3  40) (4  15) (5  0) (6   0)))) ;;2017 update
-     )))
+       (sns ((0 250) (1 220) (2 190) (3  160) (4  110) (5  80) (6   60))))))) ;;2017 update
 
-(define grass-nitrogen-tree ;;2017 update
-  '(subtype
-    ((silage 
-      (targetyield
-       ((DM5-7
-         (cut ((1 70) (2 NA) (3 NA) (4 NA))))
-        (DM7-9
-         (cut ((1 80) (2 50) (3 NA) (4 NA))))
-        (DM9-12
-         (cut ((1 100) (2 75) (3 75) (4 NA))))  
-        (DM12-15+
-         (cut ((1 120) (2 90) (3 70) (4 30))))
-        ))))
-    (grazed
-     (targetyield
-      ((DM4-5
-	(month ((mar 30) (default NA))))
-       (DM5-7
-	(month ((mar 30) (may 20) (default NA))))
-       (DM6-8
-	(month ((mar 30) (may 30) (jul 20) (default NA))))
-       (DM7-9
-	(month ((mar 40) (may 30) (jun 30) (jul 30) (default NA))))
-       (DM9-12
-	(month ((mar 30) (apr 30) (may 30) (jun 30) (jul 30) (aug 30) (default NA))))
-       (DM10-13
-	(month ((jan 30) (feb 30) (mar 40) (apr 40) (may 30) (jun 30) (jul 30) (aug 30) (default NA))))
-       (DM12-15+
-	(month ((jan 30) (feb 30) (mar 40) (apr 50) (may 50) (jun 40) (jul 30) (aug 30) (default NA))))
-       )))
-    (hay
-     (sns ((grassland-low-sns 100) (grassland-med-sns 70) (grassland-high-sns 40)))
-     )
-    (established
-     (sown
-      ((spring
-	(sns ((grassland-low-sns 60) (grassland-med-sns 60) (grassland-high-sns 60))))
-       (summer-autumn
-	(sns ((grassland-low-sns 40) (grassland-med-sns 15) (grassland-high-sns 0))))
-       (clover 0)
-       )))
-    (rye ;; in forage section but becky put it under grass
-     (soil
-      ((sandyshallow ;; light sand
-	(sns ((0 160) (1  110) (2  60) (3  20) (4  0) (5   0) (6   0))))
-       (organic
-	(sns ((0   NA) (1   NA) (2   NA) (3  60) (4  20) (5  0) (6   0)))) 
-       (peat
-	(sns ((0   NA) (1   NA) (2   NA) (3   NA) (4   NA) (5  20) (6  20))))
-       (default ;; other mineral soils
-	 (sns ((0 NA) (1 160) (2 110) (3  60) (4  20) (5  0) (6   0))))
-       )))))
-      
+(define triticale-winter-forage-nitrogen-tree ;;2017 update
+  '(soil
+    ((sandyshallow ;; light sand   
+      (sns ((0 130) (1 100) (2 70) (3  40) (4  15) (5  0) (6  0)))) ;;2017 update
+     (mediumshallow ;; shallow soils
+      (sns ((0 230) (1 190) (2 160) (3 130) (4 90) (5  30) (6  0)))) ;;2017 update
+     (medium
+      (sns ((0 200) (1 170) (2 140) (3 110) (4 70) (5  15) (6  0)))) ;;2017 update
+     (deepclay
+      (sns ((0 200) (1 170) (2 140) (3 110) (4 70) (5  15) (6  0)))) ;;2017 update
+     (deepsilt
+      (sns ((0 190) (1 160) (2 120) (3 80) (4 50) (5  15) (6  0)))) ;; 2017 update
+     (organic
+      (sns ((0 NA) (1 NA) (2 NA) (3 70) (4 30) (5 15) (6 0)))) ;;2017 update
+     (peat
+      (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 15) (6 15))))))) ;; 2017 update
+
+(define oat-rye-triticale-spring-nitrogen-tree ;;2017 update
+    '(soil
+    ((sandyshallow ;; light sand
+      (sns ((0 90) (1  60) (2  30) (3  15) (4  0) (5   0) (6   0)))) ;; 2017 update
+     (organic
+      (sns ((0   NA) (1   NA) (2   NA) (3  40) (4  15) (5  0) (6   0)))) ;;2017 update
+     (peat
+      (sns ((0   NA) (1   NA) (2   NA) (3   NA) (4   NA) (5  0) (6  0)))) ;;2017 update
+     (default ;; other mineral soils
+       (sns ((0 140) (1 110) (2 70) (3  40) (4  15) (5  0) (6   0))))))) ;;2017 update
+
+(define oat-winter-nitrogen-tree ;; 2017 update
+    '(soil
+    ((sandyshallow ;; light sand
+      (sns ((0 150) (1  110) (2  80) (3  40) (4  20) (5   0) (6   0)))) ;; 2017 update
+     (organic
+      (sns ((0   NA) (1   NA) (2   NA) (3  100) (4  70) (5  20) (6   0)))) ;;2017 update
+     (peat
+      (sns ((0   NA) (1   NA) (2   NA) (3   NA) (4   NA) (5  20) (6  20)))) ;;2017 update
+     (default ;; other mineral soils
+       (sns ((0 190) (1 160) (2 130) (3  100) (4  70) (5  20) (6   0))))))) ;;2017 update
+
+(define rye-winter-nitrogen-tree ;; 2017 update
+  '(soil
+    ((sandyshallow ;; light sand
+      (sns ((0 110) (1 70) (2 35) (3 10) (4 0) (5 0) (6 0)))) ;; 2017 update
+     (organic
+      (sns ((0 NA) (1 NA) (2 NA) (3 60) (4 30) (5 10) (6 10)))) ;;2017 update
+     (peat
+      (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 10) (6 10)))) ;;2017 update
+     (default ;; other mineral soils
+       (sns ((0 150) (1 120) (2 90) (3 60) (4 30) (5 10) (6 10))))))) ;;2017 update
+
+(define maize-nitrogen-tree ;; 2017 update
+  '(sns ((0 150) (1 100) (2 50) (3 20) (4 0) (5 0) (6 0))))
+
+(define swede-turnip-forage-lifted-nitrogen-tree ;; 2017 update
+  '(sns ((0 100) (1 80) (2 60) (3 40) (4 20) (5 0) (6 0))))
+
+(define swede-vegetable-nitrogen-tree ;; 2017 update
+   '(sns ((0 135) (1 100) (2 70) (3 30) (4 0) (5 0) (6 0))))
+
+(define turnip-nitrogen-tree ;; 2017 update
+  '(sns ((0 170) (1 130) (2 100) (3 70) (4 20) (5 0) (6 0))))
+
+(define rape-swede-turnip-forage-grazed-nitrogen-tree;; 2017 update
+  '(sns ((0 75) (1 75) (2 60) (3 40) (4 20) (5 0) (6 0)))) ;; becky says to follow footnote for sns 0 and 1 which says max 75
+
+(define rape-oilseed-spring-nitrogen-tree ;;2017 update
+  '(soil
+    ((sandyshallow ;; light sand
+      (sns ((0 120) (1 80) (2 50) (3 20) (4 0) (5 0) (6 0)))) ;; 2017 update
+     (organic
+      (sns ((0 NA) (1 NA) (2 NA) (3 50) (4 20) (5 0) (6 0)))) ;;2017 update
+     (peat
+      (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 20) (6 20)))) ;;2017 update
+     (default ;; other mineral soils
+       (sns ((0 150) (1 120) (2 80) (3 50) (4 20) (5 0) (6 0))))))) ;;2017 update
+
+(define rape-oilseed-winter-nitrogen-tree ;; 2017 update - this is oilseed that has been sown in winter, but the N requirements differ depending on the season that spreading happens
+  '(season
+    ((spring
+      (soil
+       ((organic
+         (sns ((0 NA) (1 NA) (2 NA) (3 120) (4 80) (5 60) (6 20)))) ;;2017 update
+        (peat
+         (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 60) (6 60)))) ;;2017 update
+        (default ;; other mineral soils
+          (sns ((0 220) (1 190) (2 160) (3 120) (4 80) (5 60) (6 20)))))))
+     (autumn
+      (sns ((0 30) (1 30) (2 30) (3 0) (4 0) (5 0) (6 0))))
+     (summer NA)
+     (winter NA))))
+
+(define linseed-nitrogen-tree ;; 2017 update
+  '(soil
+    ((sandyshallow ;; light sand
+      (sns ((0 80) (1 50) (2 20) (3 00) (4 0) (5 0) (6 0)))) ;; 2017 update
+     (organic
+      (sns ((0 NA) (1 NA) (2 NA) (3 20) (4 0) (5 0) (6 0)))) ;;2017 update
+     (peat
+      (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 0) (6 0)))) ;;2017 update
+     (default ;; other mineral soils
+       (sns ((0 100) (1 80) (2 50) (3 20) (4 0) (5 0) (6 0))))))) ;;2017 update
+
+(define pea-bean-nitrogen-tree ;; 2017 update
+    '(sns ((0 0) (1 0) (2 0) (3 0) (4 0) (5 0) (6 0))))
+
+(define fodder-beet-nitrogen-tree;; 2017 update
+  '(sns ((0 130) (1 120) (2 110) (3 90) (4 60) (5 20) (6 0))))
+
+(define kale-grazed-nitrogen-tree;; 2017 update
+  '(sns ((0 130) (1 120) (2 110) (3 90) (4 60) (5 20) (6 0))))
+
+(define sprout-cabbage-nitrogen-tree ;; 2017 update
+  '(subtype1
+    ((brussels-sprout
+      (sns ((0 330) (1 300) (2 270) (3 230) (4 180) (5 80) (6 0))))
+     (storage-cabbage
+      (sns ((0 340) (1 310) (2 280) (3 240) (4 190) (5 90) (6 0))))
+     (head-cabbage-pre-31-dec
+      (sns ((0 325) (1 290) (2 260) (3 220) (4 170) (5 70) (6 0))))
+     (head-cabbage-post-31-dec
+      (sns ((0 240) (1 210) (2 180) (3 140) (4 90) (5 0) (6 0))))
+     (collard-pre-31-dec
+      (sns ((0 210) (1 190) (2 180) (3 160) (4 140) (5 90) (6 0))))
+     (collard-post-31-dec
+      (sns ((0 310) (1 290) (2 270) (3 240) (4 210) (5 140) (6 90)))))))
+
+(define cauliflower-calabrese-nitrogen-tree ;; 2017 update
+  '(subtype1
+    ((cauliflower-summer-autumn
+      (sns ((0 290) (1 260) (2 235) (3 210) (4 170) (5 80) (6 0))))
+     (cauliflower-winter-hardy-roscoff
+      (subtype2
+       ((seedbed
+         (sns ((0 100) (1 100) (2 100) (3 100) (4 60) (5 0) (6 0))))
+        (top-dressing
+         (sns ((0 190) (1 160) (2 135) (3 110) (4 100) (5 80) (6 0)))))))
+     (calabrese
+      (sns ((0 235) (1 200) (2 165) (3 135) (4 80) (5 0) (6 0)))))))
+
+(define lettuce-leafy-salad-nitrogen-tree ;; 2017 update
+  '(subtype1
+    ((lettuce-whole-head
+      (sns ((0 200) (1 180) (2 160) (3 150) (4 125) (5 75) (6 30))))
+     (lettuce-baby-leaf
+      (sns ((0 60) (1 50) (2 40) (3 30) (4 10) (5 0) (6 0))))
+     (wild-rocket
+      (sns ((0 125) (1 115) (2 100) (3 90) (4 75) (5 40) (6 0)))))))
+
+(define onion-leek-nitrogen-tree ;; 2017 update
+  '(subtype1
+    ((bulb-onion
+      (sns ((0 160) (1 130) (2 110) (3 90) (4 60) (5 0) (6 0))))
+     (salad-onion
+      (sns ((0 130) (1 120) (2 110) (3 100) (4 80) (5 50) (6 20))))
+     (leek
+      (sns ((0 200) (1 190) (2 170) (3 160) (4 130) (5 80) (6 40)))))))
+
+(define beetroot-nitrogen-tree ;; 2017 update
+  '(sns ((0 290) (1 260) (2 240) (3 220) (4 190) (5 120) (6 60))))
+
+(define carrot-nitrogen-tree ;; 2017 update
+   '(sns ((0 100) (1 70) (2 40) (3 0) (4 0) (5 0) (6 0)))) 
+
+(define bulb-nitrogen-tree ;; 2017 update
+  '(sns ((0 125) (1 100) (2 50) (3 0) (4 0) (5 0) (6 0))))
+
+(define potato-nitrogen-tree ;; 2017 update
+  '(determinancy-group
+    ((1
+      (growing-season-length
+       ((<60
+         (sns ((0 120) (1 120) (2 90) (3 90) (4 90) (5 50) (6 50))))
+        (60-90
+         (sns ((0 185) (1 185) (2 145) (3 145) (4 145) (5 105) (6 105))))
+        (90-120
+         (sns ((0 245) (1 245) (2 205) (3 205) (4 205) (5 165) (6 164))))
+        (>120
+         (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 NA) (6 NA)))))))
+     (2
+      (growing-season-length
+       ((<60
+         (sns ((0 100) (1 100) (2 65) (3 65) (4 65) (5 20) (6 20))))
+        (60-90
+         (sns ((0 130) (1 130) (2 90) (3 90) (4 90) (5 60) (6 60))))
+        (90-120
+         (sns ((0 185) (1 185) (2 135) (3 135) (4 135) (5 100) (6 100))))
+        (>120
+         (sns ((0 220) (1 220) (2 165) (3 165) (4 165) (5 135) (6 135)))))))
+     (3
+      (growing-season-length
+       ((<60
+         (sns ((0 80) (1 80) (2 55) (3 55) (4 55) (5 20) (6 20))))
+        (60-90
+         (sns ((0 100) (1 100) (2 70) (3 70) (4 70) (5 30) (6 30))))
+        (90-120
+         (sns ((0 145) (1 145) (2 90) (3 90) (4 90) (5 50) (6 50))))
+        (>120
+         (sns ((0 180) (1 180) (2 130) (3 130) (4 130) (5 90) (6 90)))))))
+     (4
+      (growing-season-length
+       ((<60
+         (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 NA) (6 NA))))
+        (60-90
+         (sns ((0 60) (1 60) (2 30) (3 30) (4 30) (5 20) (6 20))))
+        (90-120
+         (sns ((0 110) (1 110) (2 50) (3 50) (4 50) (5 20) (6 20))))
+        (>120
+         (sns ((0 140 ) (1 140) (2 70) (3 70) (4 70) (5 30) (6 30))))))))))
+
+
 (define crop-requirements-n-tree
   (dtree 'crop
-	 (list 
-	  (choice 'spring-barley-incorporated-feed barley-nitrogen-tree-feed)
-          (choice 'spring-barley-incorporated-malt barley-nitrogen-tree-malt)
-	  (choice 'spring-barley-removed-feed barley-nitrogen-tree-feed)
-          (choice 'spring-barley-removed-malt barley-nitrogen-tree-malt)
-	  (choice 'winter-wheat-incorporated-feed wheat-nitrogen-tree-feed)
-          (choice 'winter-wheat-incorporated-mill wheat-nitrogen-tree-mill)
-	  (choice 'winter-wheat-removed-feed wheat-nitrogen-tree-feed)
-          (choice 'winter-wheat-removed-mill wheat-nitrogen-tree-mill)  
-	  (choice 'grass grass-nitrogen-tree))))
+         (list
+          (choice 'grass grass-nitrogen-tree)
 
-(define winter-wheat-incorporated-pk-tree ;;2017 update both feed and malt should use this table 
-  '(nutrient
-    ((phosphorous
-      (p-index ((soil-p-0 120) (soil-p-1  90) (soil-p-2  60) (soil-p-3   0))))
-     (potassium
-      (k-index ((soil-k-0 105) (soil-k-1  75) (soil-k-2- 45) (soil-k-2+ 20) (soil-k-3   0)))))))
+          (choice 'barley-spring-incorporated-feed barley-spring-feed-nitrogen-tree)
+          (choice 'barley-spring-incorporated-malt barley-spring-malt-nitrogen-tree)
+          (choice 'barley-spring-removed-feed barley-spring-feed-nitrogen-tree) ;; ?? barley-nitrogen-tree-feed
+          (choice 'barley-spring-removed-malt barley-spring-malt-nitrogen-tree) ;; ?? barley-nitrogen-tree-malt
+          (choice 'barley-spring-wholecrop barley-spring-wholecrop-nitrogen-tree)
+          (choice 'barley-winter-incorporated-feed barley-winter-wholecrop-nitrogen-tree)
+          (choice 'barley-winter-incorporated-malt barley-winter-malt-nitrogen-tree)
+          (choice 'barley-winter-removed-feed barley-winter-wholecrop-nitrogen-tree)
+          (choice 'barley-winter-removed-malt barley-winter-malt-nitrogen-tree)
+          (choice 'barley-winter-wholecrop barley-winter-wholecrop-nitrogen-tree)
+          
+          (choice 'wheat-winter-incorporated-feed wheat-winter-feed-nitrogen-tree)
+          (choice 'wheat-winter-incorporated-mill wheat-winter-mill-nitrogen-tree)
+          (choice 'wheat-winter-removed-feed wheat-winter-feed-nitrogen-tree)
+          (choice 'wheat-winter-removed-mill wheat-winter-mill-nitrogen-tree)
+          (choice 'wheat-winter-wholecrop wheat-winter-wholecrop-nitrogen-tree)
+          (choice 'wheat-spring-incorporated-feed wheat-spring-wholecrop-nitrogen-tree)
+          (choice 'wheat-spring-incorporated-mill wheat-spring-mill-nitrogen-tree) 
+          (choice 'wheat-spring-removed-feed wheat-spring-wholecrop-nitrogen-tree)
+          (choice 'wheat-spring-removed-mill wheat-spring-mill-nitrogen-tree)
+          (choice 'wheat-spring-wholecrop wheat-spring-wholecrop-nitrogen-tree)
 
-(define spring-barley-incorporated-pk-tree ;;2017 update both feed and malt should use this table 
-  '(nutrient
-    ((phosphorous
-      (p-index ((soil-p-0 105) (soil-p-1  75) (soil-p-2  45) (soil-p-3   0))))
-     (potassium
-      (k-index ((soil-k-0  95) (soil-k-1  65) (soil-k-2- 35) (soil-k-2+  0) (soil-k-3   0)))))))
+          (choice 'triticale-winter-forage triticale-winter-forage-nitrogen-tree) ;; table 3.24 p30 forage
+          (choice 'triticale-winter-incorporated wheat-winter-feed-nitrogen-tree) ;; table 4.15 cereal
+          (choice 'triticale-winter-removed wheat-winter-feed-nitrogen-tree) ;; table 4.15 cereal
+          (choice 'triticale-spring-forage oat-rye-triticale-spring-nitrogen-tree) ;; table 3.25 p31 forage
+          (choice 'triticale-spring-incorporated oat-rye-triticale-spring-nitrogen-tree) ;; table 4.20 p 34 in cereals (same as p31 forage)
+          (choice 'triticale-spring-removed oat-rye-triticale-spring-nitrogen-tree) ;; table 4.20 p 34 in cereals (same as p31 forage)
 
-(define winter-wheat-removed-pk-tree ;;2017 update both feed and mill should use this table
-  '(nutrient
-    ((phosphorous
-      (p-index ((soil-p-0 125) (soil-p-1  95) (soil-p-2  65) (soil-p-3   0))))
-     (potassium
-      (k-index ((soil-k-0 145) (soil-k-1 115) (soil-k-2- 85) (soil-k-2+ 55) (soil-k-3   0)))))))
+          (choice 'oat-winter-forage oat-winter-nitrogen-tree)
+          (choice 'oat-winter-incorporated oat-winter-nitrogen-tree)
+          (choice 'oat-winter-removed  oat-winter-nitrogen-tree)
+          (choice 'oat-spring-forage oat-rye-triticale-spring-nitrogen-tree)
+          (choice 'oat-spring-incorporated oat-rye-triticale-spring-nitrogen-tree)
+          (choice 'oat-spring-removed oat-rye-triticale-spring-nitrogen-tree)   
 
-(define spring-barley-removed-pk-tree ;;2017 update both feed and malt should use this table 
-  '(nutrient
-    ((phosphorous
-      (p-index ((soil-p-0 110) (soil-p-1  80) (soil-p-2  50) (soil-p-3   0))))
-     (potassium
-      (k-index ((soil-k-0 130) (soil-k-1 100) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   0)))))))
+          (choice 'rye-winter-forage rye-winter-nitrogen-tree)
+          (choice 'rye-winter-incorporated rye-winter-nitrogen-tree)
+          (choice 'rye-winter-removed rye-winter-nitrogen-tree)
+          (choice 'rye-spring-forage oat-rye-triticale-spring-nitrogen-tree)
+          (choice 'rye-spring-incorporated oat-rye-triticale-spring-nitrogen-tree)
+          (choice 'rye-spring-removed oat-rye-triticale-spring-nitrogen-tree)
+
+          (choice 'maize maize-nitrogen-tree)
+
+          (choice 'swede-forage-lifted swede-turnip-forage-lifted-nitrogen-tree)
+          (choice 'swede-forage-grazed rape-swede-turnip-forage-grazed-nitrogen-tree)
+          (choice 'swede-vegetable swede-vegetable-nitrogen-tree)
+
+          (choice 'turnip-forage-lifted swede-turnip-forage-lifted-nitrogen-tree)
+          (choice 'turnip-forage-grazed rape-swede-turnip-forage-grazed-nitrogen-tree)
+          (choice 'turnip-vegetable turnip-nitrogen-tree)
+
+          (choice 'rape-forage rape-swede-turnip-forage-grazed-nitrogen-tree)
+          (choice 'rape-oilseed-winter rape-oilseed-winter-nitrogen-tree)
+          (choice 'rape-oilseed-spring rape-oilseed-spring-nitrogen-tree)
+
+          (choice 'linseed linseed-nitrogen-tree)
+
+          (choice 'pea-bean pea-bean-nitrogen-tree)
+
+          (choice 'fodder-beet fodder-beet-nitrogen-tree)
+
+          (choice 'kale-grazed kale-grazed-nitrogen-tree)
+
+          (choice 'brussels-sprout-cabbage sprout-cabbage-nitrogen-tree)
+          (choice 'cauliflower-calabrese cauliflower-calabrese-nitrogen-tree)
+          (choice 'lettuce-leafy-salad lettuce-leafy-salad-nitrogen-tree)
+          (choice 'onion-leek onion-leek-nitrogen-tree)
+          (choice 'beetroot beetroot-nitrogen-tree)
+          (choice 'parsnip turnip-nitrogen-tree)
+          (choice 'carrot carrot-nitrogen-tree)
+          (choice 'bulb bulb-nitrogen-tree)
+
+          (choice 'potato potato-nitrogen-tree))))
+
 
 (define grass-pk-tree ;;2017 update
   '(subtype
@@ -178,67 +503,417 @@
        ((1
          (nutrient
           ((phosphorous
-            (p-index ((soil-p-0 100) (soil-p-1  70) (soil-p-2  40) (soil-p-3   20))))
+            (p-index ((soil-p-0 100) (soil-p-1  70) (soil-p-2  40) (soil-p-3   20) (soil-p-4 0))))
            (potassium
-            (k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 20) (soil-k-3   30)))))))) ;; not sure how to deal with potash previous autumn/spring so used spring numbers
-        (2
-         (nutrient
-          ((phosphorous
-            (p-index ((soil-p-0 25) (soil-p-1  25) (soil-p-2  25) (soil-p-3   0))))
-           (potassium
-            (k-index ((soil-k-0 120) (soil-k-1 100) (soil-k-2- 90) (soil-k-2+ 60) (soil-k-3   40)))))))
-        (3
-         (nutrient
-          ((phosphorous
-            (p-index ((soil-p-0 15) (soil-p-1  15) (soil-p-2  15) (soil-p-3   0))))
-           (potassium
-            (k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 40) (soil-k-3   20)))))))
-        (4
-         (nutrient
-          ((phosphorous
-            (p-index ((soil-p-0 10) (soil-p-1  10) (soil-p-2  10) (soil-p-3   0))))
-           (potassium
-            (k-index ((soil-k-0 70) (soil-k-1 70) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   20))))))))))
-      (grazed
-       (nutrient
+            (k-index ((soil-k-0 140) (soil-k-1 110) (soil-k-2- 80) (soil-k-2+ 60) (soil-k-3   30) (soil-k-4 0))))
+           (magnesium
+            (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+           (sulphur
+            (risk ((high 40) (low 0))))))) ;; potash numbers come from adding up previous autumn and spring values to make a total for the season
+       (2
+        (nutrient
+         ((phosphorous
+           (p-index ((soil-p-0 25) (soil-p-1  25) (soil-p-2  25) (soil-p-3   0) (soil-p-4 0))))
+          (potassium
+           (k-index ((soil-k-0 120) (soil-k-1 100) (soil-k-2- 90) (soil-k-2+ 60) (soil-k-3   40) (soil-k-4 0))))
+          (magnesium
+           (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+          (sulphur
+            (risk ((high 40) (low 0)))))))
+       (3
+        (nutrient
+         ((phosphorous
+           (p-index ((soil-p-0 15) (soil-p-1  15) (soil-p-2  15) (soil-p-3   0) (soil-p-4 0))))
+          (potassium
+           (k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 40) (soil-k-3   20))))
+          (magnesium
+           (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+          (sulphur
+            (risk ((high 40) (low 0)))))))
+       (4
+        (nutrient
+         ((phosphorous
+           (p-index ((soil-p-0 10) (soil-p-1  10) (soil-p-2  10) (soil-p-3   0) (soil-p-4 0))))
+          (potassium
+           (k-index ((soil-k-0 70) (soil-k-1 70) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   20) (soil-k-4 0))))
+          (magnesium
+           (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+          (sulphur
+            (risk ((high 40) (low 0))))))))))
+     (grazed
+      (nutrient
        ((phosphorous
-         (p-index ((soil-p-0 80) (soil-p-1  50) (soil-p-2  20) (soil-p-3   0))))
+         (p-index ((soil-p-0 80) (soil-p-1  50) (soil-p-2  20) (soil-p-3   0) (soil-p-4 0))))
         (potassium
-         (k-index ((soil-k-0 60) (soil-k-1 30) (soil-k-2- 0) (soil-k-2+ 0) (soil-k-3   0)))))))  
-      (hay
-       (nutrient
+         (k-index ((soil-k-0 60) (soil-k-1 30) (soil-k-2- 0) (soil-k-2+ 0) (soil-k-3   0) (soil-k-4 0))))
+        (magnesium
+         (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+        (sulphur
+         (nitrogencategory ((<100 25) (100-200 50) (200-300 75) (300-400 100)))))))  
+     (hay
+      (nutrient
        ((phosphorous
-         (p-index ((soil-p-0 80) (soil-p-1  50) (soil-p-2  30) (soil-p-3   0))))
+         (p-index ((soil-p-0 80) (soil-p-1  50) (soil-p-2  30) (soil-p-3   0) (soil-p-4 0))))
         (potassium
-         (k-index ((soil-k-0 140) (soil-k-1 115) (soil-k-2- 90) (soil-k-2+ 65) (soil-k-3   20)))))))
-      (established
-       (nutrient
+         (k-index ((soil-k-0 140) (soil-k-1 115) (soil-k-2- 90) (soil-k-2+ 65) (soil-k-3   20) (soil-k-4 0))))
+        (magnesium
+         (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+        (sulphur
+          (risk ((high NA) (low NA)))))))
+     (established
+      (nutrient
        ((phosphorous
-         (p-index ((soil-p-0 120) (soil-p-1  80) (soil-p-2  50) (soil-p-3   30))))
+         (p-index ((soil-p-0 120) (soil-p-1  80) (soil-p-2  50) (soil-p-3   30) (soil-p-4 0))))
         (potassium
-         (k-index ((soil-k-0 120) (soil-k-1 80) (soil-k-2- 60) (soil-k-2+ 40) (soil-k-3   0)))))))
-      (rye ;; in forage section but becky put it under grass
-       (nutrient
+         (k-index ((soil-k-0 120) (soil-k-1 80) (soil-k-2- 60) (soil-k-2+ 40) (soil-k-3   0) (soil-k-4 0))))
+        (magnesium
+         (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+        (sulphur
+         (risk ((high NA) (low NA)))))))
+     (rye ;; in forage section but becky put it under grass
+      (nutrient
        ((phosphorous
-         (p-index ((soil-p-0 90) (soil-p-1  60) (soil-p-2  30) (soil-p-3   0))))
+         (p-index ((soil-p-0 90) (soil-p-1  60) (soil-p-2  30) (soil-p-3   0) (soil-p-4 0))))
         (potassium
-         (k-index ((soil-k-0 150) (soil-k-1 120) (soil-k-2- 90) (soil-k-2+ 60) (soil-k-3   0)))))))))
+         (k-index ((soil-k-0 150) (soil-k-1 120) (soil-k-2- 90) (soil-k-2+ 60) (soil-k-3   0) (soil-k-4 0))))
+        (magnesium
+         (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+        (sulphur
+         (risk ((high NA) (low NA))))))))))
+
+(define barley-spring-incorporated-pk-tree ;;2017 update both feed and malt should use this table 
+  '(nutrient
+    ((phosphorous
+      (p-index ((soil-p-0 105) (soil-p-1  75) (soil-p-2  45) (soil-p-3   0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0  95) (soil-k-1  65) (soil-k-2- 35) (soil-k-2+  0) (soil-k-3   0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 38) (low 0)))))))
+
+(define barley-spring-removed-pk-tree ;;2017 update both feed and malt should use this table 
+  '(nutrient
+    ((phosphorous
+      (p-index ((soil-p-0 110) (soil-p-1  80) (soil-p-2  50) (soil-p-3   0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 130) (soil-k-1 100) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 38) (low 0)))))))
+
+(define wholecrop-cereal-pk-tree ;; 2018 corrections
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 115) (soil-p-1 85) (soil-p-2 55) (soil-p-3 0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 220) (soil-k-1 190) (soil-k-2- 160) (soil-k-2+ 160) (soil-k-3 100) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 38) (low 0)))))))
+
+(define wheat-winter-removed-pk-tree ;;2017 update both feed and mill should use this table
+  '(nutrient
+    ((phosphorous
+      (p-index ((soil-p-0 125) (soil-p-1  95) (soil-p-2  65) (soil-p-3   0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 145) (soil-k-1 115) (soil-k-2- 85) (soil-k-2+ 55) (soil-k-3   0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 38) (low 0)))))))
+
+(define wheat-winter-incorporated-pk-tree ;;2017 update both feed and malt should use this table 
+  '(nutrient
+    ((phosphorous
+      (p-index ((soil-p-0 120) (soil-p-1  90) (soil-p-2  60) (soil-p-3   0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 105) (soil-k-1  75) (soil-k-2- 45) (soil-k-2+ 20) (soil-k-3   0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 38) (low 0)))))))
+
+(define oat-removed-pk-tree ;;2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 115) (soil-p-1 85) (soil-p-2 55) (soil-p-3 0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 165) (soil-k-1 135) (soil-k-2- 105) (soil-k-2+ 75) (soil-k-3 0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 38) (low 0)))))))
+
+(define oat-incorporated-pk-tree ;;2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 105) (soil-p-1 75) (soil-p-2 45) (soil-p-3 0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 95) (soil-k-1 65) (soil-k-2- 35) (soil-k-2+ 0) (soil-k-3 0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 38) (low 0)))))))
+
+(define maize-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 115) (soil-p-1 85) (soil-p-2 55) (soil-p-3 20) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 235) (soil-k-1 205) (soil-k-2- 175) (soil-k-2+ 145) (soil-k-3 110) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 38) (low 0)))))))
+
+(define swede-turnip-foraged-lifted-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 105) (soil-p-1 75) (soil-p-2 45) (soil-p-3 0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 215) (soil-k-1 185) (soil-k-2- 155) (soil-k-2+ 125) (soil-k-3 80) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 25) (low 0)))))))
+
+(define rape-swede-turnip-forage-grazed-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 85) (soil-p-1 55) (soil-p-2 25) (soil-p-3 0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 110) (soil-k-1 80) (soil-k-2- 50) (soil-k-2+ 20) (soil-k-3 0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 25) (low 0)))))))
+
+(define rape-oilseed-spring-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 90) (soil-p-1 60) (soil-p-2 30) (soil-p-3 0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 80) (soil-k-1 50) (soil-k-2- 20) (soil-k-2+ 0) (soil-k-3 0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 21) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      '(soil
+        ((organic 0) (peat 0) (default 63))))))) 
+
+(define rape-oilseed-winter-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 110) (soil-p-1 80) (soil-p-2 50) (soil-p-3 0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 100) (soil-k-1 70) (soil-k-2- 40) (soil-k-2+ 20) (soil-k-3 0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 21) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      '(soil
+        ((organic 0) (peat 0) (default 63)))))))
+
+(define pea-bean-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 100) (soil-p-1 70) (soil-p-2 40) (soil-p-3 0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 100) (soil-k-1 70) (soil-k-2- 40) (soil-k-2+ 20) (soil-k-3 0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 100) (soil-m-1 50) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 25) (low 0)))))))  
+  
+(define fodder-beet-pk-tree ;; 2017 update
+    '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 120) (soil-p-1 90) (soil-p-2 60) (soil-p-3 0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 400) (soil-k-1 370) (soil-k-2- 340) (soil-k-2+ 310) (soil-k-3 0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 150) (soil-m-1 75) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 25) (low 0)))))))
+
+(define kale-grazed-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 80) (soil-p-1 50) (soil-p-2 20) (soil-p-3 0) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 200) (soil-k-1 170) (soil-k-2- 140) (soil-k-2+ 70) (soil-k-3 70) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 25) (low 0)))))))
+
+(define sprout-cabbage-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 200) (soil-p-1 150) (soil-p-2 100) (soil-p-3 50) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 300) (soil-k-1 250) (soil-k-2- 200) (soil-k-2+ 150) (soil-k-3 60) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 150) (soil-m-1 100) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 63) (low 0)))))))
+
+(define cauliflower-calabrese-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 200) (soil-p-1 150) (soil-p-2 100) (soil-p-3 50) (soil-p-4 0))))
+     (potassium
+      (k-index ((soil-k-0 275) (soil-k-1 225) (soil-k-2- 175) (soil-k-2+ 125) (soil-k-3 35) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 150) (soil-m-1 100) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 63) (low 0)))))))
+
+(define lettuce-leafy-salad-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 250) (soil-p-1 200) (soil-p-2 150) (soil-p-3 100) (soil-p-4 0)))) ;; in notes it says at p4/5 60kg may be useful, but there are caveats so left at 0
+     (potassium
+      (k-index ((soil-k-0 250) (soil-k-1 200) (soil-k-2- 150) (soil-k-2+ 100) (soil-k-3 0) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 150) (soil-m-1 100) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 25) (low 0)))))))
+
+(define onion-leek-pk-tree ;; 2017 update
+    '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 200) (soil-p-1 150) (soil-p-2 100) (soil-p-3 50) (soil-p-4 0)))) 
+     (potassium
+      (k-index ((soil-k-0 275) (soil-k-1 225) (soil-k-2- 175) (soil-k-2+ 125) (soil-k-3 35) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 150) (soil-m-1 100) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 25) (low 0)))))))
+
+(define beetroot-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 200) (soil-p-1 150) (soil-p-2 100) (soil-p-3 50) (soil-p-4 0)))) 
+     (potassium
+      (k-index ((soil-k-0 300) (soil-k-1 250) (soil-k-2- 200) (soil-k-2+ 150) (soil-k-3 60) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 150) (soil-m-1 100) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 25) (low 0)))))))
+
+(define carrot-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 200) (soil-p-1 150) (soil-p-2 100) (soil-p-3 50) (soil-p-4 0)))) 
+     (potassium
+      (k-index ((soil-k-0 275) (soil-k-1 225) (soil-k-2- 175) (soil-k-2+ 125) (soil-k-3 35) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 150) (soil-m-1 100) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 25) (low 0)))))))
+
+(define bulb-pk-tree ;; 2017 update
+  '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 200) (soil-p-1 150) (soil-p-2 100) (soil-p-3 50) (soil-p-4 0)))) 
+     (potassium
+      (k-index ((soil-k-0 300) (soil-k-1 250) (soil-k-2- 200) (soil-k-2+ 150) (soil-k-3 60) (soil-k-4 0)))) ;; typo in book for 2+, correction document says 150
+     (magnesium
+      (m-index ((soil-m-0 150) (soil-m-1 100) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 25) (low 0)))))))
+
+(define potato-pk-tree ;; 2017 update
+    '(nutrient
+    ((phosphorus
+      (p-index ((soil-p-0 250) (soil-p-1 210) (soil-p-2 170) (soil-p-3 100) (soil-p-4 0)))) 
+     (potassium
+      (k-index ((soil-k-0 360) (soil-k-1 330) (soil-k-2- 300) (soil-k-2+ 300) (soil-k-3 150) (soil-k-4 0))))
+     (magnesium
+      (m-index ((soil-m-0 120) (soil-m-1 80) (soil-m-2 40) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     (sulphur
+      (risk ((high 25) (low 0)))))))
       
 (define crop-requirements-pk-tree 
   (dtree 
    'crop
    (list
-    (choice 'winter-wheat-incorporated-feed winter-wheat-incorporated-pk-tree)
-    (choice 'winter-wheat-incorporated-mill winter-wheat-incorporated-pk-tree)
-    (choice 'spring-barley-incorporated-feed spring-barley-incorporated-pk-tree)
-    (choice 'spring-barley-incorporated-malt spring-barley-incorporated-pk-tree)
-    (choice 'winter-wheat-removed-feed winter-wheat-removed-pk-tree)
-    (choice 'winter-wheat-removed-mill winter-wheat-removed-pk-tree)
-    (choice 'spring-barley-removed-feed spring-barley-removed-pk-tree) 
-    (choice 'spring-barley-removed-malt spring-barley-removed-pk-tree)
-    (choice 'grass grass-pk-tree))))
+    (choice 'grass grass-pk-tree)
+    
+    (choice 'barley-spring-incorporated-feed barley-spring-incorporated-pk-tree)
+    (choice 'barley-spring-incorporated-malt barley-spring-incorporated-pk-tree)
+    (choice 'barley-spring-removed-feed barley-spring-removed-pk-tree) 
+    (choice 'barley-spring-removed-malt barley-spring-removed-pk-tree)
+    (choice 'barley-spring-wholecrop wholecrop-cereal-pk-tree)  ;; 2018 corrections
+    (choice 'barley-winter-incorporated-feed wheat-winter-incorporated-pk-tree)
+    (choice 'barley-winter-incorporated-malt wheat-winter-incorporated-pk-tree)
+    (choice 'barley-winter-removed-feed  wheat-winter-removed-pk-tree)
+    (choice 'barley-winter-removed-malt  wheat-winter-removed-pk-tree)
+    (choice 'barley-winter-wholecrop wholecrop-cereal-pk-tree) ;; 2018 corrections
 
+    (choice 'wheat-winter-removed-feed wheat-winter-removed-pk-tree)
+    (choice 'wheat-winter-removed-mill wheat-winter-removed-pk-tree)  
+    (choice 'wheat-winter-incorporated-feed wheat-winter-incorporated-pk-tree)
+    (choice 'wheat-winter-incorporated-mill wheat-winter-incorporated-pk-tree)
+    (choice 'wheat-winter-wholecrop wholecrop-cereal-pk-tree) ;; 2018 corrections
+    (choice 'wheat-spring-incorporated-feed barley-spring-incorporated-pk-tree)
+    (choice 'wheat-spring-incorporated-mill barley-spring-incorporated-pk-tree)  ;;feed and mill are the same, no categories in book, but categories on list requested
+    (choice 'wheat-spring-removed-feed barley-spring-removed-pk-tree)
+    (choice 'wheat-spring-removed-mill barley-spring-removed-pk-tree)  ;;feed and mill are the same, no categories in book, but categories on list requested
+    (choice 'wheat-spring-wholecrop wholecrop-cereal-pk-tree)  ;; 2018 corrections
 
-     
+    (choice 'triticale-spring-forage wholecrop-cereal-pk-tree)  ;; 2018 corrections
+    (choice 'triticale-spring-incorporated barley-spring-incorporated-pk-tree)  ;; p24 cereals book 
+    (choice 'triticale-spring-removed barley-spring-removed-pk-tree)  ;; p24 cereals book 
+    (choice 'triticale-winter-forage wholecrop-cereal-pk-tree)  ;; 2018 corrections 
+    (choice 'triticale-winter-incorporated barley-spring-incorporated-pk-tree)  ;; p24 cereals book 
+    (choice 'triticale-winter-removed  barley-spring-removed-pk-tree)  ;; p24 cereals book         
 
+    (choice 'oat-winter-forage wholecrop-cereal-pk-tree)   ;; 2018 corrections
+    (choice 'oat-winter-incorporated oat-incorporated-pk-tree)
+    (choice 'oat-winter-removed oat-removed-pk-tree)
+    (choice 'oat-spring-forage  wholecrop-cereal-pk-tree)   ;; 2018 corrections
+    (choice 'oat-spring-incorporated oat-incorporated-pk-tree)
+    (choice 'oat-spring-removed oat-removed-pk-tree)
 
+    (choice 'rye-spring-forage wholecrop-cereal-pk-tree)  ;; 2018 corrections 
+    (choice 'rye-spring-incorporated barley-spring-incorporated-pk-tree)
+    (choice 'rye-spring-removed barley-spring-removed-pk-tree) 
+    (choice 'rye-winter-forage wholecrop-cereal-pk-tree)  ;; 2018 corrections
+    (choice 'rye-winter-incorporated barley-spring-incorporated-pk-tree)
+    (choice 'rye-winter-removed barley-spring-removed-pk-tree)
+
+    (choice 'maize maize-pk-tree)
+
+    (choice 'swede-forage-lifted swede-turnip-foraged-lifted-pk-tree)
+    (choice 'swede-forage-grazed rape-swede-turnip-forage-grazed-pk-tree)
+    (choice 'swede-vegetable beetroot-pk-tree)
+
+    (choice 'turnip-forage-lifted swede-turnip-foraged-lifted-pk-tree)
+    (choice 'turnip-forage-grazed rape-swede-turnip-forage-grazed-pk-tree)
+    (choice 'turnip-vegetable beetroot-pk-tree)
+
+    (choice 'rape-forage rape-swede-turnip-forage-grazed-pk-tree)
+    (choice 'rape-oilseed-spring rape-oilseed-spring-pk-tree)
+    (choice 'rape-oilseed-winter rape-oilseed-winter-pk-tree)
+
+    (choice 'linseed rape-oilseed-spring-pk-tree)
+
+    (choice 'pea-bean pea-bean-pk-tree)
+    
+    (choice 'fodder-beet fodder-beet-pk-tree)
+
+    (choice 'kale-grazed kale-grazed-pk-tree)
+
+    (choice 'brussels-sprout-cabbage sprout-cabbage-pk-tree)
+    (choice 'cauliflower-calabrese cauliflower-calabrese-pk-tree)
+    (choice 'lettuce-leafy-salad lettuce-leafy-salad-pk-tree)
+    (choice 'onion-leek onion-leek-pk-tree)
+    (choice 'beetroot beetroot-pk-tree)
+    (choice 'parsnip beetroot-pk-tree)
+    (choice 'carrot carrot-pk-tree)
+    (choice 'bulb bulb-pk-tree)
+    
+    (choice 'potato potato-pk-tree))))
