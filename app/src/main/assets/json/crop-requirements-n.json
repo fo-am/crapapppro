@@ -3328,7 +3328,15 @@
 }]
 }
 }, {
-"choice": "triticale-winter-forage",
+"choice": "triticale",
+"value": {
+"decision": "sown",
+"choices": [{
+"choice": "winter",
+"value": {
+"decision": "application",
+"choices": [{
+"choice": "forage",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -3523,7 +3531,7 @@
 }]
 }
 }, {
-"choice": "triticale-winter-incorporated",
+"choice": "incorporated",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -3718,7 +3726,7 @@
 }]
 }
 }, {
-"choice": "triticale-winter-removed",
+"choice": "removed",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -3912,8 +3920,14 @@
 }
 }]
 }
+}]
+}
 }, {
-"choice": "triticale-spring-forage",
+"choice": "spring",
+"value": {
+"decision": "application",
+"choices": [{
+"choice": "forage",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -4027,7 +4041,7 @@
 }]
 }
 }, {
-"choice": "triticale-spring-incorporated",
+"choice": "incorporated",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -4141,7 +4155,7 @@
 }]
 }
 }, {
-"choice": "triticale-spring-removed",
+"choice": "removed",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -4250,6 +4264,10 @@
 }, {
 "choice": 6,
 "value": 0
+}]
+}
+}]
+}
 }]
 }
 }]

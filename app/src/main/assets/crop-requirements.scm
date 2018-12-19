@@ -131,39 +131,6 @@
      (peat
       (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 20) (6 20))))))) ;; 2017 update
 
-
-(define barley-nitrogen-tree
-  (dtree 'sown
-	 (list
-	  (choice 'spring
-		  (dtree 'application
-			 (list
-			  (choice 'incorporated
-				  (dtree 'process
-					 (list
-					  (choice 'feed barley-spring-feed-nitrogen-tree)
-					  (choice 'malt barley-spring-malt-nitrogen-tree))))
-			  (choice 'removed
-				  (dtree 'process
-					 (list
-					  (choice 'feed barley-spring-feed-nitrogen-tree) ;; ?? was barley-nitrogen-tree-feed
-					  (choice 'malt barley-spring-malt-nitrogen-tree)))) ;; ?? was barley-nitrogen-tree-malt
-			  (choice 'wholecrop barley-spring-wholecrop-nitrogen-tree))))
-	  (choice 'winter
-		  (dtree 'application
-			 (list
-			  (choice 'incorporated
-				  (dtree 'process
-					 (list
-					  (choice 'feed barley-winter-wholecrop-nitrogen-tree) 
-					  (choice 'malt barley-winter-malt-nitrogen-tree))))
-			  (choice 'removed
-				  (dtree 'process
-					 (list
-					  (choice 'feed barley-winter-wholecrop-nitrogen-tree)
-					  (choice 'malt barley-winter-malt-nitrogen-tree))))
-			  (choice 'wholecrop barley-winter-wholecrop-nitrogen-tree)))))))
-
  (define wheat-winter-feed-nitrogen-tree
   '(soil
     ((sandyshallow ;; light sand   
@@ -237,38 +204,6 @@
      (default ;; other mineral soils
        (sns ((0 250) (1 220) (2 190) (3  160) (4  110) (5  80) (6   60))))))) ;;2017 update
 
-(define wheat-nitrogen-tree
-  (dtree 'sown
-	 (list
-	  (choice 'winter
-		  (dtree 'application
-			 (list
-			  (choice 'incorporated
-				  (dtree 'process
-					 (list
-					  (choice 'feed wheat-winter-feed-nitrogen-tree)
-					  (choice 'mill wheat-winter-mill-nitrogen-tree))))
-			  (choice 'removed
-				  (dtree 'process
-					 (list
-					  (choice 'feed wheat-winter-feed-nitrogen-tree)
-					  (choice 'mill wheat-winter-mill-nitrogen-tree))))
-			  (choice 'wholecrop wheat-winter-wholecrop-nitrogen-tree))))
-	  (choice 'spring
-		  (dtree 'application
-			 (list
-			  (choice 'incorporated
-				  (dtree 'process
-					 (list
-					  (choice 'feed wheat-spring-wholecrop-nitrogen-tree) 
-					  (choice 'mill wheat-spring-mill-nitrogen-tree))))
-			  (choice 'removed
-				  (dtree 'process
-					 (list
-					  (choice 'feed wheat-spring-wholecrop-nitrogen-tree)
-					  (choice 'mill wheat-spring-mill-nitrogen-tree))))
-			  (choice 'wholecrop wheat-spring-wholecrop-nitrogen-tree)))))))
-
 (define triticale-winter-forage-nitrogen-tree ;;2017 update
   '(soil
     ((sandyshallow ;; light sand   
@@ -285,6 +220,7 @@
       (sns ((0 NA) (1 NA) (2 NA) (3 70) (4 30) (5 15) (6 0)))) ;;2017 update
      (peat
       (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 15) (6 15))))))) ;; 2017 update
+
 
 (define oat-rye-triticale-spring-nitrogen-tree ;;2017 update
     '(soil
@@ -477,8 +413,6 @@
          (sns ((0 110) (1 110) (2 50) (3 50) (4 50) (5 20) (6 20))))
         (>120
          (sns ((0 140 ) (1 140) (2 70) (3 70) (4 70) (5 30) (6 30))))))))))
-
-
 
 
 (define grass-pk-tree ;;2017 update
@@ -821,19 +755,139 @@
      (sulphur
       (risk ((high 25) (low 0)))))))
 
+(define barley-nitrogen-tree
+  (dtree 'sown
+	 (list
+	  (choice 'spring
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated
+				  (dtree 'process
+					 (list
+					  (choice 'feed barley-spring-feed-nitrogen-tree)
+					  (choice 'malt barley-spring-malt-nitrogen-tree))))
+			  (choice 'removed
+				  (dtree 'process
+					 (list
+					  (choice 'feed barley-spring-feed-nitrogen-tree) ;; ?? was barley-nitrogen-tree-feed
+					  (choice 'malt barley-spring-malt-nitrogen-tree)))) ;; ?? was barley-nitrogen-tree-malt
+			  (choice 'wholecrop barley-spring-wholecrop-nitrogen-tree))))
+	  (choice 'winter
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated
+				  (dtree 'process
+					 (list
+					  (choice 'feed barley-winter-wholecrop-nitrogen-tree) 
+					  (choice 'malt barley-winter-malt-nitrogen-tree))))
+			  (choice 'removed
+				  (dtree 'process
+					 (list
+					  (choice 'feed barley-winter-wholecrop-nitrogen-tree)
+					  (choice 'malt barley-winter-malt-nitrogen-tree))))
+			  (choice 'wholecrop barley-winter-wholecrop-nitrogen-tree)))))))
+
+(define wheat-nitrogen-tree
+  (dtree 'sown
+	 (list
+	  (choice 'winter
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated
+				  (dtree 'process
+					 (list
+					  (choice 'feed wheat-winter-feed-nitrogen-tree)
+					  (choice 'mill wheat-winter-mill-nitrogen-tree))))
+			  (choice 'removed
+				  (dtree 'process
+					 (list
+					  (choice 'feed wheat-winter-feed-nitrogen-tree)
+					  (choice 'mill wheat-winter-mill-nitrogen-tree))))
+			  (choice 'wholecrop wheat-winter-wholecrop-nitrogen-tree))))
+	  (choice 'spring
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated
+				  (dtree 'process
+					 (list
+					  (choice 'feed wheat-spring-wholecrop-nitrogen-tree) 
+					  (choice 'mill wheat-spring-mill-nitrogen-tree))))
+			  (choice 'removed
+				  (dtree 'process
+					 (list
+					  (choice 'feed wheat-spring-wholecrop-nitrogen-tree)
+					  (choice 'mill wheat-spring-mill-nitrogen-tree))))
+			  (choice 'wholecrop wheat-spring-wholecrop-nitrogen-tree)))))))
+
+(define triticale-nitrogen-tree
+  (dtree 'sown (list
+		(choice 'winter
+			(dtree 'application
+			       (list
+				(choice 'forage triticale-winter-forage-nitrogen-tree) ;; table 3.24 p30 forage
+				(choice 'incorporated wheat-winter-feed-nitrogen-tree) ;; table 4.15 cereal
+				(choice 'removed wheat-winter-feed-nitrogen-tree)))) ;; table 4.15 cereal
+		(choice 'spring
+			(dtree 'application
+			       (list
+				(choice 'forage oat-rye-triticale-spring-nitrogen-tree) ;; table 3.25 p31 forage
+				(choice 'incorporated oat-rye-triticale-spring-nitrogen-tree) ;; table 4.20 p 34 in cereals (same as p31 forage)
+				(choice 'removed oat-rye-triticale-spring-nitrogen-tree))))))) ;; table 4.20 p 34 in cereals (same as p31 forage)
+
+(define barley-pk-tree
+  (dtree 'sown
+	 (list
+	  (choice 'spring
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated barley-spring-incorporated-pk-tree)
+			  (choice 'removed barley-spring-removed-pk-tree)
+			  (choice 'wholecrop wholecrop-cereal-pk-tree))))  ;; 2018 corrections
+	  (choice 'winter
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated wheat-winter-incorporated-pk-tree)
+			  (choice 'removed wheat-winter-removed-pk-tree)
+			  (choice 'wholecrop wholecrop-cereal-pk-tree)))))))  ;; 2018 corrections
+
+(define wheat-pk-tree
+  (dtree 'sown
+	 (list 
+	  (choice 'winter
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated wheat-winter-incorporated-pk-tree)
+			  (choice 'removed wheat-winter-removed-pk-tree)
+			  (choice 'wholecrop wholecrop-cereal-pk-tree))))
+	  (choice 'spring
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated barley-spring-incorporated-pk-tree) ;; barley?
+			  (choice 'removed barley-spring-removed-pk-tree) ;; barley?
+			  (choice 'wholecrop wholecrop-cereal-pk-tree))))))) 		    
+
+
+(define triticale-pk-tree
+  (dtree 'sown 
+	 (list
+	  (choice 'spring (dtree 'application 
+				 (list 
+				  (choice 'forage wholecrop-cereal-pk-tree)  ;; 2018 corrections
+				  (choice 'incorporated barley-spring-incorporated-pk-tree)  ;; p24 cereals book 
+				  (choice 'removed barley-spring-removed-pk-tree))))  ;; p24 cereals book 
+	  (choice 'winter (dtree 'application
+				 (list
+				  (choice 'forage wholecrop-cereal-pk-tree)  ;; 2018 corrections 
+				  (choice 'incorporated barley-spring-incorporated-pk-tree)  ;; p24 cereals book 
+				  (choice 'removed  barley-spring-removed-pk-tree)))))))  ;; p24 cereals book         
+
 (define crop-requirements-n-tree
   (dtree 'crop
          (list
           (choice 'grass grass-nitrogen-tree)
 	  (choice 'barley barley-nitrogen-tree)
 	  (choice 'wheat wheat-nitrogen-tree)
-
-          (choice 'triticale-winter-forage triticale-winter-forage-nitrogen-tree) ;; table 3.24 p30 forage
-          (choice 'triticale-winter-incorporated wheat-winter-feed-nitrogen-tree) ;; table 4.15 cereal
-          (choice 'triticale-winter-removed wheat-winter-feed-nitrogen-tree) ;; table 4.15 cereal
-          (choice 'triticale-spring-forage oat-rye-triticale-spring-nitrogen-tree) ;; table 3.25 p31 forage
-          (choice 'triticale-spring-incorporated oat-rye-triticale-spring-nitrogen-tree) ;; table 4.20 p 34 in cereals (same as p31 forage)
-          (choice 'triticale-spring-removed oat-rye-triticale-spring-nitrogen-tree) ;; table 4.20 p 34 in cereals (same as p31 forage)
+	  (choice 'triticale triticale-nitrogen-tree)
 
           (choice 'oat-winter-forage oat-winter-nitrogen-tree)
           (choice 'oat-winter-incorporated oat-winter-nitrogen-tree)
@@ -888,35 +942,9 @@
    'crop
    (list
     (choice 'grass grass-pk-tree)
-    
-    (choice 'barley-spring-incorporated-feed barley-spring-incorporated-pk-tree)
-    (choice 'barley-spring-incorporated-malt barley-spring-incorporated-pk-tree)
-    (choice 'barley-spring-removed-feed barley-spring-removed-pk-tree) 
-    (choice 'barley-spring-removed-malt barley-spring-removed-pk-tree)
-    (choice 'barley-spring-wholecrop wholecrop-cereal-pk-tree)  ;; 2018 corrections
-    (choice 'barley-winter-incorporated-feed wheat-winter-incorporated-pk-tree)
-    (choice 'barley-winter-incorporated-malt wheat-winter-incorporated-pk-tree)
-    (choice 'barley-winter-removed-feed  wheat-winter-removed-pk-tree)
-    (choice 'barley-winter-removed-malt  wheat-winter-removed-pk-tree)
-    (choice 'barley-winter-wholecrop wholecrop-cereal-pk-tree) ;; 2018 corrections
-
-    (choice 'wheat-winter-removed-feed wheat-winter-removed-pk-tree)
-    (choice 'wheat-winter-removed-mill wheat-winter-removed-pk-tree)  
-    (choice 'wheat-winter-incorporated-feed wheat-winter-incorporated-pk-tree)
-    (choice 'wheat-winter-incorporated-mill wheat-winter-incorporated-pk-tree)
-    (choice 'wheat-winter-wholecrop wholecrop-cereal-pk-tree) ;; 2018 corrections
-    (choice 'wheat-spring-incorporated-feed barley-spring-incorporated-pk-tree)
-    (choice 'wheat-spring-incorporated-mill barley-spring-incorporated-pk-tree)  ;;feed and mill are the same, no categories in book, but categories on list requested
-    (choice 'wheat-spring-removed-feed barley-spring-removed-pk-tree)
-    (choice 'wheat-spring-removed-mill barley-spring-removed-pk-tree)  ;;feed and mill are the same, no categories in book, but categories on list requested
-    (choice 'wheat-spring-wholecrop wholecrop-cereal-pk-tree)  ;; 2018 corrections
-
-    (choice 'triticale-spring-forage wholecrop-cereal-pk-tree)  ;; 2018 corrections
-    (choice 'triticale-spring-incorporated barley-spring-incorporated-pk-tree)  ;; p24 cereals book 
-    (choice 'triticale-spring-removed barley-spring-removed-pk-tree)  ;; p24 cereals book 
-    (choice 'triticale-winter-forage wholecrop-cereal-pk-tree)  ;; 2018 corrections 
-    (choice 'triticale-winter-incorporated barley-spring-incorporated-pk-tree)  ;; p24 cereals book 
-    (choice 'triticale-winter-removed  barley-spring-removed-pk-tree)  ;; p24 cereals book         
+    (choice 'barley barley-pk-tree)
+    (choice 'wheat wheat-pk-tree)
+    (choice 'triticale triticale-pk-tree)
 
     (choice 'oat-winter-forage wholecrop-cereal-pk-tree)   ;; 2018 corrections
     (choice 'oat-winter-incorporated oat-incorporated-pk-tree)
