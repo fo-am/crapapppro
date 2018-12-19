@@ -1,4 +1,4 @@
-#lang scheme
+;;#lang scheme
 
 ;; Farm Crap App Pro Copyright (C) 2016 FoAM Kernow
 ;;
@@ -131,6 +131,39 @@
      (peat
       (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 20) (6 20))))))) ;; 2017 update
 
+
+(define barley-nitrogen-tree
+  (dtree 'sown
+	 (list
+	  (choice 'spring
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated
+				  (dtree 'process
+					 (list
+					  (choice 'feed barley-spring-feed-nitrogen-tree)
+					  (choice 'malt barley-spring-malt-nitrogen-tree))))
+			  (choice 'removed
+				  (dtree 'process
+					 (list
+					  (choice 'feed barley-spring-feed-nitrogen-tree) ;; ?? was barley-nitrogen-tree-feed
+					  (choice 'malt barley-spring-malt-nitrogen-tree)))) ;; ?? was barley-nitrogen-tree-malt
+			  (choice 'wholecrop barley-spring-wholecrop-nitrogen-tree))))
+	  (choice 'winter
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated
+				  (dtree 'process
+					 (list
+					  (choice 'feed barley-winter-wholecrop-nitrogen-tree) 
+					  (choice 'malt barley-winter-malt-nitrogen-tree))))
+			  (choice 'removed
+				  (dtree 'process
+					 (list
+					  (choice 'feed barley-winter-wholecrop-nitrogen-tree)
+					  (choice 'malt barley-winter-malt-nitrogen-tree))))
+			  (choice 'wholecrop barley-winter-wholecrop-nitrogen-tree)))))))
+
  (define wheat-winter-feed-nitrogen-tree
   '(soil
     ((sandyshallow ;; light sand   
@@ -203,6 +236,38 @@
       (sns ((0   NA) (1   NA) (2   NA) (3   NA) (4   NA) (5  60) (6  60)))) ;;2017 update
      (default ;; other mineral soils
        (sns ((0 250) (1 220) (2 190) (3  160) (4  110) (5  80) (6   60))))))) ;;2017 update
+
+(define wheat-nitrogen-tree
+  (dtree 'sown
+	 (list
+	  (choice 'winter
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated
+				  (dtree 'process
+					 (list
+					  (choice 'feed wheat-winter-feed-nitrogen-tree)
+					  (choice 'mill wheat-winter-mill-nitrogen-tree))))
+			  (choice 'removed
+				  (dtree 'process
+					 (list
+					  (choice 'feed wheat-winter-feed-nitrogen-tree)
+					  (choice 'mill wheat-winter-mill-nitrogen-tree))))
+			  (choice 'wholecrop wheat-winter-wholecrop-nitrogen-tree))))
+	  (choice 'spring
+		  (dtree 'application
+			 (list
+			  (choice 'incorporated
+				  (dtree 'process
+					 (list
+					  (choice 'feed wheat-spring-wholecrop-nitrogen-tree) 
+					  (choice 'mill wheat-spring-mill-nitrogen-tree))))
+			  (choice 'removed
+				  (dtree 'process
+					 (list
+					  (choice 'feed wheat-spring-wholecrop-nitrogen-tree)
+					  (choice 'mill wheat-spring-mill-nitrogen-tree))))
+			  (choice 'wholecrop wheat-spring-wholecrop-nitrogen-tree)))))))
 
 (define triticale-winter-forage-nitrogen-tree ;;2017 update
   '(soil
@@ -414,86 +479,6 @@
          (sns ((0 140 ) (1 140) (2 70) (3 70) (4 70) (5 30) (6 30))))))))))
 
 
-(define crop-requirements-n-tree
-  (dtree 'crop
-         (list
-          (choice 'grass grass-nitrogen-tree)
-
-          (choice 'barley-spring-incorporated-feed barley-spring-feed-nitrogen-tree)
-          (choice 'barley-spring-incorporated-malt barley-spring-malt-nitrogen-tree)
-          (choice 'barley-spring-removed-feed barley-spring-feed-nitrogen-tree) ;; ?? barley-nitrogen-tree-feed
-          (choice 'barley-spring-removed-malt barley-spring-malt-nitrogen-tree) ;; ?? barley-nitrogen-tree-malt
-          (choice 'barley-spring-wholecrop barley-spring-wholecrop-nitrogen-tree)
-          (choice 'barley-winter-incorporated-feed barley-winter-wholecrop-nitrogen-tree)
-          (choice 'barley-winter-incorporated-malt barley-winter-malt-nitrogen-tree)
-          (choice 'barley-winter-removed-feed barley-winter-wholecrop-nitrogen-tree)
-          (choice 'barley-winter-removed-malt barley-winter-malt-nitrogen-tree)
-          (choice 'barley-winter-wholecrop barley-winter-wholecrop-nitrogen-tree)
-          
-          (choice 'wheat-winter-incorporated-feed wheat-winter-feed-nitrogen-tree)
-          (choice 'wheat-winter-incorporated-mill wheat-winter-mill-nitrogen-tree)
-          (choice 'wheat-winter-removed-feed wheat-winter-feed-nitrogen-tree)
-          (choice 'wheat-winter-removed-mill wheat-winter-mill-nitrogen-tree)
-          (choice 'wheat-winter-wholecrop wheat-winter-wholecrop-nitrogen-tree)
-          (choice 'wheat-spring-incorporated-feed wheat-spring-wholecrop-nitrogen-tree)
-          (choice 'wheat-spring-incorporated-mill wheat-spring-mill-nitrogen-tree) 
-          (choice 'wheat-spring-removed-feed wheat-spring-wholecrop-nitrogen-tree)
-          (choice 'wheat-spring-removed-mill wheat-spring-mill-nitrogen-tree)
-          (choice 'wheat-spring-wholecrop wheat-spring-wholecrop-nitrogen-tree)
-
-          (choice 'triticale-winter-forage triticale-winter-forage-nitrogen-tree) ;; table 3.24 p30 forage
-          (choice 'triticale-winter-incorporated wheat-winter-feed-nitrogen-tree) ;; table 4.15 cereal
-          (choice 'triticale-winter-removed wheat-winter-feed-nitrogen-tree) ;; table 4.15 cereal
-          (choice 'triticale-spring-forage oat-rye-triticale-spring-nitrogen-tree) ;; table 3.25 p31 forage
-          (choice 'triticale-spring-incorporated oat-rye-triticale-spring-nitrogen-tree) ;; table 4.20 p 34 in cereals (same as p31 forage)
-          (choice 'triticale-spring-removed oat-rye-triticale-spring-nitrogen-tree) ;; table 4.20 p 34 in cereals (same as p31 forage)
-
-          (choice 'oat-winter-forage oat-winter-nitrogen-tree)
-          (choice 'oat-winter-incorporated oat-winter-nitrogen-tree)
-          (choice 'oat-winter-removed  oat-winter-nitrogen-tree)
-          (choice 'oat-spring-forage oat-rye-triticale-spring-nitrogen-tree)
-          (choice 'oat-spring-incorporated oat-rye-triticale-spring-nitrogen-tree)
-          (choice 'oat-spring-removed oat-rye-triticale-spring-nitrogen-tree)   
-
-          (choice 'rye-winter-forage rye-winter-nitrogen-tree)
-          (choice 'rye-winter-incorporated rye-winter-nitrogen-tree)
-          (choice 'rye-winter-removed rye-winter-nitrogen-tree)
-          (choice 'rye-spring-forage oat-rye-triticale-spring-nitrogen-tree)
-          (choice 'rye-spring-incorporated oat-rye-triticale-spring-nitrogen-tree)
-          (choice 'rye-spring-removed oat-rye-triticale-spring-nitrogen-tree)
-
-          (choice 'maize maize-nitrogen-tree)
-
-          (choice 'swede-forage-lifted swede-turnip-forage-lifted-nitrogen-tree)
-          (choice 'swede-forage-grazed rape-swede-turnip-forage-grazed-nitrogen-tree)
-          (choice 'swede-vegetable swede-vegetable-nitrogen-tree)
-
-          (choice 'turnip-forage-lifted swede-turnip-forage-lifted-nitrogen-tree)
-          (choice 'turnip-forage-grazed rape-swede-turnip-forage-grazed-nitrogen-tree)
-          (choice 'turnip-vegetable turnip-nitrogen-tree)
-
-          (choice 'rape-forage rape-swede-turnip-forage-grazed-nitrogen-tree)
-          (choice 'rape-oilseed-winter rape-oilseed-winter-nitrogen-tree)
-          (choice 'rape-oilseed-spring rape-oilseed-spring-nitrogen-tree)
-
-          (choice 'linseed linseed-nitrogen-tree)
-
-          (choice 'pea-bean pea-bean-nitrogen-tree)
-
-          (choice 'fodder-beet fodder-beet-nitrogen-tree)
-
-          (choice 'kale-grazed kale-grazed-nitrogen-tree)
-
-          (choice 'brussels-sprout-cabbage sprout-cabbage-nitrogen-tree)
-          (choice 'cauliflower-calabrese cauliflower-calabrese-nitrogen-tree)
-          (choice 'lettuce-leafy-salad lettuce-leafy-salad-nitrogen-tree)
-          (choice 'onion-leek onion-leek-nitrogen-tree)
-          (choice 'beetroot beetroot-nitrogen-tree)
-          (choice 'parsnip turnip-nitrogen-tree)
-          (choice 'carrot carrot-nitrogen-tree)
-          (choice 'bulb bulb-nitrogen-tree)
-
-          (choice 'potato potato-nitrogen-tree))))
 
 
 (define grass-pk-tree ;;2017 update
@@ -835,6 +820,68 @@
       (m-index ((soil-m-0 120) (soil-m-1 80) (soil-m-2 40) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
      (sulphur
       (risk ((high 25) (low 0)))))))
+
+(define crop-requirements-n-tree
+  (dtree 'crop
+         (list
+          (choice 'grass grass-nitrogen-tree)
+	  (choice 'barley barley-nitrogen-tree)
+	  (choice 'wheat wheat-nitrogen-tree)
+
+          (choice 'triticale-winter-forage triticale-winter-forage-nitrogen-tree) ;; table 3.24 p30 forage
+          (choice 'triticale-winter-incorporated wheat-winter-feed-nitrogen-tree) ;; table 4.15 cereal
+          (choice 'triticale-winter-removed wheat-winter-feed-nitrogen-tree) ;; table 4.15 cereal
+          (choice 'triticale-spring-forage oat-rye-triticale-spring-nitrogen-tree) ;; table 3.25 p31 forage
+          (choice 'triticale-spring-incorporated oat-rye-triticale-spring-nitrogen-tree) ;; table 4.20 p 34 in cereals (same as p31 forage)
+          (choice 'triticale-spring-removed oat-rye-triticale-spring-nitrogen-tree) ;; table 4.20 p 34 in cereals (same as p31 forage)
+
+          (choice 'oat-winter-forage oat-winter-nitrogen-tree)
+          (choice 'oat-winter-incorporated oat-winter-nitrogen-tree)
+          (choice 'oat-winter-removed  oat-winter-nitrogen-tree)
+          (choice 'oat-spring-forage oat-rye-triticale-spring-nitrogen-tree)
+          (choice 'oat-spring-incorporated oat-rye-triticale-spring-nitrogen-tree)
+          (choice 'oat-spring-removed oat-rye-triticale-spring-nitrogen-tree)   
+
+          (choice 'rye-winter-forage rye-winter-nitrogen-tree)
+          (choice 'rye-winter-incorporated rye-winter-nitrogen-tree)
+          (choice 'rye-winter-removed rye-winter-nitrogen-tree)
+          (choice 'rye-spring-forage oat-rye-triticale-spring-nitrogen-tree)
+          (choice 'rye-spring-incorporated oat-rye-triticale-spring-nitrogen-tree)
+          (choice 'rye-spring-removed oat-rye-triticale-spring-nitrogen-tree)
+
+          (choice 'maize maize-nitrogen-tree)
+
+          (choice 'swede-forage-lifted swede-turnip-forage-lifted-nitrogen-tree)
+          (choice 'swede-forage-grazed rape-swede-turnip-forage-grazed-nitrogen-tree)
+          (choice 'swede-vegetable swede-vegetable-nitrogen-tree)
+
+          (choice 'turnip-forage-lifted swede-turnip-forage-lifted-nitrogen-tree)
+          (choice 'turnip-forage-grazed rape-swede-turnip-forage-grazed-nitrogen-tree)
+          (choice 'turnip-vegetable turnip-nitrogen-tree)
+
+          (choice 'rape-forage rape-swede-turnip-forage-grazed-nitrogen-tree)
+          (choice 'rape-oilseed-winter rape-oilseed-winter-nitrogen-tree)
+          (choice 'rape-oilseed-spring rape-oilseed-spring-nitrogen-tree)
+
+          (choice 'linseed linseed-nitrogen-tree)
+
+          (choice 'pea-bean pea-bean-nitrogen-tree)
+
+          (choice 'fodder-beet fodder-beet-nitrogen-tree)
+
+          (choice 'kale-grazed kale-grazed-nitrogen-tree)
+
+          (choice 'brussels-sprout-cabbage sprout-cabbage-nitrogen-tree)
+          (choice 'cauliflower-calabrese cauliflower-calabrese-nitrogen-tree)
+          (choice 'lettuce-leafy-salad lettuce-leafy-salad-nitrogen-tree)
+          (choice 'onion-leek onion-leek-nitrogen-tree)
+          (choice 'beetroot beetroot-nitrogen-tree)
+          (choice 'parsnip turnip-nitrogen-tree)
+          (choice 'carrot carrot-nitrogen-tree)
+          (choice 'bulb bulb-nitrogen-tree)
+
+          (choice 'potato potato-nitrogen-tree))))
+
       
 (define crop-requirements-pk-tree 
   (dtree 

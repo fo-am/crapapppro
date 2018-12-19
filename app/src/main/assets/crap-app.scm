@@ -15,6 +15,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(msg "crap-app")
+
 (define db "/sdcard/farmcrapapppro-beta/crapapp.db")
 (set-current! 'db db)
 
@@ -454,16 +456,21 @@
 (define (get-polygons)
   (map
    (lambda (field)
-     (list
-      (ktv-get field "name")
-      (ktv-get field "unique_id")
-      ;; info text
-      (list 
-       (mtext-lookup (string->symbol (ktv-get field "crop")))
-       (string-append 
-	(number->string (convert-output (ktv-get field "size") "hectares")) 
-	(if (eq? (current-units) 'imperial) "acres" "ha")))
-      (get-field-polygon (ktv-get field "unique_id"))))
+     (let ((crop-params (text->params-list (ktv-get field "crop"))))
+       (let ((crop (if (null? crop-params)
+		       'grass
+		       (get-choice-value crop-params 'crop))))
+	 (list
+	  (ktv-get field "name")
+	  (ktv-get field "unique_id")
+	  ;; info text
+	  (list 
+	   ;; deal with bw compat with pre-parameterised crop data
+	   (mtext-lookup crop)
+	   (string-append 
+	    (number->string (convert-output (ktv-get field "size") "hectares")) 
+	    (if (eq? (current-units) 'imperial) "acres" "ha")))
+	  (get-field-polygon (ktv-get field "unique_id"))))))
    (db-all db "farm" "field")))
 
 (define (get-field-polygon field-uid)
@@ -724,7 +731,7 @@
 (define (get-crop-requirements/supply-from-field field)
   (get-crop-requirements/supply 
    (current-rainfall)
-   (string->symbol (ktv-get field "crop"))
+   (text->params-list (ktv-get field "crop"))
    (string->symbol (ktv-get field "soil"))
    (string->symbol (ktv-get field "previous-crop"))
    (string->symbol (ktv-get field "regularly-manure"))
@@ -735,7 +742,7 @@
 (define (get-crop-requirements/supply-from-current)
   (get-crop-requirements/supply 
    (current-rainfall)
-   (string->symbol (entity-get-value "crop"))
+   (text->params-list (entity-get-value "crop"))
    (string->symbol (entity-get-value "soil"))
    (string->symbol (entity-get-value "previous-crop"))
    (string->symbol (entity-get-value "regularly-manure"))

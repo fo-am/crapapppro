@@ -76,15 +76,15 @@
 	  (build-list-widget db "farm" 'fields (list "name") "field" "field"
 			    (lambda () #f)
 			    (lambda ()
-			      '(("name" "varchar" "My field")
-				("soil" "varchar" "None")
-				("crop" "varchar" "None")
-				("previous-crop" "varchar" "None")
-				("soil-test-p" "varchar" "0")
-				("soil-test-k" "varchar" "0")
-				("regularly-manure" "varchar" "no")
-				("recently-grown-grass" "varchar" "no")
-				("size" "real" 0))))
+			      (list '("name" "varchar" "My field")
+				    '("soil" "varchar" "None")
+				    (list "crop" "varchar" "") ;;(param-list->text default-crop))
+				    '("previous-crop" "varchar" "None")
+				    '("soil-test-p" "varchar" "0")
+				    '("soil-test-k" "varchar" "0")
+				    '("regularly-manure" "varchar" "no")
+				    '("recently-grown-grass" "varchar" "no")
+				    '("size" "real" 0))))
 	  
 	 (spacer 20)
 	 (mtoggle-button 
@@ -198,12 +198,13 @@
 	 (lambda (v) (update-soil! (list-ref soil-type-list v))))
 
 	(mspinner 
-	 'crop-type crop-type-list 
+	 'crop-type crop-type-for-manure-calc-list 
 	 (lambda (v)
-	   (if (eq? (list-ref crop-type-list v) 'expert)
-	       (list (start-activity "cropselect" 0 ""))
-	       (update-crop! (list-ref crop-type-list v))))))
-	
+	   (update-crop! 
+	    ;; need to convert this simple choice into some crop parameters
+	    (crop-type-for-manure->crop-params 
+	     (list-ref crop-type-for-manure-calc-list v))))))
+       
        (horiz
 	(mspinner 'season season-list (lambda (v) (update-season! (list-ref season-list v))))
 	(calc-manure-quality-widget (lambda (v))))
@@ -310,8 +311,8 @@
 				    '("quality" "varchar" "DM2")
 				    '("application" "varchar" "splash-surface")
 				    '("season" "varchar" "winter")
-				    '("crop" "varchar" "normal"))))
-
+				    (list "crop" "varchar" (param-list->text default-crop)))))
+	 
 	 (vert-colour 
 	  list-colour
 	  (mtitle 'soil-info)
@@ -370,16 +371,20 @@
 	       (ktv "recently-grown-grass" "varchar" 
 		    (spinner-choice yesno-list v)))'())))
 
-	  (mspinner 'crop-type crop-type-list
-		    (lambda (v)
-		      (cond
-		       ((eq? (list-ref crop-type-list v) 'expert)
-			(list (start-activity "cropselect" 0 "")))
-		       (else
-			(entity-update-single-value! 
-			 (ktv "crop" "varchar" 
-			      (spinner-choice crop-type-list v))) 
-			(update-field-cropsoil-calc-from-current)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	  (text-view (make-id "crop-output") "Current crop" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+
+	  (mbutton 'crop-type
+		   (lambda ()
+		     (list (start-activity "cropselect" 0 ""))))
+	  
+	  ;;(entity-update-single-value! 
+	  ;; (ktv "crop" "varchar" 
+	;;	(spinner-choice crop-type-list v))) 
+	  ;;(update-field-cropsoil-calc-from-current)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 	  
 	  (mtitle 'crop-requirements)
 	  (horiz
@@ -409,24 +414,26 @@
      (entity-init! db "farm" "field" (get-entity-by-unique db "farm" arg))
      (set-current! 'field-id arg)     
      (set-current! 'field-name (entity-get-value "name"))     
+     
+     (msg "CURRENT CROP IS")
+     (msg (entity-get-value "crop"))
+
      (let ((polygons (get-polygons)))
        (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in)))
 	 (append
 	  (update-field-cropsoil-calc-from-current)
 	  ;; if the current field is empty, keep the previous map position, don't recentre
 	  (if (field-exists-yet? arg polygons) 
-		(let ((centre (get-field-centre arg polygons)))
-		  (msg "FIELD DATA CENTRING")		 
-		  (list (update-widget 'draw-map (get-id "map") 'centre (list (vx centre) (vy centre) zoom))))
-		(begin
-		  (msg "NO FIELD DATA NOT CENTRING")
-		  '()))
+	      (let ((centre (get-field-centre arg polygons)))
+		(list (update-widget 'draw-map (get-id "map") 'centre (list (vx centre) (vy centre) zoom))))
+	      (begin
+		'()))
 	  (list
 	   (update-widget 'draw-map (get-id "map") 'polygons (list (entity-get-value "unique_id") (get-polygons)))
 	   (mupdate 'edit-text 'field-name "name")
 	   (update-list-widget db "farm" (list "date") "event" "eventview" (get-current 'field-id #f))
 	   (mupdate-spinner 'soil-type "soil" soil-type-list)
-	   (mupdate-spinner 'crop-type "crop" crop-type-list)
+	   (update-widget 'text-view (get-id "crop-output") 'text (crop-params->readable (text->params-list (entity-get-value "crop"))))
 	   (update-widget 'edit-text (get-id "field-size") 'text (number->string (convert-output (entity-get-value "size") "hectares")))
 	   (update-text-view-units 'field-size-text 'field-size 'field-size-i)
 	   (update-widget 'canvas (get-id "graph") 'drawlist (build-graph))      

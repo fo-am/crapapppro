@@ -16,6 +16,7 @@
 
 ;; these are the symbols used everywhere
 
+(msg "calc-core")
 
 (define manure-type-list (list 'cattle 'fym 'pig 'poultry 'compost 
 			       'paper-crumble 'spent-mushroom 
@@ -29,17 +30,9 @@
   (list 'sandyshallow 'medium 'peat 'organic 'mediumshallow 'deepclay 'deepsilt))
 (define soil-test-p-list (list 'soil-p-0 'soil-p-1 'soil-p-2 'soil-p-3))
 (define soil-test-k-list (list 'soil-k-0 'soil-k-1 'soil-k-2- 'soil-k-2+ 'soil-k-3))
-(define crop-type-list 
-  (list 'spring-barley-incorporated-feed
-	'spring-barley-incorporated-malt
-	'spring-barley-removed-feed
-	'spring-barley-removed-malt
-	'winter-wheat-incorporated-feed
-	'winter-wheat-incorporated-mill
-	'winter-wheat-removed-feed
-	'winter-wheat-removed-mill
-	'grass
-	'expert))
+
+(define crop-type-for-manure-calc-list 
+  (list 'normal 'grass-oilseed))
 
 (define previous-crop-type-list 
   (list 'cereals 'oilseed 'potatoes 
@@ -56,7 +49,6 @@
 (define digestate-food-quality-list (list 'whole 'separated-liquor 'separated-fibre))
 (define digestate-farm-quality-list (list 'whole 'separated-liquor 'separated-fibre))
 (define biosolid-quality-list (list 'digested-cake 'thermally-dried 'lime-stabilised 'composted))
-
 (define compost-quality-list (list 'green 'green-food))
 (define yesno-list (list 'yes 'no))
 
@@ -204,10 +196,24 @@
 	     (m3->gallons amount))
 	    ((equal? units "tonnes") amount) ;; tonnes are metric everywhere!?
 	    (else (msg "I don't understand how to convert" units)))))))
-  
+
+(define default-crop '((crop grass) (subtype silage) (targetyield DM5-7) (cut 1)))
+
+(define (crop-params->readable crop)
+  (foldl
+   (lambda (p r)
+     (string-append 
+      r (if (number? (cadr p)) (number->string (cadr p))
+	    (mtext-lookup (cadr p)))
+      " "))
+   "" 
+   crop))
+
 ;; the manure calculator
 (define calc
-  (list 'pig 25 'DM2 'autumn 'normal 'mediumshallow 'splash-surface
+  (list 'pig 25 'DM2 'autumn 
+	default-crop
+	'mediumshallow 'splash-surface
 	(list date-day date-month date-year)
 	1 1 
 	'(soil-p-0 soil-k-0)))
@@ -250,13 +256,14 @@
 	(soil (calc-soil calc))
 	(application (calc-application calc))
 	(soil-test (calc-soil-test calc)))
+    (msg "calc-nutrients")
     (if custom-override  
 	(list 
 	 ;; total
 	 (process-nutrients amount custom-override)
 	 ;; avail (duplicate)
 	 (process-nutrients amount custom-override))
-	(get-nutrients type amount quality season crop soil application soil-test))))
+	(get-nutrients type amount quality season (dbg (crop-params->manure-crop (dbg crop))) soil application soil-test))))
 
 
 (define (get-units)
@@ -291,8 +298,21 @@
 
 ;; todo: + grazed, silage, hay, esablished (not rye)
 (define (is-crop-arable? c)
-  (not (or (eq? c 'grass-cut) 
-	   (eq? c 'grass-grazed))))
+  (and 
+   (eq? (get-choice-value c 'crop) 'grass)
+   (not (eq? (get-choice-value c 'subtype) 'rye))))
+
+(define (crop-params->manure-crop c)
+  (if (or
+       (is-crop-arable? c)
+       (and (eq? (get-choice-value c 'crop) 'rape)
+	    (eq? (get-choice-value c 'subtype) 'oilseed)))
+      'grass-oilseed 'normal))
+
+(define (crop-type-for-manure->crop-params c)
+  (if (eq? c 'grass-oilseed) 
+      '((crop grass)) 
+      '((crop wheat)))) ;; anything else will be converted to "normal"
 
 ;; table on pp 188
 (define (grassland-modifier crop soil previous-crop recently-grown-grass)
@@ -335,20 +355,22 @@
 		  params regularly-manure)))))
 
 
-(define (get-crop-requirements/supply rainfall crop soil previous-crop regularly-manure soil-test-p soil-test-k recently-grown-grass)
-  (let ((sns (calc-sns rainfall soil crop previous-crop regularly-manure recently-grown-grass)))
+(define (get-crop-requirements/supply rainfall crop-params soil previous-crop regularly-manure soil-test-p soil-test-k recently-grown-grass)
+  (msg "get-crop-requirements/supply")
+  (let ((sns (calc-sns rainfall soil crop-params previous-crop regularly-manure recently-grown-grass)))
     (let ((choices 
 	   (append
-	    (get-current 'crop-menu-options '())
+	    crop-params
 	    (list 
 	     (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
 	     (list 'rainfall rainfall)
 	     (list 'soil soil)
-	     (dbg (list 'crop crop)) ;; remove this...
 	     (list 'p-index soil-test-p)
 	     (list 'k-index soil-test-k)))))
+      (msg choices)
+      (msg "n->")
       (list 
-       (+ (decision crop-requirements-n-tree choices) 
+       (+ (dbg (decision crop-requirements-n-tree choices))
 	  ;; add/subtract based on table on pp 188
 	  (cond
 	   ;; todo: should be just grazed - otherwise silage is dependant on cut
@@ -357,13 +379,15 @@
 	   (else 0)))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorous) choices))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))
+       ;; + magnesium 
+       ;; + sulphur
        sns))))
 
 
 ;; if poultry manure, autumn, crop is grassland/winteroilseed cropped
 ;; then add 5 to % nitrogen
 
-
+;; crop here is only one identifier, not the crop params - grass-oilseed or normal
 (define (get-nutrients type amount quality season crop soil application soil-test)
   ;; apply all the extra conditional stuff here
   (let ((params (list (list 'type type) 
@@ -371,10 +395,11 @@
 		      (list 'season season) 
 		      ;; IMPORTANT: we have to convert crop from the 
 		      ;; field types to send to manure
-		      (list 'crop (cond
-				   ((eq? crop 'grass-oilseed) 'grass-oilseed)
- 				   ((eq? crop 'grass) 'grass-oilseed)
-				   (else 'normal))) 
+		      (list 'crop crop)
+		;;      (list 'crop (cond
+		;;		   ((eq? crop 'grass-oilseed) 'grass-oilseed)
+ 		;;		   ((eq? crop 'grass) 'grass-oilseed)
+		;;		   (else 'normal))) 
 		      ;; also we have to convert soil to the two
 		      ;; types in manure (pp 66, note b)
 		      (list 'soil (cond 

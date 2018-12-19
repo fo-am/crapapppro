@@ -42,7 +42,7 @@
       ((null? (cdr l))
        (when (not (eqv? (choice-name (car l)) name))
 	     ;; issue a warning if it doesn't match
-	     (msg "choosing default [" (car l) "] for" name))
+	     (msg "choosing default [" (car (car l)) "] for" name))
        (choice-value (car l)))
       ;; it matches
       ((eqv? (choice-name (car l)) name)

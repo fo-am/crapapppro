@@ -3,6 +3,7 @@
 (load "../decision.scm")
 (load "../json.scm")
 (load "../manure.scm")
+(load "../crop-requirements.scm")
 
 
 (define (scheme->json v)
@@ -49,7 +50,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (choice->assoc c)
+  (display "choice->assoc")(newline)
   (display c)(newline)
+  (display (car c))(newline)
   (list
    (cons "choice" (car c))
    (cons "value" (if (list? (cadr c))
@@ -57,6 +60,9 @@
                      (cadr c)))))
 
 (define (dtree->assoc d)
+  (display "dtree->assoc")(newline)
+  (display d)(newline)
+  (display (car d))(newline)
   (list
    (cons "decision" (car d))
    (cons "choices" (map choice->assoc (cadr d)))))
@@ -68,5 +74,5 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(spitout-json "manure.json"
-	      manure-tree)
+(spitout-json "manure.json" manure-tree)
+(spitout-json "crop-requirements-n.json" crop-requirements-n-tree)

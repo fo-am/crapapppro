@@ -81,11 +81,14 @@
     (or (< i 32)
         (< 127 i 160))))
 
+;; need to be able to gracefully handle errors for bw compat...
 (define (lexer-error ch)
-  (error (string-append "unexpected character " (->string ch))))
+  #f)
+  ;;(error (string-append "unexpected character " (->string ch))))
 
 (define (parse-error token)
-  (error (string-append "unexpected token " (->string token))))
+  #f)
+;;(error (string-append "unexpected token " (->string token))))
 ;;; reads a character and signals an error if it does not match the expected character
 
 (define (consume-char expect)
@@ -291,3 +294,4 @@ d))))
   (with-input-from-file file parse-object))
 
 (define json/gen-string gen-string)
+
