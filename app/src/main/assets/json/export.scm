@@ -1,8 +1,8 @@
 (define (msg . x) (display x)(newline))
 
-(load "decision.scm")
-(load "json.scm")
-(load "soil-nutrients.scm")
+(load "../decision.scm")
+(load "../json.scm")
+(load "../manure.scm")
 
 
 (define (scheme->json v)
@@ -49,6 +49,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (choice->assoc c)
+  (display c)(newline)
   (list
    (cons "choice" (car c))
    (cons "value" (if (list? (cadr c))
@@ -67,5 +68,5 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(spitout-json "previous-grass-soil-nitrogen-supply-tree.json"
-	      previous-grass-soil-nitrogen-supply-tree)
+(spitout-json "manure.json"
+	      manure-tree)

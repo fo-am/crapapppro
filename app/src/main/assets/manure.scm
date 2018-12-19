@@ -1,4 +1,4 @@
-#lang scheme
+;;#lang scheme
 ;; -*- mode: scheme; -*-
 ;; Farm Crap App Pro Copyright (C) 2016 FoAM Kernow
 ;;
@@ -274,29 +274,30 @@
                                                  (dirtywater 0.1) ;; 2017 update
                                                  (solid NA) ;; 2017 update
                                                  (liquidstrainer NA) ;; 2017 update
-                                                 (liquidweeping NA) ;; 2017 update
+                                                 (liquidweeping NA) ;; 2017 update						 
                                                  (liquidmechanical NA))))) ;; 2017 update
-                       (quote (s-avail (season ((autumn
-                                                 (quality ((DM2 (pc 0.3 7.5)) ;; 2017 update
-                                                           (DM6 (pc 0.7 7.5)) ;; 2017 update
-                                                           (DM10 (pc 1.0 7.5)) ;; 2017 update
-                                                           (dirtywater (pc 0.1 7.5)) ;; 2017 update
-                                                           (solid NA) ;; 2017 update
-                                                           (liquidstrainer NA) ;; 2017 update
-                                                           (liquidweeping NA) ;; 2017 update
-                                                           (liquidmechanical NA)))) ;; 2017 update
-                                                (spring
-                                                 (quality ((DM2 (pc 0.3 35)) ;; 2017 update
-                                                           (DM6 (pc 0.7 35)) ;; 2017 update
-                                                           (DM10 (pc 1.0 35)) ;; 2017 update
-                                                           (dirtywater (pc 0.1 35)) ;; 2017 update
-                                                           (solid NA) ;; 2017 update
-                                                           (liquidstrainer NA) ;; 2017 update
-                                                           (liquidweeping NA) ;; 2017 update
-                                                           (liquidmechanical NA))))
-                                                (winter NA)
-                                                (summer NA)))));; 2017 update
-                       (quote (m-total (quality ((DM2 0.2) ;; 2017 update
+		       ;; unquoting to use percent calc 
+		       (choice 's-avail (dtree 'season (list (choice 'autumn
+								     (dtree 'quality (list (choice 'DM2 (pc 0.3 7.5)) ;; 2017 update
+											   (choice 'DM6 (pc 0.7 7.5)) ;; 2017 update
+											   (choice 'DM10 (pc 1.0 7.5)) ;; 2017 update
+											   (choice 'dirtywater (pc 0.1 7.5)) ;; 2017 update
+											   (choice 'solid 'NA) ;; 2017 update
+											   (choice 'liquidstrainer 'NA) ;; 2017 update
+											   (choice 'liquidweeping 'NA) ;; 2017 update
+											   (choice 'liquidmechanical 'NA)))) ;; 2017 update
+							     (choice 'spring
+								     (dtree 'quality (list (choice 'DM2 (pc 0.3 35)) ;; 2017 update
+											   (choice 'DM6 (pc 0.7 35)) ;; 2017 update
+											   (choice 'DM10 (pc 1.0 35)) ;; 2017 update
+											   (choice 'dirtywater (pc 0.1 35)) ;; 2017 update
+											   (choice 'solid 'NA) ;; 2017 update
+											   (choice 'liquidstrainer 'NA) ;; 2017 update
+											   (choice 'liquidweeping 'NA) ;; 2017 update
+											   (choice 'liquidmechanical 'NA))))
+							     (choice 'winter 'NA)
+							     (choice 'summer 'NA))));; 2017 update
+		       (quote (m-total (quality ((DM2 0.2) ;; 2017 update
                                                  (DM6 0.6) ;; 2017 update
                                                  (DM10 0.9) ;; 2017 update
                                                  (dirtywater 0.1) ;; 2017 update
@@ -520,146 +521,146 @@
 
 ;; N is in perecent of total
 (define poultry-tree ;; for grassland and winter oilseed cropping will need to at 5% to all Autumn values 2017 update, sulphur and magnesium totals added 2017
-  (quote (poultry
-          (quality
-           ((DM20 ;; changed to DM instead of broiler/layer throughout 2017 update
-             (nutrient 
-              ((n-avail
-                (application
-                 ((surface
-                   (season		
-                    ((autumn
-                      (soil 
-                       ((sandyshallow (crop ((normal 15) (grass-oilseed 20)))) ;; 2017 update
-                        (mediumheavy (crop ((normal 25) (grass-oilseed 30))))))) ;; 2017 update
-                     (winter 25) ;; 2017 update
-                     (summer 35) ;; 2017 update
-                     (spring 35)))) ;; 2017 update
-                 (ploughed
-                  (season		
-                   ((autumn
-                     (soil 
-                      ((sandyshallow (crop ((normal 15) (grass-oilseed 20)))) ;; 2017 update
-                       (mediumheavy (crop ((normal 35) (grass-oilseed 40))))))) ;; 2017 update
-                    (winter ;; 2017 update
-                     (soil 
-                      ((sandyshallow 25) ;; 2017 update
-                       (mediumheavy 40)))) ;; 2017 update
-                    (summer NA) ;; 2017 update
-                    (spring 50))))))) ;; 2017 update
-                (p-total 8.0) ;; 2017 update
-                (p-avail 4.8)   ;; 2017 update (60%)
-                (k-total 8.5) ;; 2017 update
-                (k-avail 7.7) ;; 2017 update
-                (s-total 3.0) ;; 2017 update
-                (s-avail (season ((autumn (pc 3.0 7.5)) ;; 2017 update
-                                  (spring (pc 3.0 60))))) ;; 2017 update                
-                (m-total 2.7) ;; 2017 update
-                (m-avail 2.7))))  ;; 2017 update (90%)
-            (DM40  ;; 2017 update
-             (nutrient
-              ((n-avail 
-                (application
-                 ((surface
-                   (season
-                    ((autumn 
-                      (soil 
-                       ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
-                        (mediumheavy (crop ((normal 25) (grass-oilseed 30))))))) ;; 2017 update
-                     (winter (soil ((sandyshallow 20) (mediumheavy 25)))) ;; 2017 update
-                     (summer 30) ;; 2017 update
-                     (spring 30)))) ;; 2017 update
-                  (ploughed
-                   (season		
-                    ((autumn
-                      (soil 
-                       ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
-                        (mediumheavy (crop ((normal 30) (grass-oilseed 35))))))) ;; 2017 update
-                     (winter ;; 2017 update
-                      (soil 
-                       ((sandyshallow 20) ;; 2017 update
-                        (mediumheavy 30)))) ;; 2017 update
-                     (summer NA) ;; 2017 update
-                     (spring 40))))))) ;; 2017 update
-                 (p-total 12) ;; 2017 update
-                 (p-avail 7.2) ;; 2017 update
-                 (k-total 15) ;; 2017 update
-                 (k-avail 14)
-                 (s-total 5.6)
-                 (s-avail (season ((autumn (pc 5.6 7.5)) ;; 2017 update
-                                  (spring (pc 5.6 60))))) ;; 2017 update
-                 (m-total 4.3)
-                 (m-avail 4.3)))) ;; 2017 update
-            (DM60  ;; 2017 update
-             (nutrient
-              ((n-avail
-                (application
-                 ((surface 
-                   (season
-                    ((autumn 
-                      (soil 
-                       ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
-                        (mediumheavy (crop ((normal 25) (grass-oilseed 30))))))) ;; 2017 update
-                     (winter (soil ((sandyshallow 20) (mediumheavy 25)))) ;; 2017 update
-                     (summer 30) ;; 2017 update
-                     (spring 30)))) ;; 2017 update
-                  (ploughed
-                   (season		
-                    ((autumn
-                      (soil 
-                       ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
-                        (mediumheavy (crop ((normal 30) (grass-oilseed 35))))))) ;; 2017 update
-                     (winter ;; 2017 update
-                      (soil 
-                       ((sandyshallow 20) ;; 2017 update
-                        (mediumheavy 30)))) ;; 2017 update
-                     (summer NA) ;; 2017 update
-                     (spring 40))))))) ;; 2017 update
-               (p-total 17) ;; 2017 update
-               (p-avail 10.2) ;; 2017 update
-               (k-total 21) ;; 2017 update
-               (k-avail 19)
-               (s-total 8.2) ;; 2017 update
-               (s-avail (season ((autumn (pc 8.2 7.5)) ;; 2017 update
-                                  (spring (pc 8.2 60))))) ;; 2017 update
-               (m-total 5.9)
-               (m-avail 5.9)))) ;; 2017 update
-            (DM80  ;; 2017 update
-             (nutrient
-              ((n-avail 
-                (application
-                 ((surface 
-                   (season
-                    ((autumn 
-                      (soil 
-                       ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
-                        (mediumheavy (crop ((normal 25) (grass-oilseed 30))))))) ;; 2017 update
-                     (winter (soil ((sandyshallow 20) (mediumheavy 25)))) ;; 2017 update
-                     (summer 30) ;; 2017 update
-                     (spring 30)))) ;; 2017 update
-                  (ploughed
-                   (season		
-                    ((autumn
-                      (soil 
-                       ((sandyshallow (crop ((normal 10) (grass-oilseed 15)))) ;; 2017 update
-                        (mediumheavy (crop ((normal 30) (grass-oilseed 35))))))) ;; 2017 update
-                     (winter ;; 2017 update
-                      (soil 
-                       ((sandyshallow 20) ;; 2017 update
-                        (mediumheavy 30)))) ;; 2017 update
-                     (summer NA) ;; 2017 update
-                     (spring 40))))))) ;; 2017 update
-               (p-total 21) ;; 2017 update
-               (p-avail 12.6) ;; 2017 update
-               (k-total 27) ;; 2017 update
-               (k-avail 24)
-               (s-total 11) ;; 2017 update
-               (s-avail (season ((autumn (pc 11 7.5)) ;; 2017 update
-                                  (spring (pc 11 60)) ;; 2017 update
-                                  (winter NA) ;; 2017 update
-                                  (summer NA)))) ;; 2017 update
-               (m-total 7.5) ;; 2017 update
-               (m-total 7.5))))))))) ;; 2017 update
+  (choice 'poultry
+          (dtree 'quality
+		 (list (choice 'DM20 ;; changed to DM instead of broiler/layer throughout 2017 update
+			       (dtree 'nutrient 
+				      (list (choice 'n-avail
+						    (dtree 'application
+							   (list (choice 'surface
+									 (dtree 'season		
+										(list (choice 'autumn
+											      (dtree 'soil 
+												     (list (choice 'sandyshallow (dtree 'crop (list (choice 'normal 15) (choice 'grass-oilseed 20)))) ;; 2017 update
+													   (choice 'mediumheavy (dtree 'crop (list (choice 'normal 25) (choice 'grass-oilseed 30))))))) ;; 2017 update
+										      (choice 'winter 25) ;; 2017 update
+										      (choice 'summer 35) ;; 2017 update
+										      (choice 'spring 35)))) ;; 2017 update
+								 (dtree 'ploughed
+									(choice 'season		
+										(list (choice 'autumn
+											      (dtree 'soil 
+												     (list (choice 'sandyshallow (dtree 'crop (list (choice 'normal 15) (choice 'grass-oilseed 20)))) ;; 2017 update
+													   (choice 'mediumheavy (dtree 'crop (list (choice 'normal 35) (choice 'grass-oilseed 40))))))) ;; 2017 update
+										      (choice 'winter ;; 2017 update
+											      (dtree 'soil 
+												     (list (choice 'sandyshallow 25) ;; 2017 update
+													   (choice 'mediumheavy 40)))) ;; 2017 update
+										      (choice 'summer 'NA) ;; 2017 update
+										      (choice 'spring 50))))))) ;; 2017 update
+					    (choice 'p-total 8.0) ;; 2017 update
+					    (choice 'p-avail 4.8)   ;; 2017 update (60%)
+					    (choice 'k-total 8.5) ;; 2017 update
+					    (choice 'k-avail 7.7) ;; 2017 update
+					    (choice 's-total 3.0) ;; 2017 update
+					    (choice 's-avail (dtree 'season (list (choice 'autumn (pc 3.0 7.5)) ;; 2017 update
+										  (choice 'spring (pc 3.0 60))))) ;; 2017 update                
+					    (choice 'm-total 2.7) ;; 2017 update
+					    (choice 'm-avail 2.7))))  ;; 2017 update (90%)
+		       (choice 'DM40  ;; 2017 update
+			       (dtree 'nutrient
+				      (list (choice 'n-avail 
+						    (dtree 'application
+							   (list (choice 'surface
+									 (dtree 'season
+										(list (choice 'autumn 
+											      (dtree 'soil 
+												     (list (choice 'sandyshallow (dtree 'crop (list (choice 'normal 10) (choice 'grass-oilseed 15)))) ;; 2017 update
+													   (choice 'mediumheavy (dtree 'crop (list (choice 'normal 25) (choice 'grass-oilseed 30))))))) ;; 2017 update
+										      (choice 'winter (dtree 'soil (list (choice 'sandyshallow 20) (choice 'mediumheavy 25)))) ;; 2017 update
+										      (choice 'summer 30) ;; 2017 update
+										      (choice 'spring 30)))) ;; 2017 update
+								 (choice 'ploughed
+									 (dtree 'season		
+										(list (choice 'autumn
+											      (dtree 'soil 
+												     (list (choice 'sandyshallow (dtree 'crop (list (choice 'normal 10) (choice 'grass-oilseed 15)))) ;; 2017 update
+													   (choice 'mediumheavy (dtree 'crop (list (choice 'normal 30) (choice 'grass-oilseed 35))))))) ;; 2017 update
+										      (choice 'winter ;; 2017 update
+											      (dtree 'soil 
+												     (list (choice 'sandyshallow 20) ;; 2017 update
+													   (choice 'mediumheavy 30)))) ;; 2017 update
+										      (choice 'summer 'NA) ;; 2017 update
+										      (choice 'spring 40))))))) ;; 2017 update
+					    (choice 'p-total 12) ;; 2017 update
+					    (choice 'p-avail 7.2) ;; 2017 update
+					    (choice 'k-total 15) ;; 2017 update
+					    (choice 'k-avail 14)
+					    (choice 's-total 5.6)
+					    (choice 's-avail (dtree 'season (list (choice 'autumn (pc 5.6 7.5)) ;; 2017 update
+										  (choice 'spring (pc 5.6 60))))) ;; 2017 update
+					    (choice 'm-total 4.3)
+					    (choice 'm-avail 4.3)))) ;; 2017 update
+		       (choice 'DM60  ;; 2017 update
+			       (dtree 'nutrient
+				      (list (choice 'n-avail
+						    (dtree 'application
+							   (list (choice 'surface 
+									 (dtree 'season
+										(list (choice 'autumn 
+											      (dtree 'soil 
+												     (list (choice 'sandyshallow (dtree 'crop (list (choice 'normal 10) (choice 'grass-oilseed 15)))) ;; 2017 update
+													   (choice 'mediumheavy (dtree 'crop (list (choice 'normal 25) (choice 'grass-oilseed 30))))))) ;; 2017 update
+										      (choice 'winter (dtree 'soil (list (choice 'sandyshallow 20) (choice 'mediumheavy 25)))) ;; 2017 update
+										      (choice 'summer 30) ;; 2017 update
+										      (choice 'spring 30)))) ;; 2017 update
+								 (choice 'ploughed
+									 (dtree 'season		
+										(list (choice 'autumn
+											      (dtree 'soil 
+												     (list (choice 'sandyshallow (dtree 'crop (list (choice 'normal 10) (choice 'grass-oilseed 15)))) ;; 2017 update
+													   (choice 'mediumheavy (dtree 'crop (list (choice 'normal 30) (choice 'grass-oilseed 35))))))) ;; 2017 update
+										      (choice 'winter ;; 2017 update
+											      (dtree 'soil 
+												     (list (choice 'sandyshallow 20) ;; 2017 update
+													   (choice 'mediumheavy 30)))) ;; 2017 update
+										      (choice 'summer 'NA) ;; 2017 update
+										      (choice 'spring 40))))))) ;; 2017 update
+					    (choice 'p-total 17) ;; 2017 update
+					    (choice 'p-avail 10.2) ;; 2017 update
+					    (choice 'k-total 21) ;; 2017 update
+					    (choice 'k-avail 19)
+					    (choice 's-total 8.2) ;; 2017 update
+					    (choice 's-avail (dtree 'season (list (choice 'autumn (pc 8.2 7.5)) ;; 2017 update
+										  (choice 'spring (pc 8.2 60))))) ;; 2017 update
+					    (choice 'm-total 5.9)
+					    (choice 'm-avail 5.9)))) ;; 2017 update
+		       (choice 'DM80  ;; 2017 update
+			       (dtree 'nutrient
+				      (list (choice 'n-avail 
+						    (dtree 'application
+							   (list  (choice 'surface 
+									  (dtree 'season
+										 (list (choice 'autumn 
+											       (dtree 'soil 
+												      (list (choice 'sandyshallow (dtree 'crop (list (choice 'normal 10) (choice 'grass-oilseed 15)))) ;; 2017 update
+													    (choice 'mediumheavy (dtree 'crop (list (choice 'normal 25) (choice 'grass-oilseed 30))))))) ;; 2017 update
+										       (choice 'winter (dtree 'soil (list (choice 'sandyshallow 20) (choice 'mediumheavy 25)))) ;; 2017 update
+										       (choice 'summer 30) ;; 2017 update
+										       (choice 'spring 30)))) ;; 2017 update
+								  (choice 'ploughed
+									  (dtree 'season		
+										 (list (choice 'autumn
+											       (dtree 'soil 
+												      (list (choice 'sandyshallow (dtree 'crop (list (choice 'normal 10) (choice 'grass-oilseed 15)))) ;; 2017 update
+													    (choice 'mediumheavy (dtree 'crop (list (choice 'normal 30) (choice 'grass-oilseed 35))))))) ;; 2017 update
+										       (choice 'winter ;; 2017 update
+											       (dtree 'soil 
+												      (list (choice 'sandyshallow 20) ;; 2017 update
+													    (choice 'mediumheavy 30)))) ;; 2017 update
+										       (choice 'summer 'NA) ;; 2017 update
+										       (choice 'spring 40))))))) ;; 2017 update
+					    (choice 'p-total 21) ;; 2017 update
+					    (choice 'p-avail 12.6) ;; 2017 update
+					    (choice 'k-total 27) ;; 2017 update
+					    (choice 'k-avail 24)
+					    (choice 's-total 11) ;; 2017 update
+					    (choice 's-avail (dtree 'season (list (choice 'autumn (pc 11 7.5)) ;; 2017 update
+										  (choice 'spring (pc 11 60)) ;; 2017 update
+										  (choice 'winter 'NA) ;; 2017 update
+										  (choice 'summer 'NA)))) ;; 2017 update
+					    (choice 'm-total 7.5) ;; 2017 update
+					    (choice 'm-total 7.5)))))))) ;; 2017 update
 
 (define fym-tree ; sulphur and magnesium totals added 2017
   (choice 
@@ -953,7 +954,7 @@
 			       (dtree 'nutrient (list (choice 'n-total 1.9)
 						     (choice 'n-avail
 							     (dtree 'season (list (choice 'spring (pc 1.9 55))
-										  (choice 'autumn (dtree crop (list (choice 'normal (pc 1.9 15)) (choice 'grass-oilseed (pc 1.9 35))))))))
+										  (choice 'autumn (dtree 'crop (list (choice 'normal (pc 1.9 15)) (choice 'grass-oilseed (pc 1.9 35))))))))
 						     (choice 'p-total 0.6)
 						     (choice 'p-avail (pc 0.6 60))
 						     (choice 'k-total 2.5)
@@ -977,136 +978,173 @@
 						      (choice 'm-avail 1.8))))))))               
 
 (define biosolid-tree ;; 2017 update
-  (quote (biosolid
-          (quality
-           ((digested-cake (nutrient ((n-total 11)
-                                      (n-avail
-                                       (application ((surface (season ((autumn
-                                                                        (soil ((sandyshallow 10)
-                                                                               (default 15))))
-                                                                       (winter
-                                                                        (soil ((sandyshallow 15)
-                                                                               (default 15))))
-                                                                       (spring 15)
-                                                                       (summer 15))))
-                                                     (ploughed (season ((autumn
-                                                                         (soil ((sandyshallow 10)
-                                                                                (default 15))))
-                                                                        (winter
-                                                                         (soil ((sandyshallow 15)
-                                                                                (default 15))))
-                                                                        (spring 20)
-                                                                        (summer NA)))))))
-                                      (p-total 11)
-                                      (p-avail 5.5)
-                                      (k-total 0.6)
-                                      (k-avail 0.5)
-                                      (s-total 8.2)
-                                      (s-avail 
-                                       (season ((autumn
-                                                 (crop ((normal (pc 8.2 15))
-                                                        (grass-oilseed (pc 8.2 27.5)))))
-                                                (spring (pc 8.2 20))
-                                                (winter NA)
-                                                (summer NA))))
-                                      (m-total 1.6)
-                                      (m-avail 1.6))))
-            (thermally-dried (nutrient ((n-total 40)
-                                        (n-avail
-                                         (application ((surface (season ((autumn
-                                                                          ((soil (sandyshallow 10)
-                                                                                 (default 15))))
-                                                                         (winter
-                                                                          ((soil (sandyshallow 15)
-                                                                                 (default 15))))
-                                                                         (spring 15)
-                                                                         (summer 15))))
-                                                       (ploughed ((season (autumn
-                                                                           ((soil (sandyshallow 10)
-                                                                                  (default 15))))
-                                                                          (winter
-                                                                           ((soil (sandyshallow 15)
-                                                                                  (default 15))))
-                                                                          (spring 20)
-                                                                          (summer NA)))))))
-                                        (p-total 55)
-                                        (p-avail 28)
-                                        (k-total 2.0)
-                                        (k-avail 1.8)
-                                        (s-total 23)
-                                        (s-avail 
-                                         (season ((autumn
-                                                   (crop ((normal (pc 23 15))
-                                                          (grass-oilseed (pc 23 27.5)))))
-                                                  (spring (pc 23 20))
-                                                  (winter NA)
-                                                  (summer NA))))
-                                        (m-total 6.0)
-                                        (m-avail 6.0))))
-            (lime-stabilised (nutrient ((n-total 8.5)
-                                        (n-avail
-                                         ((application (surface ((season (autumn
-                                                                          ((soil (sandyshallow 10)
-                                                                                 (default 15))))
-                                                                         (winter
-                                                                          ((soil (sandyshallow 15)
-                                                                                 (default 15))))
-                                                                         (spring 15)
-                                                                         (summer 15))))
-                                                       (ploughed ((season (autumn
-                                                                           ((soil (sandyshallow 10)
-                                                                                  (default 15))))
-                                                                          (winter
-                                                                           ((soil (sandyshallow 15)
-                                                                                  (default 15))))
-                                                                          (spring 20)
-                                                                          (summer NA)))))))
-                                        (p-total 7)
-                                        (p-avail 3.5)
-                                        (k-total 0.8)
-                                        (k-avail 0.7)
-                                        (s-total 7.4)
-                                        (s-avail 
-                                         (season ((autumn
-                                                   (crop ((normal (pc 7.4 15))
-                                                          (grass-oilseed (pc 7.4 27.5)))))
-                                                  (spring (pc 7.4 20))
-                                                  (winter NA)
-                                                  (summer NA))))
-                                        (m-total 2.4)
-                                        (m-avail 2.4))))
-            (composted (nutrient ((n-total 11)
-                                  (n-avail
-                                   ((application (surface ((season (autumn
-                                                                    ((soil (sandyshallow 10)
-                                                                           (default 15))))
-                                                                   (winter
-                                                                    ((soil (sandyshallow 15)
-                                                                           (default 15))))
-                                                                   (spring 15)
-                                                                   (summer 15))))
-                                                 (ploughed ((season (autumn
-                                                                     ((soil (sandyshallow 10)
-                                                                            (default 15))))
-                                                                    (winter
-                                                                     ((soil (sandyshallow 15)
-                                                                            (default 15))))
-                                                                    (spring 15)
-                                                                    (summer NA)))))))
-o                                  (p-total 10)
-                                  (p-avail 5.0)
-                                  (k-total 3.0)
-                                  (k-avail 2.7)
-                                  (s-total 6.1) 
-                                  (s-avail 
-                                   (season ((autumn
-                                             (crop ((normal (pc 6.1 15))
-                                                    (grass-oilseed (pc 6.1 27.5)))))
-                                            (spring (pc 6.1 20))
-                                            (winter NA)
-                                            (summer NA))))
-                                  (m-total 2.0)
-                                  (m-avail 2.0)))))))))
+  (choice 'biosolid
+          (dtree 'quality
+		 (list 
+		  (choice 'digested-cake 
+			  (dtree 'nutrient 
+				 (list 
+				  (choice 'n-total 11)
+				  (choice 'n-avail
+					  (dtree 'application 
+						 (list
+						  (choice 'surface 
+							  (dtree 'season 
+								 (list 
+								  (choice 'autumn
+									  (dtree 'soil (list (choice 'sandyshallow 10)
+											     (choice 'default 15))))
+								  (choice 'winter
+									  (dtree 'soil (list (choice 'sandyshallow 15)
+											     (choice 'default 15))))
+								  (choice 'spring 15)
+								  (choice 'summer 15))))
+						  (choice 'ploughed 
+							  (dtree 'season 
+								 (list 
+								  (choice 'autumn
+									  (dtree 'soil (list (choice 'sandyshallow 10)
+											     (choice 'default 15))))
+								  (choice 'winter
+									  (dtree 'soil (list (choice 'sandyshallow 15)
+											     (choice 'default 15))))
+								  (choice 'spring 20)
+								  (choice 'summer 'NA)))))))
+				  (choice 'p-total 11)
+				  (choice 'p-avail 5.5)
+				  (choice 'k-total 0.6)
+				  (choice 'k-avail 0.5)
+				  (choice 's-total 8.2)
+				  (choice 's-avail 
+					  (dtree 'season (list (choice 'autumn
+								       (dtree 'crop (list (choice 'normal (pc 8.2 15))
+											  (choice 'grass-oilseed (pc 8.2 27.5)))))
+							       (choice 'spring (pc 8.2 20))
+							       (choice 'winter 'NA)
+							       (choice 'summer 'NA))))
+				  (choice 'm-total 1.6)
+				  (choice 'm-avail 1.6))))
+		  (choice 'thermally-dried 
+			  (dtree 'nutrient 
+				 (list (choice 'n-total 40)
+				       (choice 'n-avail
+					       (dtree 'application 
+						      (list 
+						       (choice 'surface (dtree 'season 
+									       (list 
+										(choice 'autumn
+											(dtree 'soil (list (choice 'sandyshallow 10)
+													   (choice 'default 15))))
+										(choice 'winter
+											(dtree 'soil (list (choice 'sandyshallow 15)
+													   (choice 'default 15))))
+										(choice 'spring 15)
+										(choice 'summer 15))))
+						       (choice 'ploughed (dtree 'season 
+										(list
+										 (choice 'autumn
+											 (dtree 'soil (list (choice 'sandyshallow 10)
+													    (choice 'default 15))))
+										 (choice 'winter
+											 (dtree 'soil (list (choice 'sandyshallow 15)
+													    (choice 'default 15))))
+										 (choice 'spring 20)
+										 (choice 'summer 'NA)))))))
+				       (choice 'p-total 55)
+				       (choice 'p-avail 28)
+				       (choice 'k-total 2.0)
+				       (choice 'k-avail 1.8)
+				       (choice 's-total 23)
+				       (choice 's-avail 
+					       (dtree 'season (list (choice 'autumn
+									    (dtree 'crop (list (choice 'normal (pc 23 15))
+											       (choice 'grass-oilseed (pc 23 27.5)))))
+								    (choice 'spring (pc 23 20))
+								    (choice 'winter 'NA)
+								    (choice 'summer 'NA))))
+				       (choice 'm-total 6.0)
+				       (choice 'm-avail 6.0))))
+		  (choice 'lime-stabilised 
+			  (dtree 'nutrient 
+				 (list
+				  (choice 'n-total 8.5)
+				  (choice 'n-avail
+					  (dtree 'application 
+						 (list 
+						  (choice 'surface (dtree 'season 
+									  (list 
+									   (choice 'autumn
+										   (dtree 'soil (list (choice 'sandyshallow 10)
+												      (choice 'default 15))))
+									   (choice 'winter
+										   (dtree 'soil (list (choice 'sandyshallow 15)
+												      (choice 'default 15))))
+									   (choice 'spring 15)
+									   (choice 'summer 15))))
+						  (choice 'ploughed (dtree 'season 
+									   (list
+									    (choice 'autumn
+										    (dtree 'soil (list (choice 'sandyshallow 10)
+												       (choice 'default 15))))
+									    (choice 'winter
+										    (dtree 'soil (list (choice 'sandyshallow 15)
+												       (choice 'default 15))))
+									    (choice 'spring 20)
+									    (choice 'summer 'NA)))))))
+				  (choice 'p-total 7)
+				  (choice 'p-avail 3.5)
+				  (choice 'k-total 0.8)
+				  (choice 'k-avail 0.7)
+				  (choice 's-total 7.4)
+				  (choice 's-avail 
+					  (dtree 'season (list (choice 'autumn
+								       (dtree 'crop (list (choice 'normal (pc 7.4 15))
+											  (choice 'grass-oilseed (pc 7.4 27.5)))))
+							       (choice 'spring (pc 7.4 20))
+							       (choice 'winter 'NA)
+							       (choice 'summer 'NA))))
+				  (choice 'm-total 2.4)
+				  (choice 'm-avail 2.4))))
+		  (choice 'composted 
+			  (dtree 'nutrient 
+				 (list (choice 'n-total 11)
+				       (choice 'n-avail
+					       (dtree 'application 
+						      (list 
+						       (choice 'surface (dtree 'season 
+									       (list 
+										(choice 'autumn
+											(dtree 'soil (list (choice 'sandyshallow 10)
+													   (choice 'default 15))))
+										(choice 'winter
+											(dtree 'soil (list (choice 'sandyshallow 15)
+													   (choice 'default 15))))
+										(choice 'spring 15)
+										(choice 'summer 15))))
+						       (choice 'ploughed (dtree 'season 
+										(list 
+										 (choice 'autumn
+											 (dtree 'soil (list (choice 'sandyshallow 10)
+													    (choice 'default 15))))
+										 (choice 'winter
+											 (dtree 'soil (list (choice 'sandyshallow 15)
+													    (choice 'default 15))))
+										 (choice 'spring 15)
+										 (choice 'summer 'NA)))))))
+				       (choice 'p-total 10)
+				       (choice 'p-avail 5.0)
+				       (choice 'k-total 3.0)
+				       (choice 'k-avail 2.7)
+				       (choice 's-total 6.1) 
+				       (choice 's-avail 
+					       (dtree 'season (list (choice 'autumn
+									    (dtree 'crop (list (choice 'normal (pc 6.1 15))
+											       (choice 'grass-oilseed (pc 6.1 27.5)))))
+								    (choice 'spring (pc 6.1 20))
+								    (choice 'winter 'NA)
+								    (choice 'summer 'NA))))
+				       (choice 'm-total 2.0)
+				       (choice 'm-avail 2.0))))))))
 
 
 (define manure-tree
