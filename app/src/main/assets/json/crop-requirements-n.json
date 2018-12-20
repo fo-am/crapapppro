@@ -13,16 +13,16 @@
 "value": {
 "decision": "cut",
 "choices": [{
-"choice": 1,
+"choice": "one",
 "value": 70
 }, {
-"choice": 2,
+"choice": "two",
 "value": "na"
 }, {
-"choice": 3,
+"choice": "three",
 "value": "na"
 }, {
-"choice": 4,
+"choice": "four",
 "value": "na"
 }]
 }
@@ -31,16 +31,16 @@
 "value": {
 "decision": "cut",
 "choices": [{
-"choice": 1,
+"choice": "one",
 "value": 80
 }, {
-"choice": 2,
+"choice": "two",
 "value": 50
 }, {
-"choice": 3,
+"choice": "three",
 "value": "na"
 }, {
-"choice": 4,
+"choice": "four",
 "value": "na"
 }]
 }
@@ -49,16 +49,16 @@
 "value": {
 "decision": "cut",
 "choices": [{
-"choice": 1,
+"choice": "one",
 "value": 100
 }, {
-"choice": 2,
+"choice": "two",
 "value": 75
 }, {
-"choice": 3,
+"choice": "three",
 "value": 75
 }, {
-"choice": 4,
+"choice": "four",
 "value": "na"
 }]
 }
@@ -67,16 +67,16 @@
 "value": {
 "decision": "cut",
 "choices": [{
-"choice": 1,
+"choice": "one",
 "value": 120
 }, {
-"choice": 2,
+"choice": "two",
 "value": 90
 }, {
-"choice": 3,
+"choice": "three",
 "value": 70
 }, {
-"choice": 4,
+"choice": "four",
 "value": 30
 }]
 }

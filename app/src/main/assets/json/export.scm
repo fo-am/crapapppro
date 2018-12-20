@@ -4,6 +4,7 @@
 (load "../json.scm")
 (load "../manure.scm")
 (load "../crop-requirements.scm")
+(load "../crop-tree-menu.scm")
 
 
 (define (scheme->json v)
@@ -67,12 +68,29 @@
    (cons "decision" (car d))
    (cons "choices" (map choice->assoc (cadr d)))))
 
+
+(define (menutree->assoc d)
+  (if (symbol? d)
+      (symbol->string d)
+      (list
+       (cons "name" (car d))
+       (cons "category" (cadr d))
+       (cons "options" (map menutree->assoc (caddr d))))))
+
 (define (spitout-json fn tree)
   (let ((f (open-output-file fn)))
     (display (scheme->json (dtree->assoc tree)) f)
+    (close-output-port f)))
+
+(define (spitout-json-raw fn tree)
+  (let ((f (open-output-file fn)))
+    (display (scheme->json (menutree->assoc tree)) f)
     (close-output-port f)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (spitout-json "manure.json" manure-tree)
 (spitout-json "crop-requirements-n.json" crop-requirements-n-tree)
+(spitout-json "crop-requirements-pk.json" crop-requirements-pk-tree)
+
+(spitout-json-raw "crop-tree-menu.json" crop-tree-menu)
