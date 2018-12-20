@@ -80,9 +80,11 @@
 (define (update-type! v) 
   (update-calc! 
    (lambda (c) 
-     (calc-modify-quality ;; need to set a valid quality for this type
-      (calc-modify-type c v)
-      (car (get-qualities-for-type-inc-custom v)))))) ;; argh - sets to first
+     (let ((qualities (get-qualities-for-type-inc-custom v)))
+       (calc-modify-quality ;; need to set a valid quality for this type
+	(calc-modify-type c v)
+	(if (null? qualities)
+	    #f (car (get-qualities-for-type-inc-custom v)))))))) ;; argh - sets to first
 
 (define (update-amount! v) (update-calc! (lambda (c) (calc-modify-amount c v))))
 (define (update-quality! v) (update-calc! (lambda (c) (calc-modify-quality c v))))
@@ -616,10 +618,10 @@
 	(let ((qualities (get-qualities-for-type-inc-custom v)))
 	  (if (null? qualities)
 	      (list
-	       (update-widget 'spinner (get-id "application-quality-spinner") 'disabled 0)
-	       (update-widget 'spinner (get-id "application-quality-spinner") 'array '("None")))
+	       (update-widget 'spinner (get-id "quality-spinner") 'disabled 0)
+	       (update-widget 'spinner (get-id "quality-spinner") 'array '("None")))
 	      (list
-	       (update-widget 'spinner (get-id "application-quality-spinner") 'enabled 0)
+	       (update-widget 'spinner (get-id "quality-spinner") 'enabled 0)
 	       (update-widget 'spinner (get-id "quality-spinner") 'array
 			      (symbol-list-to-names qualities)))))
 	(let ((applications (get-application-for-type v)))
@@ -646,10 +648,13 @@
 		      (fn name) '())))
 		 (else
 		  (set-custom-override! #f)
-		  (let ((quality 
-			 (list-ref (get-qualities-for-type type) v)))
-		    (fn quality)
-		    (update-quality! quality))))))))
+		  (let ((qualities (get-qualities-for-type type)))
+		    ;; some manures now have no qualities!
+		    (when (not (null? qualities))
+			  (let ((quality 
+				 (list-ref (get-qualities-for-type type) v)))
+			    (fn quality)
+			    (update-quality! quality))))))))))
 
 (define (calc-manure-application-widget fn)
   (mspinner 'application-type cattle-application-list 

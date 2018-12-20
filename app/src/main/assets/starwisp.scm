@@ -411,8 +411,6 @@
      (entity-init! db "farm" "field" (get-entity-by-unique db "farm" arg))
      (set-current! 'field-id arg)     
      (set-current! 'field-name (entity-get-value "name"))          
-     (msg (entity-get-value "crop"))
-     (msg (text->params-list (entity-get-value "crop")))
      (let ((polygons (get-polygons)))
        (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in)))
 	 (append
