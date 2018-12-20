@@ -39,14 +39,14 @@
           (month ((mar 30) (may 20) (default NA))))
          (DM6-8
           (month ((mar 30) (may 30) (jul 20) (default NA))))
-         (DM 7-9
-          (month (mar 40) (may 30) (jun 30) (jul 30) (default NA)))
-         (DM 9-12
-          (month (mar 30) (apr 30) (may 30) (jun 30) (jul 30) (aug 30) (default NA)))
-         (DM 10-13
-          (month (jan 30) (feb 30) (mar 40) (apr 40) (may 30) (jun 30) (jul 30) (aug 30) (default NA)))
-         (DM 12-15+
-          (month (jan 30) (feb 30) (mar 40) (apr 50) (may 50) (jun 40) (jul 30) (aug 30) (default NA)))
+         (DM7-9
+          (month ((mar 40) (may 30) (jun 30) (jul 30) (default NA))))
+         (DM9-12
+	  (month ((mar 30) (apr 30) (may 30) (jun 30) (jul 30) (aug 30) (default NA))))
+         (DM10-13
+          (month ((jan 30) (feb 30) (mar 40) (apr 40) (may 30) (jun 30) (jul 30) (aug 30) (default NA))))
+         (DM12-15+
+          (month ((jan 30) (feb 30) (mar 40) (apr 50) (may 50) (jun 40) (jul 30) (aug 30) (default NA))))
          )))
       (hay
        (sns ((grassland-low-sns 100) (grassland-med-sns 70) (grassland-high-sns 40)))

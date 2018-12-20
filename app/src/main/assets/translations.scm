@@ -233,9 +233,9 @@
    (list 'crop-select (list "Expert crop select"))
 
    (list 'crop-category (list "Main crop category"))
-   (list 'grass-subtype (list "Grass subtype"))
+   (list 'subtype (list "Type"))
    (list 'silage (list "Silage"))
-   (list 'target-yield (list "Target yield"))
+   (list 'targetyield (list "Target yield"))
    (list 'cut (list "Cut"))
    (list 'DM4-5 (list "DM 4-5%"))
    (list 'DM7-9 (list "DM 7-9%"))
