@@ -4273,7 +4273,11 @@
 }]
 }
 }, {
-"choice": "oat-winter-forage",
+"choice": "oat",
+"value": {
+"decision": "sown",
+"choices": [{
+"choice": "winter",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -4387,235 +4391,7 @@
 }]
 }
 }, {
-"choice": "oat-winter-incorporated",
-"value": {
-"decision": "soil",
-"choices": [{
-"choice": "sandyshallow",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": 150
-}, {
-"choice": 1,
-"value": 110
-}, {
-"choice": 2,
-"value": 80
-}, {
-"choice": 3,
-"value": 40
-}, {
-"choice": 4,
-"value": 20
-}, {
-"choice": 5,
-"value": 0
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}, {
-"choice": "organic",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": "na"
-}, {
-"choice": 1,
-"value": "na"
-}, {
-"choice": 2,
-"value": "na"
-}, {
-"choice": 3,
-"value": 100
-}, {
-"choice": 4,
-"value": 70
-}, {
-"choice": 5,
-"value": 20
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}, {
-"choice": "peat",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": "na"
-}, {
-"choice": 1,
-"value": "na"
-}, {
-"choice": 2,
-"value": "na"
-}, {
-"choice": 3,
-"value": "na"
-}, {
-"choice": 4,
-"value": "na"
-}, {
-"choice": 5,
-"value": 20
-}, {
-"choice": 6,
-"value": 20
-}]
-}
-}, {
-"choice": "default",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": 190
-}, {
-"choice": 1,
-"value": 160
-}, {
-"choice": 2,
-"value": 130
-}, {
-"choice": 3,
-"value": 100
-}, {
-"choice": 4,
-"value": 70
-}, {
-"choice": 5,
-"value": 20
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}]
-}
-}, {
-"choice": "oat-winter-removed",
-"value": {
-"decision": "soil",
-"choices": [{
-"choice": "sandyshallow",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": 150
-}, {
-"choice": 1,
-"value": 110
-}, {
-"choice": 2,
-"value": 80
-}, {
-"choice": 3,
-"value": 40
-}, {
-"choice": 4,
-"value": 20
-}, {
-"choice": 5,
-"value": 0
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}, {
-"choice": "organic",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": "na"
-}, {
-"choice": 1,
-"value": "na"
-}, {
-"choice": 2,
-"value": "na"
-}, {
-"choice": 3,
-"value": 100
-}, {
-"choice": 4,
-"value": 70
-}, {
-"choice": 5,
-"value": 20
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}, {
-"choice": "peat",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": "na"
-}, {
-"choice": 1,
-"value": "na"
-}, {
-"choice": 2,
-"value": "na"
-}, {
-"choice": 3,
-"value": "na"
-}, {
-"choice": 4,
-"value": "na"
-}, {
-"choice": 5,
-"value": 20
-}, {
-"choice": 6,
-"value": 20
-}]
-}
-}, {
-"choice": "default",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": 190
-}, {
-"choice": 1,
-"value": 160
-}, {
-"choice": 2,
-"value": 130
-}, {
-"choice": 3,
-"value": 100
-}, {
-"choice": 4,
-"value": 70
-}, {
-"choice": 5,
-"value": 20
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}]
-}
-}, {
-"choice": "oat-spring-forage",
+"choice": "spring",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -4728,236 +4504,18 @@
 }
 }]
 }
-}, {
-"choice": "oat-spring-incorporated",
-"value": {
-"decision": "soil",
-"choices": [{
-"choice": "sandyshallow",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": 90
-}, {
-"choice": 1,
-"value": 60
-}, {
-"choice": 2,
-"value": 30
-}, {
-"choice": 3,
-"value": 15
-}, {
-"choice": 4,
-"value": 0
-}, {
-"choice": 5,
-"value": 0
-}, {
-"choice": 6,
-"value": 0
 }]
 }
 }, {
-"choice": "organic",
+"choice": "rye",
 "value": {
-"decision": "sns",
+"decision": "sown",
 "choices": [{
-"choice": 0,
-"value": "na"
-}, {
-"choice": 1,
-"value": "na"
-}, {
-"choice": 2,
-"value": "na"
-}, {
-"choice": 3,
-"value": 40
-}, {
-"choice": 4,
-"value": 15
-}, {
-"choice": 5,
-"value": 0
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}, {
-"choice": "peat",
+"choice": "winter",
 "value": {
-"decision": "sns",
+"decision": "application",
 "choices": [{
-"choice": 0,
-"value": "na"
-}, {
-"choice": 1,
-"value": "na"
-}, {
-"choice": 2,
-"value": "na"
-}, {
-"choice": 3,
-"value": "na"
-}, {
-"choice": 4,
-"value": "na"
-}, {
-"choice": 5,
-"value": 0
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}, {
-"choice": "default",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": 140
-}, {
-"choice": 1,
-"value": 110
-}, {
-"choice": 2,
-"value": 70
-}, {
-"choice": 3,
-"value": 40
-}, {
-"choice": 4,
-"value": 15
-}, {
-"choice": 5,
-"value": 0
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}]
-}
-}, {
-"choice": "oat-spring-removed",
-"value": {
-"decision": "soil",
-"choices": [{
-"choice": "sandyshallow",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": 90
-}, {
-"choice": 1,
-"value": 60
-}, {
-"choice": 2,
-"value": 30
-}, {
-"choice": 3,
-"value": 15
-}, {
-"choice": 4,
-"value": 0
-}, {
-"choice": 5,
-"value": 0
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}, {
-"choice": "organic",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": "na"
-}, {
-"choice": 1,
-"value": "na"
-}, {
-"choice": 2,
-"value": "na"
-}, {
-"choice": 3,
-"value": 40
-}, {
-"choice": 4,
-"value": 15
-}, {
-"choice": 5,
-"value": 0
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}, {
-"choice": "peat",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": "na"
-}, {
-"choice": 1,
-"value": "na"
-}, {
-"choice": 2,
-"value": "na"
-}, {
-"choice": 3,
-"value": "na"
-}, {
-"choice": 4,
-"value": "na"
-}, {
-"choice": 5,
-"value": 0
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}, {
-"choice": "default",
-"value": {
-"decision": "sns",
-"choices": [{
-"choice": 0,
-"value": 140
-}, {
-"choice": 1,
-"value": 110
-}, {
-"choice": 2,
-"value": 70
-}, {
-"choice": 3,
-"value": 40
-}, {
-"choice": 4,
-"value": 15
-}, {
-"choice": 5,
-"value": 0
-}, {
-"choice": 6,
-"value": 0
-}]
-}
-}]
-}
-}, {
-"choice": "rye-winter-forage",
+"choice": "forage",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -5071,7 +4629,7 @@
 }]
 }
 }, {
-"choice": "rye-winter-incorporated",
+"choice": "incorporated",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -5185,7 +4743,7 @@
 }]
 }
 }, {
-"choice": "rye-winter-removed",
+"choice": "removed",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -5298,8 +4856,14 @@
 }
 }]
 }
+}]
+}
 }, {
-"choice": "rye-spring-forage",
+"choice": "spring",
+"value": {
+"decision": "application",
+"choices": [{
+"choice": "forage",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -5413,7 +4977,7 @@
 }]
 }
 }, {
-"choice": "rye-spring-incorporated",
+"choice": "incorporated",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -5527,7 +5091,7 @@
 }]
 }
 }, {
-"choice": "rye-spring-removed",
+"choice": "removed",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -5636,6 +5200,10 @@
 }, {
 "choice": 6,
 "value": 0
+}]
+}
+}]
+}
 }]
 }
 }]
@@ -5668,7 +5236,11 @@
 }]
 }
 }, {
-"choice": "swede-forage-lifted",
+"choice": "swede",
+"value": {
+"decision": "use",
+"choices": [{
+"choice": "forage-lifted",
 "value": {
 "decision": "sns",
 "choices": [{
@@ -5695,7 +5267,7 @@
 }]
 }
 }, {
-"choice": "swede-forage-grazed",
+"choice": "forage-grazed",
 "value": {
 "decision": "sns",
 "choices": [{
@@ -5722,7 +5294,7 @@
 }]
 }
 }, {
-"choice": "swede-vegetable",
+"choice": "vegetable",
 "value": {
 "decision": "sns",
 "choices": [{
@@ -5748,8 +5320,14 @@
 "value": 0
 }]
 }
+}]
+}
 }, {
-"choice": "turnip-forage-lifted",
+"choice": "turnip",
+"value": {
+"decision": "use",
+"choices": [{
+"choice": "forage-lifted",
 "value": {
 "decision": "sns",
 "choices": [{
@@ -5776,7 +5354,7 @@
 }]
 }
 }, {
-"choice": "turnip-forage-grazed",
+"choice": "forage-grazed",
 "value": {
 "decision": "sns",
 "choices": [{
@@ -5803,7 +5381,7 @@
 }]
 }
 }, {
-"choice": "turnip-vegetable",
+"choice": "vegetable",
 "value": {
 "decision": "sns",
 "choices": [{
@@ -5829,8 +5407,14 @@
 "value": 0
 }]
 }
+}]
+}
 }, {
-"choice": "rape-forage",
+"choice": "rape",
+"value": {
+"decision": "use",
+"choices": [{
+"choice": "forage",
 "value": {
 "decision": "sns",
 "choices": [{
@@ -5857,7 +5441,11 @@
 }]
 }
 }, {
-"choice": "rape-oilseed-winter",
+"choice": "oilseed",
+"value": {
+"decision": "sown",
+"choices": [{
+"choice": "winter",
 "value": {
 "decision": "season",
 "choices": [{
@@ -5983,7 +5571,7 @@
 }]
 }
 }, {
-"choice": "rape-oilseed-spring",
+"choice": "spring",
 "value": {
 "decision": "soil",
 "choices": [{
@@ -6092,6 +5680,10 @@
 }, {
 "choice": 6,
 "value": 0
+}]
+}
+}]
+}
 }]
 }
 }]
@@ -6783,6 +6375,64 @@
 }, {
 "choice": "parsnip",
 "value": {
+"decision": "use",
+"choices": [{
+"choice": "forage-lifted",
+"value": {
+"decision": "sns",
+"choices": [{
+"choice": 0,
+"value": 100
+}, {
+"choice": 1,
+"value": 80
+}, {
+"choice": 2,
+"value": 60
+}, {
+"choice": 3,
+"value": 40
+}, {
+"choice": 4,
+"value": 20
+}, {
+"choice": 5,
+"value": 0
+}, {
+"choice": 6,
+"value": 0
+}]
+}
+}, {
+"choice": "forage-grazed",
+"value": {
+"decision": "sns",
+"choices": [{
+"choice": 0,
+"value": 75
+}, {
+"choice": 1,
+"value": 75
+}, {
+"choice": 2,
+"value": 60
+}, {
+"choice": 3,
+"value": 40
+}, {
+"choice": 4,
+"value": 20
+}, {
+"choice": 5,
+"value": 0
+}, {
+"choice": 6,
+"value": 0
+}]
+}
+}, {
+"choice": "vegetable",
+"value": {
 "decision": "sns",
 "choices": [{
 "choice": 0,
@@ -6805,6 +6455,8 @@
 }, {
 "choice": 6,
 "value": 0
+}]
+}
 }]
 }
 }, {

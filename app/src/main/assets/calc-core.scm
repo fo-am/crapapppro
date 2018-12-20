@@ -377,7 +377,7 @@
 	   ((eqv? sns grassland-high-sns) -30)
 	   ((eqv? sns grassland-low-sns) 30)
 	   (else 0)))
-       (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorous) choices))
+       (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorus) choices))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))
        ;; + magnesium 
        ;; + sulphur
@@ -414,7 +414,7 @@
 			 (eq? type 'poultry))
 		     (decision n-total-tree params) 0))
 	  ;; high soil test means we're adding total
-	  (phosphorous (if (or (eq? (car soil-test) 'soil-p-2) 
+	  (phosphorus (if (or (eq? (car soil-test) 'soil-p-2) 
 			       (eq? (car soil-test) 'soil-p-3))
 			   'p-total
 			   'p-avail))

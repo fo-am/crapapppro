@@ -373,7 +373,7 @@
 
 (define potato-nitrogen-tree ;; 2017 update
   '(determinancy-group
-    ((1
+    ((one
       (growing-season-length
        ((<60
          (sns ((0 120) (1 120) (2 90) (3 90) (4 90) (5 50) (6 50))))
@@ -383,7 +383,7 @@
          (sns ((0 245) (1 245) (2 205) (3 205) (4 205) (5 165) (6 164))))
         (>120
          (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 NA) (6 NA)))))))
-     (2
+     (two
       (growing-season-length
        ((<60
          (sns ((0 100) (1 100) (2 65) (3 65) (4 65) (5 20) (6 20))))
@@ -393,7 +393,7 @@
          (sns ((0 185) (1 185) (2 135) (3 135) (4 135) (5 100) (6 100))))
         (>120
          (sns ((0 220) (1 220) (2 165) (3 165) (4 165) (5 135) (6 135)))))))
-     (3
+     (three
       (growing-season-length
        ((<60
          (sns ((0 80) (1 80) (2 55) (3 55) (4 55) (5 20) (6 20))))
@@ -403,7 +403,7 @@
          (sns ((0 145) (1 145) (2 90) (3 90) (4 90) (5 50) (6 50))))
         (>120
          (sns ((0 180) (1 180) (2 130) (3 130) (4 130) (5 90) (6 90)))))))
-     (4
+     (four
       (growing-season-length
        ((<60
          (sns ((0 NA) (1 NA) (2 NA) (3 NA) (4 NA) (5 NA) (6 NA))))
@@ -421,7 +421,7 @@
       (cut
        ((1
          (nutrient
-          ((phosphorous
+          ((phosphorus
             (p-index ((soil-p-0 100) (soil-p-1  70) (soil-p-2  40) (soil-p-3   20) (soil-p-4 0))))
            (potassium
             (k-index ((soil-k-0 140) (soil-k-1 110) (soil-k-2- 80) (soil-k-2+ 60) (soil-k-3   30) (soil-k-4 0))))
@@ -431,7 +431,7 @@
             (risk ((high 40) (low 0))))))) ;; potash numbers come from adding up previous autumn and spring values to make a total for the season
        (2
         (nutrient
-         ((phosphorous
+         ((phosphorus
            (p-index ((soil-p-0 25) (soil-p-1  25) (soil-p-2  25) (soil-p-3   0) (soil-p-4 0))))
           (potassium
            (k-index ((soil-k-0 120) (soil-k-1 100) (soil-k-2- 90) (soil-k-2+ 60) (soil-k-3   40) (soil-k-4 0))))
@@ -441,7 +441,7 @@
             (risk ((high 40) (low 0)))))))
        (3
         (nutrient
-         ((phosphorous
+	 ((phosphorus
            (p-index ((soil-p-0 15) (soil-p-1  15) (soil-p-2  15) (soil-p-3   0) (soil-p-4 0))))
           (potassium
            (k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 40) (soil-k-3   20))))
@@ -451,7 +451,7 @@
             (risk ((high 40) (low 0)))))))
        (4
         (nutrient
-         ((phosphorous
+         ((phosphorus
            (p-index ((soil-p-0 10) (soil-p-1  10) (soil-p-2  10) (soil-p-3   0) (soil-p-4 0))))
           (potassium
            (k-index ((soil-k-0 70) (soil-k-1 70) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   20) (soil-k-4 0))))
@@ -461,7 +461,7 @@
             (risk ((high 40) (low 0))))))))))
      (grazed
       (nutrient
-       ((phosphorous
+       ((phosphorus
          (p-index ((soil-p-0 80) (soil-p-1  50) (soil-p-2  20) (soil-p-3   0) (soil-p-4 0))))
         (potassium
          (k-index ((soil-k-0 60) (soil-k-1 30) (soil-k-2- 0) (soil-k-2+ 0) (soil-k-3   0) (soil-k-4 0))))
@@ -471,7 +471,7 @@
          (nitrogencategory ((<100 25) (100-200 50) (200-300 75) (300-400 100)))))))  
      (hay
       (nutrient
-       ((phosphorous
+       ((phosphorus
          (p-index ((soil-p-0 80) (soil-p-1  50) (soil-p-2  30) (soil-p-3   0) (soil-p-4 0))))
         (potassium
          (k-index ((soil-k-0 140) (soil-k-1 115) (soil-k-2- 90) (soil-k-2+ 65) (soil-k-3   20) (soil-k-4 0))))
@@ -481,7 +481,7 @@
           (risk ((high NA) (low NA)))))))
      (established
       (nutrient
-       ((phosphorous
+       ((phosphorus
          (p-index ((soil-p-0 120) (soil-p-1  80) (soil-p-2  50) (soil-p-3   30) (soil-p-4 0))))
         (potassium
          (k-index ((soil-k-0 120) (soil-k-1 80) (soil-k-2- 60) (soil-k-2+ 40) (soil-k-3   0) (soil-k-4 0))))
@@ -491,7 +491,7 @@
          (risk ((high NA) (low NA)))))))
      (rye ;; in forage section but becky put it under grass
       (nutrient
-       ((phosphorous
+       ((phosphorus
          (p-index ((soil-p-0 90) (soil-p-1  60) (soil-p-2  30) (soil-p-3   0) (soil-p-4 0))))
         (potassium
          (k-index ((soil-k-0 150) (soil-k-1 120) (soil-k-2- 90) (soil-k-2+ 60) (soil-k-3   0) (soil-k-4 0))))
@@ -502,7 +502,7 @@
 
 (define barley-spring-incorporated-pk-tree ;;2017 update both feed and malt should use this table 
   '(nutrient
-    ((phosphorous
+    ((phosphorus
       (p-index ((soil-p-0 105) (soil-p-1  75) (soil-p-2  45) (soil-p-3   0) (soil-p-4 0))))
      (potassium
       (k-index ((soil-k-0  95) (soil-k-1  65) (soil-k-2- 35) (soil-k-2+  0) (soil-k-3   0) (soil-k-4 0))))
@@ -513,7 +513,7 @@
 
 (define barley-spring-removed-pk-tree ;;2017 update both feed and malt should use this table 
   '(nutrient
-    ((phosphorous
+    ((phosphorus
       (p-index ((soil-p-0 110) (soil-p-1  80) (soil-p-2  50) (soil-p-3   0) (soil-p-4 0))))
      (potassium
       (k-index ((soil-k-0 130) (soil-k-1 100) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   0) (soil-k-4 0))))
@@ -535,7 +535,7 @@
 
 (define wheat-winter-removed-pk-tree ;;2017 update both feed and mill should use this table
   '(nutrient
-    ((phosphorous
+    ((phosphorus
       (p-index ((soil-p-0 125) (soil-p-1  95) (soil-p-2  65) (soil-p-3   0) (soil-p-4 0))))
      (potassium
       (k-index ((soil-k-0 145) (soil-k-1 115) (soil-k-2- 85) (soil-k-2+ 55) (soil-k-3   0) (soil-k-4 0))))
@@ -546,7 +546,7 @@
 
 (define wheat-winter-incorporated-pk-tree ;;2017 update both feed and malt should use this table 
   '(nutrient
-    ((phosphorous
+    ((phosphorus
       (p-index ((soil-p-0 120) (soil-p-1  90) (soil-p-2  60) (soil-p-3   0) (soil-p-4 0))))
      (potassium
       (k-index ((soil-k-0 105) (soil-k-1  75) (soil-k-2- 45) (soil-k-2+ 20) (soil-k-3   0) (soil-k-4 0))))
@@ -834,6 +834,54 @@
 				(choice 'incorporated oat-rye-triticale-spring-nitrogen-tree) ;; table 4.20 p 34 in cereals (same as p31 forage)
 				(choice 'removed oat-rye-triticale-spring-nitrogen-tree))))))) ;; table 4.20 p 34 in cereals (same as p31 forage)
 
+(define oat-nitrogen-tree
+  (dtree 'sown 
+	 (list 
+	  (choice 'winter oat-winter-nitrogen-tree) 
+	  (choice 'spring oat-rye-triticale-spring-nitrogen-tree))))
+
+(define rye-nitrogen-tree  
+  (dtree 'sown 
+	 (list
+	  (choice 'winter
+		  (dtree 'application
+			 (list
+			  (choice 'forage rye-winter-nitrogen-tree)
+			  (choice 'incorporated rye-winter-nitrogen-tree)
+			  (choice 'removed rye-winter-nitrogen-tree))))
+	  (choice 'spring
+		  (dtree 'application
+			 (list
+			  (choice 'forage oat-rye-triticale-spring-nitrogen-tree)
+			  (choice 'incorporated oat-rye-triticale-spring-nitrogen-tree)
+			  (choice 'removed oat-rye-triticale-spring-nitrogen-tree)))))))
+
+(define swede-nitrogen-tree
+  (dtree 'use
+	 (list
+	  (choice 'forage-lifted swede-turnip-forage-lifted-nitrogen-tree)
+	  (choice 'forage-grazed rape-swede-turnip-forage-grazed-nitrogen-tree)
+	  (choice 'vegetable swede-vegetable-nitrogen-tree))))
+
+(define turnip-nitrogen-tree
+  (dtree 'use
+	 (list
+	  (choice 'forage-lifted swede-turnip-forage-lifted-nitrogen-tree)
+	  (choice 'forage-grazed rape-swede-turnip-forage-grazed-nitrogen-tree)
+	  (choice 'vegetable turnip-nitrogen-tree))))
+
+
+(define rape-nitrogen-tree
+  (dtree 'use
+	 (list
+	  (choice 'forage rape-swede-turnip-forage-grazed-nitrogen-tree)
+	  (choice 'oilseed
+		  (dtree 'sown
+			 (list
+			  (choice 'winter rape-oilseed-winter-nitrogen-tree)
+			  (choice 'spring rape-oilseed-spring-nitrogen-tree)))))))
+
+
 (define barley-pk-tree
   (dtree 'sown
 	 (list
@@ -881,6 +929,62 @@
 				  (choice 'incorporated barley-spring-incorporated-pk-tree)  ;; p24 cereals book 
 				  (choice 'removed  barley-spring-removed-pk-tree)))))))  ;; p24 cereals book         
 
+(define oat-pk-tree
+  (dtree 'sown 
+	 (list
+	  (choice 'winter
+		  (dtree 'application 
+			 (list
+			  (choice 'forage wholecrop-cereal-pk-tree)   ;; 2018 corrections
+			  (choice 'incorporated oat-incorporated-pk-tree)
+			  (choice 'removed oat-removed-pk-tree))))
+	  (choice 'spring
+		  (dtree 'application
+			 (list
+			  (choice 'forage  wholecrop-cereal-pk-tree)   ;; 2018 corrections
+			  (choice 'incorporated oat-incorporated-pk-tree)
+			  (choice 'removed oat-removed-pk-tree)))))))
+
+(define rye-pk-tree
+  (dtree 'sown 
+	 (list
+	  (choice 'spring
+		  (dtree 'application
+			 (list
+			  (choice 'forage wholecrop-cereal-pk-tree)  ;; 2018 corrections 
+			  (choice 'incorporated barley-spring-incorporated-pk-tree)
+			  (choice 'removed barley-spring-removed-pk-tree))))
+	  (choice 'winter
+		  (dtree 'application
+			 (list
+			  (choice 'forage wholecrop-cereal-pk-tree)  ;; 2018 corrections
+			  (choice 'incorporated barley-spring-incorporated-pk-tree)
+			  (choice 'removed barley-spring-removed-pk-tree)))))))
+
+(define swede-pk-tree
+  (dtree 'use 
+	 (list
+	  (choice 'forage-lifted swede-turnip-foraged-lifted-pk-tree)
+	  (choice 'forage-grazed rape-swede-turnip-forage-grazed-pk-tree)
+	  (choice 'vegetable beetroot-pk-tree))))
+
+(define turnip-pk-tree
+  (dtree 'use
+	 (list
+	  (choice 'forage-lifted swede-turnip-foraged-lifted-pk-tree)
+	  (choice 'forage-grazed rape-swede-turnip-forage-grazed-pk-tree)
+	  (choice 'vegetable beetroot-pk-tree))))
+
+(define rape-pk-tree
+  (dtree 'use
+	 (list
+	  (choice 'forage rape-swede-turnip-forage-grazed-pk-tree)
+	  (choice 'oilseed
+		  (dtree 'sown
+			 (choice 'spring rape-oilseed-spring-pk-tree)
+			 (choice 'winter rape-oilseed-winter-pk-tree))))))
+
+
 (define crop-requirements-n-tree
   (dtree 'crop
          (list
@@ -888,34 +992,12 @@
 	  (choice 'barley barley-nitrogen-tree)
 	  (choice 'wheat wheat-nitrogen-tree)
 	  (choice 'triticale triticale-nitrogen-tree)
-
-          (choice 'oat-winter-forage oat-winter-nitrogen-tree)
-          (choice 'oat-winter-incorporated oat-winter-nitrogen-tree)
-          (choice 'oat-winter-removed  oat-winter-nitrogen-tree)
-          (choice 'oat-spring-forage oat-rye-triticale-spring-nitrogen-tree)
-          (choice 'oat-spring-incorporated oat-rye-triticale-spring-nitrogen-tree)
-          (choice 'oat-spring-removed oat-rye-triticale-spring-nitrogen-tree)   
-
-          (choice 'rye-winter-forage rye-winter-nitrogen-tree)
-          (choice 'rye-winter-incorporated rye-winter-nitrogen-tree)
-          (choice 'rye-winter-removed rye-winter-nitrogen-tree)
-          (choice 'rye-spring-forage oat-rye-triticale-spring-nitrogen-tree)
-          (choice 'rye-spring-incorporated oat-rye-triticale-spring-nitrogen-tree)
-          (choice 'rye-spring-removed oat-rye-triticale-spring-nitrogen-tree)
-
-          (choice 'maize maize-nitrogen-tree)
-
-          (choice 'swede-forage-lifted swede-turnip-forage-lifted-nitrogen-tree)
-          (choice 'swede-forage-grazed rape-swede-turnip-forage-grazed-nitrogen-tree)
-          (choice 'swede-vegetable swede-vegetable-nitrogen-tree)
-
-          (choice 'turnip-forage-lifted swede-turnip-forage-lifted-nitrogen-tree)
-          (choice 'turnip-forage-grazed rape-swede-turnip-forage-grazed-nitrogen-tree)
-          (choice 'turnip-vegetable turnip-nitrogen-tree)
-
-          (choice 'rape-forage rape-swede-turnip-forage-grazed-nitrogen-tree)
-          (choice 'rape-oilseed-winter rape-oilseed-winter-nitrogen-tree)
-          (choice 'rape-oilseed-spring rape-oilseed-spring-nitrogen-tree)
+          (choice 'oat oat-nitrogen-tree)
+          (choice 'rye rye-nitrogen-tree)
+          (choice 'maize maize-nitrogen-tree)       
+          (choice 'swede swede-nitrogen-tree)	 
+          (choice 'turnip turnip-nitrogen-tree)
+          (choice 'rape rape-nitrogen-tree)
 
           (choice 'linseed linseed-nitrogen-tree)
 
@@ -945,34 +1027,12 @@
     (choice 'barley barley-pk-tree)
     (choice 'wheat wheat-pk-tree)
     (choice 'triticale triticale-pk-tree)
-
-    (choice 'oat-winter-forage wholecrop-cereal-pk-tree)   ;; 2018 corrections
-    (choice 'oat-winter-incorporated oat-incorporated-pk-tree)
-    (choice 'oat-winter-removed oat-removed-pk-tree)
-    (choice 'oat-spring-forage  wholecrop-cereal-pk-tree)   ;; 2018 corrections
-    (choice 'oat-spring-incorporated oat-incorporated-pk-tree)
-    (choice 'oat-spring-removed oat-removed-pk-tree)
-
-    (choice 'rye-spring-forage wholecrop-cereal-pk-tree)  ;; 2018 corrections 
-    (choice 'rye-spring-incorporated barley-spring-incorporated-pk-tree)
-    (choice 'rye-spring-removed barley-spring-removed-pk-tree) 
-    (choice 'rye-winter-forage wholecrop-cereal-pk-tree)  ;; 2018 corrections
-    (choice 'rye-winter-incorporated barley-spring-incorporated-pk-tree)
-    (choice 'rye-winter-removed barley-spring-removed-pk-tree)
-
+    (choice 'oat oat-pk-tree)
+    (choice 'rye rye-pk-tree)
     (choice 'maize maize-pk-tree)
-
-    (choice 'swede-forage-lifted swede-turnip-foraged-lifted-pk-tree)
-    (choice 'swede-forage-grazed rape-swede-turnip-forage-grazed-pk-tree)
-    (choice 'swede-vegetable beetroot-pk-tree)
-
-    (choice 'turnip-forage-lifted swede-turnip-foraged-lifted-pk-tree)
-    (choice 'turnip-forage-grazed rape-swede-turnip-forage-grazed-pk-tree)
-    (choice 'turnip-vegetable beetroot-pk-tree)
-
-    (choice 'rape-forage rape-swede-turnip-forage-grazed-pk-tree)
-    (choice 'rape-oilseed-spring rape-oilseed-spring-pk-tree)
-    (choice 'rape-oilseed-winter rape-oilseed-winter-pk-tree)
+    (choice 'swede swede-pk-tree)
+    (choice 'turnip turnip-pk-tree)
+    (choice 'rape rape-pk-tree)
 
     (choice 'linseed rape-oilseed-spring-pk-tree)
 
