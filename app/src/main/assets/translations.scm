@@ -189,12 +189,14 @@
    (list 'soil-p-1 (list "1"))
    (list 'soil-p-2 (list "2"))
    (list 'soil-p-3 (list "3"))
+   (list 'soil-p-4 (list "4"))
    
    (list 'soil-k-0 (list "0"))
    (list 'soil-k-1 (list "1"))
    (list 'soil-k-2- (list "2-"))
    (list 'soil-k-2+ (list "2+"))
    (list 'soil-k-3 (list "3"))
+   (list 'soil-k-4 (list "4"))
 
    (list 'soil-info (list "Soil details"))
    (list 'crop-info (list "Crop details"))
@@ -341,5 +343,13 @@
    (list '>120 (list ">120"))
    (list 'potato (list "Potato"))
    (list 'determinancy-group (list "Determinancy group"))
+
+   (list 'dirtywater (list "Dirty water"))
+   (list 'solid (list "Separated solid"))
+   (list 'liquidstrainer (list "Separated liquid, strainer box"))
+   (list 'liquidweeping (list "Separated liquid, weeping wall"))
+   (list 'liquidmechanical (list "Separated liquid, mechanical separator"))
+   (list 'liquid (list "Separated liquid"))
+  
 
    ))

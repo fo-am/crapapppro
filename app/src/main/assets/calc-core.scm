@@ -28,8 +28,8 @@
 (define units-list (list 'metric 'imperial))
 (define soil-type-list 
   (list 'sandyshallow 'medium 'peat 'organic 'mediumshallow 'deepclay 'deepsilt))
-(define soil-test-p-list (list 'soil-p-0 'soil-p-1 'soil-p-2 'soil-p-3))
-(define soil-test-k-list (list 'soil-k-0 'soil-k-1 'soil-k-2- 'soil-k-2+ 'soil-k-3))
+(define soil-test-p-list (list 'soil-p-0 'soil-p-1 'soil-p-2 'soil-p-3 'soil-p-4))
+(define soil-test-k-list (list 'soil-k-0 'soil-k-1 'soil-k-2- 'soil-k-2+ 'soil-k-3 'soil-k-4))
 
 (define crop-type-for-manure-calc-list 
   (list 'normal 'grass-oilseed))
@@ -40,8 +40,8 @@
 	'uncropped 'grass-low-n 'grass-high-n 'grass-other))
 (define season-list (list 'autumn 'winter 'spring 'summer))
 
-(define cattle-quality-list (list 'DM2 'DM6 'DM10))
-(define pig-quality-list (list 'DM2 'DM4 'DM6))
+(define cattle-quality-list (list 'DM2 'DM6 'DM10 'dirtywater 'solid 'liquidstrainer 'liquidweeping 'liquidmechanical))
+(define pig-quality-list (list 'DM2 'DM4 'DM6 'liquid 'solid))
 (define poultry-quality-list (list 'DM20 'DM40 'DM60 'DM80))
 (define fym-quality-list (list 'fym-cattle 'fym-pig 'fym-sheep 'fym-duck 'fym-horse 'fym-goat))
 (define paper-crumble-quality-list (list 'chemical-physical 'biological))
