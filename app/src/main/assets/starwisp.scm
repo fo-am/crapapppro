@@ -78,7 +78,7 @@
 			    (lambda ()
 			      (list '("name" "varchar" "My field")
 				    '("soil" "varchar" "None")
-				    (list "crop" "varchar" "") ;;(param-list->text default-crop))
+				    (list "crop" "varchar" (params-list->text default-crop))
 				    '("previous-crop" "varchar" "None")
 				    '("soil-test-p" "varchar" "0")
 				    '("soil-test-k" "varchar" "0")
@@ -268,8 +268,8 @@
 			(ktv "size" "real" (m2->hectares (area-metres polygon))))
 		       (list
 			(update-widget 'edit-text (get-id "field-size") 'text 
-				       (number->string (convert-output (entity-get-value "size") 
-								       "hectares"))))))
+				       (convert-output->string (entity-get-value "size") 
+							       "hectares")))))
       (vert
       (scroll-view-vert
        0 (layout 'fill-parent 'wrap-content 0 'centre 0)
@@ -311,7 +311,7 @@
 				    '("quality" "varchar" "DM2")
 				    '("application" "varchar" "splash-surface")
 				    '("season" "varchar" "winter")
-				    (list "crop" "varchar" (param-list->text default-crop)))))
+				    (list "crop" "varchar" (params-list->text default-crop)))))
 	 
 	 (vert-colour 
 	  list-colour
@@ -371,20 +371,17 @@
 	       (ktv "recently-grown-grass" "varchar" 
 		    (spinner-choice yesno-list v)))'())))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 	  (text-view (make-id "crop-output") "Current crop" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+
+	  (linear-layout
+	   (make-id "crop-details") 'vertical
+	   (layout 'fill-parent 'wrap-content 1 'centre margin-size)
+	   (list 0 0 0 0)
+	   '())
 
 	  (mbutton 'crop-type
 		   (lambda ()
 		     (list (start-activity "cropselect" 0 ""))))
-	  
-	  ;;(entity-update-single-value! 
-	  ;; (ktv "crop" "varchar" 
-	;;	(spinner-choice crop-type-list v))) 
-	  ;;(update-field-cropsoil-calc-from-current)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 	  
 	  (mtitle 'crop-requirements)
 	  (horiz
@@ -413,11 +410,9 @@
    (lambda (activity arg)
      (entity-init! db "farm" "field" (get-entity-by-unique db "farm" arg))
      (set-current! 'field-id arg)     
-     (set-current! 'field-name (entity-get-value "name"))     
-     
-     (msg "CURRENT CROP IS")
+     (set-current! 'field-name (entity-get-value "name"))          
      (msg (entity-get-value "crop"))
-
+     (msg (text->params-list (entity-get-value "crop")))
      (let ((polygons (get-polygons)))
        (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in)))
 	 (append
@@ -428,13 +423,13 @@
 		(list (update-widget 'draw-map (get-id "map") 'centre (list (vx centre) (vy centre) zoom))))
 	      (begin
 		'()))
+	  (update-crop-details-from-current)
 	  (list
 	   (update-widget 'draw-map (get-id "map") 'polygons (list (entity-get-value "unique_id") (get-polygons)))
 	   (mupdate 'edit-text 'field-name "name")
 	   (update-list-widget db "farm" (list "date") "event" "eventview" (get-current 'field-id #f))
 	   (mupdate-spinner 'soil-type "soil" soil-type-list)
-	   (update-widget 'text-view (get-id "crop-output") 'text (crop-params->readable (text->params-list (entity-get-value "crop"))))
-	   (update-widget 'edit-text (get-id "field-size") 'text (number->string (convert-output (entity-get-value "size") "hectares")))
+	   (update-widget 'edit-text (get-id "field-size") 'text (convert-output->string (entity-get-value "size") "hectares"))
 	   (update-text-view-units 'field-size-text 'field-size 'field-size-i)
 	   (update-widget 'canvas (get-id "graph") 'drawlist (build-graph))      
 	   (mupdate-spinner 'previous-crop-type "previous-crop" previous-crop-type-list)
@@ -554,7 +549,7 @@
      (set-current! 'event-id arg)
      ;; update the event and calculator with values from the current field
      (let ((field (get-entity-by-unique db "farm" (entity-get-value "parent"))))
-       (update-crop! (string->symbol (ktv-get field "crop")))
+       (update-crop! (text->params-list (ktv-get field "crop")))
        (update-soil! (string->symbol (ktv-get field "soil")))
        (update-fieldsize! (ktv-get field "size"))
        (update-soil-test! (list (string->symbol (ktv-get field "soil-test-p"))
@@ -563,7 +558,7 @@
        (entity-set-value! "crop" "varchar" (ktv-get field "crop"))
        (entity-set-value! "soil" "varchar" (ktv-get field "soil"))
        (entity-set-value! "size" "real" (ktv-get field "size"))
-       (let ((results (get-crop-requirements/supply-from-field field)))
+       (let ((results (get-crop-requirements/supply-from-field field (symbol->string (date->season (current-date))))))
 	 (entity-set-value! "require-n" "real" (convert-output (list-ref results 0) "kg/ha"))
 	 (entity-set-value! "require-p" "real" (convert-output (list-ref results 1) "kg/ha"))
 	 (entity-set-value! "require-k" "real" (convert-output (list-ref results 2) "kg/ha"))
@@ -638,15 +633,13 @@
 	(update-event-view-item-lookup "application")
 	(update-event-view-item-lookup "quality")
 	(update-event-view-item-lookup "season")
-	(update-event-view-item-lookup "crop")
+	(dbg (update-event-view-item "crop"))
 	(update-event-view-item-lookup "soil")
 	(update-event-view-item "size")
-	(update-widget 'text-view (get-id "na") 'text (string-append (number->string (convert-output (entity-get-value "nutrients-n") "kg/ha"))
-								     " (" (dbg (number->string (convert-output (entity-get-value "total-nutrients-n") "kg/ha"))) ")"))
-	(update-widget 'text-view (get-id "pa") 'text (string-append (number->string (convert-output (entity-get-value "nutrients-p") "kg/ha"))
-								     " (" (number->string (convert-output (entity-get-value "total-nutrients-p") "kg/ha")) ")"))
-	(update-widget 'text-view (get-id "ka") 'text (string-append (number->string (convert-output (entity-get-value "nutrients-k") "kg/ha"))
-								     " (" (number->string (convert-output (entity-get-value "total-nutrients-k") "kg/ha")) ")"))
+	(update-widget 'text-view (get-id "na") 'text (string-append (convert-output->string (entity-get-value "nutrients-n") "kg/ha")								     " (" (convert-output->string (entity-get-value "total-nutrients-n") "kg/ha") ")"))
+	(update-widget 'text-view (get-id "pa") 'text (string-append (convert-output->string (entity-get-value "nutrients-p") "kg/ha")								     " (" (convert-output->string (entity-get-value "total-nutrients-p") "kg/ha") ")"))
+	(update-widget 'text-view (get-id "ka") 'text (string-append (convert-output->string (entity-get-value "nutrients-k") "kg/ha")
+								     " (" (convert-output->string (entity-get-value "total-nutrients-k") "kg/ha") ")"))
 	(update-widget 'text-view (get-id "costn") 'text (get-cost-string-from-nutrient 0 amounts (entity-get-value "size")))
 	(update-widget 'text-view (get-id "costp") 'text (get-cost-string-from-nutrient 1 amounts (entity-get-value "size")))
 	(update-widget 'text-view (get-id "costk") 'text (get-cost-string-from-nutrient 2 amounts (entity-get-value "size")))
@@ -795,7 +788,6 @@
 	       'crop-menu-options 
 	       ;; chop off the last (cumbersomely)
 	       (reverse (cdr (reverse (get-current 'crop-menu-options '())))))
-	      (msg (get-current 'crop-menu-options '()))
 	      (list
 	       ;; for now just clear the selection indicator
 	       (update-widget 'linear-layout (get-id "crop-select-list") 'contents '())

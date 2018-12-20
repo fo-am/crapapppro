@@ -6518,7 +6518,7 @@
 "value": {
 "decision": "determinancy-group",
 "choices": [{
-"choice": 1,
+"choice": "one",
 "value": {
 "decision": "growing-season-length",
 "choices": [{
@@ -6632,7 +6632,7 @@
 }]
 }
 }, {
-"choice": 2,
+"choice": "two",
 "value": {
 "decision": "growing-season-length",
 "choices": [{
@@ -6746,7 +6746,7 @@
 }]
 }
 }, {
-"choice": 3,
+"choice": "three",
 "value": {
 "decision": "growing-season-length",
 "choices": [{
@@ -6860,7 +6860,7 @@
 }]
 }
 }, {
-"choice": 4,
+"choice": "four",
 "value": {
 "decision": "growing-season-length",
 "choices": [{

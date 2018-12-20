@@ -179,25 +179,32 @@
        (else (msg "I don't understand how to convert" units)))))
 
 (define (convert-output amount units)
-  (if (eq? #f amount) 0 ;; if it's missing from the database
-      (rounding
-       (if (eq? (current-units) 'metric)
-	   amount
-	   (cond
-	    ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
-	     (m3/ha->gallons/acre amount))
-	    ((or (equal? units "tons/ha") (equal? units "tons/acre"))
-	     (tons/ha->tons/acre amount))
-	    ((or (equal? units "kg/ha") (equal? units "units/acre"))
-	     (kg/ha->units/acre amount))
-	    ((or (equal? units "hectares") (equal? units "acres"))
-	     (hectares->acres amount))
-	    ((or (equal? units "m3") (equal? units "gallons"))
-	     (m3->gallons amount))
-	    ((equal? units "tonnes") amount) ;; tonnes are metric everywhere!?
-	    (else (msg "I don't understand how to convert" units)))))))
+  (cond 
+   ((eq? #f amount) 0) ;; if it's missing from the database
+   ((eq? 'NA amount) 0) ;; can't really store N/A in real so just set to 0
+   (else 
+    (rounding
+     (if (eq? (current-units) 'metric)
+	 amount
+	 (cond
+	  ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
+	   (m3/ha->gallons/acre amount))
+	  ((or (equal? units "tons/ha") (equal? units "tons/acre"))
+	   (tons/ha->tons/acre amount))
+	  ((or (equal? units "kg/ha") (equal? units "units/acre"))
+	   (kg/ha->units/acre amount))
+	  ((or (equal? units "hectares") (equal? units "acres"))
+	   (hectares->acres amount))
+	  ((or (equal? units "m3") (equal? units "gallons"))
+	   (m3->gallons amount))
+	  ((equal? units "tonnes") amount) ;; tonnes are metric everywhere!?
+	  (else (msg "I don't understand how to convert" units))))))))
+  
+(define (convert-output->string amount units)
+  (if (eq? amount 'NA)
+      "N/A" (number->string (convert-output amount units))))
 
-(define default-crop '((crop grass) (subtype silage) (targetyield DM5-7) (cut 1)))
+(define default-crop '((crop barley) (sown spring) (application incorporated) (process feed)))
 
 (define (crop-params->readable crop)
   (foldl
@@ -256,14 +263,15 @@
 	(soil (calc-soil calc))
 	(application (calc-application calc))
 	(soil-test (calc-soil-test calc)))
-    (msg "calc-nutrients")
     (if custom-override  
 	(list 
 	 ;; total
 	 (process-nutrients amount custom-override)
 	 ;; avail (duplicate)
 	 (process-nutrients amount custom-override))
-	(get-nutrients type amount quality season (dbg (crop-params->manure-crop (dbg crop))) soil application soil-test))))
+	(get-nutrients type amount quality season 
+		       (crop-params->manure-crop crop) 
+		       soil application soil-test))))
 
 
 (define (get-units)
@@ -355,28 +363,29 @@
 		  params regularly-manure)))))
 
 
-(define (get-crop-requirements/supply rainfall crop-params soil previous-crop regularly-manure soil-test-p soil-test-k recently-grown-grass)
-  (msg "get-crop-requirements/supply")
+(define (get-crop-requirements/supply rainfall crop-params soil previous-crop regularly-manure soil-test-p soil-test-k recently-grown-grass season)
   (let ((sns (calc-sns rainfall soil crop-params previous-crop regularly-manure recently-grown-grass)))
     (let ((choices 
 	   (append
 	    crop-params
 	    (list 
+	     (list 'season season)
 	     (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
 	     (list 'rainfall rainfall)
 	     (list 'soil soil)
 	     (list 'p-index soil-test-p)
 	     (list 'k-index soil-test-k)))))
-      (msg choices)
-      (msg "n->")
       (list 
-       (+ (dbg (decision crop-requirements-n-tree choices))
-	  ;; add/subtract based on table on pp 188
-	  (cond
-	   ;; todo: should be just grazed - otherwise silage is dependant on cut
-	   ((eqv? sns grassland-high-sns) -30)
-	   ((eqv? sns grassland-low-sns) 30)
-	   (else 0)))
+       (let ((n (decision crop-requirements-n-tree choices)))
+	 (if (eq? n 'NA) 
+	     'NA
+	     (+ n
+		;; add/subtract based on table on pp 188
+		(cond
+		 ;; todo: should be just grazed - otherwise silage is dependant on cut
+		 ((eqv? sns grassland-high-sns) -30)
+		 ((eqv? sns grassland-low-sns) 30)
+		 (else 0)))))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorus) choices))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))
        ;; + magnesium 
@@ -423,7 +432,6 @@
 			     (eq? (cadr soil-test) 'soil-k-3))
 			 'k-total
 			 'k-avail)))
-      (msg (decision manure-tree (append (list (list 'nutrient 'n-avail)) params)))
       (list
        ;; total values
        (process-nutrients 

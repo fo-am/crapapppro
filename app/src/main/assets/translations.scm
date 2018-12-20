@@ -60,7 +60,7 @@
    (list 'report-size (list "Size"))
 
    (list 'soil-type (list "Soil type"))
-   (list 'crop-type (list "Crop type"))
+   (list 'crop-type (list "Select crop"))
    (list 'application-type (list "Application type"))
    (list 'previous-crop-type (list "Previous crop type"))
    (list 'field-size (list "Field size (hectares)"))

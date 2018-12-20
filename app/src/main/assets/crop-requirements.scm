@@ -23,13 +23,13 @@
     ((silage 
       (targetyield
        ((DM5-7
-         (cut ((1 70) (2 NA) (3 NA) (4 NA))))
+         (cut ((one 70) (two NA) (three NA) (four NA))))
         (DM7-9
-         (cut ((1 80) (2 50) (3 NA) (4 NA))))
+         (cut ((one 80) (two 50) (three NA) (four NA))))
         (DM9-12
-         (cut ((1 100) (2 75) (3 75) (4 NA))))  
+         (cut ((one 100) (two 75) (three 75) (four NA))))  
         (DM12-15+
-         (cut ((1 120) (2 90) (3 70) (4 30))))
+         (cut ((one 120) (two 90) (three 70) (four 30))))
         )))
       (grazed
        (targetyield
@@ -419,7 +419,7 @@
   '(subtype
     ((silage
       (cut
-       ((1
+       ((one
          (nutrient
           ((phosphorus
             (p-index ((soil-p-0 100) (soil-p-1  70) (soil-p-2  40) (soil-p-3   20) (soil-p-4 0))))
@@ -429,7 +429,7 @@
             (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
            (sulphur
             (risk ((high 40) (low 0))))))) ;; potash numbers come from adding up previous autumn and spring values to make a total for the season
-       (2
+       (two
         (nutrient
          ((phosphorus
            (p-index ((soil-p-0 25) (soil-p-1  25) (soil-p-2  25) (soil-p-3   0) (soil-p-4 0))))
@@ -439,7 +439,7 @@
            (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
           (sulphur
             (risk ((high 40) (low 0)))))))
-       (3
+       (three
         (nutrient
 	 ((phosphorus
            (p-index ((soil-p-0 15) (soil-p-1  15) (soil-p-2  15) (soil-p-3   0) (soil-p-4 0))))
@@ -449,7 +449,7 @@
            (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
           (sulphur
             (risk ((high 40) (low 0)))))))
-       (4
+       (four
         (nutrient
          ((phosphorus
            (p-index ((soil-p-0 10) (soil-p-1  10) (soil-p-2  10) (soil-p-3   0) (soil-p-4 0))))
@@ -619,8 +619,7 @@
      (magnesium
       (m-index ((soil-m-0 21) (soil-m-1 21) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
      (sulphur
-      '(soil
-        ((organic 0) (peat 0) (default 63))))))) 
+      (soil ((organic 0) (peat 0) (default 63))))))) 
 
 (define rape-oilseed-winter-pk-tree ;; 2017 update
   '(nutrient
@@ -630,9 +629,7 @@
       (k-index ((soil-k-0 100) (soil-k-1 70) (soil-k-2- 40) (soil-k-2+ 20) (soil-k-3 0) (soil-k-4 0))))
      (magnesium
       (m-index ((soil-m-0 21) (soil-m-1 21) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
-     (sulphur
-      '(soil
-        ((organic 0) (peat 0) (default 63)))))))
+     (sulphur (soil ((organic 0) (peat 0) (default 63)))))))
 
 (define pea-bean-pk-tree ;; 2017 update
   '(nutrient
@@ -981,42 +978,38 @@
 	  (choice 'forage rape-swede-turnip-forage-grazed-pk-tree)
 	  (choice 'oilseed
 		  (dtree 'sown
-			 (choice 'spring rape-oilseed-spring-pk-tree)
-			 (choice 'winter rape-oilseed-winter-pk-tree))))))
+			 (list
+			  (choice 'spring rape-oilseed-spring-pk-tree)
+			  (choice 'winter rape-oilseed-winter-pk-tree)))))))
 
 
 (define crop-requirements-n-tree
-  (dtree 'crop
-         (list
-          (choice 'grass grass-nitrogen-tree)
-	  (choice 'barley barley-nitrogen-tree)
-	  (choice 'wheat wheat-nitrogen-tree)
-	  (choice 'triticale triticale-nitrogen-tree)
-          (choice 'oat oat-nitrogen-tree)
-          (choice 'rye rye-nitrogen-tree)
-          (choice 'maize maize-nitrogen-tree)       
-          (choice 'swede swede-nitrogen-tree)	 
-          (choice 'turnip turnip-nitrogen-tree)
-          (choice 'rape rape-nitrogen-tree)
-
-          (choice 'linseed linseed-nitrogen-tree)
-
-          (choice 'pea-bean pea-bean-nitrogen-tree)
-
-          (choice 'fodder-beet fodder-beet-nitrogen-tree)
-
-          (choice 'kale-grazed kale-grazed-nitrogen-tree)
-
-          (choice 'brussels-sprout-cabbage sprout-cabbage-nitrogen-tree)
-          (choice 'cauliflower-calabrese cauliflower-calabrese-nitrogen-tree)
-          (choice 'lettuce-leafy-salad lettuce-leafy-salad-nitrogen-tree)
-          (choice 'onion-leek onion-leek-nitrogen-tree)
-          (choice 'beetroot beetroot-nitrogen-tree)
-          (choice 'parsnip turnip-nitrogen-tree)
-          (choice 'carrot carrot-nitrogen-tree)
-          (choice 'bulb bulb-nitrogen-tree)
-
-          (choice 'potato potato-nitrogen-tree))))
+  (dtree 
+   'crop
+   (list
+    (choice 'grass grass-nitrogen-tree)
+    (choice 'barley barley-nitrogen-tree)
+    (choice 'wheat wheat-nitrogen-tree)
+    (choice 'triticale triticale-nitrogen-tree)
+    (choice 'oat oat-nitrogen-tree)
+    (choice 'rye rye-nitrogen-tree)
+    (choice 'maize maize-nitrogen-tree)       
+    (choice 'swede swede-nitrogen-tree)	 
+    (choice 'turnip turnip-nitrogen-tree)
+    (choice 'rape rape-nitrogen-tree)
+    (choice 'linseed linseed-nitrogen-tree)
+    (choice 'pea-bean pea-bean-nitrogen-tree)
+    (choice 'fodder-beet fodder-beet-nitrogen-tree)
+    (choice 'kale-grazed kale-grazed-nitrogen-tree)
+    (choice 'brussels-sprout-cabbage sprout-cabbage-nitrogen-tree)
+    (choice 'cauliflower-calabrese cauliflower-calabrese-nitrogen-tree)
+    (choice 'lettuce-leafy-salad lettuce-leafy-salad-nitrogen-tree)
+    (choice 'onion-leek onion-leek-nitrogen-tree)
+    (choice 'beetroot beetroot-nitrogen-tree)
+    (choice 'parsnip turnip-nitrogen-tree)
+    (choice 'carrot carrot-nitrogen-tree)
+    (choice 'bulb bulb-nitrogen-tree)
+    (choice 'potato potato-nitrogen-tree))))
 
       
 (define crop-requirements-pk-tree 
@@ -1033,15 +1026,10 @@
     (choice 'swede swede-pk-tree)
     (choice 'turnip turnip-pk-tree)
     (choice 'rape rape-pk-tree)
-
     (choice 'linseed rape-oilseed-spring-pk-tree)
-
     (choice 'pea-bean pea-bean-pk-tree)
-    
     (choice 'fodder-beet fodder-beet-pk-tree)
-
     (choice 'kale-grazed kale-grazed-pk-tree)
-
     (choice 'brussels-sprout-cabbage sprout-cabbage-pk-tree)
     (choice 'cauliflower-calabrese cauliflower-calabrese-pk-tree)
     (choice 'lettuce-leafy-salad lettuce-leafy-salad-pk-tree)
@@ -1050,5 +1038,4 @@
     (choice 'parsnip beetroot-pk-tree)
     (choice 'carrot carrot-pk-tree)
     (choice 'bulb bulb-pk-tree)
-    
     (choice 'potato potato-pk-tree))))

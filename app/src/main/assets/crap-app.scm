@@ -129,38 +129,26 @@
     (append
      (list
       (update-widget 'text-view (get-id "amount-value") 'text
-		     (string-append (number->string (convert-output amount (get-units))) " " (get-units)))
+		     (string-append (convert-output->string amount (get-units)) " " (get-units)))
 
       ;; nutrient values: "crop-avail (total)"
       (update-widget 'text-view (get-id "na")
 		     'text 
 		     (string-append
-		      (if (eq? (list-ref amounts 0) 'NA)
-			  "N/A" (number->string (convert-output (list-ref amounts 0) "kg/ha")))
-		      " ("
-		      (if (eq? (list-ref total-amounts 0) 'NA)
-			  "N/A" (number->string (convert-output (list-ref total-amounts 0) "kg/ha")))
-		      ")"))
+		      (convert-output->string (list-ref amounts 0) "kg/ha") " ("
+		      (convert-output->string (list-ref total-amounts 0) "kg/ha") ")"))
       
       (update-widget 'text-view (get-id "pa")
 		     'text 
 		     (string-append
-		      (if (eq? (list-ref amounts 1) 'NA)
-			  "N/A" (number->string (convert-output (list-ref amounts 1) "kg/ha")))
-		      " ("
-		      (if (eq? (list-ref total-amounts 1) 'NA)
-			  "N/A" (number->string (convert-output (list-ref total-amounts 1) "kg/ha")))
-		      ")"))
+		      (convert-output->string (list-ref amounts 1) "kg/ha") " ("
+		      (convert-output->string (list-ref total-amounts 1) "kg/ha") ")"))
       
       (update-widget 'text-view (get-id "ka")
 		     'text 
 		     (string-append
-		      (if (eq? (list-ref amounts 2) 'NA)
-			  "N/A" (number->string (convert-output (list-ref amounts 2) "kg/ha")))
-		      " ("
-		      (if (eq? (list-ref total-amounts 2) 'NA)
-			  "N/A" (number->string (convert-output (list-ref total-amounts 2) "kg/ha")))
-		      ")"))
+		      (convert-output->string (list-ref amounts 2) "kg/ha") " ("
+		      (convert-output->string (list-ref total-amounts 2) "kg/ha") ")"))
       
       ;; costs
       (update-widget 'text-view (get-id "costn")
@@ -174,15 +162,16 @@
      (if (eq? (get-current 'calc-mode #f) 'fieldcalc)
 	 (begin
 	   (list
-	    (update-widget 'text-view (get-id "needed-n")
-			   'text 
+	    (update-widget 'text-view (get-id "needed-n") 'text 
+			   ;; need to check all these for n/a before the subtract...
 			   (if (eq? (list-ref amounts 0) 'NA)
-			       "N/A"
-			       (number->string (convert-output (- (entity-get-value "require-n") (list-ref amounts 0)) "kg/ha"))))
-	    (update-widget 'text-view (get-id "needed-p")
-			   'text (number->string (convert-output (- (entity-get-value "require-p") (list-ref amounts 1)) "kg/ha")))
-	    (update-widget 'text-view (get-id "needed-k")
-			   'text (number->string (convert-output (- (entity-get-value "require-k") (list-ref amounts 2)) "kg/ha")))
+			       "N/A" (convert-output->string (- (entity-get-value "require-n") (list-ref amounts 0)) "kg/ha")))
+	    (update-widget 'text-view (get-id "needed-p") 'text 
+			   (if (eq? (list-ref amounts 1) 'NA)
+			       "N/A" (convert-output->string (- (entity-get-value "require-p") (list-ref amounts 1)) "kg/ha")))
+	    (update-widget 'text-view (get-id "needed-k") 'text 
+			   (if (eq? (list-ref amounts 2) 'NA)
+			       "N/A" (convert-output->string (- (entity-get-value "require-k") (list-ref amounts 2)) "kg/ha")))	    
 	    )) '())
      )))
 
@@ -468,7 +457,7 @@
 	   ;; deal with bw compat with pre-parameterised crop data
 	   (mtext-lookup crop)
 	   (string-append 
-	    (number->string (convert-output (ktv-get field "size") "hectares")) 
+	    (convert-output->string (ktv-get field "size") "hectares")
 	    (if (eq? (current-units) 'imperial) "acres" "ha")))
 	  (get-field-polygon (ktv-get field "unique_id"))))))
    (db-all db "farm" "field")))
@@ -512,15 +501,38 @@
    (layout 'fill-parent 'wrap-content 1 'centre 5)
    (if bg list-colour (list 0 0 0 0))
    (list
-    (text-view (make-id (string-append id "-text")) (mtext-lookup title) 20 (layout 'fill-parent 'wrap-content 1 'centre 0))
-    (text-view (make-id id) "" 30 (layout 'fill-parent 'wrap-content 1 'centre 0)))))
+    (text-view (make-id (string-append id "-text")) (mtext-lookup title) 20 (layout 'fill-parent 'wrap-content 0.5 'left 0))
+    (text-view (make-id id) "" 30 (layout 'fill-parent 'wrap-content 0.5 'right 0)))))
+
+(define (crop-params->readable-text crop-params)
+  (cond
+   ((null? crop-params) "")
+   ((null? (cdr crop-params)) (mtext-lookup (cadr (car crop-params))))
+   (else
+    (string-append (mtext-lookup (cadr (car crop-params))) "/" 
+		   (crop-params->readable-text (cdr crop-params))))))
+
+(define (crop-params->spreadsheet-text crop-params)
+  (cond
+   ((null? crop-params) "")
+   ((null? (cdr crop-params)) 
+    (string-append
+     (mtext-lookup (car (car crop-params))) ":"
+     (mtext-lookup (cadr (car crop-params)))))
+   (else
+    (string-append 
+     (mtext-lookup (car (car crop-params))) ": "
+     (mtext-lookup (cadr (car crop-params))) " / " 
+     (crop-params->readable-text (cdr crop-params))))))
 
 (define (update-event-view-item id)
   (cond
+   ((equal? id "crop")
+    (update-widget 'text-view (get-id id) 'text (crop-params->readable-text (text->params-list (entity-get-value id)))))
    ((equal? id "size")
-    (update-widget 'text-view (get-id id) 'text (convert-output (entity-get-value id) "hectares")))
+    (update-widget 'text-view (get-id id) 'text (convert-output->string (entity-get-value id) "hectares")))
    ((equal? id "amount")
-    (update-widget 'text-view (get-id id) 'text (convert-output (entity-get-value id) (get-units-for-type (string->symbol (entity-get-value "type"))))))
+    (update-widget 'text-view (get-id id) 'text (convert-output->string (entity-get-value id) (get-units-for-type (string->symbol (entity-get-value "type"))))))
    (else
     (update-widget 'text-view (get-id id) 'text (entity-get-value id)))))
 
@@ -591,7 +603,6 @@
      (let ((v (list-ref manure-type-list v)))
        (update-seek-mul! v)
        (fn v)
-       (msg (convert-input (* (current-seek-mul) 50) (get-units)))
        (append
 	(update-type! v)
 	(update-amount! (convert-input (* (current-seek-mul) 50) (get-units)))
@@ -637,7 +648,6 @@
 		  (set-custom-override! #f)
 		  (let ((quality 
 			 (list-ref (get-qualities-for-type type) v)))
-		    (msg (get-qualities-for-type type))
 		    (fn quality)
 		    (update-quality! quality))))))))
 
@@ -708,7 +718,33 @@
 
 (define (update-field-cropsoil-calc-from-current)
   (update-field-cropsoil-calc
-   (get-crop-requirements/supply-from-current)))
+   (get-crop-requirements/supply-from-current
+    (symbol->string (date->season (current-date))))))
+
+(define (update-crop-details-from-current)
+  (let ((crop-params (text->params-list (entity-get-value "crop"))))
+    (list
+     ;; main crop name
+     (update-widget 'text-view (get-id "crop-output") 'text 
+		    (mtext-lookup (get-choice-value crop-params 'crop)))
+     ;; name-value pairs as details
+     (update-widget
+      'linear-layout
+      (get-id "crop-details")
+      'contents
+      (foldl
+       (lambda (param r)
+	 (if (not (eq? (car param) 'crop))
+	     (append 
+	      r (list 
+		 (text-view 0 (string-append 
+			       (mtext-lookup (car param))
+			       ": " 
+			       (mtext-lookup (cadr param))) 
+			    20 fillwrap)))
+	     r))
+       ()
+       crop-params)))))
 
 (define (update-text-view-units id metric imperial)
   (update-widget 
@@ -724,11 +760,11 @@
 		  (if (eq? (current-units) 'imperial)
 		      (soil-nutrient-code-to-text-imperial (list-ref results 3))
 		      (soil-nutrient-code-to-text (list-ref results 3))))
-   (update-widget 'text-view (get-id "require-n") 'text (number->string (convert-output (list-ref results 0) "kg/ha")))
-   (update-widget 'text-view (get-id "require-p") 'text (number->string (convert-output (list-ref results 1) "kg/ha")))
-   (update-widget 'text-view (get-id "require-k") 'text (number->string (convert-output (list-ref results 2) "kg/ha")))))
+   (update-widget 'text-view (get-id "require-n") 'text (convert-output->string (list-ref results 0) "kg/ha"))
+   (update-widget 'text-view (get-id "require-p") 'text (convert-output->string (list-ref results 1) "kg/ha"))
+   (update-widget 'text-view (get-id "require-k") 'text (convert-output->string (list-ref results 2) "kg/ha"))))
 
-(define (get-crop-requirements/supply-from-field field)
+(define (get-crop-requirements/supply-from-field field season)
   (get-crop-requirements/supply 
    (current-rainfall)
    (text->params-list (ktv-get field "crop"))
@@ -737,9 +773,10 @@
    (string->symbol (ktv-get field "regularly-manure"))
    (string->symbol (ktv-get field "soil-test-p"))
    (string->symbol (ktv-get field "soil-test-k"))
-   (string->symbol (ktv-get field "recently-grown-grass"))))
+   (string->symbol (ktv-get field "recently-grown-grass"))
+   season))
 
-(define (get-crop-requirements/supply-from-current)
+(define (get-crop-requirements/supply-from-current season)
   (get-crop-requirements/supply 
    (current-rainfall)
    (text->params-list (entity-get-value "crop"))
@@ -748,7 +785,8 @@
    (string->symbol (entity-get-value "regularly-manure"))
    (string->symbol (entity-get-value "soil-test-p"))
    (string->symbol (entity-get-value "soil-test-k"))
-   (string->symbol (entity-get-value "recently-grown-grass"))))
+   (string->symbol (entity-get-value "recently-grown-grass"))
+   season))
 
 (define (save-data filename d)
   (let ((f (open-output-file (string-append dirname filename))))
@@ -834,9 +872,11 @@
 		  
 		  ;; look up translated
 		  ((in-list? (ktv-key ktv)
-			     (list "soil" "application" 
-				   "season" "crop"))		   
+			     (list "soil" "application" "season"))		   
 		   (string-append r ", \"" (mtext-lookup (string->symbol (ktv-value ktv))) "\""))
+
+		  ((equal? (ktv-key ktv) "crop")
+		   (string-append r ", \"" (crop-params->spreadsheet-text (text->params-list (ktv-value ktv))) "\""))
 		  
 		  ((equal? (ktv-key ktv) "quality")		   
 		   (if (eq? manure-type 'custom-manure)
@@ -847,7 +887,7 @@
 		  ((in-list? (ktv-key ktv)
 			     (list "nutrients-n" "nutrients-p" "nutrients-k" 
 				   "require-n" "require-p" "require-k"))		   
-		   (string-append r ", \"" (number->string (convert-output (ktv-value ktv) "kg/ha")) "\""))
+		   (string-append r ", \"" (convert-output->string (ktv-value ktv) "kg/ha") "\""))
 		  
 		  ((equal? (ktv-key ktv) "sns")
 		   (string-append 
@@ -858,14 +898,13 @@
 		    "\""))
 
 		  ((equal? (ktv-key ktv) "size")
-		   (string-append r ", \"" (number->string (convert-output (ktv-value ktv) "hectares")) "\""))
+		   (string-append r ", \"" (convert-output->string (ktv-value ktv) "hectares") "\""))
 		  
 		  ((equal? (ktv-key ktv) "amount")
 		   (string-append 
-		    r ", \"" (number->string 
-			      (convert-output 
-			       (ktv-value ktv) 
-			       (get-metric/imperial-units-for-type manure-type)))
+		    r ", \"" (convert-output->string 
+			      (ktv-value ktv) 
+			      (get-metric/imperial-units-for-type manure-type))
 		    "\"")) 
 		  
 		  (else
