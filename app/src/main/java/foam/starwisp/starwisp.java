@@ -47,7 +47,11 @@ import android.text.TextWatcher;
 import android.text.Editable;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.Manifest; 
+import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +80,7 @@ public class starwisp extends StarwispActivity
         ActivityManager.RegisterActivity("about",AboutActivity.class);
         ActivityManager.RegisterActivity("email",EmailActivity.class);
         ActivityManager.RegisterActivity("manure",ManureActivity.class);
-        ActivityManager.RegisterActivity("cropselect",CropSelectActivity.class);
+        ActivityManager.RegisterActivity("cropselect",CropSelectActivity.class);	
     };
 
 
@@ -165,5 +169,16 @@ public class starwisp extends StarwispActivity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+
+	if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+	    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+	    ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+	    
+	    ActivityCompat.requestPermissions(this, new String[] {
+		    Manifest.permission.ACCESS_FINE_LOCATION, 
+		    Manifest.permission.ACCESS_COARSE_LOCATION,
+		    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 
+		0);
+	}	
     }
 }
