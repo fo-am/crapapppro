@@ -54,6 +54,7 @@
         </activity>
         <activity android:name="foam.starwisp.CalcActivity" />
         <activity android:name="foam.starwisp.NewFieldActivity" />
+        <activity android:name="foam.starwisp.FarmActivity" />
         <activity android:name="foam.starwisp.FieldActivity" />
         <activity android:name="foam.starwisp.FieldHistoryActivity" />
         <activity android:name="foam.starwisp.FieldCalcActivity" />

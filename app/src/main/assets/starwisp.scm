@@ -41,12 +41,36 @@
       (mtext 'splash-blurb)
       (spacer 20)
       (mbutton 'splash-start 
-	       (lambda () (list (start-activity-goto "main" 2 ""))))
+	       (lambda () 
+		 (list (start-activity-goto 
+			"main" 2 (get-setting-value "current-farm")))))
       (spacer 20)
       (mtext 'splash-discl)
       (image-view (make-id "about-logo") "logo" fillwrap)
       )))
    (lambda (activity arg)
+     ;; check for farms in the db, add default one if none exist
+     ;; so there is always one present...
+     (when (null? (all-entities db "farm" "farm"))
+	   (msg "no farms created yet, adding default")
+	   (set-setting! 
+	    "current-farm" "varchar"
+	    (entity-init&save! 
+	     db "farm" "farm"
+	     (list '("name" "varchar" "My farm")
+		   '("cost-n" "real" 0.79)
+		   '("cost-p" "real" 0.62)
+		   '("cost-k" "real" 0.49)
+		   '("rainfall" "varchar" "medium"))))     
+	   ;; sent the parent of all the existing fields to be this farm
+	   (for-each
+	    (lambda (field-id)
+	      (msg "updating" field-id)
+	      (update-entity 
+	       db "farm" field-id 
+	       (list (dbg (ktv "parent" "varchar" (get-setting-value "current-farm"))))))
+	    (all-entities db "farm" "field")))
+     
      (activity-layout activity))
    (lambda (activity arg) '())
    (lambda (activity) '())
@@ -54,6 +78,49 @@
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity requestcode resultcode) '()))
+
+
+  (activity
+   "farm"
+   (linear-layout
+     (make-id "top")
+     'vertical
+     (layout 'fill-parent 'wrap-content 1 'centre 0)
+     '(0 0 0 0)
+     (list 
+      (scroll-view-vert
+       0 (layout 'fill-parent 'wrap-content -1 'centre 0)
+       (list
+	(vert
+	 (mtitle 'your-farms)
+	 (mtext 'farm-info)  
+	 (build-list-widget db "farm" 'farms (list "name") "farm" "main"
+			    (lambda () #f)
+			    (lambda ()
+			      (list '("name" "varchar" "My farm")
+				    '("cost-n" "real" 0.79)
+				   '("cost-p" "real" 0.62)
+				   '("cost-k" "real" 0.49)
+				   '("rainfall" "varchar" "medium"))))
+	 
+	 (spacer 20)
+	 (mbutton-scale 'back (lambda () (list (finish-activity 99))))
+					;(mbutton 'about (lambda () (list (start-activity "about" 2 ""))))
+	 )))))
+   (lambda (activity arg)
+     (activity-layout activity))
+   (lambda (activity arg)
+     (list
+      (update-list-widget db "farm" (list "name") "farm" "main" #f)
+      ))
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity requestcode resultcode) 
+     (msg requestcode resultcode)
+     '()))
+
 
   (activity
    "main"
@@ -73,18 +140,25 @@
 	(list
 	 (vert
 	  (mbutton 'calculator (lambda () (list (start-activity "calc" 2 ""))))
+	  (medit-text-scale 'farm-name "normal" 
+			    (lambda (v) 
+			      (entity-update-single-value! 
+			       (ktv "name" "varchar" v)) 
+			      ;; update the name on the map
+			      (list)))
+
 	  (build-list-widget db "farm" 'fields (list "name") "field" "field"
-			    (lambda () #f)
-			    (lambda ()
-			      (list '("name" "varchar" "My field")
-				    '("soil" "varchar" "None")
-				    (list "crop" "varchar" (params-list->text default-crop))
-				    '("previous-crop" "varchar" "None")
-				    '("soil-test-p" "varchar" "0")
-				    '("soil-test-k" "varchar" "0")
-				    '("regularly-manure" "varchar" "no")
-				    '("recently-grown-grass" "varchar" "no")
-				    '("size" "real" 0))))
+			     (lambda () (get-setting-value "current-farm"))
+			     (lambda ()
+			       (list '("name" "varchar" "My field")
+				     '("soil" "varchar" "None")
+				     (list "crop" "varchar" (params-list->text default-crop))
+				     '("previous-crop" "varchar" "None")
+				     '("soil-test-p" "varchar" "0")
+				     '("soil-test-k" "varchar" "0")
+				     '("regularly-manure" "varchar" "no")
+				     '("recently-grown-grass" "varchar" "no")
+				     '("size" "real" 0))))
 	  
 	 (spacer 20)
 	 (mtoggle-button 
@@ -136,13 +210,17 @@
 	  (mspinner 'rainfall rainfall-list
 		    (lambda (v) (mutate-rainfall! (list-ref rainfall-list v)) '())))
 	 (mbutton 'email (lambda () (list (start-activity "email" 2 ""))))
-	 ;(mbutton 'about (lambda () (list (start-activity "about" 2 ""))))
+	 (mbutton 'farm-button (lambda () (list (start-activity "farm" 2 ""))))
+	 ;;(mbutton 'about (lambda () (list (start-activity "about" 2 ""))))
 	 ))))))
-     
+   
    
    (lambda (activity arg)
      (activity-layout activity))
-   (lambda (activity arg)
+   (lambda (activity arg)     
+     (entity-init! db "farm" "farm" (get-entity-by-unique db "farm" arg))
+     (set-setting! "current-farm" "varchar" arg)
+     (msg "loaded farm" arg)
      (let ((polygons (get-polygons)))
        (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in))
 	     (centre (get-farm-centre polygons)))
@@ -154,6 +232,7 @@
 	       (update-widget 'text-view (get-id "p-cost-text") 'text (mtext-lookup 'p-cost-imperial))
 	       (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost-imperial))))
 	  (list	  
+	   (mupdate 'edit-text 'farm-name "name")
 	   (update-widget 'toggle-button (get-id "custom-manures") 'checked 0) 
 	   (update-widget 'linear-layout (get-id "costs-list") 'hide 1)
 	   (update-widget 'linear-layout (get-id "custom-manures-list") 'hide 1)
@@ -162,7 +241,7 @@
 	   (update-widget 'edit-text (get-id "k-cost") 'text (number->string (rounding-cash (current-cost-k))))
 	   (update-widget 'draw-map (get-id "fieldmap") 'polygons (list "none highlighted" (get-polygons)))
 	   (update-widget 'draw-map (get-id "fieldmap") 'centre (list (vx centre) (vy centre) zoom))
-	   (update-list-widget db "farm" (list "name") "field" "field" #f)
+	   (update-list-widget db "farm" (list "name") "field" "field" (get-setting-value "current-farm"))
 	   (update-list-widget db "farm" (list "name") "manure" "manure" #f)
 	   (update-widget 'spinner (get-id "choose-units-spinner") 'selection
 			  (if (eq? (current-units) 'metric) 0 1))
@@ -178,6 +257,7 @@
    (lambda (activity requestcode resultcode) 
      (msg requestcode resultcode)
      '()))
+
   
   
   (activity

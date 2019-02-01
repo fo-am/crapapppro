@@ -70,6 +70,7 @@ public class starwisp extends StarwispActivity
         // register all activities here
         ActivityManager.RegisterActivity("splash",starwisp.class);
         ActivityManager.RegisterActivity("main",MainActivity.class);
+        ActivityManager.RegisterActivity("farm",FarmActivity.class);
         ActivityManager.RegisterActivity("calc",CalcActivity.class);
         ActivityManager.RegisterActivity("newfield",NewFieldActivity.class);
         ActivityManager.RegisterActivity("field",FieldActivity.class);

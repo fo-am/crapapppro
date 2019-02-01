@@ -478,12 +478,12 @@
 (define (update-list-widget db table title-ids entity-type view-activity parent)
   (let ((search-results
          (if parent
-	     (db-filter-only db table entity-type
+	     (dbg (db-filter-only db table entity-type
                              (list (list "parent" "varchar" "=" parent))
                              (map
                               (lambda (id)
                                 (list id "varchar"))
-                              title-ids))
+                              title-ids)))
              (db-all db table entity-type))))
     (update-widget
      'linear-layout

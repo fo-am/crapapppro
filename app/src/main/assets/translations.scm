@@ -350,6 +350,10 @@
    (list 'liquidweeping (list "Separated liquid, weeping wall"))
    (list 'liquidmechanical (list "Separated liquid, mechanical separator"))
    (list 'liquid (list "Separated liquid"))
-  
 
+   (list 'farm-name (list "Current farm name"))
+   (list 'farm-button (list "Manage your farms"))
+   (list 'your-farms (list "Manage your farms"))
+   (list 'farm-info (list "Here you can add and manage multiple farms"))
+   
    ))

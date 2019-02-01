@@ -32,6 +32,7 @@
     (ktv "language" "int" 0)
     (ktv "email" "varchar" "None Yet")
     (ktv "units" "varchar" "metric")
+    (ktv "current-farm" "varchar" "none")
     (ktv "rainfall" "varchar" "medium")
     (ktv "cost-n" "real" 0.79)
     (ktv "cost-p" "real" 0.62)
@@ -462,7 +463,11 @@
 	    (convert-output->string (ktv-get field "size") "hectares")
 	    (if (eq? (current-units) 'imperial) "acres" "ha")))
 	  (get-field-polygon (ktv-get field "unique_id"))))))
-   (db-all db "farm" "field")))
+   (db-filter 
+    db "farm" "field" 
+    (list
+     (list "parent" "varchar" "=" (get-setting-value "current-farm"))))))
+
 
 (define (get-field-polygon field-uid)
   (map
