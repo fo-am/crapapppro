@@ -33,10 +33,12 @@
     (ktv "email" "varchar" "None Yet")
     (ktv "units" "varchar" "metric")
     (ktv "current-farm" "varchar" "none")
-    (ktv "rainfall" "varchar" "medium")
-    (ktv "cost-n" "real" 0.79)
-    (ktv "cost-p" "real" 0.62)
-    (ktv "cost-k" "real" 0.49))))
+;; removed and put in farm entity
+;;    (ktv "rainfall" "varchar" "medium")
+;;    (ktv "cost-n" "real" 0.79)
+;;    (ktv "cost-p" "real" 0.62)
+;;    (ktv "cost-k" "real" 0.49)
+    )))
 
 (define (nuke-database!)
   (nuke db "local")
@@ -104,20 +106,17 @@
 (define (mutate-email! v) (set-setting! "email" "varchar" v))
 (define (current-email) (get-setting-value "email"))
 
-(define (mutate-rainfall! v) (set-setting! "rainfall" "varchar" (symbol->string v)))
-(define (current-rainfall) (string->symbol (get-setting-value "rainfall")))
-
-(define (mutate-cost-n! v) (set-setting! "cost-n" "real" (safe-string->number v)) (update-costs))
-(define (current-cost-n) (get-setting-value "cost-n"))
-(define (mutate-cost-p! v) (set-setting! "cost-p" "real" (safe-string->number v)) (update-costs))
-(define (current-cost-p) (get-setting-value "cost-p"))
-(define (mutate-cost-k! v) (set-setting! "cost-k" "real" (safe-string->number v)) (update-costs))
-(define (current-cost-k) (get-setting-value "cost-k"))
-
 (define (update-costs)
-  (set! costs (list (current-cost-n)
-		    (current-cost-p)
-		    (current-cost-k))))
+  (set! costs (list (entity-get-value "cost-n")
+		    (entity-get-value "cost-p")
+		    (entity-get-value "cost-k"))))
+
+(define rainfall "rain-medium")
+
+(define (update-rainfall)
+  (set! rainfall (entity-get-value "rainfall")))
+
+(define (current-rainfall) rainfall)
 
 (define (mutate-current-seek-mul! a)
   (set! calc (calc-modify-seek-mul calc a)))

@@ -61,14 +61,14 @@
 		   '("cost-n" "real" 0.79)
 		   '("cost-p" "real" 0.62)
 		   '("cost-k" "real" 0.49)
-		   '("rainfall" "varchar" "medium"))))     
+		   '("rainfall" "varchar" "rain-medium"))))     
 	   ;; sent the parent of all the existing fields to be this farm
 	   (for-each
 	    (lambda (field-id)
-	      (msg "updating" field-id)
+	      (msg "updating to default farm" field-id)
 	      (update-entity 
 	       db "farm" field-id 
-	       (list (dbg (ktv "parent" "varchar" (get-setting-value "current-farm"))))))
+	       (list (ktv "parent" "varchar" (get-setting-value "current-farm")))))
 	    (all-entities db "farm" "field")))
      
      (activity-layout activity))
@@ -101,7 +101,7 @@
 				    '("cost-n" "real" 0.79)
 				   '("cost-p" "real" 0.62)
 				   '("cost-k" "real" 0.49)
-				   '("rainfall" "varchar" "medium"))))
+				   '("rainfall" "varchar" "rain-medium"))))
 	 
 	 (spacer 20)
 	 (mbutton-scale 'back (lambda () (list (finish-activity 99))))
@@ -171,9 +171,9 @@
 	  list-colour
 	  (list
 	   (mtext 'costs-blurb)
-	   (medit-text-scale 'n-cost "numeric" (lambda (v) (mutate-cost-n! v) '()))
-	   (medit-text-scale 'p-cost "numeric" (lambda (v) (mutate-cost-p! v) '()))
-	   (medit-text-scale 'k-cost "numeric" (lambda (v) (mutate-cost-k! v) '()))
+	   (medit-text-scale 'n-cost "numeric" (lambda (v) (entity-update-single-value! (ktv "cost-n" "real" v)) (update-costs) '()))
+	   (medit-text-scale 'p-cost "numeric" (lambda (v) (entity-update-single-value! (ktv "cost-p" "real" v)) (update-costs) '()))
+	   (medit-text-scale 'k-cost "numeric" (lambda (v) (entity-update-single-value! (ktv "cost-k" "real" v)) (update-costs) '()))
 	   ))
 	 (mtoggle-button 
 	  'custom-manures 
@@ -208,7 +208,12 @@
 			   (update-widget 'text-view (get-id "p-cost-text") 'text (mtext-lookup 'p-cost-imperial))
 			   (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost-imperial))))))
 	  (mspinner 'rainfall rainfall-list
-		    (lambda (v) (mutate-rainfall! (list-ref rainfall-list v)) '())))
+		    (lambda (v) 
+		      (entity-update-single-value! 
+		       (ktv "rainfall" "varchar" 
+			    (symbol->string (list-ref rainfall-list v)))) 
+		      (update-rainfall) 
+		      '())))
 	 (mbutton 'email (lambda () (list (start-activity "email" 2 ""))))
 	 (mbutton 'farm-button (lambda () (list (start-activity "farm" 2 ""))))
 	 ;;(mbutton 'about (lambda () (list (start-activity "about" 2 ""))))
@@ -217,10 +222,12 @@
    
    (lambda (activity arg)
      (activity-layout activity))
-   (lambda (activity arg)     
+   (lambda (activity arg)
      (entity-init! db "farm" "farm" (get-entity-by-unique db "farm" arg))
      (set-setting! "current-farm" "varchar" arg)
-     (msg "loaded farm" arg)
+     ;; pull the costs and rainfall in for this farm
+     (update-costs)
+     (update-rainfall)
      (let ((polygons (get-polygons)))
        (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in))
 	     (centre (get-farm-centre polygons)))
@@ -236,9 +243,9 @@
 	   (update-widget 'toggle-button (get-id "custom-manures") 'checked 0) 
 	   (update-widget 'linear-layout (get-id "costs-list") 'hide 1)
 	   (update-widget 'linear-layout (get-id "custom-manures-list") 'hide 1)
-	   (update-widget 'edit-text (get-id "n-cost") 'text (number->string (rounding-cash (current-cost-n))))
-	   (update-widget 'edit-text (get-id "p-cost") 'text (number->string (rounding-cash (current-cost-p))))
-	   (update-widget 'edit-text (get-id "k-cost") 'text (number->string (rounding-cash (current-cost-k))))
+	   (update-widget 'edit-text (get-id "n-cost") 'text (number->string (rounding-cash (entity-get-value "cost-n"))))
+	   (update-widget 'edit-text (get-id "p-cost") 'text (number->string (rounding-cash (entity-get-value "cost-p"))))
+	   (update-widget 'edit-text (get-id "k-cost") 'text (number->string (rounding-cash (entity-get-value "cost-k"))))
 	   (update-widget 'draw-map (get-id "fieldmap") 'polygons (list "none highlighted" (get-polygons)))
 	   (update-widget 'draw-map (get-id "fieldmap") 'centre (list (vx centre) (vy centre) zoom))
 	   (update-list-widget db "farm" (list "name") "field" "field" (get-setting-value "current-farm"))
@@ -246,7 +253,7 @@
 	   (update-widget 'spinner (get-id "choose-units-spinner") 'selection
 			  (if (eq? (current-units) 'metric) 0 1))
 	   (update-widget 'spinner (get-id "rainfall-spinner") 'selection
-			  (index-find (current-rainfall) rainfall-list))
+			  (index-find (string->symbol (entity-get-value "rainfall")) rainfall-list))
 	   ;; updates for orientation change
 	   (update-widget 'linear-layout (get-id "top") 'orientation (if (eq? screen-orientation 'portrait) 'vertical 'horizontal)) 
 	   )))))
@@ -711,7 +718,7 @@
 	(update-event-view-item-lookup "application")
 	(update-event-view-item-lookup "quality")
 	(update-event-view-item-lookup "season")
-	(dbg (update-event-view-item "crop"))
+	(update-event-view-item "crop")
 	(update-event-view-item-lookup "soil")
 	(update-event-view-item "size")
 	(update-widget 'text-view (get-id "na") 'text (string-append (convert-output->string (entity-get-value "nutrients-n") "kg/ha")								     " (" (convert-output->string (entity-get-value "total-nutrients-n") "kg/ha") ")"))
