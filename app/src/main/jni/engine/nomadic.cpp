@@ -18,6 +18,8 @@
 #include <math.h>
 #include <float.h>
 #include <assert.h>
+#include <errno.h>
+#include <string.h>
 
 #include "app.h"
 #include "scheme/scheme.h"
@@ -26,29 +28,23 @@ scheme *sc=NULL;;
 FILE *log_file=NULL;
 
 // Called from the app framework.
-void appInit()
+void appInit(char *log_file_str)
 {
     sc=scheme_init_new();
-
-    #ifdef FLX_LINUX
-    FILE *log_file=stdout;
-    scheme_set_input_port_file(sc, stdin);
-    #else
-    #ifdef FLX_RPI
-    FILE *log_file=stdout;
-    scheme_set_input_port_file(sc, stdin);
-    #else
-    FILE *log_file=fopen("/sdcard/crapapppro-log.txt","w");
-    #endif
-    #endif
+    FILE *log_file=fopen(log_file_str,"w");
+    // we can fail due to permissions not set - 
+    // as this may be happening before the runtime requests appear...
     if (log_file!=NULL) scheme_set_output_port_file(sc, log_file);
+    else scheme_set_output_port_file(sc, stdout);
 }
 
 // Called from the app framework.
 void appDeinit()
 {
+  if (log_file!=NULL) {
     fclose(log_file);
-    int a;
+  }
+  int a;
 }
 
 void appEval(char *code)

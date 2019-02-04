@@ -107,14 +107,24 @@
 (define (current-email) (get-setting-value "email"))
 
 (define (update-costs)
-  (set! costs (list (entity-get-value "cost-n")
-		    (entity-get-value "cost-p")
-		    (entity-get-value "cost-k"))))
+  (set! costs 
+	(list 
+	 ;; sqlite seems to return reals as strings, but when we 
+	 ;; set them internally they are numbers WTF
+	 (if (string? (entity-get-value "cost-n"))
+	     (string->number (entity-get-value "cost-n"))
+	     (entity-get-value "cost-n"))
+	 (if (string? (entity-get-value "cost-p"))
+	     (string->number (entity-get-value "cost-p"))
+	     (entity-get-value "cost-p"))
+	 (if (string? (entity-get-value "cost-k"))
+	     (string->number (entity-get-value "cost-k"))
+	     (entity-get-value "cost-k")))))
 
-(define rainfall "rain-medium")
+(define rainfall 'rain-medium)
 
 (define (update-rainfall)
-  (set! rainfall (entity-get-value "rainfall")))
+  (set! rainfall (string->symbol (entity-get-value "rainfall"))))
 
 (define (current-rainfall) rainfall)
 

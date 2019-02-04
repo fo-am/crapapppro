@@ -9,9 +9,10 @@
 static int  sWindowWidth  = 320;
 static int  sWindowHeight = 480;
 
-void Java_foam_starwisp_Scheme_nativeInit(JNIEnv* env)
+void Java_foam_starwisp_Scheme_nativeInit(JNIEnv* env, jobject  thiz, jstring logfile)
 {
-    appInit();
+    const char *log_file_str = (*env)->GetStringUTFChars(env, logfile, 0);
+    appInit(log_file_str);
 }
 
 /* Call to initialize the graphics state */

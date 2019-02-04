@@ -94,14 +94,14 @@
 	(vert
 	 (mtitle 'your-farms)
 	 (mtext 'farm-info)  
-	 (build-list-widget db "farm" 'farms (list "name") "farm" "main"
+	 (build-list-widget db "farm" 'farms-list (list "name") "farm" "main"
 			    (lambda () #f)
 			    (lambda ()
 			      (list '("name" "varchar" "My farm")
 				    '("cost-n" "real" 0.79)
-				   '("cost-p" "real" 0.62)
-				   '("cost-k" "real" 0.49)
-				   '("rainfall" "varchar" "rain-medium"))))
+				    '("cost-p" "real" 0.62)
+				    '("cost-k" "real" 0.49)
+				    '("rainfall" "varchar" "rain-medium"))))
 	 
 	 (spacer 20)
 	 (mbutton-scale 'back (lambda () (list (finish-activity 99))))

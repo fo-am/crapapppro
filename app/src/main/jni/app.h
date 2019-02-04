@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-extern void appInit();
+extern void appInit(char *logfile);
 extern void appDeinit();
 extern void appEval(char *code);
 

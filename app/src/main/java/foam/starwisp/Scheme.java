@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import android.app.Activity;
+import android.os.Environment;
 import android.util.Log;
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -33,7 +34,7 @@ public class Scheme
     static class Lock extends Object {}
     static public Lock mLock = new Lock();
 
-    private static native void nativeInit();
+    private static native void nativeInit(String logfile);
     private static native void nativeInitGL();
     private static native void nativeDone();
     private static native String nativeEval(String code);
@@ -51,7 +52,7 @@ public class Scheme
     public Scheme(Activity ctx) {
         m_Act = ctx;
         Log.i("starwisp","starting up...");
-        nativeInit();
+        nativeInit(Environment.getExternalStorageDirectory()+"/crapapppro-log.txt");
         eval(readRawTextFile(ctx, "init.scm"));
         ret = new FlxImage();
     }
