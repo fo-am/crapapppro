@@ -215,3 +215,10 @@
      (ktv-filter r key))
    ktv-list
    key-list))
+
+;; reverse of above!
+(define (ktv-filter-keep key-list ktv-list)
+  (filter
+   (lambda (ktv)
+     (in-list? (ktv-key ktv) key-list))
+   ktv-list))

@@ -221,8 +221,9 @@
    (list 'gallery (list "Gallery"))
 
    (list 'export (list "Export all data"))
-   (list 'export-blurb (list "Email export all field data as a CSV spreadsheet file"))
-   (list 'email-button (list "Email"))
+   (list 'export-blurb (list "Email export all field data as a CSV spreadsheet file or the farm data so it can be loaded into another app"))
+   (list 'email-button (list "Email events as CSV spreadsheet"))
+   (list 'email-farm-button (list "Email current farm"))
    (list 'none (list "None"))
 
    (list 'graph-title (list "Crop available nutrients added to field"))

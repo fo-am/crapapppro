@@ -8,7 +8,7 @@
   (cond
    ((number? v) (number->string v))
    ((symbol? v) (string-append "\"" (symbol->string v) "\""))
-   ((string? v) (string-append "\"" v "\""))
+   ((string? v) (string-append "\"" (escape-quotes v) "\""))
    ((boolean? v) (if v "true" "false"))
    ((list? v)
     (cond
@@ -294,4 +294,5 @@ d))))
   (with-input-from-file file parse-object))
 
 (define json/gen-string gen-string)
+
 

@@ -31,6 +31,7 @@ FILE *log_file=NULL;
 void appInit(char *log_file_str)
 {
     sc=scheme_init_new();
+
     FILE *log_file=fopen(log_file_str,"w");
     // we can fail due to permissions not set - 
     // as this may be happening before the runtime requests appear...

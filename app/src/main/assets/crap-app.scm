@@ -932,3 +932,61 @@
 	       entity))))
 	 (crap-titles)
 	 s))))
+
+(define (remove-dashes str)
+  (foldl
+   (lambda (c r)
+     (if (equal? c #\-)
+         (string-append r "_")
+         (string-append r (string c))))
+   ""
+   (string->list str)))
+
+(define (entity->assoc entity)
+  (map 
+   (lambda (ktv)
+     ;; make it an assoc list
+     (cons
+      (remove-dashes (ktv-key ktv))	 
+      (ktv-value ktv)))
+   (ktv-filter-many entity (list "user" "time" "deleted" "parent"))))
+
+(define (export-current-farm-as-json)
+  (let ((farm-id (get-setting-value "current-farm")))
+    (assoc->json
+     (list
+      (cons 
+       "farm" 
+       (append 
+	(list (cons "file-version" 1))
+	(list (cons "app-version" app-version))
+	(entity->assoc (get-entity-by-unique db "farm" farm-id))
+	(list 
+	 (cons 
+	  "fields"
+	  (map 
+	   (lambda (field)
+	     (append 
+	      (entity->assoc field)
+	      (list 
+	       (cons "coords"
+		     (map
+		      (lambda (coord) 
+			(entity->assoc (ktv-filter-keep (list "order" "lat" "lng") coord)))
+		      (db-filter 
+		       db "farm" "coord" 
+		       (list
+			(list "parent" "varchar" "=" (ktv-get field "unique_id"))))))
+	       (cons "events"
+		     (map
+		      (lambda (event) (entity->assoc event))
+		      (db-filter 
+		       db "farm" "event" 
+		       (list
+			(list "parent" "varchar" "=" (ktv-get field "unique_id")))))))
+	      ))
+	   (db-filter 
+	    db "farm" "field" 
+	    (list
+	     (list "parent" "varchar" "=" farm-id))))))))))))
+

@@ -819,6 +819,15 @@
 		(send-mail "" "From your Crap Calculator"
 			   "Please find attached your field data."
 			   (list (string-append dirname "fields.csv"))))))
+
+    (mbutton 'email-farm-button
+	     (lambda ()
+	       (save-data "farm.json" (dbg (export-current-farm-as-json)))
+	       (list
+		(send-mail "" "From your Crap Calculator"
+			   "Please find attached your farm data."
+			   (list (string-append dirname "farm.json"))))))
+
     (mbutton 'factory-reset
 	     (lambda ()
 	       (list
