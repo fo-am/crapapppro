@@ -942,14 +942,28 @@
    ""
    (string->list str)))
 
+(define (remove-underscores str)
+  (foldl
+   (lambda (c r)
+     (if (equal? c #\_)
+         (string-append r "-")
+         (string-append r (string c))))
+   ""
+   (string->list str)))
+
 (define (entity->assoc entity)
   (map 
    (lambda (ktv)
-     ;; make it an assoc list
-     (cons
-      (remove-dashes (ktv-key ktv))	 
-      (ktv-value ktv)))
-   (ktv-filter-many entity (list "user" "time" "deleted" "parent"))))
+     (if (equal? (ktv-key ktv) "crop")
+	 ;; parse crops back into scheme so then can be
+	 ;; converted correctly into json - to avoid nasty
+	 ;; quote escaping nightmares
+	 (cons "crop" (json/parse-string (ktv-value ktv)))
+	 ;; make it an assoc list
+	 (cons
+	  (remove-dashes (ktv-key ktv))	 
+	  (ktv-value ktv))))
+   (ktv-filter-many entity (list "user" "time" "parent"))))
 
 (define (export-current-farm-as-json)
   (let ((farm-id (get-setting-value "current-farm")))
@@ -966,7 +980,7 @@
 	  "fields"
 	  (map 
 	   (lambda (field)
-	     (append 
+	     (append
 	      (entity->assoc field)
 	      (list 
 	       (cons "coords"
@@ -979,7 +993,8 @@
 			(list "parent" "varchar" "=" (ktv-get field "unique_id"))))))
 	       (cons "events"
 		     (map
-		      (lambda (event) (entity->assoc event))
+		      (lambda (event) 
+			(entity->assoc event))
 		      (db-filter 
 		       db "farm" "event" 
 		       (list
@@ -990,3 +1005,63 @@
 	    (list
 	     (list "parent" "varchar" "=" farm-id))))))))))))
 
+;;; importing
+
+;; 1. look for existing farms with this unique_id
+;;  a) if not found - simple, we can just add new farm in
+;;  b) if found, merge farms
+;; 
+;; 2. merging farms
+;;  a) overwrite all farm specific data with import
+;;  b) for each field in import - check existing fields with unique_id
+;;  c) add field if not found in farm, or merge existing field
+;; 
+;; 3. merging fields
+;;  a) overwrite all field specific data with import (including gps coords)
+;;  b) for each event in import - check existing events with unique_id
+;;  c) add event if not found in field, or overwrite with import
+;; 
+;; (overwriting existing events with import is not strictly required, as
+;; they are immutable, but it follows the pattern so...)
+
+;; data is a key value list from the json object
+;; keys are symbols for some reason (json parser)
+
+(define (build-ktv-list-from-import db table entity-type data)
+  (foldl
+   (lambda (kv-pair r)
+     ;; check for crop...
+     (if (or (eq? (car kv-pair) 'crop)
+	     (eq? (car kv-pair) 'unique_id))
+	 r
+	 (let* ((key (remove-underscores (symbol->string (car kv-pair))))
+		(attribute-type (get-attribute-type db table entity-type key)))	
+	   (cond
+	    ((null? attribute-type) (msg "unknown import key: for " key) r)
+	    (else
+	     (cons (dbg (ktv key attribute-type (cdr kv-pair))) r))))))
+   '()
+   data))
+
+(define (import-entity db table entity-type data)
+  (msg data)
+  (let ((uid-pair (find 'unique_id data)))
+    (if uid-pair
+	(let* ((uid (cdr uid-pair))
+	       (entity-id (entity-id-from-unique db table uid)))
+	  (msg "searched for entity:" entity-id)
+	  (if entity-id
+	      ;; it exists!
+	      (update-entity-values 
+	       db table entity-id 
+	       (dbg (build-ktv-list-from-import db table entity-type data))
+	       #f) ;; dirtify value - ignored anyway here...
+	      
+	      ;; it doesn't yet
+	      (insert-entity-wholesale 
+	       db table entity-type unique-id #f 0 
+	       (dbg (build-ktv-list-from-import db table entity-type data)))))
+	(msg "no uid in imported entity" data))))
+  
+(define (import-farm db table import-data)
+  (import-entity db table "farm" (cdr (car import-data))))

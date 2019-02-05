@@ -822,12 +822,12 @@
 
     (mbutton 'email-farm-button
 	     (lambda ()
-	       (save-data "farm.json" (dbg (export-current-farm-as-json)))
+	       (save-data "farm.crap.json" (dbg (export-current-farm-as-json)))
 	       (list
 		(send-mail "" "From your Crap Calculator"
 			   "Please find attached your farm data."
-			   (list (string-append dirname "farm.json"))))))
-
+			   (list (string-append dirname "farm.crap.json"))))))
+    
     (mbutton 'factory-reset
 	     (lambda ()
 	       (list
@@ -902,6 +902,28 @@
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity requestcode resultcode) '()))
+
+
+  (activity
+   "import"
+   (scroll-view-vert
+    0 (layout 'fill-parent 'wrap-content 0.75 'centre 0)
+    (list
+     (vert
+      (mtitle 'import-farm)
+      (horiz
+       (mbutton-scale 'cancel (lambda () (list (finish-activity 99))))))))
+   (lambda (activity arg)
+     (activity-layout activity))
+   (lambda (activity arg) 
+     (import-farm db "farm" (json/parse-string arg))
+     '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity requestcode resultcode) '()))
+  
 
   
   )

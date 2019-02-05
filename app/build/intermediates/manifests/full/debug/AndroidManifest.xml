@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="foam.crapapppro"
-    android:versionCode="19"
-    android:versionName="3.0 beta 7" >
+    android:versionCode="20"
+    android:versionName="3.0 beta 8" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -21,6 +21,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.android.email.permission.READ_ATTACHMENT" />
+    <uses-permission android:name="com.android.email.permission.ACCESS_PROVIDER" />
 
     <supports-screens
         android:anyDensity="true"
@@ -52,6 +54,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="*"
+                    android:mimeType="*/*"
+                    android:pathPattern="*.crap.json" />
+            </intent-filter>
         </activity>
         <activity android:name="foam.starwisp.CalcActivity" />
         <activity android:name="foam.starwisp.NewFieldActivity" />
@@ -66,6 +78,7 @@
         <activity android:name="foam.starwisp.EmailActivity" />
         <activity android:name="foam.starwisp.ManureActivity" />
         <activity android:name="foam.starwisp.CropSelectActivity" />
+        <activity android:name="foam.starwisp.ImportActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

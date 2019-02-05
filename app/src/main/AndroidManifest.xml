@@ -12,6 +12,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <uses-permission android:name="com.android.email.permission.READ_ATTACHMENT"/>
+    <uses-permission android:name="com.android.email.permission.ACCESS_PROVIDER"/>
+
+
+
     <supports-screens
         android:smallScreens="true"
         android:normalScreens="true"
@@ -31,6 +36,14 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+	    <intent-filter>
+              <action android:name="android.intent.action.VIEW" />
+	      <category android:name="android.intent.category.DEFAULT" />
+              <data
+                  android:host="*"
+                  android:mimeType="*/*"
+                  android:pathPattern="*.crap.json" />
+            </intent-filter>
         </activity>
         <activity android:name="foam.starwisp.CalcActivity"></activity>
         <activity android:name="foam.starwisp.NewFieldActivity"></activity>
@@ -45,6 +58,7 @@
         <activity android:name="foam.starwisp.EmailActivity"></activity>
         <activity android:name="foam.starwisp.ManureActivity"></activity>
         <activity android:name="foam.starwisp.CropSelectActivity"></activity>
+        <activity android:name="foam.starwisp.ImportActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

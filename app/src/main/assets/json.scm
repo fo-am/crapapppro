@@ -215,7 +215,7 @@ d))))
    (else (parse-error token))))
 
 (define (parse-map)
-  (let loop ((res '(map)))
+  (let loop ((res '()))
     (let ((token (next-token)))
       (cond
        ((eqv? token 'close-curly) (reverse res))

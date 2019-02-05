@@ -26,6 +26,7 @@ import android.graphics.Color;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -46,6 +47,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.text.TextWatcher;
 import android.text.Editable;
+import android.net.Uri;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.PackageManager;
@@ -53,7 +55,7 @@ import android.content.res.Configuration;
 import android.Manifest; 
 import android.support.v4.content.ContextCompat;
 import android.support.v4.app.ActivityCompat;
-
+import android.content.Intent;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -82,6 +84,7 @@ public class starwisp extends StarwispActivity {
         ActivityManager.RegisterActivity("email", EmailActivity.class);
         ActivityManager.RegisterActivity("manure", ManureActivity.class);
         ActivityManager.RegisterActivity("cropselect", CropSelectActivity.class);
+        ActivityManager.RegisterActivity("import", ImportActivity.class);
     }
 
     /**
@@ -89,6 +92,23 @@ public class starwisp extends StarwispActivity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+
+	// handle incoming intent, action and MIME type
+	Intent intent = getIntent();
+	String action = intent.getAction();
+	String type = intent.getType();
+
+	Log.e("starwisp", "received: "+action+" "+type);
+	
+	if (Intent.ACTION_VIEW.equals(action) && type != null) {
+	    Log.e("starwisp", "we have an incoming thing");
+	    if ("application/json".equals(type)) {
+		Log.e("starwisp", "handling json");
+		handleJSON(intent); // Handle text being sent
+	    }
+	}
+
 
 	if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             Log.e("starwisp", "have write permissions");
@@ -194,5 +214,37 @@ public class starwisp extends StarwispActivity {
     public void onStart() {
         super.onStart();
 
+    }
+
+    public String readRawTextFile(Uri uri) {
+        BufferedReader inRd=null;
+        try {
+	    StringBuffer inLine = new StringBuffer();	    
+	    inRd = new BufferedReader(new InputStreamReader(getContentResolver().openInputStream(uri)));
+	    String text;
+	    while ((text = inRd.readLine()) != null) {
+		inLine.append(text);
+		inLine.append("\n");
+	    }	    
+	    return inLine.toString();
+	}
+        catch (IOException e) {
+	    Log.e("starwisp",e.toString());
+	    return "";
+	}
+        finally {
+	    try { if (inRd!=null) inRd.close(); }
+	    catch (IOException e) { 
+		Log.e("starwisp",e.toString());
+		return ""; 
+	    }
+	}
+    }
+
+    void handleJSON(Intent intent) {
+	String text = readRawTextFile(intent.getData());
+	if (text != null) {
+	    ActivityManager.StartActivity(this, "import", 0, text.replaceAll("\"","\'"));  
+	}
     }
 }
