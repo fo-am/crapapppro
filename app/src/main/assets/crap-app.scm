@@ -1027,7 +1027,12 @@
 ;; data is a key value list from the json object
 ;; keys are symbols for some reason (json parser)
 
+;; need to pre-register attribute types
+
+
 (define (build-ktv-list-from-import db table entity-type data)
+  (msg entity-type)
+  (msg (get-attribute-ids/types db table entity-type))
   (foldl
    (lambda (kv-pair r)
      ;; check for crop...
@@ -1039,29 +1044,41 @@
 	   (cond
 	    ((null? attribute-type) (msg "unknown import key: for " key) r)
 	    (else
-	     (cons (dbg (ktv key attribute-type (cdr kv-pair))) r))))))
+	     (cons (ktv key attribute-type (cdr kv-pair)) r))))))
    '()
    data))
 
 (define (import-entity db table entity-type data)
-  (msg data)
-  (let ((uid-pair (find 'unique_id data)))
+  (let ((uid-pair (assoc 'unique_id data)))
     (if uid-pair
 	(let* ((uid (cdr uid-pair))
 	       (entity-id (entity-id-from-unique db table uid)))
 	  (msg "searched for entity:" entity-id)
-	  (if entity-id
+	  (if (not (null? entity-id))
 	      ;; it exists!
 	      (update-entity-values 
 	       db table entity-id 
-	       (dbg (build-ktv-list-from-import db table entity-type data))
+	       (dbg (build-ktv-list-from-import 
+		     db table entity-type data))
 	       #f) ;; dirtify value - ignored anyway here...
 	      
 	      ;; it doesn't yet
 	      (insert-entity-wholesale 
-	       db table entity-type unique-id #f 0 
+	       db table entity-type uid 0 0 
 	       (dbg (build-ktv-list-from-import db table entity-type data)))))
 	(msg "no uid in imported entity" data))))
   
 (define (import-farm db table import-data)
-  (import-entity db table "farm" (cdr (car import-data))))
+  (let ((farm-data (cdr (car import-data))))
+    (import-entity db table "farm" farm-data)
+    (let ((fields-list (cdr (assoc 'fields farm-data))))
+      (for-each
+       (lambda (field-data)
+	 (import-entity db table "field" field-data)
+	 (let ((events-list (cdr (assoc 'events field-data))))
+	   (for-each
+	    (lambda (event-data)
+	      (import-entity db table "event" event-data))
+	    events-list)))
+       fields-list))
+    ))

@@ -223,6 +223,7 @@
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
+     (msg "loading farm" arg)
      (entity-init! db "farm" "farm" (get-entity-by-unique db "farm" arg))
      (set-setting! "current-farm" "varchar" arg)
      ;; pull the costs and rainfall in for this farm
