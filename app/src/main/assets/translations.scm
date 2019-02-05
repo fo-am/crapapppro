@@ -28,6 +28,7 @@
    (list 'email (list "Email export"))
    (list 'about (list "About"))
    (list 'back (list "Back"))
+   (list 'field-back (list "Back"))
    (list 'done (list "Done"))
    (list 'save (list "Save"))
    (list 'cancel (list "Cancel"))

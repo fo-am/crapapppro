@@ -490,7 +490,7 @@
 	 
 	 (horiz
 	  (delete-button)
-	  (mbutton-scale 'back (lambda () (list (finish-activity 99))))))))))))
+	  (mbutton-scale 'field-back (lambda () (list (finish-activity 99))))))))))))
    
    (lambda (activity arg)
      (activity-layout activity))

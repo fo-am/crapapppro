@@ -89,11 +89,19 @@ public class starwisp extends StarwispActivity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+	if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Log.e("starwisp", "have write permissions");
+	} else {
+            Log.e("starwisp", "don't have write permissions");
+	}
+	
         String dirname = "farmcrapapppro-beta/";
-        m_AppDir = Environment.getExternalStorageDirectory().getPath() + dirname;
+        m_AppDir = Environment.getExternalStorageDirectory().getPath() + "/" + dirname;
         File appdir = new File(m_AppDir);
         appdir.mkdirs();
-
+	Log.e("starwisp", "making: "+m_AppDir);
+	
         // build static things
         m_Scheme = new Scheme(this);
         m_Scheme.Load("lib.scm");
@@ -168,17 +176,17 @@ public class starwisp extends StarwispActivity {
         super.onCreate(savedInstanceState);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+			     WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
+	    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+	    ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+	    
             ActivityCompat.requestPermissions(this, new String[]{
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    0);
+		    Manifest.permission.ACCESS_FINE_LOCATION,
+		    Manifest.permission.ACCESS_COARSE_LOCATION,
+		    Manifest.permission.WRITE_EXTERNAL_STORAGE},
+		0);
         }
     }
 
