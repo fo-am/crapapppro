@@ -429,27 +429,27 @@
 ;; make new button, to add defaults to the list - edit-activity
 ;; is called when the + button is pressed
 (define (build-list-widget db table title title-ids entity-type edit-activity parent-fn ktv-default-fn)
-    (vert-colour
-     list-colour
-     (horiz
-      (mtitle-scale title)
-      (button
-       (make-id (string-append (symbol->string title) "-add"))
-       "+" 40 (layout 100 'wrap-content 1 'centre 5)
-       (lambda ()
-         (let ((id (entity-create!
-		    db table entity-type
-		    (ktvlist-merge
-		     (ktv-default-fn)
-		     (list (ktv "parent" "varchar" (parent-fn)))))))
-	   (list (start-activity edit-activity 0 id))))))
+  (vert-colour
+   list-colour
+   (horiz
+    (mtitle-scale title)
+    (button
+     (make-id (string-append (symbol->string title) "-add"))
+     "+" 40 (layout 100 'wrap-content 1 'centre 5)
+     (lambda ()
+       (let ((id (entity-create!
+		  db table entity-type
+		  (ktvlist-merge
+		   (ktv-default-fn)
+		   (list (ktv "parent" "varchar" (parent-fn)))))))
+	 (list (start-activity edit-activity 0 id))))))
      
-     (linear-layout
-      (make-id (string-append entity-type "-list"))
-      'vertical
-      (layout 'fill-parent 'wrap-content 1 'centre 20)
-      (list 0 0 0 0)
-      (list))))
+   (linear-layout
+    (make-id (string-append entity-type "-list"))
+    'vertical
+    (layout 'fill-parent 'wrap-content 1 'centre 20)
+    (list 0 0 0 0)
+    (list))))
 
 (define (build-list-widget-readonly db table title title-ids entity-type edit-activity parent-fn ktv-default-fn)
   (vert-colour
@@ -493,11 +493,13 @@
          (list (mtext 'list-empty))
          (map
           (lambda (e)
+	    (msg "button made for " (ktv-get e "unique_id"))
             (button
              (make-id (string-append "list-button-" (ktv-get e "unique_id")))
              (make-list-widget-title e title-ids)
              button-text-size (layout 'fill-parent 'wrap-content 1 'centre 5)
              (lambda ()
+	       (msg "->" (ktv-get e "unique_id"))
                (list (start-activity view-activity 0 (ktv-get e "unique_id"))))))
           search-results)))))
 

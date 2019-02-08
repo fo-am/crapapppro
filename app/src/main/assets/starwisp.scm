@@ -976,13 +976,38 @@
 			 (mtext-lookup 'bad-password)
 			 (lambda ()))))
 		      (else
-		       (import-farm 
-			db "farm" 
-			(json/parse-string cleartext))
-		       '())))))))
+		       (let* ((import-data (json/parse-string cleartext))
+			      (farm-name (farm-name import-data)))
+			 (msg "importing" farm-name)
+			 (list
+			  (alert-dialog	
+			   "import-farm"
+			   (if (farm-exists? db "farm" import-data)
+			       (string-append (mtext-lookup 'import-existing-farm) farm-name)
+			       (string-append (mtext-lookup 'import-new-farm) farm-name))
+			   (lambda (v)
+			     (msg v)
+			     (if (eqv? v 1)
+				 (let ((import-result (import-farm db "farm" import-data)))
+				   (msg import-result)
+				   (list
+				    (if import-result
+					(build-import-report import-result farm-name)
+					(ok-dialog
+					 "bad-file-version"
+					 (mtext-lookup 'bad-file-version)
+					 (lambda ())))))
+				 '()))))))))))))
+      
+      (linear-layout
+       (make-id "import-report")
+       'vertical
+       (layout 'fill-parent 'wrap-content 1 'centre 0)
+       '(0 0 0 0)
+       (list))
       
       (horiz
-       (mbutton-scale 'cancel (lambda () (list (finish-activity 99))))))))
+       (mbutton-scale 'return-to-app (lambda () (list (start-activity-goto "splash" 0 ""))))))))
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)

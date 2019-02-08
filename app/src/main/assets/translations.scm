@@ -368,8 +368,16 @@
    (list 'view-password (list "View password"))
    (list 'bad-password (list "Could not decrypt farm, are you sure this is the correct password?"))
    (list 'import-farm (list "Import farm"))
-   (list 'import-blurb (list "You have received a farm - enter the password and click import to add it to your farms"))
+   (list 'import-blurb (list "You have received a farm for the Farm Crapapp - enter the password and click import to add it to your farms"))
  
-   
-   
+   (list 'import-new-farm (list "Would you like to add the new farm: "))
+   (list 'import-existing-farm (list "Would you like to update your existing farm: "))
+   (list 'bad-file-version (list "This file is not compatible with your Farm Crap App"))
+
+   (list 'import-report (list "Imported farm: "))
+   (list 'new-field (list "Added new field: "))
+   (list 'overwritten-field (list "Updated field: "))
+   (list 'new-event (list "Added new event: "))
+   (list 'overwritten-event (list "Updated event: "))
+   (list 'return-to-app (list "Return to farm"))
    ))

@@ -965,6 +965,8 @@
 	  (ktv-value ktv))))
    (ktv-filter-many entity (list "user" "time" "parent"))))
 
+(define current-export-version 1)
+
 (define (export-current-farm-as-json)
   (let ((farm-id (get-setting-value "current-farm")))
     (assoc->json
@@ -972,7 +974,7 @@
       (cons 
        "farm" 
        (append 
-	(list (cons "file-version" 1))
+	(list (cons "file-version" current-export-version))
 	(list (cons "app-version" app-version))
 	(entity->assoc (get-entity-by-unique db "farm" farm-id))
 	(list 
@@ -1048,37 +1050,125 @@
    '()
    data))
 
+;; returns true if exists, false if new
 (define (import-entity db table entity-type data)
   (let ((uid-pair (assoc 'unique_id data)))
-    (if uid-pair
-	(let* ((uid (cdr uid-pair))
-	       (entity-id (entity-id-from-unique db table uid)))
-	  (msg "searched for entity:" entity-id)
-	  (if (not (null? entity-id))
-	      ;; it exists!
-	      (update-entity-values 
-	       db table entity-id 
-	       (dbg (build-ktv-list-from-import 
-		     db table entity-type data))
-	       #f) ;; dirtify value - ignored anyway here...
-	      
-	      ;; it doesn't yet
-	      (insert-entity-wholesale 
-	       db table entity-type uid 0 0 
-	       (dbg (build-ktv-list-from-import db table entity-type data)))))
-	(msg "no uid in imported entity" data))))
-  
+    (cond
+     (uid-pair
+      (let* ((uid (cdr uid-pair))
+	     (entity-id (entity-id-from-unique db table uid)))
+	(msg "searched for entity:" entity-id)
+	(cond 
+	 ((not (null? entity-id))
+	  ;; it exists!
+	  (update-entity-values 
+	   db table entity-id 
+	   (dbg (build-ktv-list-from-import 
+		 db table entity-type data))
+	   #f) ;; dirtify value - ignored anyway here...
+	  #t)
+	 (else
+	  ;; it doesn't yet
+	  (insert-entity-wholesale 
+	   db table entity-type uid 0 0 
+	   (dbg (build-ktv-list-from-import db table entity-type data)))
+	  #f))))
+     (else
+      (msg "no uid in imported entity" data)
+      #f))))
+
+;; some functions for inspecting the data pre-inport
+(define (farm-exists? db table import-data)
+  (let ((farm-data (cdr (car import-data))))
+    (let ((uid-pair (assoc 'unique_id farm-data)))
+      (if uid-pair
+	  (let* ((uid (cdr uid-pair))
+		 (entity-id (entity-id-from-unique db table uid)))
+	    (not (null? entity-id)))
+	  #f))))
+
+;; for checking which ones to import - not used yet...
+(define (existing-fields db table import-data)
+  (let ((farm-data (cdr (car import-data))))
+    (let ((fields-list (cdr (assoc 'fields farm-data))))
+      (foldl
+       (lambda (field-data r)
+	 (if (not (null? (entity-id-from-unique db table (assoc 'unique_id field-data))))
+	     (cons (list (assoc 'unique_id field-data)
+			 (assoc 'name field-data)) r)
+	     r))
+       '()
+       fields-list))))
+
+(define (farm-name import-data)
+  (let ((farm-data (cdr (car import-data))))
+    (cdr (assoc 'name farm-data))))
+
+
 (define (import-farm db table import-data)
   (let ((farm-data (cdr (car import-data))))
-    (import-entity db table "farm" farm-data)
-    (let ((fields-list (cdr (assoc 'fields farm-data))))
-      (for-each
-       (lambda (field-data)
-	 (import-entity db table "field" field-data)
-	 (let ((events-list (cdr (assoc 'events field-data))))
-	   (for-each
-	    (lambda (event-data)
-	      (import-entity db table "event" event-data))
-	    events-list)))
-       fields-list))
-    ))
+    (msg farm-data)
+    (let ((version (cdr (assoc 'file-version farm-data))))
+      (cond 
+       ((eqv? version current-export-version)	  
+	(msg "importing farm")
+	(import-entity db table "farm" farm-data)
+	(let ((fields-list (cdr (assoc 'fields farm-data))))
+	  (msg "importing fields")
+	  (foldl
+	   (lambda (field-data r)
+	     (msg (assoc 'unique_id field-data))
+	     ;; import fields
+	     (let ((field-exists (import-entity db table "field" field-data)))
+	       (msg field-exists)
+	       ;; import polygons....
+	       ;; delete previous polygon if one exists
+	       (db-delete-children db "farm" "coord" (assoc 'unique_id field-data))
+	       (let ((coords-list (cdr (assoc 'coords field-data))))
+		 (for-each
+		  (lambda (coord-data)
+		    ;; plain old insert-entity as we have cleared this first
+		    ;; and have no uids
+		    (insert-entity
+		     db "farm" "coord" "sys" 
+		     (dbg (build-ktv-list-from-import db "farm" "coord" coord-data))))
+		  coords-list))	
+	       ;; import events.......
+	       (let ((events-list (cdr (assoc 'events field-data))))
+		 ;; return a list of imported fields and events
+		 (cons 
+		  (list 'field (cdr (assoc 'name field-data)) field-exists)
+		  (foldl
+		   (lambda (event-data r)
+		     (cons
+		      (list 'event (cdr (assoc 'date event-data))
+			    (import-entity db table "event" event-data))
+		      r))
+		   r
+		   events-list)))))
+	   '()
+	   fields-list)))
+       (else #f)))))
+
+(define (build-import-report import-result farm-name)
+  (update-widget
+   'linear-layout
+   (get-id "import-report")
+   'contents
+   (cons
+    (text-view 
+     0 
+     (string-append (mtext-lookup 'import-report) farm-name)
+     large-text-size (layout 'wrap-content 'wrap-content -1 'left 0))
+    (dbg (map
+	  (lambda (field-details)
+	    (text-view 
+	     0 (string-append 
+		(mtext-lookup 
+		 (if (eq? (car field-details) 'field)
+		     (if (list-ref field-details 2) 'overwritten-field 'new-field)
+		     (if (list-ref field-details 2) 'overwritten-event 'new-event)))
+		;; name 
+		(cadr field-details))
+	     normal-text-size (layout 'wrap-content 'wrap-content -1 'left 0)))
+	  import-result)))))
