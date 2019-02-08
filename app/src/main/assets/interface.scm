@@ -485,6 +485,8 @@
                                 (list id "varchar"))
                               title-ids))
              (db-all db table entity-type))))
+
+    (msg "list widget" parent)
     (update-widget
      'linear-layout
      (get-id (string-append entity-type "-list"))

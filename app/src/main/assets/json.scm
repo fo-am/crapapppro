@@ -161,6 +161,7 @@
     (let ((ch (read-char)))
       (cond
        ((eqv? ch #\\) (loop (string-append res (string (parse-escape q)))))
+       ((or (eqv? ch #\") (eqv? ch #\')) res) ;; empty string
        ((eqv? ch q) (check-symbol res))
        ((not (char-control? ch)) (loop (string-append res (string ch))))
        (else (lexer-error ch))))))
@@ -294,5 +295,4 @@ d))))
   (with-input-from-file file parse-object))
 
 (define json/gen-string gen-string)
-
 

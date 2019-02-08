@@ -963,7 +963,7 @@
 	 (cons
 	  (remove-dashes (ktv-key ktv))	 
 	  (ktv-value ktv))))
-   (ktv-filter-many entity (list "user" "time" "parent"))))
+   (ktv-filter-many entity (list "user" "time"))))
 
 (define current-export-version 1)
 
@@ -988,7 +988,7 @@
 	       (cons "coords"
 		     (map
 		      (lambda (coord) 
-			(entity->assoc (ktv-filter-keep (list "order" "lat" "lng") coord)))
+			(entity->assoc (ktv-filter-keep (list "name" "order" "lat" "lng" "parent") coord)))
 		      (db-filter 
 		       db "farm" "coord" 
 		       (list
@@ -1029,22 +1029,68 @@
 ;; data is a key value list from the json object
 ;; keys are symbols for some reason (json parser)
 
-;; need to pre-register attribute types
+;; need to pre-register attribute types as they may not be created 
+;; before we import
 
+(define export-attributes
+  '(("farm" (("name" "varchar") 
+	     ("cost-n" "real") 
+	     ("cost-p" "real") 
+	     ("cost-k" "real") 
+	     ("rainfall" "varchar")))
+    ("field" (("name" "varchar")
+	      ("parent" "varchar")
+	      ("soil" "varchar")
+	      ("crop" "varchar")
+	      ("previous-crop" "varchar")
+	      ("soil-test-p" "varchar")
+	      ("soil-test-k" "varchar")
+	      ("regularly-manure" "varchar")
+	      ("recently-grown-grass" "varchar")
+	      ("size" "real")))
+    ("coord" (("name" "varchar")
+	      ("parent" "varchar")
+	      ("order" "int")
+	      ("lat" "real")
+	      ("lng" "real")))
+    ("event" (("name" "varchar")
+	      ("parent" "varchar")
+	      ("type" "varchar")
+	      ("date" "varchar")
+	      ("nutrients-n" "real")
+	      ("nutrients-p" "real")
+	      ("nutrients-k" "real")
+	      ("total-nutrients-n" "real")
+	      ("total-nutrients-p" "real")
+	      ("total-nutrients-k" "real")
+	      ("require-n" "real")
+	      ("require-p" "real")
+	      ("require-k" "real")
+	      ("sns" "int")
+	      ("soil" "varchar")
+	      ("size" "real")
+	      ("amount" "real")
+	      ("quality" "varchar")
+	      ("application" "varchar")
+	      ("season" "varchar")
+	      ("crop" "varchar")))))
+
+(define (find-import-attribute-type entity-type key)
+  (let ((kp (assoc key (cadr (assoc entity-type export-attributes)))))
+    (if kp (cadr kp) '())))
 
 (define (build-ktv-list-from-import db table entity-type data)
   (msg entity-type)
-  (msg (get-attribute-ids/types db table entity-type))
   (foldl
    (lambda (kv-pair r)
-     ;; check for crop...
-     (if (or (eq? (car kv-pair) 'crop)
-	     (eq? (car kv-pair) 'unique_id))
+     (if (eq? (car kv-pair) 'unique_id)
 	 r
 	 (let* ((key (remove-underscores (symbol->string (car kv-pair))))
-		(attribute-type (get-attribute-type db table entity-type key)))	
+		(attribute-type (find-import-attribute-type entity-type key)))
 	   (cond
 	    ((null? attribute-type) (msg "unknown import key: for " key) r)
+	    ;; crop is a string of a json object...
+	    ((eq? (car kv-pair) 'crop) (cons (ktv key attribute-type (params-list->text (cdr kv-pair))) r))
 	    (else
 	     (cons (ktv key attribute-type (cdr kv-pair)) r))))))
    '()
