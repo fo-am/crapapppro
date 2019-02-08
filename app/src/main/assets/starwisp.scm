@@ -823,12 +823,18 @@
 
     (mbutton 'email-farm-button
 	     (lambda ()
-	       (save-data "farm.crap.json" (dbg (export-current-farm-as-json)))
 	       (list
-		(send-mail "" "From your Crap Calculator"
-			   "Please find attached your farm data."
-			   (list (string-append dirname "farm.crap.json"))))))
-    
+		(encrypt
+		 "export-encrypt"
+		 (dbg (export-current-farm-as-json))
+		 "password"
+		 (lambda (ciphertext)
+		   (save-data "farm.crap.json.enc" (dbg ciphertext))
+		   (list
+		    (send-mail "" "From your Crap Calculator"
+			       "Please find attached your farm data."
+			       (list (string-append dirname "farm.crap.json.enc")))))))))
+		
     (mbutton 'factory-reset
 	     (lambda ()
 	       (list
@@ -916,9 +922,15 @@
        (mbutton-scale 'cancel (lambda () (list (finish-activity 99))))))))
    (lambda (activity arg)
      (activity-layout activity))
-   (lambda (activity arg) 
-     (import-farm db "farm" (json/parse-string arg))
-     '())
+   (lambda (activity arg)
+     (msg arg)
+     (list
+      (decrypt 
+       "import-decrypt"
+       arg "password"
+       (lambda (cleartext)
+	 (msg cleartext)
+	 (import-farm db "farm" (json/parse-string cleartext))))))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())

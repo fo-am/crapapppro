@@ -102,9 +102,9 @@ public class starwisp extends StarwispActivity {
 	Log.e("starwisp", "received: "+action+" "+type);
 	
 	if (Intent.ACTION_VIEW.equals(action) && type != null) {
-	    Log.e("starwisp", "we have an incoming thing");
-	    if ("application/json".equals(type)) {
-		Log.e("starwisp", "handling json");
+	    Log.e("starwisp", "we have an incoming thing "+type);
+	    if ("application/octet-stream".equals(type)) {
+		Log.e("starwisp", "handling encoded json");
 		handleJSON(intent); // Handle text being sent
 	    }
 	}
@@ -242,9 +242,9 @@ public class starwisp extends StarwispActivity {
     }
 
     void handleJSON(Intent intent) {
-	String text = readRawTextFile(intent.getData());
-	if (text != null) {
-	    ActivityManager.StartActivity(this, "import", 0, text.replaceAll("\"","\'"));  
+	String encrypted = readRawTextFile(intent.getData());
+	if (encrypted != null) {
+	    ActivityManager.StartActivity(this, "import", 0, encrypted);  
 	}
     }
 }

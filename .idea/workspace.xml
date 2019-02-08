@@ -12,13 +12,15 @@
     <bookmark url="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/starwisp.java" line="141" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d53a68a-2874-4dbd-b983-e0eb76fbd569" name="Default" comment="">
+    <list default="true" id="0d53a68a-2874-4dbd-b983-e0eb76fbd569" name="Default" comment="added">
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/ImportActivity.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/build/generated/source/buildConfig/debug/foam/starwisp/BuildConfig.java" afterPath="$PROJECT_DIR$/app/build/generated/source/buildConfig/debug/foam/starwisp/BuildConfig.java" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/manifests/full/debug/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/manifests/full/debug/AndroidManifest.xml" />
       <change beforePath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" afterPath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/lib.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/lib.scm" />
       <change beforePath="$PROJECT_DIR$/app/src/main/assets/starwisp.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/starwisp.scm" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" afterPath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/starwisp.java" afterPath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/starwisp.java" />
     </list>
     <ignored path="crapapppro.iws" />
@@ -121,12 +123,100 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="starwisp.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="starwisp.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/starwisp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1026">
-              <caret line="120" column="41" lean-forward="false" selection-start-line="120" selection-start-column="41" selection-end-line="120" selection-end-column="41" />
+            <state relative-caret-position="72">
+              <caret line="241" column="5" lean-forward="false" selection-start-line="241" selection-start-column="5" selection-end-line="241" selection-end-column="5" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StarwispBuilder.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="1225" column="0" lean-forward="false" selection-start-line="1225" selection-start-column="0" selection-end-line="1225" selection-end-column="0" />
+              <folding>
+                <element signature="method#StarwispBuilder#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#BuildLayoutParams#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#getPixelsFromDp#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#DialogCallback#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#Callback#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#CallbackArgs#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#email#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="e#8654#8707#0" expanded="false" />
+                <element signature="method#photo#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#Decrypt#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#Build#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="e#15868#15955#0" expanded="false" />
+                <element signature="e#18085#18161#0" expanded="false" />
+                <element signature="e#19055#19099#0" expanded="false" />
+                <element signature="e#19909#19988#0" expanded="false" />
+                <element signature="class#24332:25048" expanded="false" />
+                <element signature="method#getItem#0;class#24332:25048" expanded="false" />
+                <element signature="e#27563#27621#0" expanded="false" />
+                <element signature="e#28978#29039#0" expanded="false" />
+                <element signature="class#32018:32427" expanded="false" />
+                <element signature="method#afterTextChanged#0;class#32018:32427" expanded="false" />
+                <element signature="class#35967:36762" expanded="false" />
+                <element signature="method#onProgressChanged#0;class#35967:36762" expanded="false" />
+                <element signature="class#37454:37940" expanded="false" />
+                <element signature="method#getView#0;class#37454:37940" expanded="false" />
+                <element signature="class#38130:38434" expanded="false" />
+                <element signature="method#onItemSelected#0;class#38130:38434" expanded="false" />
+                <element signature="method#UpdateList#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="e#46214#46239#0" expanded="false" />
+                <element signature="e#47146#47218#0" expanded="false" />
+                <element signature="class#62111:62982" expanded="false" />
+                <element signature="method#onAnimationEnd#0;class#62111:62982" expanded="false" />
+                <element signature="e#62433#62515#0" expanded="false" />
+                <element signature="method#onAnimationRepeat#0;class#62111:62982" expanded="false" />
+                <element signature="method#onAnimationStart#0;class#62111:62982" expanded="false" />
+                <element signature="class#71093:71865" expanded="false" />
+                <element signature="method#getItem#0;class#71093:71865" expanded="false" />
+                <element signature="class#80445:80963" expanded="false" />
+                <element signature="method#getView#0;class#80445:80963" expanded="false" />
+                <element signature="class#81243:81567" expanded="false" />
+                <element signature="method#onItemSelected#0;class#81243:81567" expanded="false" />
+                <element signature="method#JSONToScheme#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#WalkDraggable#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#SaveData#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#LoadData#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#getDateTime#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="class#MyDragShadowBuilder#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="method#MyDragShadowBuilder#0;class#MyDragShadowBuilder#0;class#StarwispBuilder#0" expanded="false" />
+                <element signature="e#86263#86341#0" expanded="false" />
+                <element signature="e#86415#86502#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AesCbcWithIntegrity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/AesCbcWithIntegrity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="75" column="49" lean-forward="false" selection-start-line="75" selection-start-column="49" selection-end-line="75" selection-end-column="49" />
+              <folding>
+                <element signature="e#0#38385#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#3883#3884#0" expanded="true" />
+                <element signature="e#3921#3922#0" expanded="true" />
+                <element signature="e#17356#17357#0" expanded="true" />
+                <element signature="e#17405#17406#0" expanded="true" />
+                <element signature="e#17594#17595#0" expanded="true" />
+                <element signature="e#17637#17638#0" expanded="true" />
+                <element signature="e#17700#17701#0" expanded="true" />
+                <element signature="e#17756#17757#0" expanded="true" />
+                <element signature="e#19730#19731#0" expanded="true" />
+                <element signature="e#19771#19772#0" expanded="true" />
+                <element signature="e#19804#19805#0" expanded="true" />
+                <element signature="e#19837#19838#0" expanded="true" />
+                <element signature="e#19871#19872#0" expanded="true" />
+                <element signature="e#19905#19906#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -141,27 +231,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Android.mk" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/jni/Android.mk">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="14" column="17" lean-forward="false" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -172,6 +249,9 @@
       <find>callbackArgs</find>
       <find>spinner</find>
       <find>spinnerin</find>
+      <find>fix</find>
+      <find>edittext</find>
+      <find>DialogCall</find>
     </findStrings>
   </component>
   <component name="GenerateSignedApkSettings">
@@ -2256,7 +2336,6 @@
         <option value="$PROJECT_DIR$/app/src/main/jni/scheme/scheme.cpp" />
         <option value="$PROJECT_DIR$/app/src/main/jni/Android.mk" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/foam/starwisp/ReselectSpinner.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/jni/app-android.c" />
@@ -2264,6 +2343,9 @@
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/jni/engine/nomadic.cpp" />
         <option value="$PROJECT_DIR$/app/src/main/java/foam/starwisp/starwisp.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/foam/starwisp/AESEncyption.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/foam/starwisp/AesCbcWithIntegrity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" />
       </list>
     </option>
   </component>
@@ -2297,6 +2379,21 @@
           <expand>
             <path>
               <item name="crapapppro" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="crapapppro" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="crapapppro" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="starwisp" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="crapapppro" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
@@ -2310,7 +2407,7 @@
     <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
     <property name="ExportApk.Flavors" value="" />
     <property name="ExportApk.BuildType" value="release" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549375045398" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549625731806" />
     <property name="ExportApk.SignV2" value="true" />
     <property name="ExportApk.SignV1" value="true" />
     <property name="device.picker.selection" value="Copy_of_Nexus_5_API_24" />
@@ -2573,6 +2670,14 @@
       <option name="presentableId" value="Default" />
       <updated>1485966526029</updated>
     </task>
+    <task id="LOCAL-00001" summary="added">
+      <created>1549540890701</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1549540890701</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2581,6 +2686,7 @@
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24675325" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2593,7 +2699,7 @@
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18484849" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20984848" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40584415" sideWeight="0.8" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2610,7 +2716,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2627,6 +2732,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added" />
+    <option name="LAST_COMMIT_MESSAGE" value="added" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -2641,14 +2750,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -2931,13 +3032,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2502">
-          <caret line="276" column="0" lean-forward="false" selection-start-line="276" selection-start-column="0" selection-end-line="276" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/ReselectSpinner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -3030,9 +3124,93 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/starwisp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1026">
-          <caret line="120" column="41" lean-forward="false" selection-start-line="120" selection-start-column="41" selection-end-line="120" selection-end-column="41" />
+        <state relative-caret-position="72">
+          <caret line="241" column="5" lean-forward="false" selection-start-line="241" selection-start-column="5" selection-end-line="241" selection-end-column="5" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/AesCbcWithIntegrity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="75" column="49" lean-forward="false" selection-start-line="75" selection-start-column="49" selection-end-line="75" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#38385#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3883#3884#0" expanded="true" />
+            <element signature="e#3921#3922#0" expanded="true" />
+            <element signature="e#17356#17357#0" expanded="true" />
+            <element signature="e#17405#17406#0" expanded="true" />
+            <element signature="e#17594#17595#0" expanded="true" />
+            <element signature="e#17637#17638#0" expanded="true" />
+            <element signature="e#17700#17701#0" expanded="true" />
+            <element signature="e#17756#17757#0" expanded="true" />
+            <element signature="e#19730#19731#0" expanded="true" />
+            <element signature="e#19771#19772#0" expanded="true" />
+            <element signature="e#19804#19805#0" expanded="true" />
+            <element signature="e#19837#19838#0" expanded="true" />
+            <element signature="e#19871#19872#0" expanded="true" />
+            <element signature="e#19905#19906#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="1225" column="0" lean-forward="false" selection-start-line="1225" selection-start-column="0" selection-end-line="1225" selection-end-column="0" />
+          <folding>
+            <element signature="method#StarwispBuilder#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#BuildLayoutParams#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#getPixelsFromDp#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#DialogCallback#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#Callback#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#CallbackArgs#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#email#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="e#8654#8707#0" expanded="false" />
+            <element signature="method#photo#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#Decrypt#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#Build#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="e#15868#15955#0" expanded="false" />
+            <element signature="e#18085#18161#0" expanded="false" />
+            <element signature="e#19055#19099#0" expanded="false" />
+            <element signature="e#19909#19988#0" expanded="false" />
+            <element signature="class#24332:25048" expanded="false" />
+            <element signature="method#getItem#0;class#24332:25048" expanded="false" />
+            <element signature="e#27563#27621#0" expanded="false" />
+            <element signature="e#28978#29039#0" expanded="false" />
+            <element signature="class#32018:32427" expanded="false" />
+            <element signature="method#afterTextChanged#0;class#32018:32427" expanded="false" />
+            <element signature="class#35967:36762" expanded="false" />
+            <element signature="method#onProgressChanged#0;class#35967:36762" expanded="false" />
+            <element signature="class#37454:37940" expanded="false" />
+            <element signature="method#getView#0;class#37454:37940" expanded="false" />
+            <element signature="class#38130:38434" expanded="false" />
+            <element signature="method#onItemSelected#0;class#38130:38434" expanded="false" />
+            <element signature="method#UpdateList#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="e#46214#46239#0" expanded="false" />
+            <element signature="e#47146#47218#0" expanded="false" />
+            <element signature="class#62111:62982" expanded="false" />
+            <element signature="method#onAnimationEnd#0;class#62111:62982" expanded="false" />
+            <element signature="e#62433#62515#0" expanded="false" />
+            <element signature="method#onAnimationRepeat#0;class#62111:62982" expanded="false" />
+            <element signature="method#onAnimationStart#0;class#62111:62982" expanded="false" />
+            <element signature="class#71093:71865" expanded="false" />
+            <element signature="method#getItem#0;class#71093:71865" expanded="false" />
+            <element signature="class#80445:80963" expanded="false" />
+            <element signature="method#getView#0;class#80445:80963" expanded="false" />
+            <element signature="class#81243:81567" expanded="false" />
+            <element signature="method#onItemSelected#0;class#81243:81567" expanded="false" />
+            <element signature="method#JSONToScheme#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#WalkDraggable#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#SaveData#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#LoadData#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#getDateTime#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="class#MyDragShadowBuilder#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="method#MyDragShadowBuilder#0;class#MyDragShadowBuilder#0;class#StarwispBuilder#0" expanded="false" />
+            <element signature="e#86263#86341#0" expanded="false" />
+            <element signature="e#86415#86502#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

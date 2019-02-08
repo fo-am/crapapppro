@@ -42,7 +42,7 @@
               <data
                   android:host="*"
                   android:mimeType="*/*"
-                  android:pathPattern="*.crap.json" />
+                  android:pathPattern="*.crap.json.enc" />
             </intent-filter>
         </activity>
         <activity android:name="foam.starwisp.CalcActivity"></activity>

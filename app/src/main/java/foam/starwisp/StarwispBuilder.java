@@ -141,6 +141,8 @@ import org.json.JSONArray;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
+import foam.starwisp.AesCbcWithIntegrity;
+
 public class StarwispBuilder
 {
     Scheme m_Scheme;
@@ -270,6 +272,46 @@ public class StarwispBuilder
             } else {
                 Log.i("starwisp","Could not open photo file");
             }
+        }
+    }
+
+    public String Encrypt(String data, String password) {
+        try {
+            byte[] salt = AesCbcWithIntegrity.generateSalt();
+            String saltStr = AesCbcWithIntegrity.saltString(salt);
+            AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(password, salt);
+            AesCbcWithIntegrity.CipherTextIvMac cipherTextIvMac = AesCbcWithIntegrity.encrypt(data, keys);
+            // add the salt to the ciphertext
+            Log.i("starwisp",saltStr);
+            Log.i("starwisp",cipherTextIvMac.toString());
+            return saltStr+cipherTextIvMac.toString();
+        } catch (java.security.GeneralSecurityException e) {
+            Log.i("starwisp", e.toString());
+            return null;
+        } catch (java.io.UnsupportedEncodingException e) {
+            Log.i("starwisp", e.toString());
+            return null;
+        }
+    }
+
+    public String Decrypt(String data, String password) {
+        // todo: FIXME
+        try {
+            // how long is the salt?
+            int salt_len = AesCbcWithIntegrity.saltString(AesCbcWithIntegrity.generateSalt()).length();
+            String salt = data.substring(0,salt_len);
+            Log.i("starwisp",salt);
+            String cipher = data.substring(salt_len,data.length());
+            Log.i("starwisp",cipher);
+            AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(password,salt);
+            AesCbcWithIntegrity.CipherTextIvMac cipherTextIvMac = new AesCbcWithIntegrity.CipherTextIvMac(cipher);
+            return AesCbcWithIntegrity.decryptString(cipherTextIvMac, keys);
+        } catch (java.security.GeneralSecurityException e) {
+            Log.i("starwisp", e.toString());
+            return null;
+        } catch (java.io.UnsupportedEncodingException e) {
+            Log.i("starwisp", e.toString());
+            return null;
         }
     }
 
@@ -696,8 +738,8 @@ public class StarwispBuilder
                 v.setText(arr.getString(2));
                 v.setTextSize(arr.getInt(3));
                 v.setGravity(Gravity.LEFT|Gravity.TOP);
-		v.setImeOptions(EditorInfo.IME_ACTION_DONE);
-		v.setSingleLine(true);
+    		    v.setImeOptions(EditorInfo.IME_ACTION_DONE);
+	        	v.setSingleLine(true);
 
                 String inputtype = arr.getString(4);
                 if (inputtype.equals("text")) {
@@ -706,8 +748,12 @@ public class StarwispBuilder
                     v.setInputType(InputType.TYPE_CLASS_NUMBER|
                                    InputType.TYPE_NUMBER_FLAG_DECIMAL|
                                    InputType.TYPE_NUMBER_FLAG_SIGNED);
-                } else if (inputtype.equals("email")) {
+		        } else if (inputtype.equals("email")) {
                     v.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS);
+                } else if (inputtype.equals("password")) {
+                    v.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                } else if (inputtype.equals("visible-password")) {
+                    v.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 }
 
                 v.setLayoutParams(BuildLayoutParams(arr.getJSONArray(5)));
@@ -1170,7 +1216,21 @@ public class StarwispBuilder
                 return;
             }
 
-            if (token.equals("gps-start")) {
+        if (token.equals("encrypt")) {
+            final String name = arr.getString(3);
+            DialogCallback(ctx, ctxname, name, "\""+Encrypt(arr.getString(5),arr.getString(6))+"\"");
+            return;
+        }
+
+        if (token.equals("decrypt")) {
+            final String name = arr.getString(3);
+	    // need to sort out quote escaping here - for the moment
+	    // this is json data, so we can replace " with '
+            DialogCallback(ctx, ctxname, name, "\""+Decrypt(arr.getString(5),arr.getString(6)).replace("\"","\'")+"\"");
+            return;
+        }
+
+        if (token.equals("gps-start")) {
                 final String name = arr.getString(3);
 
                 if (m_LocationManager == null) {

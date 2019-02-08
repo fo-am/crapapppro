@@ -119,7 +119,7 @@ category#android.intent.category.LAUNCHER
 ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:37:17-77
 	android:name
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:37:27-74
-intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT+data:host:*+data:mimeType:*/*+data:pathPattern:*.crap.json
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT+data:host:*+data:mimeType:*/*+data:pathPattern:*.crap.json.enc
 ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:39:6-46:29
 action#android.intent.action.VIEW
 ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:40:15-67
@@ -130,11 +130,11 @@ ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 	android:name
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:41:18-64
 data
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:42:15-45:55
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:42:15-45:59
 	android:host
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:43:19-35
 	android:pathPattern
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:45:19-52
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:45:19-56
 	android:mimeType
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:44:19-41
 activity#foam.starwisp.CalcActivity
