@@ -13,15 +13,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d53a68a-2874-4dbd-b983-e0eb76fbd569" name="Default" comment="added">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/ImportActivity.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/manifests/full/debug/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/build/intermediates/manifests/full/debug/AndroidManifest.xml" />
-      <change beforePath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" afterPath="$PROJECT_DIR$/app/build/outputs/logs/manifest-merger-debug-report.txt" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/lib.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/lib.scm" />
       <change beforePath="$PROJECT_DIR$/app/src/main/assets/starwisp.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/starwisp.scm" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/translations.scm" afterPath="$PROJECT_DIR$/app/src/main/assets/translations.scm" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" afterPath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/starwisp.java" afterPath="$PROJECT_DIR$/app/src/main/java/foam/starwisp/starwisp.java" />
     </list>
     <ignored path="crapapppro.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -136,8 +131,8 @@
       <file leaf-file-name="StarwispBuilder.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="1225" column="0" lean-forward="false" selection-start-line="1225" selection-start-column="0" selection-end-line="1225" selection-end-column="0" />
+            <state relative-caret-position="72">
+              <caret line="1781" column="0" lean-forward="false" selection-start-line="1781" selection-start-column="0" selection-end-line="1781" selection-end-column="0" />
               <folding>
                 <element signature="method#StarwispBuilder#0;class#StarwispBuilder#0" expanded="false" />
                 <element signature="method#BuildLayoutParams#0;class#StarwispBuilder#0" expanded="false" />
@@ -146,40 +141,21 @@
                 <element signature="method#Callback#0;class#StarwispBuilder#0" expanded="false" />
                 <element signature="method#CallbackArgs#0;class#StarwispBuilder#0" expanded="false" />
                 <element signature="method#email#0;class#StarwispBuilder#0" expanded="false" />
-                <element signature="e#8654#8707#0" expanded="false" />
+                <element signature="e#8711#8764#0" expanded="false" />
                 <element signature="method#photo#0;class#StarwispBuilder#0" expanded="false" />
                 <element signature="method#Decrypt#0;class#StarwispBuilder#0" expanded="false" />
-                <element signature="method#Build#0;class#StarwispBuilder#0" expanded="false" />
-                <element signature="e#15868#15955#0" expanded="false" />
-                <element signature="e#18085#18161#0" expanded="false" />
-                <element signature="e#19055#19099#0" expanded="false" />
-                <element signature="e#19909#19988#0" expanded="false" />
-                <element signature="class#24332:25048" expanded="false" />
-                <element signature="method#getItem#0;class#24332:25048" expanded="false" />
-                <element signature="e#27563#27621#0" expanded="false" />
-                <element signature="e#28978#29039#0" expanded="false" />
-                <element signature="class#32018:32427" expanded="false" />
-                <element signature="method#afterTextChanged#0;class#32018:32427" expanded="false" />
-                <element signature="class#35967:36762" expanded="false" />
-                <element signature="method#onProgressChanged#0;class#35967:36762" expanded="false" />
-                <element signature="class#37454:37940" expanded="false" />
-                <element signature="method#getView#0;class#37454:37940" expanded="false" />
-                <element signature="class#38130:38434" expanded="false" />
-                <element signature="method#onItemSelected#0;class#38130:38434" expanded="false" />
-                <element signature="method#UpdateList#0;class#StarwispBuilder#0" expanded="false" />
-                <element signature="e#46214#46239#0" expanded="false" />
-                <element signature="e#47146#47218#0" expanded="false" />
-                <element signature="class#62111:62982" expanded="false" />
-                <element signature="method#onAnimationEnd#0;class#62111:62982" expanded="false" />
-                <element signature="e#62433#62515#0" expanded="false" />
-                <element signature="method#onAnimationRepeat#0;class#62111:62982" expanded="false" />
-                <element signature="method#onAnimationStart#0;class#62111:62982" expanded="false" />
-                <element signature="class#71093:71865" expanded="false" />
-                <element signature="method#getItem#0;class#71093:71865" expanded="false" />
-                <element signature="class#80445:80963" expanded="false" />
-                <element signature="method#getView#0;class#80445:80963" expanded="false" />
-                <element signature="class#81243:81567" expanded="false" />
-                <element signature="method#onItemSelected#0;class#81243:81567" expanded="false" />
+                <element signature="e#15925#16012#0" expanded="false" />
+                <element signature="e#18142#18218#0" expanded="false" />
+                <element signature="e#19112#19156#0" expanded="false" />
+                <element signature="e#19966#20045#0" expanded="false" />
+                <element signature="class#24389:25105" expanded="false" />
+                <element signature="method#getItem#0;class#24389:25105" expanded="false" />
+                <element signature="e#27620#27678#0" expanded="false" />
+                <element signature="e#29035#29096#0" expanded="false" />
+                <element signature="class#81458:81976" expanded="false" />
+                <element signature="method#getView#0;class#81458:81976" expanded="false" />
+                <element signature="class#82256:82580" expanded="false" />
+                <element signature="method#onItemSelected#0;class#82256:82580" expanded="false" />
                 <element signature="method#JSONToScheme#0;class#StarwispBuilder#0" expanded="false" />
                 <element signature="method#WalkDraggable#0;class#StarwispBuilder#0" expanded="false" />
                 <element signature="method#SaveData#0;class#StarwispBuilder#0" expanded="false" />
@@ -187,8 +163,8 @@
                 <element signature="method#getDateTime#0;class#StarwispBuilder#0" expanded="false" />
                 <element signature="class#MyDragShadowBuilder#0;class#StarwispBuilder#0" expanded="false" />
                 <element signature="method#MyDragShadowBuilder#0;class#MyDragShadowBuilder#0;class#StarwispBuilder#0" expanded="false" />
-                <element signature="e#86263#86341#0" expanded="false" />
-                <element signature="e#86415#86502#0" expanded="false" />
+                <element signature="e#87276#87354#0" expanded="false" />
+                <element signature="e#87428#87515#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -2407,7 +2383,7 @@
     <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
     <property name="ExportApk.Flavors" value="" />
     <property name="ExportApk.BuildType" value="release" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549625731806" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549629029366" />
     <property name="ExportApk.SignV2" value="true" />
     <property name="ExportApk.SignV1" value="true" />
     <property name="device.picker.selection" value="Copy_of_Nexus_5_API_24" />
@@ -3157,8 +3133,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/foam/starwisp/StarwispBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="1225" column="0" lean-forward="false" selection-start-line="1225" selection-start-column="0" selection-end-line="1225" selection-end-column="0" />
+        <state relative-caret-position="72">
+          <caret line="1781" column="0" lean-forward="false" selection-start-line="1781" selection-start-column="0" selection-end-line="1781" selection-end-column="0" />
           <folding>
             <element signature="method#StarwispBuilder#0;class#StarwispBuilder#0" expanded="false" />
             <element signature="method#BuildLayoutParams#0;class#StarwispBuilder#0" expanded="false" />
@@ -3167,40 +3143,21 @@
             <element signature="method#Callback#0;class#StarwispBuilder#0" expanded="false" />
             <element signature="method#CallbackArgs#0;class#StarwispBuilder#0" expanded="false" />
             <element signature="method#email#0;class#StarwispBuilder#0" expanded="false" />
-            <element signature="e#8654#8707#0" expanded="false" />
+            <element signature="e#8711#8764#0" expanded="false" />
             <element signature="method#photo#0;class#StarwispBuilder#0" expanded="false" />
             <element signature="method#Decrypt#0;class#StarwispBuilder#0" expanded="false" />
-            <element signature="method#Build#0;class#StarwispBuilder#0" expanded="false" />
-            <element signature="e#15868#15955#0" expanded="false" />
-            <element signature="e#18085#18161#0" expanded="false" />
-            <element signature="e#19055#19099#0" expanded="false" />
-            <element signature="e#19909#19988#0" expanded="false" />
-            <element signature="class#24332:25048" expanded="false" />
-            <element signature="method#getItem#0;class#24332:25048" expanded="false" />
-            <element signature="e#27563#27621#0" expanded="false" />
-            <element signature="e#28978#29039#0" expanded="false" />
-            <element signature="class#32018:32427" expanded="false" />
-            <element signature="method#afterTextChanged#0;class#32018:32427" expanded="false" />
-            <element signature="class#35967:36762" expanded="false" />
-            <element signature="method#onProgressChanged#0;class#35967:36762" expanded="false" />
-            <element signature="class#37454:37940" expanded="false" />
-            <element signature="method#getView#0;class#37454:37940" expanded="false" />
-            <element signature="class#38130:38434" expanded="false" />
-            <element signature="method#onItemSelected#0;class#38130:38434" expanded="false" />
-            <element signature="method#UpdateList#0;class#StarwispBuilder#0" expanded="false" />
-            <element signature="e#46214#46239#0" expanded="false" />
-            <element signature="e#47146#47218#0" expanded="false" />
-            <element signature="class#62111:62982" expanded="false" />
-            <element signature="method#onAnimationEnd#0;class#62111:62982" expanded="false" />
-            <element signature="e#62433#62515#0" expanded="false" />
-            <element signature="method#onAnimationRepeat#0;class#62111:62982" expanded="false" />
-            <element signature="method#onAnimationStart#0;class#62111:62982" expanded="false" />
-            <element signature="class#71093:71865" expanded="false" />
-            <element signature="method#getItem#0;class#71093:71865" expanded="false" />
-            <element signature="class#80445:80963" expanded="false" />
-            <element signature="method#getView#0;class#80445:80963" expanded="false" />
-            <element signature="class#81243:81567" expanded="false" />
-            <element signature="method#onItemSelected#0;class#81243:81567" expanded="false" />
+            <element signature="e#15925#16012#0" expanded="false" />
+            <element signature="e#18142#18218#0" expanded="false" />
+            <element signature="e#19112#19156#0" expanded="false" />
+            <element signature="e#19966#20045#0" expanded="false" />
+            <element signature="class#24389:25105" expanded="false" />
+            <element signature="method#getItem#0;class#24389:25105" expanded="false" />
+            <element signature="e#27620#27678#0" expanded="false" />
+            <element signature="e#29035#29096#0" expanded="false" />
+            <element signature="class#81458:81976" expanded="false" />
+            <element signature="method#getView#0;class#81458:81976" expanded="false" />
+            <element signature="class#82256:82580" expanded="false" />
+            <element signature="method#onItemSelected#0;class#82256:82580" expanded="false" />
             <element signature="method#JSONToScheme#0;class#StarwispBuilder#0" expanded="false" />
             <element signature="method#WalkDraggable#0;class#StarwispBuilder#0" expanded="false" />
             <element signature="method#SaveData#0;class#StarwispBuilder#0" expanded="false" />
@@ -3208,8 +3165,8 @@
             <element signature="method#getDateTime#0;class#StarwispBuilder#0" expanded="false" />
             <element signature="class#MyDragShadowBuilder#0;class#StarwispBuilder#0" expanded="false" />
             <element signature="method#MyDragShadowBuilder#0;class#MyDragShadowBuilder#0;class#StarwispBuilder#0" expanded="false" />
-            <element signature="e#86263#86341#0" expanded="false" />
-            <element signature="e#86415#86502#0" expanded="false" />
+            <element signature="e#87276#87354#0" expanded="false" />
+            <element signature="e#87428#87515#0" expanded="false" />
           </folding>
         </state>
       </provider>

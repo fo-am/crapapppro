@@ -26,6 +26,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
+import android.text.method.PasswordTransformationMethod;
 import android.webkit.MimeTypeMap;
 import android.view.inputmethod.EditorInfo;
 
@@ -751,9 +752,9 @@ public class StarwispBuilder
 		        } else if (inputtype.equals("email")) {
                     v.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS);
                 } else if (inputtype.equals("password")) {
-                    v.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                } else if (inputtype.equals("visible-password")) {
-                    v.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+		    v.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+		} else if (inputtype.equals("visible-password")) {
+                    v.setInputType(InputType.TYPE_CLASS_TEXT);
                 }
 
                 v.setLayoutParams(BuildLayoutParams(arr.getJSONArray(5)));
@@ -1224,9 +1225,15 @@ public class StarwispBuilder
 
         if (token.equals("decrypt")) {
             final String name = arr.getString(3);
-	    // need to sort out quote escaping here - for the moment
-	    // this is json data, so we can replace " with '
-            DialogCallback(ctx, ctxname, name, "\""+Decrypt(arr.getString(5),arr.getString(6)).replace("\"","\'")+"\"");
+	    String cleartext = Decrypt(arr.getString(5),arr.getString(6));
+	    
+	    if (cleartext == null) {
+		DialogCallback(ctx, ctxname, name, "#f");
+	    } else {
+		// need to sort out quote escaping here - for the moment
+		// this is json data, so we can replace " with '
+		DialogCallback(ctx, ctxname, name, "\""+cleartext.replace("\"","\'")+"\"");
+	    }
             return;
         }
 
@@ -1775,6 +1782,21 @@ public class StarwispBuilder
                     InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
                 }
+		if (token.equals("input-type")) {		
+		    String inputtype = arr.getString(3);
+		    if (inputtype.equals("text")) {
+		    } else if (inputtype.equals("numeric")) {
+			v.setInputType(InputType.TYPE_CLASS_NUMBER|
+				       InputType.TYPE_NUMBER_FLAG_DECIMAL|
+				       InputType.TYPE_NUMBER_FLAG_SIGNED);
+		    } else if (inputtype.equals("email")) {
+			v.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS);
+		    } else if (inputtype.equals("password")) {
+			v.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+		    } else if (inputtype.equals("visible-password")) {
+			v.setInputType(InputType.TYPE_CLASS_TEXT);
+		    }
+		}
                 return;
             }
 

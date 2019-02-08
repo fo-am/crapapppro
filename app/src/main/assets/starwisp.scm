@@ -813,6 +813,7 @@
    (vert
     (mtitle 'export)
     (mtext 'export-blurb)
+
     (mbutton 'email-button
 	     (lambda ()
 	       (save-data "fields.csv" (crap-csv db "farm" "event"))
@@ -821,20 +822,41 @@
 			   "Please find attached your field data."
 			   (list (string-append dirname "fields.csv"))))))
 
+    (mtitle 'send-farm-title)
+    (mtext 'send-farm-blurb)
+
+    (horiz
+     (medit-text-scale 'password "password" 
+		       (lambda (v)
+			 ;; store in memory only
+			 (set-current! 'password v)
+			 ;; update the name on the map
+			 (list)))
+     (mtoggle-button-scale 
+      'view-password 
+      (lambda (v) 
+	(list 
+	 (update-widget 
+	  'edit-text (get-id "password") 
+	  'input-type (if (zero? v) "password" "visible-password"))))))
+
+
     (mbutton 'email-farm-button
 	     (lambda ()
 	       (list
 		(encrypt
 		 "export-encrypt"
 		 (dbg (export-current-farm-as-json))
-		 "password"
+		 (get-current 'password "crapapp")
 		 (lambda (ciphertext)
 		   (save-data "farm.crap.json.enc" (dbg ciphertext))
 		   (list
 		    (send-mail "" "From your Crap Calculator"
 			       "Please find attached your farm data."
 			       (list (string-append dirname "farm.crap.json.enc")))))))))
-		
+
+    (mtitle 'reset-title)
+
     (mbutton 'factory-reset
 	     (lambda ()
 	       (list
@@ -847,7 +869,9 @@
     (mbutton 'done (lambda () (list (finish-activity 99)))))
    (lambda (activity arg)
      (activity-layout activity))
-   (lambda (activity arg) '())
+   (lambda (activity arg) 
+     (list 
+      (update-widget 'edit-text (get-id "password") 'text (get-current 'password "crapapp"))))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
@@ -918,19 +942,53 @@
     (list
      (vert
       (mtitle 'import-farm)
+      (mtext 'import-blurb)
+      (spacer 20)
+      (horiz
+       (medit-text-scale 'password "password" 
+			 (lambda (v)
+			   ;; store in memory only
+			   (set-current! 'password v)
+			   ;; update the name on the map
+			   (list)))
+       (mtoggle-button-scale 
+	'view-password 
+	(lambda (v) 
+	  (list 
+	   (update-widget 
+	    'edit-text (get-id "password") 
+	    'input-type (if (zero? v) "password" "visible-password"))))))
+      
+      (mbutton 'import-farm 
+	       (lambda () 
+		 (list
+		  (decrypt 
+		   "import-decrypt"
+		   (get-current 'cipher-text "")
+		   (get-current 'password "crapapp")
+		   (lambda (cleartext)
+		     (msg cleartext)
+		     (cond 
+		      ((not cleartext)
+		       (list
+			(ok-dialog
+			 "bad-password"
+			 (mtext-lookup 'bad-password)
+			 (lambda ()))))
+		      (else
+		       (import-farm 
+			db "farm" 
+			(json/parse-string cleartext))
+		       '())))))))
+      
       (horiz
        (mbutton-scale 'cancel (lambda () (list (finish-activity 99))))))))
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
-     (msg arg)
-     (list
-      (decrypt 
-       "import-decrypt"
-       arg "password"
-       (lambda (cleartext)
-	 (msg cleartext)
-	 (import-farm db "farm" (json/parse-string cleartext))))))
+     (set-current! 'cipher-text arg)
+     (list 
+      (update-widget 'edit-text (get-id "password") 'text (get-current 'password "crapapp"))))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())

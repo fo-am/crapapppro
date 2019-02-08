@@ -221,11 +221,16 @@
    (list 'load-gallery (list "Load gallery"))
    (list 'gallery (list "Gallery"))
 
-   (list 'export (list "Export all data"))
-   (list 'export-blurb (list "Email export all field data as a CSV spreadsheet file or the farm data so it can be loaded into another app"))
-   (list 'email-button (list "Email events as CSV spreadsheet"))
+   (list 'export (list "Export data as spreadsheet"))
+   (list 'export-blurb (list "Email export all field data as a CSV spreadsheet file"))
+   (list 'email-button (list "Email events as a CSV spreadsheet"))
+
+   (list 'send-farm-title (list "Send farm to another app"))
+   (list 'send-farm-blurb (list "Email the current farm to someone else, or save it as backup - your data is encrypted, so you need to use a password and tell the other person what it is."))
+   
    (list 'email-farm-button (list "Email current farm"))
    (list 'none (list "None"))
+   (list 'reset-title (list "Delete all data"))
 
    (list 'graph-title (list "Crop available nutrients added to field"))
    (list 'factory-reset (list "Factory reset"))
@@ -358,5 +363,13 @@
    (list 'farms-list (list "Your farms"))
    (list 'your-farms (list "Manage your farms"))
    (list 'farm-info (list "Here you can add and manage multiple farms"))
+
+   (list 'password (list "Password"))
+   (list 'view-password (list "View password"))
+   (list 'bad-password (list "Could not decrypt farm, are you sure this is the correct password?"))
+   (list 'import-farm (list "Import farm"))
+   (list 'import-blurb (list "You have received a farm - enter the password and click import to add it to your farms"))
+ 
+   
    
    ))
