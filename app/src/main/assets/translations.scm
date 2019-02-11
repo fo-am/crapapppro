@@ -308,7 +308,7 @@
    (list 'forage-grazed (list "Forage (grazed)"))
    (list 'vegetable (list "Vegetable"))
    (list 'turnip (list "Turnip"))
-   (list 'rape (list "Rape"))
+   (list 'rape (list "Oilseed rape"))
    (list 'linseed (list "Linseed"))
    (list 'pea-bean (list "Pea/Bean"))
    (list 'fodder-beet (list "Fodder beet"))
