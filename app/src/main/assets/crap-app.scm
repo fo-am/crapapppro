@@ -119,7 +119,13 @@
 	     (entity-get-value "cost-p"))
 	 (if (string? (entity-get-value "cost-k"))
 	     (string->number (entity-get-value "cost-k"))
-	     (entity-get-value "cost-k")))))
+	     (entity-get-value "cost-k"))
+	 (if (string? (entity-get-value "cost-s"))
+	     (string->number (entity-get-value "cost-s"))
+	     (entity-get-value "cost-s"))
+	 (if (string? (entity-get-value "cost-m"))
+	     (string->number (entity-get-value "cost-m"))
+	     (entity-get-value "cost-m")))))
 
 (define rainfall 'rain-medium)
 
@@ -161,6 +167,19 @@
 		     (string-append
 		      (convert-output->string (list-ref amounts 2) "kg/ha") " ("
 		      (convert-output->string (list-ref total-amounts 2) "kg/ha") ")"))
+
+      (update-widget 'text-view (get-id "sa")
+		     'text 
+		     (string-append
+		      (convert-output->string (list-ref amounts 3) "kg/ha") " ("
+		      (convert-output->string (list-ref total-amounts 3) "kg/ha") ")"))
+
+      (update-widget 'text-view (get-id "ma")
+		     'text 
+		     (string-append
+		      (convert-output->string (list-ref amounts 4) "kg/ha") " ("
+		      (convert-output->string (list-ref total-amounts 4) "kg/ha") ")"))
+      
       
       ;; costs
       (update-widget 'text-view (get-id "costn")
@@ -168,7 +187,11 @@
       (update-widget 'text-view (get-id "costp")
 		     'text (get-cost-string-from-nutrient 1 amounts size))
       (update-widget 'text-view (get-id "costk")
-		     'text (get-cost-string-from-nutrient 2 amounts size)))
+		     'text (get-cost-string-from-nutrient 2 amounts size))
+      (update-widget 'text-view (get-id "costs")
+		     'text (get-cost-string-from-nutrient 3 amounts size))
+      (update-widget 'text-view (get-id "costm")
+		     'text (get-cost-string-from-nutrient 4 amounts size)))
      
      ;; still needed
      (if (eq? (get-current 'calc-mode #f) 'fieldcalc)
@@ -184,6 +207,12 @@
 	    (update-widget 'text-view (get-id "needed-k") 'text 
 			   (if (eq? (list-ref amounts 2) 'NA)
 			       "N/A" (convert-output->string (- (entity-get-value "require-k") (list-ref amounts 2)) "kg/ha")))	    
+	    (update-widget 'text-view (get-id "needed-s") 'text 
+			   (if (eq? (list-ref amounts 3) 'NA)
+			       "N/A" (convert-output->string (- (entity-get-value "require-s") (list-ref amounts 3)) "kg/ha")))	    
+	    (update-widget 'text-view (get-id "needed-m") 'text 
+			   (if (eq? (list-ref amounts 4) 'NA)
+			       "N/A" (convert-output->string (- (entity-get-value "require-m") (list-ref amounts 4)) "kg/ha")))	    
 	    )) '())
      )))
 
@@ -561,18 +590,24 @@
    (horiz
     (mtext-scale 'nutrient-n-metric)
     (mtext-scale 'nutrient-p-metric)
-    (mtext-scale 'nutrient-k-metric))
+    (mtext-scale 'nutrient-k-metric)
+    (mtext-scale 'nutrient-s-metric)
+    (mtext-scale 'nutrient-m-metric))
 
    (horiz
     (text-view (make-id "na") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
     (text-view (make-id "pa") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "ka") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+    (text-view (make-id "ka") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "sa") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "ma") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
    
    (mtext 'cost-saving)
    (horiz
     (text-view (make-id "costn") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
     (text-view (make-id "costp") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costk") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+    (text-view (make-id "costk") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "costs") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "costm") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
    (spacer 10)
    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
    (spacer 10)))
@@ -583,31 +618,41 @@
    (horiz
     (mtext-scale 'nutrient-n-metric)
     (mtext-scale 'nutrient-p-metric)
-    (mtext-scale 'nutrient-k-metric))
+    (mtext-scale 'nutrient-k-metric)
+    (mtext-scale 'nutrient-s-metric)
+    (mtext-scale 'nutrient-m-metric))
 
    (horiz
     (text-view (make-id "na") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
     (text-view (make-id "pa") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "ka") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+    (text-view (make-id "ka") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "sa") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "ma") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
     
    (mtext 'cost-saving)
    (horiz
     (text-view (make-id "costn") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
     (text-view (make-id "costp") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costk") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+    (text-view (make-id "costk") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "costs") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "costm") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
 
    (mtext 'crop-requirements)
    (horiz
     (text-view (make-id "require-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
     (text-view (make-id "require-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "require-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+    (text-view (make-id "require-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "require-s") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "require-m") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
 
    (mtext 'still-needed)
    (horiz
     (text-view (make-id "needed-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
     (text-view (make-id "needed-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "needed-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
-
+    (text-view (make-id "needed-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "needed-s") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view (make-id "needed-m") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+   
    (spacer 10)
    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
    (spacer 10)))
@@ -781,7 +826,9 @@
 		      (soil-nutrient-code-to-text (list-ref results 3))))
    (update-widget 'text-view (get-id "require-n") 'text (convert-output->string (list-ref results 0) "kg/ha"))
    (update-widget 'text-view (get-id "require-p") 'text (convert-output->string (list-ref results 1) "kg/ha"))
-   (update-widget 'text-view (get-id "require-k") 'text (convert-output->string (list-ref results 2) "kg/ha"))))
+   (update-widget 'text-view (get-id "require-k") 'text (convert-output->string (list-ref results 2) "kg/ha"))
+   (update-widget 'text-view (get-id "require-s") 'text (convert-output->string (list-ref results 3) "kg/ha"))
+   (update-widget 'text-view (get-id "require-m") 'text (convert-output->string (list-ref results 4) "kg/ha"))))
 
 (define (get-crop-requirements/supply-from-field field season)
   (get-crop-requirements/supply 
@@ -792,6 +839,7 @@
    (string->symbol (ktv-get field "regularly-manure"))
    (string->symbol (ktv-get field "soil-test-p"))
    (string->symbol (ktv-get field "soil-test-k"))
+   (string->symbol (ktv-get field "soil-test-m"))
    (string->symbol (ktv-get field "recently-grown-grass"))
    season))
 
@@ -804,6 +852,7 @@
    (string->symbol (entity-get-value "regularly-manure"))
    (string->symbol (entity-get-value "soil-test-p"))
    (string->symbol (entity-get-value "soil-test-k"))
+   (string->symbol (entity-get-value "soil-test-m"))
    (string->symbol (entity-get-value "recently-grown-grass"))
    season))
 
@@ -907,8 +956,8 @@
 	  
 		  ;; convert value
 		  ((in-list? (ktv-key ktv)
-			     (list "nutrients-n" "nutrients-p" "nutrients-k" 
-				   "require-n" "require-p" "require-k"))		   
+			     (list "nutrients-n" "nutrients-p" "nutrients-k" "nutrients-s" "nutrients-m" 
+				   "require-n" "require-p" "require-k" "require-s" "require-m"))		   
 		   (string-append r ", \"" (convert-output->string (ktv-value ktv) "kg/ha") "\""))
 		  
 		  ((equal? (ktv-key ktv) "sns")
@@ -1040,6 +1089,8 @@
 	     ("cost-n" "real") 
 	     ("cost-p" "real") 
 	     ("cost-k" "real") 
+	     ("cost-s" "real")
+	     ("cost-m" "real")  
 	     ("rainfall" "varchar")))
     ("field" (("name" "varchar")
 	      ("parent" "varchar")
@@ -1048,6 +1099,7 @@
 	      ("previous-crop" "varchar")
 	      ("soil-test-p" "varchar")
 	      ("soil-test-k" "varchar")
+	      ("soil-test-m" "varchar")
 	      ("regularly-manure" "varchar")
 	      ("recently-grown-grass" "varchar")
 	      ("size" "real")))
@@ -1063,12 +1115,18 @@
 	      ("nutrients-n" "real")
 	      ("nutrients-p" "real")
 	      ("nutrients-k" "real")
+	      ("nutrients-s" "real")
+	      ("nutrients-m" "real")
 	      ("total-nutrients-n" "real")
 	      ("total-nutrients-p" "real")
 	      ("total-nutrients-k" "real")
+	      ("total-nutrients-s" "real")
+	      ("total-nutrients-m" "real")
 	      ("require-n" "real")
 	      ("require-p" "real")
 	      ("require-k" "real")
+	      ("require-s" "real")
+	      ("require-m" "real")
 	      ("sns" "int")
 	      ("soil" "varchar")
 	      ("size" "real")

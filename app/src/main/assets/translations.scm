@@ -42,9 +42,13 @@
    (list 'nutrient-n-metric (list "N Kg/ha"))
    (list 'nutrient-p-metric (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub> Kg/ha"))
    (list 'nutrient-k-metric (list "K<sub><small>2</small></sub>O Kg/ha"))
+   (list 'nutrient-s-metric (list "S Kg/ha"))
+   (list 'nutrient-m-metric (list "Mg Kg/ha"))
    (list 'nutrient-n-imperial (list "N units/acre"))
    (list 'nutrient-p-imperial (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub> units/acre"))
    (list 'nutrient-k-imperial (list "K<sub><small>2</small></sub>O units/acre"))
+   (list 'nutrient-s-imperial (list "S units/acre"))
+   (list 'nutrient-m-imperial (list "Mg units/acre"))
    (list 'cost-saving (list "Fertiliser Savings"))
 
    (list 'field-calc-blurb (list "Enter new crap spreading event"))
@@ -185,6 +189,7 @@
    ;; soil tests
    (list 'soil-test-p (list "P"))
    (list 'soil-test-k (list "K"))
+   (list 'soil-test-m (list "Mg"))
 
    (list 'soil-p-0 (list "0"))
    (list 'soil-p-1 (list "1"))
@@ -198,6 +203,17 @@
    (list 'soil-k-2+ (list "2+"))
    (list 'soil-k-3 (list "3"))
    (list 'soil-k-4 (list "4"))
+
+   (list 'soil-m-0 (list "0"))
+   (list 'soil-m-1 (list "1"))
+   (list 'soil-m-2 (list "2"))
+   (list 'soil-m-3 (list "3"))
+   (list 'soil-m-4 (list "4"))
+   (list 'soil-m-5 (list "5"))
+   (list 'soil-m-6 (list "6"))
+   (list 'soil-m-7 (list "7"))
+   (list 'soil-m-8 (list "8"))
+   (list 'soil-m-9 (list "9"))
 
    (list 'soil-info (list "Soil details"))
    (list 'crop-info (list "Crop details"))

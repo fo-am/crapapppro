@@ -30,6 +30,7 @@
   (list 'sandyshallow 'medium 'peat 'organic 'mediumshallow 'deepclay 'deepsilt))
 (define soil-test-p-list (list 'soil-p-0 'soil-p-1 'soil-p-2 'soil-p-3 'soil-p-4))
 (define soil-test-k-list (list 'soil-k-0 'soil-k-1 'soil-k-2- 'soil-k-2+ 'soil-k-3 'soil-k-4))
+(define soil-test-m-list (list 'soil-m-0 'soil-m-1 'soil-m-2 'soil-m-4 'soil-m-5 'soil-m-6 'soil-m-7 'soil-m-8 'soil-m-9))
 
 (define crop-type-for-manure-calc-list 
   (list 'normal 'grass-oilseed))
@@ -80,7 +81,7 @@
 (define (hectares->m2 a) (* a 10000))
 
 ;; overwritten by db values
-(define costs (list 0 0 0))
+(define costs (list 0 0 0 0 0))
 (define custom-override #f)
 (define (set-custom-override! s) (set! custom-override s))
 
@@ -332,6 +333,9 @@
 	  grassland-low-sns
 	  grassland-med-sns)))
 
+
+
+
 (define (sns-search tree params regularly-manure)
   (let ((sns (decision tree params)))
     ;; increase sns by one if they regularly manure (pp 188)
@@ -362,8 +366,35 @@
       (sns-search soil-nitrogen-supply-tree 		  
 		  params regularly-manure)))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; stuff for crop requirements
 
-(define (get-crop-requirements/supply rainfall crop-params soil previous-crop regularly-manure soil-test-p soil-test-k recently-grown-grass season)
+;; sulphur risk
+;; Use rainfall and soil type data:
+
+;; All light sand and shallow soils = High risk
+;; Medium soils with low rainfall = Low risk
+;; Medium soils with medium or high rainfall = High risk
+;; Deep clay, deep silt, organic and peat soils with low or medium rainfall = Low risk
+;; Deep clay, deep silt, organic and peat soils with high rainfall = High risk
+
+(define (calc-sulphur-risk rainfall soil)
+  (cond
+   ((or (eq? soil 'sandyshallow)
+	(eq? soil 'mediumshallow)) 'high)
+   ((and (eq? soil 'medium)
+	 (or 
+	  (eq? rainfall rain-high)
+	  (eq? rainfall rain-medium))) 'high)
+   ((or (eq? soil 'peat)
+	 (eq? soil 'deepclay)
+	 (eq? soil 'deepsilt)
+	 (eq? soil 'organic))
+    (if (eq? rainfall rain-high) 'high
+	'low))
+   (else 'low)))
+
+(define (get-crop-requirements/supply rainfall crop-params soil previous-crop regularly-manure soil-test-p soil-test-k soil-test-m recently-grown-grass season)
   (let ((sns (calc-sns rainfall soil crop-params previous-crop regularly-manure recently-grown-grass)))
     (let ((choices 
 	   (append
@@ -373,8 +404,11 @@
 	     (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
 	     (list 'rainfall rainfall)
 	     (list 'soil soil)
+	     (list 'risk (calc-sulphur-risk rainfall soil))
 	     (list 'p-index soil-test-p)
-	     (list 'k-index soil-test-k)))))
+	     (list 'k-index soil-test-k)
+	     (list 'm-index soil-test-m)))))
+      (msg "crop-req")
       (list 
        (let ((n (decision crop-requirements-n-tree choices)))
 	 (if (eq? n 'NA) 
@@ -388,10 +422,12 @@
 		 (else 0)))))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorus) choices))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))
-       ;; + magnesium 
-       ;; + sulphur
+       (dbg (decision crop-requirements-pk-tree (cons (list 'nutrient 'sulphur) choices)))
+       (dbg (decision crop-requirements-pk-tree (cons (list 'nutrient 'magnesium) choices)))
        sns))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; stuff for manure nutrients
 
 ;; if poultry manure, autumn, crop is grassland/winteroilseed cropped
 ;; then add 5 to % nitrogen
@@ -442,7 +478,9 @@
 	     (decision manure-tree (append (list (list 'nutrient 'n-total)) params))
 	     total)
 	 (decision manure-tree (append (list (list 'nutrient 'p-total)) params))
-	 (decision manure-tree (append (list (list 'nutrient 'k-total)) params))))
+	 (decision manure-tree (append (list (list 'nutrient 'k-total)) params))
+	 (decision manure-tree (append (list (list 'nutrient 's-total)) params))
+	 (decision manure-tree (append (list (list 'nutrient 'm-total)) params))))
        
        ;; crop availible values
        (process-nutrients 
@@ -455,4 +493,6 @@
 	       ;; apply percent or return straight value
 	       (if (zero? total) n (pc total n))))
 	 (decision manure-tree (append (list (list 'nutrient 'p-avail)) params))
-	 (decision manure-tree (append (list (list 'nutrient 'k-avail)) params))))))))
+	 (decision manure-tree (append (list (list 'nutrient 'k-avail)) params))
+	 (decision manure-tree (append (list (list 'nutrient 's-avail)) params))
+	 (decision manure-tree (append (list (list 'nutrient 'm-avail)) params))))))))

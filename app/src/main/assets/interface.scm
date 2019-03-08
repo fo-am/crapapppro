@@ -485,8 +485,6 @@
                                 (list id "varchar"))
                               title-ids))
              (db-all db table entity-type))))
-
-    (msg "list widget" parent)
     (update-widget
      'linear-layout
      (get-id (string-append entity-type "-list"))
@@ -495,13 +493,11 @@
          (list (mtext 'list-empty))
          (map
           (lambda (e)
-	    (msg "button made for " (ktv-get e "unique_id"))
             (button
              (make-id (string-append "list-button-" (ktv-get e "unique_id")))
              (make-list-widget-title e title-ids)
              button-text-size (layout 'fill-parent 'wrap-content 1 'centre 5)
              (lambda ()
-	       (msg "->" (ktv-get e "unique_id"))
                (list (start-activity view-activity 0 (ktv-get e "unique_id"))))))
           search-results)))))
 
