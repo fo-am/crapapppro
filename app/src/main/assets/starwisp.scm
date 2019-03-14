@@ -195,7 +195,9 @@
 				'(("name" "varchar" "My manure")
 				  ("N" "real" 0)
 				  ("P" "real" 0)
-				  ("K" "real" 0))))
+				  ("K" "real" 0)
+				  ("S" "real" 0)
+				  ("M" "real" 0))))
 	   ))
 	 (spacer 20)
 	 (horiz
@@ -462,6 +464,9 @@
 	  (mtitle 'soil-supply)
 	  (mtext-scale 'sns-output)
 	  (text-view (make-id "supply-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	  (mtitle 'sulphur-risk)
+	  (mtext 'sulphur-risk-expl)
+	  (text-view (make-id "risk-s") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
 	  )
 
 	 (vert-colour
@@ -498,7 +503,9 @@
 	  (horiz
 	   (mtext-scale 'nutrient-n-output)
 	   (mtext-scale 'nutrient-p-output)
-	   (mtext-scale 'nutrient-k-output))
+	   (mtext-scale 'nutrient-k-output)
+	   (mtext-scale 'nutrient-s-output)
+	   (mtext-scale 'nutrient-m-output))
 	  (horiz
 	   (text-view (make-id "require-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
 	   (text-view (make-id "require-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
@@ -683,7 +690,7 @@
        (entity-set-value! "crop" "varchar" (ktv-get field "crop"))
        (entity-set-value! "soil" "varchar" (ktv-get field "soil"))
        (entity-set-value! "size" "real" (ktv-get field "size"))
-       (let ((results (get-crop-requirements/supply-from-field field (symbol->string (date->season (current-date))))))
+       (let ((results (get-crop-requirements/supply-from-field field (symbol->string (date->month (current-date))))))
 	 (entity-set-value! "require-n" "real" (convert-output (list-ref results 0) "kg/ha"))
 	 (entity-set-value! "require-p" "real" (convert-output (list-ref results 1) "kg/ha"))
 	 (entity-set-value! "require-k" "real" (convert-output (list-ref results 2) "kg/ha"))
@@ -840,6 +847,8 @@
       (medit-text 'manure-n "numeric" (lambda (v) (entity-update-single-value! (ktv "N" "real" (safe-string->number v))) '()))
       (medit-text 'manure-p "numeric" (lambda (v) (entity-update-single-value! (ktv "P" "real" (safe-string->number v))) '()))
       (medit-text 'manure-k "numeric" (lambda (v) (entity-update-single-value! (ktv "K" "real" (safe-string->number v))) '()))
+      (medit-text 'manure-s "numeric" (lambda (v) (entity-update-single-value! (ktv "S" "real" (safe-string->number v))) '()))
+      (medit-text 'manure-m "numeric" (lambda (v) (entity-update-single-value! (ktv "M" "real" (safe-string->number v))) '()))
       (horiz
        (delete-button)
        (mbutton-scale 'back (lambda () (list (finish-activity 99))))))))
@@ -853,6 +862,8 @@
       (mupdate 'edit-text 'manure-n "N")
       (mupdate 'edit-text 'manure-p "P")
       (mupdate 'edit-text 'manure-k "K")
+      (mupdate 'edit-text 'manure-s "S")
+      (mupdate 'edit-text 'manure-m "M")
       ))
    (lambda (activity) '())
    (lambda (activity) '())

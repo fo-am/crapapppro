@@ -333,9 +333,6 @@
 	  grassland-low-sns
 	  grassland-med-sns)))
 
-
-
-
 (define (sns-search tree params regularly-manure)
   (let ((sns (decision tree params)))
     ;; increase sns by one if they regularly manure (pp 188)
@@ -379,36 +376,38 @@
 ;; Deep clay, deep silt, organic and peat soils with high rainfall = High risk
 
 (define (calc-sulphur-risk rainfall soil)
-  (cond
+  (msg "csr" rainfall soil)
+  (dbg (cond
    ((or (eq? soil 'sandyshallow)
 	(eq? soil 'mediumshallow)) 'high)
    ((and (eq? soil 'medium)
 	 (or 
-	  (eq? rainfall rain-high)
-	  (eq? rainfall rain-medium))) 'high)
+	  (eq? rainfall 'rain-high)
+	  (eq? rainfall 'rain-medium))) 'high)
    ((or (eq? soil 'peat)
 	 (eq? soil 'deepclay)
 	 (eq? soil 'deepsilt)
 	 (eq? soil 'organic))
-    (if (eq? rainfall rain-high) 'high
+    (if (eq? rainfall 'rain-high) 'high
 	'low))
-   (else 'low)))
+   (else 'low))))
 
-(define (get-crop-requirements/supply rainfall crop-params soil previous-crop regularly-manure soil-test-p soil-test-k soil-test-m recently-grown-grass season)
-  (let ((sns (calc-sns rainfall soil crop-params previous-crop regularly-manure recently-grown-grass)))
+(define (get-crop-requirements/supply rainfall crop-params soil previous-crop regularly-manure soil-test-p soil-test-k soil-test-m recently-grown-grass month)
+  (let ((sns (calc-sns rainfall soil crop-params previous-crop regularly-manure recently-grown-grass))
+	(risk (calc-sulphur-risk rainfall soil)))
     (let ((choices 
 	   (append
 	    crop-params
 	    (list 
-	     (list 'season season)
+	     (list 'season (symbol->string (month->season month)))
 	     (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
 	     (list 'rainfall rainfall)
 	     (list 'soil soil)
-	     (list 'risk (calc-sulphur-risk rainfall soil))
+	     (list 'risk risk)
 	     (list 'p-index soil-test-p)
 	     (list 'k-index soil-test-k)
-	     (list 'm-index soil-test-m)))))
-      (msg "crop-req")
+	     (list 'm-index soil-test-m)
+	     (list 'month month)))))
       (list 
        (let ((n (decision crop-requirements-n-tree choices)))
 	 (if (eq? n 'NA) 
@@ -422,9 +421,10 @@
 		 (else 0)))))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorus) choices))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))
-       (dbg (decision crop-requirements-pk-tree (cons (list 'nutrient 'sulphur) choices)))
-       (dbg (decision crop-requirements-pk-tree (cons (list 'nutrient 'magnesium) choices)))
-       sns))))
+       (decision crop-requirements-pk-tree (cons (list 'nutrient 'sulphur) choices))
+       (decision crop-requirements-pk-tree (cons (list 'nutrient 'magnesium) choices))
+       sns
+       (dbg risk)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; stuff for manure nutrients

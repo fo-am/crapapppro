@@ -463,6 +463,34 @@
    "-"
    (number->string (list-ref d 2))))
 
+(define (month->season m)
+  (cond
+   ((or (eq? m 'feb)
+	(eq? m 'mar)
+	(eq? m 'apr)) 'spring)
+   ((or (eq? m 'may)
+	(eq? m 'jun)
+	(eq? m 'jul)) 'summer)
+   ((or (eq? m 'aug)
+	(eq? m 'sep)
+	(eq? m 'oct)) 'autumn)
+   (else 'winter)))
+
+(define (date->month d)
+  (cond
+   ((eqv? (list-ref d 1) 1) 'jan)
+   ((eqv? (list-ref d 1) 2) 'feb)
+   ((eqv? (list-ref d 1) 3) 'mar)
+   ((eqv? (list-ref d 1) 4) 'apr)
+   ((eqv? (list-ref d 1) 5) 'may)
+   ((eqv? (list-ref d 1) 6) 'jun)
+   ((eqv? (list-ref d 1) 7) 'jul)
+   ((eqv? (list-ref d 1) 8) 'aug)
+   ((eqv? (list-ref d 1) 9) 'sep)
+   ((eqv? (list-ref d 1) 10) 'oct)
+   ((eqv? (list-ref d 1) 11) 'nov)
+   (else 'dec)))
+
 (define (date->season d)
   (cond
    ((or
@@ -783,7 +811,7 @@
 (define (update-field-cropsoil-calc-from-current)
   (update-field-cropsoil-calc
    (get-crop-requirements/supply-from-current
-    (symbol->string (date->season (current-date))))))
+    (symbol->string (date->month (current-date))))))
 
 (define (update-crop-details-from-current)
   (let ((crop-params (text->params-list (entity-get-value "crop"))))
@@ -822,15 +850,16 @@
   (list
    (update-widget 'text-view (get-id "supply-n") 'text 
 		  (if (eq? (current-units) 'imperial)
-		      (soil-nutrient-code-to-text-imperial (list-ref results 3))
-		      (soil-nutrient-code-to-text (list-ref results 3))))
+		      (soil-nutrient-code-to-text-imperial (list-ref results 5))
+		      (soil-nutrient-code-to-text (list-ref results 5))))
+   (update-widget 'text-view (get-id "risk-s") 'text (mtext-lookup (list-ref results 6)))
    (update-widget 'text-view (get-id "require-n") 'text (convert-output->string (list-ref results 0) "kg/ha"))
    (update-widget 'text-view (get-id "require-p") 'text (convert-output->string (list-ref results 1) "kg/ha"))
    (update-widget 'text-view (get-id "require-k") 'text (convert-output->string (list-ref results 2) "kg/ha"))
    (update-widget 'text-view (get-id "require-s") 'text (convert-output->string (list-ref results 3) "kg/ha"))
    (update-widget 'text-view (get-id "require-m") 'text (convert-output->string (list-ref results 4) "kg/ha"))))
 
-(define (get-crop-requirements/supply-from-field field season)
+(define (get-crop-requirements/supply-from-field field month)
   (get-crop-requirements/supply 
    (current-rainfall)
    (text->params-list (ktv-get field "crop"))
@@ -841,9 +870,9 @@
    (string->symbol (ktv-get field "soil-test-k"))
    (string->symbol (ktv-get field "soil-test-m"))
    (string->symbol (ktv-get field "recently-grown-grass"))
-   season))
+   month))
 
-(define (get-crop-requirements/supply-from-current season)
+(define (get-crop-requirements/supply-from-current month)
   (get-crop-requirements/supply 
    (current-rainfall)
    (text->params-list (entity-get-value "crop"))
@@ -854,7 +883,7 @@
    (string->symbol (entity-get-value "soil-test-k"))
    (string->symbol (entity-get-value "soil-test-m"))
    (string->symbol (entity-get-value "recently-grown-grass"))
-   season))
+   month))
 
 ;;---------------------------------------------------------------
 

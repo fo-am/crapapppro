@@ -396,4 +396,10 @@
    (list 'new-event (list "Added new event: "))
    (list 'overwritten-event (list "Updated event: "))
    (list 'return-to-app (list "Return to farm"))
+
+   (list 'sulphur-risk (list "Sulphur Risk"))
+   (list 'sulphur-risk-expl (list "Calculated based on soil type and rainfall."))
+   
+   (list 'low (list "Low"))
+   (list 'high (list "High"))
    ))

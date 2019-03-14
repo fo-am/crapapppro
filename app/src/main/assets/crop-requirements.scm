@@ -34,6 +34,7 @@
       (grazed
        (targetyield
         ((DM4-5
+	  ;; date is application date
           (month ((mar 30) (default NA))))
          (DM5-7
           (month ((mar 30) (may 20) (default NA))))
