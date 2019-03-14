@@ -104,8 +104,8 @@
    (list 'organic (list "Organic (10-20% organic matter)"))
    (list 'mediumshallow (list "Medium/Shallow"))
    (list 'medium (list "Medium"))
-   (list 'deepclay (list "Deep clay"))
-   (list 'deepsilt (list "Deep silt"))
+   (list 'deepclay (list "Heavy clay"))
+   (list 'deepsilt (list "Heavy silt"))
 
    ;; application types
    (list 'surface (list "Surface"))

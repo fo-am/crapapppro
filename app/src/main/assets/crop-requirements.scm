@@ -469,7 +469,11 @@
         (magnesium
          (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
         (sulphur
-         (nitrogencategory ((<100 25) (100-200 50) (200-300 75) (300-400 100)))))))  
+	 (risk
+	  ((low 0)
+	   (high 
+	    (nitrogencategory 
+	     ((under100 25) (100-200 50) (200-300 75) (300-400 100))))))))))  
      (hay
       (nutrient
        ((phosphorus

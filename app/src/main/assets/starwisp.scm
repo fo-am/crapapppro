@@ -462,7 +462,6 @@
 	      (update-field-cropsoil-calc-from-current))))
 
 	  (mtitle 'soil-supply)
-	  (mtext-scale 'sns-output)
 	  (text-view (make-id "supply-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
 	  (mtitle 'sulphur-risk)
 	  (mtext 'sulphur-risk-expl)
@@ -904,7 +903,7 @@
 	  'edit-text (get-id "password") 
 	  'input-type (if (zero? v) "password" "visible-password"))))))
 
-
+    
     (mbutton 'email-farm-button
 	     (lambda ()
 	       (list

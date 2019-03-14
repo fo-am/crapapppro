@@ -58,6 +58,7 @@
 
 (define p-oxide-conv 2.241)
 (define k-oxide-conv 1.205)
+(define s-oxide-conv 2.5)
 
 (define (get-custom-type name)
   (map
@@ -65,11 +66,17 @@
      ;; convert from elemental to oxide form here
      (list (ktv-get e "N") 
 	   (* (ktv-get e "P") p-oxide-conv) 
-	   (* (ktv-get e "K") k-oxide-conv)))
+	   (* (ktv-get e "K") k-oxide-conv)
+	   (* (ktv-get e "S") s-oxide-conv)
+	   (ktv-get e "M")))
    (db-filter-only 
     db "farm" "manure" 
     (list (list "name" "varchar" "=" name))
-    (list (list "N" "real") (list "P" "real") (list "K" "real")))))
+    (list (list "N" "real") 
+	  (list "P" "real") 
+	  (list "K" "real")
+	  (list "S" "real")
+	  (list "M" "real")))))
 
 (define (get-qualities-for-type-inc-custom type)
   (if (eq? type 'custom-manure)
@@ -731,6 +738,7 @@
 		  (let ((name (list-ref (get-custom-types) v)))
 		    (let ((custom (get-custom-type name)))
 		      (when (> (length custom) 0)
+			    (msg "setting custom manure to" (car custom))
 			    (set-custom-override! (car custom)))		      
 		      (fn name) '())))
 		 (else
@@ -849,9 +857,7 @@
 (define (update-field-cropsoil-calc results)
   (list
    (update-widget 'text-view (get-id "supply-n") 'text 
-		  (if (eq? (current-units) 'imperial)
-		      (soil-nutrient-code-to-text-imperial (list-ref results 5))
-		      (soil-nutrient-code-to-text (list-ref results 5))))
+		      (soil-nutrient-code-to-text (list-ref results 5)))
    (update-widget 'text-view (get-id "risk-s") 'text (mtext-lookup (list-ref results 6)))
    (update-widget 'text-view (get-id "require-n") 'text (convert-output->string (list-ref results 0) "kg/ha"))
    (update-widget 'text-view (get-id "require-p") 'text (convert-output->string (list-ref results 1) "kg/ha"))
@@ -992,9 +998,7 @@
 		  ((equal? (ktv-key ktv) "sns")
 		   (string-append 
 		    r ", \"" 
-		    (if (eq? (current-units) 'imperial)
-			(soil-nutrient-code-to-ascii-imperial (ktv-value ktv))
-			(soil-nutrient-code-to-ascii (ktv-value ktv)))
+		    (soil-nutrient-code-to-text (ktv-value ktv))
 		    "\""))
 
 		  ((equal? (ktv-key ktv) "size")
