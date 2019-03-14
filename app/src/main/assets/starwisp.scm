@@ -733,17 +733,17 @@
       ;; (event-view-item "total" 'report-total) size * amount
       (calc-results)
       (spacer 10)
-      (mbutton-scale 
-       'camera
-       (lambda ()
-	 (list (start-activity "camera" 2 ""))))
+      (horiz
+       (delete-button)
+       (mbutton-scale 
+	'camera
+	(lambda ()
+	  (list (start-activity "camera" 2 "")))))
       (spacer 10)
       (calc-gallery)
       (spacer 10)
-      (horiz
-       (delete-button)
-       (mbutton-scale 'back (lambda () (list (finish-activity 0)))))
-
+      (mbutton-scale 'back (lambda () (list (finish-activity 0))))
+      
       )))
    (lambda (activity arg)
      (activity-layout activity))
