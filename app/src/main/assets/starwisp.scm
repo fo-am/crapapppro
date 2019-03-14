@@ -559,6 +559,8 @@
 	   (update-text-view-units 'nutrient-n-output 'nutrient-n-metric 'nutrient-n-imperial)
 	   (update-text-view-units 'nutrient-p-output 'nutrient-p-metric 'nutrient-p-imperial)
 	   (update-text-view-units 'nutrient-k-output 'nutrient-k-metric 'nutrient-k-imperial)
+	   (update-text-view-units 'nutrient-m-output 'nutrient-m-metric 'nutrient-m-imperial)
+	   (update-text-view-units 'nutrient-s-output 'nutrient-s-metric 'nutrient-s-imperial)
 	   ;; updates for orientation change
 	   (update-widget 'linear-layout (get-id "top") 'orientation (if (eq? screen-orientation 'portrait) 'vertical 'horizontal)) 
 	   )))))
