@@ -72,7 +72,9 @@
 	    (all-entities db "farm" "field")))
      
      (activity-layout activity))
-   (lambda (activity arg) '())
+   (lambda (activity arg) 
+     ;; start gps for photos
+     (list (gps-start "gps" (lambda (loc) (list)) 500 5)))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
@@ -243,6 +245,7 @@
        (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in))
 	     (centre (get-farm-centre polygons)))
 	 (append
+	  (check-backup)
 	  (if (equal? (current-units) 'metric) 
 	      '()
 	      (list
@@ -738,7 +741,7 @@
       (horiz
        (delete-button)
        (mbutton-scale 
-	'camera
+	'camera-button
 	(lambda ()
 	  (list (start-activity "camera" 2 "")))))
       (spacer 10)
@@ -886,10 +889,10 @@
 		(send-mail "" "From your Crap Calculator"
 			   "Please find attached your field data."
 			   (list (string-append dirname "fields.csv"))))))
+    (spacer 20)
 
     (mtitle 'send-farm-title)
     (mtext 'send-farm-blurb)
-
     (horiz
      (medit-text-scale 'password "password" 
 		       (lambda (v)
@@ -904,7 +907,6 @@
 	 (update-widget 
 	  'edit-text (get-id "password") 
 	  'input-type (if (zero? v) "password" "visible-password"))))))
-
     
     (mbutton 'email-farm-button
 	     (lambda ()
@@ -919,9 +921,16 @@
 		    (send-mail "" "From your Crap Calculator"
 			       "Please find attached your farm data."
 			       (list (string-append dirname "farm.crap.json.enc")))))))))
+    (mspinner 'backup-freq backup-freq-list
+	      (lambda (v) 
+		(msg "setting")
+		(msg (list-ref backup-freq-list v))
+		(set-setting! "backup-freq" "varchar" (symbol->string (list-ref backup-freq-list v)))
+		(msg (get-setting-value "backup-freq"))))
+    (mtext 'backup-blurb)
 
+    (spacer 20)    
     (mtitle 'reset-title)
-
     (mbutton 'factory-reset
 	     (lambda ()
 	       (list
@@ -936,12 +945,67 @@
      (activity-layout activity))
    (lambda (activity arg) 
      (list 
+      (update-widget 'edit-text (get-id "password") 'text (get-current 'password "crapapp"))
+      (update-widget 'spinner (get-id "backup-freq-spinner") 'selection
+		     (cond
+		      ((not (get-setting-value "backup-freq")) 0)
+		      ((equal? (get-setting-value "backup-freq") "never") 0)
+		      ((equal? (get-setting-value "backup-freq") "daily") 1)
+		      ((equal? (get-setting-value "backup-freq") "weekly") 2)
+		      (else 3)))))
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity) '())
+   (lambda (activity requestcode resultcode) '()))
+
+  (activity
+   "backup"
+   (vert
+    (mtitle 'timed-backup)
+    (mtext 'timed-backup-blurb)
+    (horiz
+     (medit-text-scale 'password "password" 
+		       (lambda (v)
+			 ;; store in memory only
+			 (set-current! 'password v)
+			 ;; update the name on the map
+			 (list)))
+     (mtoggle-button-scale 
+      'view-password 
+      (lambda (v) 
+	(list 
+	 (update-widget 
+	  'edit-text (get-id "password") 
+	  'input-type (if (zero? v) "password" "visible-password"))))))
+    
+    (mbutton 'email-farm-button
+	     (lambda ()
+	       (list
+		(encrypt
+		 "export-encrypt"
+		 (dbg (export-current-farm-as-json))
+		 (get-current 'password "crapapp")
+		 (lambda (ciphertext)
+		   (set-setting! "last-backup" "varchar" (date->string (current-date)))
+		   (save-data "farm.crap.json.enc" (dbg ciphertext))
+		   (list
+		    (send-mail "" "From your Crap Calculator"
+			       "Please find attached your farm data."
+			       (list (string-append dirname "farm.crap.json.enc")))))))))
+    
+    (mbutton 'done (lambda () (list (finish-activity 99)))))
+   (lambda (activity arg)
+     (activity-layout activity))
+   (lambda (activity arg) 
+     (list 
       (update-widget 'edit-text (get-id "password") 'text (get-current 'password "crapapp"))))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity requestcode resultcode) '()))
+
 
   (activity
    "cropselect"

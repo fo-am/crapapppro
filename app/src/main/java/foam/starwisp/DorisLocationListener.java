@@ -129,7 +129,7 @@ public class DorisLocationListener implements LocationListener {
 			try {
 				locationManager.removeUpdates(this);
 			} catch (Exception ex) {
-				Log.e(getClass().getSimpleName(), "stopLocating", ex);
+			    Log.e(getClass().getSimpleName(), "stopLocating", ex);
 			}
 			locationManager = null;
 		}

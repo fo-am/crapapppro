@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="foam.crapapppro"
-    android:versionCode="21"
-    android:versionName="3.0 beta 9" >
+    android:versionCode="22"
+    android:versionName="3.0 beta 10" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -79,6 +79,7 @@
         <activity android:name="foam.starwisp.ManureActivity" />
         <activity android:name="foam.starwisp.CropSelectActivity" />
         <activity android:name="foam.starwisp.ImportActivity" />
+        <activity android:name="foam.starwisp.BackupActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

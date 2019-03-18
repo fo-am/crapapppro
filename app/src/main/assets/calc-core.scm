@@ -66,6 +66,8 @@
 
 (define rainfall-list (list 'rain-high 'rain-medium 'rain-low))
 
+(define backup-freq-list (list 'never 'daily 'weekly 'monthly))
+
 ;; metric/imperial conversion
 (define (tons/acre->tons/ha a) (* a 2.47105381))
 (define (tons/ha->tons/acre a) (/ a 2.47105381))

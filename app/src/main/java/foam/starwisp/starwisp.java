@@ -85,6 +85,7 @@ public class starwisp extends StarwispActivity {
         ActivityManager.RegisterActivity("manure", ManureActivity.class);
         ActivityManager.RegisterActivity("cropselect", CropSelectActivity.class);
         ActivityManager.RegisterActivity("import", ImportActivity.class);
+        ActivityManager.RegisterActivity("backup", BackupActivity.class);
     }
 
     /**
@@ -200,16 +201,18 @@ public class starwisp extends StarwispActivity {
 	
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
 	    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-	    ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-	    
-            ActivityCompat.requestPermissions(this, new String[]{
-		    Manifest.permission.ACCESS_FINE_LOCATION,
-		    Manifest.permission.ACCESS_COARSE_LOCATION,
-		    Manifest.permission.WRITE_EXTERNAL_STORAGE},
-		0);
-        }
+	    ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+	    ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+	    {
+		
+		ActivityCompat.requestPermissions(this, new String[]{
+			Manifest.permission.ACCESS_FINE_LOCATION,
+			Manifest.permission.ACCESS_COARSE_LOCATION,
+			Manifest.permission.WRITE_EXTERNAL_STORAGE},
+		    0);
+	    }
     }
-
+    
     @Override
     public void onStart() {
         super.onStart();

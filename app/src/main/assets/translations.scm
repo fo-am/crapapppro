@@ -182,9 +182,14 @@
    (list 'n-cost (list "N (£ per Kg)"))
    (list 'p-cost (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub> (£ per Kg)"))
    (list 'k-cost (list "K<sub><small>2</small></sub>O (£ per Kg)"))
+   (list 's-cost (list "S (£ per Kg)"))
+   (list 'm-cost (list "Mg (£ per Kg)"))
+
    (list 'n-cost-imperial (list "N (£ per unit)"))
    (list 'p-cost-imperial (list "P<sub><small>2</small></sub>O<sub><small>5</small></sub> (£ per unit)"))
    (list 'k-cost-imperial (list "K<sub><small>2</small></sub>O (£ per unit)"))
+   (list 's-cost-imperial (list "S (£ per unit)"))
+   (list 'm-cost-imperial (list "Mg (£ per unit)"))
 
    ;; soil tests
    (list 'soil-test-p (list "P"))
@@ -233,6 +238,7 @@
    (list 'still-needed (list "Nutrients still needed"))
 
    (list 'camera (list "Camera"))
+   (list 'camera-button (list "Camera"))
    (list 'take-photo (list "Take photo"))
    (list 'load-gallery (list "Load gallery"))
    (list 'gallery (list "Gallery"))
@@ -402,4 +408,16 @@
    
    (list 'low (list "Low"))
    (list 'high (list "High"))
+
+   (list 'backup-freq (list "Backup frequency"))
+   (list 'backup-blurb (list "Set the crap app to remind you to backup your farm data"))
+   (list 'never (list "Never"))
+   (list 'daily (list "Daily"))
+   (list 'weekly (list "Weekly"))
+   (list 'monthly (list "Monthly"))
+
+   (list 'timed-backup-are-you-sure (list "Would you like to backup your farm data? Your last backup was: "))
+   (list 'timed-backup (list "Timed backup"))
+   (list 'timed-backup-blurb (list "Email the your farm to your computer to back it up"))
+
    ))

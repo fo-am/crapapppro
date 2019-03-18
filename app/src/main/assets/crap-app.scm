@@ -33,6 +33,9 @@
     (ktv "email" "varchar" "None Yet")
     (ktv "units" "varchar" "metric")
     (ktv "current-farm" "varchar" "none")
+    (ktv "backup-freq" "varchar" "none")
+    (ktv "last-backup" "varchar" "")
+
 ;; removed and put in farm entity
 ;;    (ktv "rainfall" "varchar" "medium")
 ;;    (ktv "cost-n" "real" 0.79)
@@ -127,12 +130,17 @@
 	 (if (string? (entity-get-value "cost-k"))
 	     (string->number (entity-get-value "cost-k"))
 	     (entity-get-value "cost-k"))
-	 (if (string? (entity-get-value "cost-s"))
-	     (string->number (entity-get-value "cost-s"))
-	     (entity-get-value "cost-s"))
-	 (if (string? (entity-get-value "cost-m"))
-	     (string->number (entity-get-value "cost-m"))
-	     (entity-get-value "cost-m")))))
+	 ;; deal with auto upgrading
+	 (let ((cost-s (entity-get-value "cost-s")))
+	   (if (not cost-s) 0
+	       (if (string? cost-s)
+		   (string->number (entity-get-value "cost-s"))
+		   (entity-get-value "cost-s"))))
+	 (let ((cost-m (entity-get-value "cost-m")))
+	   (if (not cost-m) 0
+	       (if (string? cost-m)
+		   (string->number (entity-get-value "cost-m"))
+		   (entity-get-value "cost-m")))))))
 
 (define rainfall 'rain-medium)
 
@@ -236,6 +244,8 @@
 (define graph-n-col (map (lambda (x) (maximum 0 (- x 20))) '(0 255 107)))
 (define graph-p-col (map (lambda (x) (maximum 0 (- x 20))) '(238 239 119)))
 (define graph-k-col (map (lambda (x) (maximum 0 (- x 20))) '(255 0 249)))
+(define graph-s-col (map (lambda (x) (maximum 0 (- x 20))) '(255 149 0)))
+(define graph-m-col (map (lambda (x) (maximum 0 (- x 20))) '(255 249 249)))
 
 (define (build-lines events min max colour n)
   (let ((twidth (maximum (- max min) 1)))
@@ -264,17 +274,23 @@
               (x (* graph-width (/ (- t min) twidth)))
               (y1 (- 250 (ktv-get event "nutrients-n")))
 	      (y2 (- 250 (ktv-get event "nutrients-p")))
-	      (y3 (- 250 (ktv-get event "nutrients-k"))))
+	      (y3 (- 250 (ktv-get event "nutrients-k")))
+	      (y4 (- 250 (ktv-get event "nutrients-s")))
+	      (y5 (- 250 (ktv-get event "nutrients-m"))))
 	 (append
 	  (if (< month-width 20)
 	      (list
 	       (drawlist-line graph-n-col 3 (list x 250 x y1))
 	       (drawlist-line graph-p-col 3 (list (+ x 3) 250 (+ x 3) y2))
-	       (drawlist-line graph-k-col 3 (list (+ x 6) 250 (+ x 6) y3)))
+	       (drawlist-line graph-k-col 3 (list (+ x 6) 250 (+ x 6) y3))
+	       (drawlist-line graph-s-col 3 (list (+ x 9) 250 (+ x 9) y4))
+	       (drawlist-line graph-m-col 3 (list (+ x 12) 250 (+ x 12) y5)))
 	      (list
 	       (drawlist-line graph-n-col 10 (list x 250 x y1))
 	       (drawlist-line graph-p-col 10 (list (+ x 5) 250 (+ x 5) y2))
-	       (drawlist-line graph-k-col 10 (list (+ x 10) 250 (+ x 10) y3))))
+	       (drawlist-line graph-k-col 10 (list (+ x 10) 250 (+ x 10) y3))
+	       (drawlist-line graph-s-col 10 (list (+ x 15) 250 (+ x 15) y4))
+	       (drawlist-line graph-m-col 10 (list (+ x 20) 250 (+ x 20) y5))))
 	  r)))
      '()
      events)))
@@ -348,6 +364,8 @@
      (drawlist-text "N" 280 30 graph-n-col 20 "horizontal")
      (drawlist-text "P" 280 60 graph-p-col 20 "horizontal")
      (drawlist-text "K" 280 90 graph-k-col 20 "horizontal")
+     (drawlist-text "S" 280 120 graph-s-col 20 "horizontal")
+     (drawlist-text "M" 280 150 graph-m-col 20 "horizontal")
      )))
 
 (define (newest-event-day events)
@@ -425,7 +443,7 @@
        (else
         (mutate-current-seek-mul! 1)))))
 
-;; just for graph so don't have to be accurate!!!
+;; just for graph/backup so don't have to be accurate!!!
 (define (date->day d)
   (let ((d (string->date d)))
     (+ (* (list-ref d 2) 360)
@@ -1119,6 +1137,7 @@
 
 (define export-attributes
   '(("farm" (("name" "varchar") 
+	     ("deleted" "int")
 	     ("cost-n" "real") 
 	     ("cost-p" "real") 
 	     ("cost-k" "real") 
@@ -1126,6 +1145,7 @@
 	     ("cost-m" "real")  
 	     ("rainfall" "varchar")))
     ("field" (("name" "varchar")
+	      ("deleted" "int")
 	      ("parent" "varchar")
 	      ("soil" "varchar")
 	      ("crop" "varchar")
@@ -1137,11 +1157,13 @@
 	      ("recently-grown-grass" "varchar")
 	      ("size" "real")))
     ("coord" (("name" "varchar")
+	      ("deleted" "int")
 	      ("parent" "varchar")
 	      ("order" "int")
 	      ("lat" "real")
 	      ("lng" "real")))
     ("event" (("name" "varchar")
+	      ("deleted" "int")
 	      ("parent" "varchar")
 	      ("type" "varchar")
 	      ("date" "varchar")
@@ -1312,3 +1334,38 @@
 		(cadr field-details))
 	     normal-text-size (layout 'wrap-content 'wrap-content -1 'left 0)))
 	  import-result)))))
+
+(define (backup-days)
+  (let ((today (date->day (date->string (current-date))))
+	(last (get-setting-value "last-backup")))
+    (if (not last)
+	"never."
+	(string-append (number->string (- today (date->day last))) 
+		       " days ago."))))
+	
+(define (check-backup)
+  (let ((backup-freq (get-setting-value "backup-freq")))
+    (if backup-freq
+	(let ((today (date->day (date->string (current-date))))
+	      (freq (cond
+		     ((equal? backup-freq "daily") 1)
+		     ((equal? backup-freq "weekly") 7)
+		     (else 30)))
+	      (last (get-setting-value "last-backup")))
+	  (msg today freq last)
+	  (cond
+	   ((and (not (equal? backup-freq "never"))	       
+		 (or (not last)
+		     (>= (- today (date->day last))
+			 freq)))
+	    (list
+	     (alert-dialog
+	      "timed-backup"
+	      (string-append (mtext-lookup 'timed-backup-are-you-sure)
+			     (backup-days))
+	      (lambda (v)
+		(if (eqv? v 1)
+		    (list (start-activity "backup" 2 ""))
+		    '())))))
+	   (else '())))
+	'())))

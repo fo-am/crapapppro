@@ -1868,6 +1868,32 @@ public class StarwispBuilder
                                 String datetime = getDateTime();
                                 String filename = path+datetime + ".jpg";
                                 SaveData(filename,blob.toByteArray());
+
+                                // burn gps into exif data
+                                if (m_LocationManager!=null && 
+				    m_GPS.currentLocation!=null) {
+				    Log.i("starwisp","Saving GPS as exif");
+                                    double latitude = m_GPS.currentLocation.getLatitude();
+                                    double longitude = m_GPS.currentLocation.getLongitude();
+				    
+				    Log.i("starwisp","GPS:"+latitude+" "+longitude);
+			    
+                                    try {
+                                        ExifInterface exif = new ExifInterface(filename);
+                                        exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE, GPS.convert(latitude));
+                                        exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE_REF, GPS.latitudeRef(latitude));
+                                        exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE, GPS.convert(longitude));
+                                        exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF, GPS.longitudeRef(longitude));
+                                        exif.saveAttributes();
+					Log.i("starwisp","exif saved: "+filename);
+                                    } catch (IOException e) {
+                                        Log.i("starwisp","Couldn't open "+filename+" to add exif data: ioexception caught.");
+                                    }
+				    
+                                } else {
+				    Log.i("starwisp","GPS not started");
+				}
+				
                                 v.Shutdown();
                                 ctx.finish();
                             }
