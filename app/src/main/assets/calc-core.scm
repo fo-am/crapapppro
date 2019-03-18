@@ -394,7 +394,14 @@
 	'low))
    (else 'low))))
 
-(define (get-crop-requirements/supply rainfall crop-params soil previous-crop regularly-manure soil-test-p soil-test-k soil-test-m recently-grown-grass month)
+(define (calc-nitrogencategory amount)
+  (cond
+   ((< amount 100) "under100")
+   ((and (> amount 100) (< amount 200)) "100-200")
+   ((and (> amount 200) (< amount 300)) "200-300")
+   (else "300-400")))
+
+(define (get-crop-requirements/supply rainfall crop-params soil previous-crop regularly-manure soil-test-p soil-test-k soil-test-m recently-grown-grass month nitrogenamount)
   (let ((sns (calc-sns rainfall soil crop-params previous-crop regularly-manure recently-grown-grass))
 	(risk (calc-sulphur-risk rainfall soil)))
     (let ((choices 
@@ -402,6 +409,7 @@
 	    crop-params
 	    (list 
 	     (list 'season (symbol->string (month->season month)))
+	     (list 'nitrogencategory (dbg (calc-nitrogencategory nitrogenamount)))
 	     (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
 	     (list 'rainfall rainfall)
 	     (list 'soil soil)

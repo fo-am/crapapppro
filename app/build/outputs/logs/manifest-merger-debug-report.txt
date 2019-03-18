@@ -190,7 +190,9 @@ ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 	android:name
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:58:19-66
 activity#foam.starwisp.ImportActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:59:9-74
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:59:9-99
+	android:noHistory
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:59:63-87
 	android:name
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:59:19-62
 activity#foam.starwisp.BackupActivity

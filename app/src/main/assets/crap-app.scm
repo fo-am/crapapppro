@@ -894,7 +894,8 @@
    (string->symbol (ktv-get field "soil-test-k"))
    (string->symbol (ktv-get field "soil-test-m"))
    (string->symbol (ktv-get field "recently-grown-grass"))
-   month))
+   month
+   0))
 
 (define (get-crop-requirements/supply-from-current month)
   (get-crop-requirements/supply 
@@ -907,7 +908,10 @@
    (string->symbol (entity-get-value "soil-test-k"))
    (string->symbol (entity-get-value "soil-test-m"))
    (string->symbol (entity-get-value "recently-grown-grass"))
-   month))
+   month
+   ;; extract the current nitrogen amount
+   (dbg (list-ref (cadr (calc-nutrients)) 0))
+   ))
 
 ;;---------------------------------------------------------------
 
@@ -1196,7 +1200,6 @@
     (if kp (cadr kp) '())))
 
 (define (build-ktv-list-from-import db table entity-type data)
-  (msg entity-type)
   (foldl
    (lambda (kv-pair r)
      (if (eq? (car kv-pair) 'unique_id)
@@ -1269,20 +1272,15 @@
 
 (define (import-farm db table import-data)
   (let ((farm-data (cdr (car import-data))))
-    (msg farm-data)
     (let ((version (cdr (assoc 'file-version farm-data))))
       (cond 
        ((eqv? version current-export-version)	  
-	(msg "importing farm")
 	(import-entity db table "farm" farm-data)
 	(let ((fields-list (cdr (assoc 'fields farm-data))))
-	  (msg "importing fields")
 	  (foldl
 	   (lambda (field-data r)
-	     (msg (assoc 'unique_id field-data))
 	     ;; import fields
 	     (let ((field-exists (import-entity db table "field" field-data)))
-	       (msg field-exists)
 	       ;; import polygons....
 	       ;; delete previous polygon if one exists
 	       (db-delete-children db "farm" "coord" (assoc 'unique_id field-data))
@@ -1352,7 +1350,6 @@
 		     ((equal? backup-freq "weekly") 7)
 		     (else 30)))
 	      (last (get-setting-value "last-backup")))
-	  (msg today freq last)
 	  (cond
 	   ((and (not (equal? backup-freq "never"))	       
 		 (or (not last)

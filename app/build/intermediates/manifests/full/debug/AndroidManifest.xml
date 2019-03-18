@@ -78,7 +78,9 @@
         <activity android:name="foam.starwisp.EmailActivity" />
         <activity android:name="foam.starwisp.ManureActivity" />
         <activity android:name="foam.starwisp.CropSelectActivity" />
-        <activity android:name="foam.starwisp.ImportActivity" />
+        <activity
+            android:name="foam.starwisp.ImportActivity"
+            android:noHistory="true" />
         <activity android:name="foam.starwisp.BackupActivity" />
 
         <meta-data

@@ -46,7 +46,7 @@
 			"main" 2 (get-setting-value "current-farm")))))
       (spacer 20)
       (mtext 'splash-discl)
-      (image-view (make-id "about-logo") "logo" fillwrap)
+      (image-view (make-id "about-logo") "logo" (layout 'wrap-content 'wrap-content 1 'centre 0))
       )))
    (lambda (activity arg)
      ;; check for farms in the db, add default one if none exist

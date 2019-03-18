@@ -65,10 +65,11 @@ public class ActivityManager {
         }
         else
         {
+	    Log.i("starwisp","GOTOING");
             Intent intent = new Intent(src,ActClass);
             intent.putExtra("arg", arg);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             src.startActivity(intent);
         }
     }
