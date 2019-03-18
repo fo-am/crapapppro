@@ -242,7 +242,7 @@ public class StarwispBuilder
         ArrayList<String> extra_text = new ArrayList<String>();
         extra_text.add(emailText);
         emailIntent.putStringArrayListExtra(Intent.EXTRA_TEXT, extra_text);
-        //emailIntent.putExtra(Intent.EXTRA_TEXT, emailText);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, emailText);
 
         //has to be an ArrayList
         ArrayList<Uri> uris = new ArrayList<Uri>();

@@ -913,13 +913,13 @@
 	       (list
 		(encrypt
 		 "export-encrypt"
-		 (dbg (export-current-farm-as-json))
+		 (export-current-farm-as-json)
 		 (get-current 'password "crapapp")
 		 (lambda (ciphertext)
-		   (save-data "farm.crap.json.enc" (dbg ciphertext))
+		   (save-data "farm.crap.json.enc" ciphertext)
 		   (list
-		    (send-mail "" "From your Crap Calculator"
-			       "Please find attached your farm data."
+		    (send-mail "" "Farm data"
+			       "You have been sent farm data from the Farm Crap App. To import this data into your app, click on the attachment to launch the Farm Crap App importer."
 			       (list (string-append dirname "farm.crap.json.enc")))))))))
     (mspinner 'backup-freq backup-freq-list
 	      (lambda (v) 
