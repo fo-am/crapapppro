@@ -68,6 +68,7 @@ public class ActivityManager {
             Intent intent = new Intent(src,ActClass);
             intent.putExtra("arg", arg);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             src.startActivity(intent);
         }
     }

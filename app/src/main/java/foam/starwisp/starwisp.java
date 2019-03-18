@@ -247,7 +247,7 @@ public class starwisp extends StarwispActivity {
     void handleJSON(Intent intent) {
 	String encrypted = readRawTextFile(intent.getData());
 	if (encrypted != null) {
-	    ActivityManager.StartActivity(this, "import", 0, encrypted);  
+	    ActivityManager.StartActivityGoto(this, "import", encrypted);  
 	}
     }
 }
