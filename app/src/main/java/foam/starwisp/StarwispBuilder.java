@@ -1953,7 +1953,7 @@ public class StarwispBuilder
             }
 
             if (type.equals("seek-bar")) {
-                SeekBar v = new SeekBar(ctx);
+                final SeekBar v = (SeekBar)vv;
                 if (token.equals("max")) {
                     // android seekbar bug workaround
                     int p=v.getProgress();
@@ -1963,6 +1963,16 @@ public class StarwispBuilder
                     v.setProgress(1000);
 
                     // not working.... :(
+                }
+                if (token.equals("progress")) {
+		    final int value=arr.getInt(3);
+                    // another android seekbar bug workaround
+		    v.post(new Runnable() {
+			    @Override
+			    public void run() {
+				v.setProgress(value);
+			    }
+			});
                 }
             }
 

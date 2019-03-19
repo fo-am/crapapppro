@@ -731,7 +731,7 @@
 	(update-type! v)
 	(update-amount! (convert-input (* (current-seek-mul) 50) (get-units)))
 	(list
-	 (update-widget 'seek-bar (get-id "amount") 'init 0)
+	 (update-widget 'seek-bar (get-id "amount") 'progress 50)
 	 (update-widget 'image-view (get-id "example") 'image
 			(find-image (calc-type calc)
 				    (calc-amount calc)))
