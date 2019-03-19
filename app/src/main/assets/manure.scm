@@ -1163,3 +1163,33 @@
 	       biosolid-tree
 	       )))
 
+
+(define custom-manure-percent-tree
+  (dtree 'type
+	 (list
+	  (choice 'cattle
+		  (dtree 'nutrient
+			 (list (choice 'n-avail cattle-slurry-n-pc-tree)
+			       (choice 'p-avail 50)
+			       (choice 'k-avail 90)
+			       (choice 'default 100))))
+	  (choice 'fym
+		  (dtree 'nutrient
+			 (list 
+			  ;; copy of fym-seasonal-nitrogen
+			  (choice 'n-avail 
+				  (dtree 'season
+					 (list 
+					  (choice 'autumn
+						  (dtree 'application
+							 (list (choice 'straight-surface (dtree 'soil (list (choice 'sandyshallow 5) (choice 'mediumheavy 10))))
+							       (choice 'straight-ploughed (dtree 'soil (list (choice 'sandyshallow 5) (choice 'mediumheavy 10))))
+							       (choice 'stored-spread (dtree 'soil (list (choice 'sandyshallow 5) (choice 'mediumheavy 10))))
+							       (choice 'stored-ploughed (dtree 'soil (list (choice 'sandyshallow 5) (choice 'mediumheavy 10)))))))
+					  (choice 'winter (dtree 'soil (list (choice 'sandyshallow 10) (choice 'mediumheavy 10))))
+					  (choice 'spring (dtree 'application (list (choice 'straight-surface 15) (choice 'straight-ploughed 15) 
+										    (choice 'stored-spread 10) (choice 'stored-ploughed 10))))
+					  (choice 'summer 10))))			 			  
+			  (choice 'p-avail 60)
+			  (choice 'k-avail 90)
+			  (choice 'default 100)))))))

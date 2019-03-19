@@ -232,7 +232,17 @@
    (list 'manure-n (list "N Kg/t content (elemental)"))
    (list 'manure-p (list "P Kg/t content (elemental)"))
    (list 'manure-k (list "K Kg/t content (elemental)"))
+   (list 'manure-s (list "S Kg/t content (elemental)"))
+   (list 'manure-m (list "Mg Kg/t content (elemental)"))
    
+   (list 'custom-manure-type (list "Custom manure type"))
+
+   (list 'custom-slurry-dm2 (list "Slurry (DM 2%)"))
+   (list 'custom-slurry-dm6 (list "Slurry (DM 6%)"))
+   (list 'custom-slurry-dm10 (list "Slurry (DM 10%)"))
+   (list 'custom-fym-incorporated (list "Farmyard Manure (Incorporated)"))
+   (list 'custom-fym-removed (list "Farmyard Manure (Removed)"))
+
    (list 'delete-are-you-sure (list "Are you sure you want to delete this?"))
 
    (list 'still-needed (list "Nutrients still needed"))

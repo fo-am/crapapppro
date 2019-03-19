@@ -64,6 +64,13 @@
 (define biosolid-application-list 
   (list 'surface 'ploughed))
 
+(define custom-manure-type-list 
+  (list 'custom-slurry-dm2
+	'custom-slurry-dm6
+	'custom-slurry-dm10
+	'custom-fym-incorporated
+	'custom-fym-removed))
+
 (define rainfall-list (list 'rain-high 'rain-medium 'rain-low))
 
 (define backup-freq-list (list 'never 'daily 'weekly 'monthly))
@@ -267,11 +274,8 @@
 	(application (calc-application calc))
 	(soil-test (calc-soil-test calc)))
     (if custom-override  
-	(list 
-	 ;; total
-	 (process-nutrients amount custom-override)
-	 ;; avail (duplicate)
-	 (process-nutrients amount custom-override))
+	(get-custom-manure-nutrients amount custom-override season 
+				     crop soil soil-test)
 	(get-nutrients type amount quality season 
 		       (crop-params->manure-crop crop) 
 		       soil application soil-test))))
@@ -531,4 +535,42 @@
 	    (list
 	     total-values
 	     (manure-get-crop-avail amount  n-total-percent params)))))))
+
+(define (custom-manure->params type)
+  (cond
+   ((eq? type 'custom-slurry-dm2) '((type cattle) (quality DM2)))
+   ((eq? type 'custom-slurry-dm6) '((type cattle) (quality DM6)))
+   ((eq? type 'custom-slurry-dm10) '((type cattle) (quality DM10)))
+   ((eq? type 'custom-fym-incorporated) '((type fym) (application straight-ploughed)))
+   (else '((type fym) (application straight-surface)))))   
+
+(define (get-custom-manure-nutrients amount custom season crop soil-type soil-test)
+  (let ((type (car custom))
+	(totals (cdr custom))) ;; strip out type
+    (let ((params 
+	   (append
+	    (custom-manure->params type)
+	    (list
+	     (list 'season season) 
+	     (list 'crop crop)
+	     ;; also we have to convert soil to the two
+	     ;; types in manure (pp 66, note b)
+	     (list 'soil (cond 
+			  ((eq? soil-type 'sandyshallow) 'sandyshallow)
+			  ((eq? soil-type 'mediumshallow) 'sandyshallow)
+			  (else 'mediumheavy)))))))
+      (msg totals params)
+      (list 
+       ;; total
+       (process-nutrients amount totals)
+       ;; build     
+       (process-nutrients 
+	amount 
+	(list
+	 (dbg (pc (list-ref totals 0) (dbg (decision custom-manure-percent-tree (append (quote ((nutrient n-avail))) params)))))
+	 (pc (list-ref totals 1) (decision custom-manure-percent-tree (append (quote ((nutrient p-avail))) params)))
+	 (pc (list-ref totals 2) (decision custom-manure-percent-tree (append (quote ((nutrient k-avail))) params)))
+	 (pc (list-ref totals 3) (decision custom-manure-percent-tree (append (quote ((nutrient s-avail))) params)))
+	 (pc (list-ref totals 4) (decision custom-manure-percent-tree (append (quote ((nutrient m-avail))) params)))))))))
+
 

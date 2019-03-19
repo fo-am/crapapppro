@@ -67,11 +67,14 @@
   (map
    (lambda (e)
      ;; convert from elemental to oxide form here
-     (list (ktv-get e "N") 
-	   (* (ktv-get e "P") p-oxide-conv) 
-	   (* (ktv-get e "K") k-oxide-conv)
-	   (* (ktv-get e "S") s-oxide-conv)
-	   (ktv-get e "M")))
+     (list 
+      ;; pass type through for converting to crop avail
+      (ktv-get e "type")
+      (ktv-get e "N") 
+      (* (ktv-get e "P") p-oxide-conv) 
+      (* (ktv-get e "K") k-oxide-conv)
+      (* (ktv-get e "S") s-oxide-conv)
+      (ktv-get e "M")))
    (db-filter-only 
     db "farm" "manure" 
     (list (list "name" "varchar" "=" name))
@@ -79,7 +82,8 @@
 	  (list "P" "real") 
 	  (list "K" "real")
 	  (list "S" "real")
-	  (list "M" "real")))))
+	  (list "M" "real")
+	  (list "type" "varchar")))))
 
 (define (get-qualities-for-type-inc-custom type)
   (if (eq? type 'custom-manure)

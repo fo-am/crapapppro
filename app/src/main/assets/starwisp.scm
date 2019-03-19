@@ -199,7 +199,8 @@
 				  ("P" "real" 0)
 				  ("K" "real" 0)
 				  ("S" "real" 0)
-				  ("M" "real" 0))))
+				  ("M" "real" 0)
+				  ("type" "varchar" ""))))
 	   ))
 	 (spacer 20)
 	 (horiz
@@ -848,6 +849,9 @@
       (medit-text 'manure-k "numeric" (lambda (v) (entity-update-single-value! (ktv "K" "real" (safe-string->number v))) '()))
       (medit-text 'manure-s "numeric" (lambda (v) (entity-update-single-value! (ktv "S" "real" (safe-string->number v))) '()))
       (medit-text 'manure-m "numeric" (lambda (v) (entity-update-single-value! (ktv "M" "real" (safe-string->number v))) '()))
+      (mspinner 'custom-manure-type custom-manure-type-list
+		(lambda (v) 
+		  (entity-update-single-value! (ktv "type" "varchar" (list-ref custom-manure-type-list v))) '()))
       (horiz
        (delete-button)
        (mbutton-scale 'back (lambda () (list (finish-activity 99))))))))
