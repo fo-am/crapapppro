@@ -231,17 +231,12 @@
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
-     (msg "loading farm" arg)
-     (entity-init! db "farm" "farm" (dbg (get-entity-by-unique db "farm" arg)))
+     (entity-init! db "farm" "farm" (get-entity-by-unique db "farm" arg))
      (set-setting! "current-farm" "varchar" arg)
      ;; pull the costs and rainfall in for this farm
-     (msg "update costs")
      (update-costs)
-     (msg "update rainfall")
      (update-rainfall)
-     (msg "updated rainfall")
      (let ((polygons (get-polygons)))
-       (msg polygons)
        (let ((zoom (if (polygons-empty? polygons) zoom-out zoom-in))
 	     (centre (get-farm-centre polygons)))
 	 (append
@@ -923,10 +918,7 @@
 			       (list (string-append dirname "farm.crap.json.enc")))))))))
     (mspinner 'backup-freq backup-freq-list
 	      (lambda (v) 
-		(msg "setting")
-		(msg (list-ref backup-freq-list v))
-		(set-setting! "backup-freq" "varchar" (symbol->string (list-ref backup-freq-list v)))
-		(msg (get-setting-value "backup-freq"))))
+		(set-setting! "backup-freq" "varchar" (symbol->string (list-ref backup-freq-list v)))))
     (mtext 'backup-blurb)
 
     (spacer 20)    
@@ -984,11 +976,11 @@
 	       (list
 		(encrypt
 		 "export-encrypt"
-		 (dbg (export-current-farm-as-json))
+		 (export-current-farm-as-json)
 		 (get-current 'password "crapapp")
 		 (lambda (ciphertext)
 		   (set-setting! "last-backup" "varchar" (date->string (current-date)))
-		   (save-data "farm.crap.json.enc" (dbg ciphertext))
+		   (save-data "farm.crap.json.enc" ciphertext)
 		   (list
 		    (send-mail "" "From your Crap Calculator"
 			       "Please find attached your farm data."
@@ -1096,7 +1088,6 @@
 		   (get-current 'cipher-text "")
 		   (get-current 'password "crapapp")
 		   (lambda (cleartext)
-		     (msg cleartext)
 		     (cond 
 		      ((not cleartext)
 		       (list
@@ -1107,7 +1098,6 @@
 		      (else
 		       (let* ((import-data (json/parse-string cleartext))
 			      (farm-name (farm-name import-data)))
-			 (msg "importing" farm-name)
 			 (list
 			  (alert-dialog	
 			   "import-farm"
@@ -1115,10 +1105,8 @@
 			       (string-append (mtext-lookup 'import-existing-farm) farm-name)
 			       (string-append (mtext-lookup 'import-new-farm) farm-name))
 			   (lambda (v)
-			     (msg v)
 			     (if (eqv? v 1)
 				 (let ((import-result (import-farm db "farm" import-data)))
-				   (msg import-result)
 				   (list
 				    (if import-result
 					(build-import-report import-result farm-name)

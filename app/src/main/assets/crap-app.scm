@@ -152,6 +152,12 @@
 (define (mutate-current-seek-mul! a)
   (set! calc (calc-modify-seek-mul calc a)))
 
+;; apply modification to sulphur requirements based on nitrogen supply
+;; for grazed grass on soils with sulphur deficiency (page 12 
+;; grassland recommendations)
+;;(define (deal-with-sulphur-nitrogen sulphur nitrogen)
+;;  )
+
 (define (run-calc)
   (let* ((nutrients (calc-nutrients))
 	 (amounts (cadr nutrients))
@@ -224,10 +230,14 @@
 			       "N/A" (convert-output->string (- (entity-get-value "require-k") (list-ref amounts 2)) "kg/ha")))	    
 	    (update-widget 'text-view (get-id "needed-s") 'text 
 			   (if (eq? (list-ref amounts 3) 'NA)
-			       "N/A" (convert-output->string (- (entity-get-value "require-s") (list-ref amounts 3)) "kg/ha")))	    
+			       "N/A" (convert-output->string (- (entity-get-value "require-s") (list-ref amounts 3)) "kg/ha")))	  ;; (deal-with-sulphur-nitgrogen (list-ref amounts 3) (list-ref amounts 0)))
 	    (update-widget 'text-view (get-id "needed-m") 'text 
 			   (if (eq? (list-ref amounts 4) 'NA)
 			       "N/A" (convert-output->string (- (entity-get-value "require-m") (list-ref amounts 4)) "kg/ha")))	    
+	    ;;;;;;
+	    ;;(update-widget 'text-view (get-id "require-s") 'text
+	    ;;		   (convert-output->string (list-ref results 3) "kg/ha"))
+	    ;;;;
 	    )) '())
      )))
 
@@ -837,7 +847,7 @@
 (define (update-field-cropsoil-calc-from-current)
   (update-field-cropsoil-calc
    (get-crop-requirements/supply-from-current
-    (symbol->string (date->month (current-date))))))
+    (date->month (current-date)))))
 
 (define (update-crop-details-from-current)
   (let ((crop-params (text->params-list (entity-get-value "crop"))))
@@ -894,8 +904,7 @@
    (string->symbol (ktv-get field "soil-test-k"))
    (string->symbol (ktv-get field "soil-test-m"))
    (string->symbol (ktv-get field "recently-grown-grass"))
-   month
-   0))
+   month))
 
 (define (get-crop-requirements/supply-from-current month)
   (get-crop-requirements/supply 
@@ -908,10 +917,7 @@
    (string->symbol (entity-get-value "soil-test-k"))
    (string->symbol (entity-get-value "soil-test-m"))
    (string->symbol (entity-get-value "recently-grown-grass"))
-   month
-   ;; extract the current nitrogen amount
-   (dbg (list-ref (cadr (calc-nutrients)) 0))
-   ))
+   month))
 
 ;;---------------------------------------------------------------
 

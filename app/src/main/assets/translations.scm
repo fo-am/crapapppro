@@ -49,7 +49,7 @@
    (list 'nutrient-k-imperial (list "K<sub><small>2</small></sub>O units/acre"))
    (list 'nutrient-s-imperial (list "S units/acre"))
    (list 'nutrient-m-imperial (list "Mg units/acre"))
-   (list 'cost-saving (list "Fertiliser Savings"))
+   (list 'cost-saving (list "Fertiliser savings for field"))
 
    (list 'field-calc-blurb (list "Enter new crap spreading event"))
    (list 'date (list "Set date"))

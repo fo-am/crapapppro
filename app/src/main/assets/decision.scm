@@ -61,6 +61,7 @@
          
 ;; recursively search the tree based on the list of choices
 (define (decision tree choices)
+  ;;(msg "choice:" choices)
   (cond
     ((number? tree) tree) ;; we've reached a decision
     ((symbol? tree) tree) ;; we've reached a decision

@@ -221,7 +221,7 @@
 
 ;; the manure calculator
 (define calc
-  (list 'pig 25 'DM2 'autumn 
+  (list 'cattle 50 'DM2 'autumn 
 	default-crop
 	'mediumshallow 'splash-surface
 	(list date-day date-month date-year)
@@ -378,8 +378,7 @@
 ;; Deep clay, deep silt, organic and peat soils with high rainfall = High risk
 
 (define (calc-sulphur-risk rainfall soil)
-  (msg "csr" rainfall soil)
-  (dbg (cond
+  (cond
    ((or (eq? soil 'sandyshallow)
 	(eq? soil 'mediumshallow)) 'high)
    ((and (eq? soil 'medium)
@@ -392,8 +391,9 @@
 	 (eq? soil 'organic))
     (if (eq? rainfall 'rain-high) 'high
 	'low))
-   (else 'low))))
+   (else 'low)))
 
+;; not used (yet)
 (define (calc-nitrogencategory amount)
   (cond
    ((< amount 100) "under100")
@@ -401,15 +401,42 @@
    ((and (> amount 200) (< amount 300)) "200-300")
    (else "300-400")))
 
-(define (get-crop-requirements/supply rainfall crop-params soil previous-crop regularly-manure soil-test-p soil-test-k soil-test-m recently-grown-grass month nitrogenamount)
+(define (grassland-nitrogen-modifier sns crop)
+  (cond
+   ((and (eq? (get-choice-value crop 'crop) 'grass)
+	 (eq? (get-choice-value crop 'subtype) 'silage))
+    (cond 
+     ;; Silage (page 15 grassland reccomendations)
+     ;; High SNS sites -> apply 10 less for first cut, 20 less for second cut
+     ;; Low SNS sites -> apply 10 more for first cut, 20 more for second cut
+     ((eq? (get-choice-value crop 'cut) 'one)
+      (cond ((eqv? sns grassland-high-sns) -10)
+	    ((eqv? sns grassland-low-sns) 10)
+	    (else 0)))
+     ((eq? (get-choice-value crop 'cut) 'two)
+      (cond ((eqv? sns grassland-high-sns) -20)
+	    ((eqv? sns grassland-low-sns) 20)
+	    (else 0)))
+     (else 0)))
+   ;; Grazed (page 16 grassland reccomendations) 
+   ((and (eq? (get-choice-value crop 'crop) 'grass)
+	 (eq? (get-choice-value crop 'subtype) 'grazed))
+    (cond
+     ((eqv? sns grassland-high-sns) -30)
+     ((eqv? sns grassland-low-sns) 30)
+     (else 0)))
+   (else 0)))
+
+(define (get-crop-requirements/supply rainfall crop-params soil previous-crop regularly-manure soil-test-p soil-test-k soil-test-m recently-grown-grass month)
   (let ((sns (calc-sns rainfall soil crop-params previous-crop regularly-manure recently-grown-grass))
 	(risk (calc-sulphur-risk rainfall soil)))
     (let ((choices 
 	   (append
 	    crop-params
 	    (list 
-	     (list 'season (symbol->string (month->season month)))
-	     (list 'nitrogencategory (dbg (calc-nitrogencategory nitrogenamount)))
+	     ;; this is now supplied by the crop type (grown not current)
+	     ;;(list 'season (symbol->string (month->season month)))
+	     (list 'nitrogencategory 'under100) ;; we don't know this yet...
 	     (list 'sns sns) ;; sns not used for grass requirement, ok to be grassland low/med/high
 	     (list 'rainfall rainfall)
 	     (list 'soil soil)
@@ -420,21 +447,13 @@
 	     (list 'month month)))))
       (list 
        (let ((n (decision crop-requirements-n-tree choices)))
-	 (if (eq? n 'NA) 
-	     'NA
-	     (+ n
-		;; add/subtract based on table on pp 188
-		(cond
-		 ;; todo: should be just grazed - otherwise silage is dependant on cut
-		 ((eqv? sns grassland-high-sns) -30)
-		 ((eqv? sns grassland-low-sns) 30)
-		 (else 0)))))
+	 (if (eq? n 'NA) 'NA (+ n (grassland-nitrogen-modifier sns crop-params))))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'phosphorus) choices))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'potassium) choices))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'sulphur) choices))
        (decision crop-requirements-pk-tree (cons (list 'nutrient 'magnesium) choices))
        sns
-       (dbg risk)))))
+       risk))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; stuff for manure nutrients
