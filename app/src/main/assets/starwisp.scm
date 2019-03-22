@@ -311,6 +311,7 @@
        (text-view (make-id "amount-value") "4500 gallons" 30
 		  (layout 'wrap-content 'wrap-content 1 'centre 0))
        (spacer 10)
+ 
        (calc-results)
        (mbutton 'done (lambda () (list (finish-activity 99)))))))
    (lambda (activity arg)
@@ -319,14 +320,8 @@
      (set-current! 'calc-mode 'calc)
      (clear-soil-test!) ;; remove last values from field
      (update-fieldsize! 1) ;; reset after any fields
-     (if (equal? (current-units) 'metric) 
-	 '()
-	 (list
-	  (update-widget 'text-view (get-id "nutrient-n-metric") 'text (mtext-lookup 'nutrient-n-imperial))
-	  (update-widget 'text-view (get-id "nutrient-p-metric") 'text (mtext-lookup 'nutrient-p-imperial))
-	  (update-widget 'text-view (get-id "nutrient-k-metric") 'text (mtext-lookup 'nutrient-k-imperial))
-	  (update-widget 'text-view (get-id "nutrient-s-metric") 'text (mtext-lookup 'nutrient-s-imperial))
-	  (update-widget 'text-view (get-id "nutrient-m-metric") 'text (mtext-lookup 'nutrient-m-imperial)))))
+     (list
+      (update-text-view-units 'crop-availible 'crop-availible-metric 'crop-availible-imperial)))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
@@ -705,10 +700,8 @@
 	   (update-widget 'image-view (get-id "example") 'image
 			  (find-image (string->symbol (entity-get-value "type"))
 				      (entity-get-value "amount")))
-	   (update-text-view-units 'nutrient-n-metric 'nutrient-n-metric 'nutrient-n-imperial)
-	   (update-text-view-units 'nutrient-p-metric 'nutrient-p-metric 'nutrient-p-imperial)
- 	   (update-text-view-units 'nutrient-k-metric 'nutrient-k-metric 'nutrient-k-imperial)
-	   )))))
+	   (update-text-view-units 'crop-availible 'crop-availible-metric 'crop-availible-imperial)))
+	 )))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
@@ -877,66 +870,69 @@
 
   (activity
    "email"
-   (vert
-    (mtitle 'export)
-    (mtext 'export-blurb)
+   (scroll-view-vert
+    0 (layout 'fill-parent 'wrap-content 0.75 'centre 0)
+    (list
+     (vert
+      (mtitle 'export)
+      (mtext 'export-blurb)
 
-    (mbutton 'email-button
-	     (lambda ()
-	       (save-data "fields.csv" (crap-csv db "farm" "event"))
-	       (list
-		(send-mail "" "From your Crap Calculator"
-			   "Please find attached your field data."
-			   (list (string-append dirname "fields.csv"))))))
-    (spacer 20)
+      (mbutton 'email-button
+	       (lambda ()
+		 (save-data "fields.csv" (crap-csv db "farm" "event"))
+		 (list
+		  (send-mail "" "From your Crap Calculator"
+			     "Please find attached your field data."
+			     (list (string-append dirname "fields.csv"))))))
+      (spacer 20)
 
-    (mtitle 'send-farm-title)
-    (mtext 'send-farm-blurb)
-    (horiz
-     (medit-text-scale 'password "password" 
-		       (lambda (v)
-			 ;; store in memory only
-			 (set-current! 'password v)
-			 ;; update the name on the map
-			 (list)))
-     (mtoggle-button-scale 
-      'view-password 
-      (lambda (v) 
-	(list 
-	 (update-widget 
-	  'edit-text (get-id "password") 
-	  'input-type (if (zero? v) "password" "visible-password"))))))
-    
-    (mbutton 'email-farm-button
-	     (lambda ()
-	       (list
-		(encrypt
-		 "export-encrypt"
-		 (export-current-farm-as-json)
-		 (get-current 'password "crapapp")
-		 (lambda (ciphertext)
-		   (save-data "farm.crap.json.enc" ciphertext)
-		   (list
-		    (send-mail "" "Farm data"
-			       "You have been sent farm data from the Farm Crap App. To import this data into your app, click on the attachment to launch the Farm Crap App importer."
-			       (list (string-append dirname "farm.crap.json.enc")))))))))
-    (mspinner 'backup-freq backup-freq-list
-	      (lambda (v) 
-		(set-setting! "backup-freq" "varchar" (symbol->string (list-ref backup-freq-list v)))))
-    (mtext 'backup-blurb)
+      (mtitle 'send-farm-title)
+      (mtext 'send-farm-blurb)
+      (horiz
+       (medit-text-scale 'password "password" 
+			 (lambda (v)
+			   ;; store in memory only
+			   (set-current! 'password v)
+			   ;; update the name on the map
+			   (list)))
+       (mtoggle-button-scale 
+	'view-password 
+	(lambda (v) 
+	  (list 
+	   (update-widget 
+	    'edit-text (get-id "password") 
+	    'input-type (if (zero? v) "password" "visible-password"))))))
+      
+      (mbutton 'email-farm-button
+	       (lambda ()
+		 (list
+		  (encrypt
+		   "export-encrypt"
+		   (export-current-farm-as-json)
+		   (get-current 'password "crapapp")
+		   (lambda (ciphertext)
+		     (save-data "farm.crap.json.enc" ciphertext)
+		     (list
+		      (send-mail "" "Farm data"
+				 "You have been sent farm data from the Farm Crap App. To import this data into your app, click on the attachment to launch the Farm Crap App importer."
+				 (list (string-append dirname "farm.crap.json.enc")))))))))
+      (mspinner 'backup-freq backup-freq-list
+		(lambda (v) 
+		  (set-setting! "backup-freq" "varchar" (symbol->string (list-ref backup-freq-list v)))))
+      (mtext 'backup-blurb)
 
-    (spacer 20)    
-    (mtitle 'reset-title)
-    (mbutton 'factory-reset
-	     (lambda ()
-	       (list
-		(alert-dialog
-		 "factory-reset"
-		 (mtext-lookup 'factory-reset-are-you-sure)
-		 (lambda (v)
-		   (when (eqv? v 1)
-			 (nuke-database!)))))))
-    (mbutton 'done (lambda () (list (finish-activity 99)))))
+      (spacer 20)    
+      (mtitle 'reset-title)
+      (mbutton 'factory-reset
+	       (lambda ()
+		 (list
+		  (alert-dialog
+		   "factory-reset"
+		   (mtext-lookup 'factory-reset-are-you-sure)
+		   (lambda (v)
+		     (when (eqv? v 1)
+			   (nuke-database!)))))))
+      (mbutton 'done (lambda () (list (finish-activity 99)))))))
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg) 

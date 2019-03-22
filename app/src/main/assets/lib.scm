@@ -449,6 +449,9 @@
 (define (scroll-view-vert id layout children)
   (list "scroll-view-vert" id layout children))
 (define (scroll-view-children t) (list-ref t 3))
+(define (table-layout id layout colour rows)
+  (list "table-layout" id layout colour rows))
+
 (define (draggable id orientation layout colour type children listener)
   (list "draggable" id orientation layout colour type children listener))
 (define (draggable-children t) (list-ref t 6))

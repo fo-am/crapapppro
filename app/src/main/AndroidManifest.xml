@@ -24,10 +24,24 @@
         android:anyDensity="true" />
 
     <application android:label="@string/app_name"
-        android:icon="@drawable/logo"
-        android:theme="@style/StarwispTheme"
-        >
-        <activity android:name="foam.starwisp.starwisp"
+		 android:icon="@drawable/logo"
+		 android:theme="@style/StarwispTheme"
+		 >
+      
+      <provider
+	  android:name="android.support.v4.content.FileProvider"
+	  android:authorities="foam.starwisp.StarwispBuilder.email"
+	  android:exported="false"
+	  android:grantUriPermissions="true"
+	  >
+	<meta-data
+	    android:name="android.support.FILE_PROVIDER_PATHS"
+	    android:resource="@xml/filepaths"	 
+	    />
+      </provider>
+      
+      
+      <activity android:name="foam.starwisp.starwisp"
             android:noHistory="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -43,6 +57,7 @@
                   android:pathPattern="*.crap.json.enc" />
             </intent-filter>
         </activity>
+
         <activity android:name="foam.starwisp.CalcActivity"></activity>
         <activity android:name="foam.starwisp.NewFieldActivity"></activity>
         <activity android:name="foam.starwisp.FarmActivity"></activity>

@@ -62,6 +62,13 @@
    (list 0 0 0 0)
    l))
 
+(define (horiz-left . l)
+  (linear-layout
+   0 'horizontal
+   (layout 'fill-parent 'wrap-content 1 'left 0)
+   (list 0 0 0 0)
+   l))
+
 (define (horiz-colour col . l)
   (linear-layout
    0 'horizontal

@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.content.FileProvider;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.text.method.PasswordTransformationMethod;
@@ -60,6 +61,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ToggleButton;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.RelativeLayout;
 import android.widget.FrameLayout;
 //import android.widget.GridLayout.Spec;
@@ -249,10 +251,16 @@ public class StarwispBuilder
         //convert from paths to Android friendly Parcelable Uri's
         for (String file : filePaths)
         {
+	    // see res/xml/filepaths.xml for fileprovider setup
+	    // we probably need to eventually stop using sdcard 
+	    // File fileIn = new File(context.getExternalFilesDir(null), file);
             File fileIn = new File(file);
-            Uri u = Uri.fromFile(fileIn);
+	    Uri u = FileProvider.getUriForFile(context, "foam.starwisp.StarwispBuilder.email", fileIn);
+            //Uri u = Uri.fromFile(fileIn);
             uris.add(u);
+
         }
+	emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
         context.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
     }
@@ -367,6 +375,11 @@ public class StarwispBuilder
 
             if (type.equals("linear-layout")) {
                 StarwispLinearLayout.Build(this,ctx,ctxname,arr,parent);
+                return;
+            }
+
+            if (type.equals("table-layout")) {
+                StarwispTableLayout.Build(this,ctx,ctxname,arr,parent);
                 return;
             }
 
@@ -1580,8 +1593,12 @@ public class StarwispBuilder
             // special cases
 
             if (type.equals("linear-layout")) {
-                //Log.i("starwisp","linear-layout update id: "+id);
                 StarwispLinearLayout.Update(this,(LinearLayout)vv,token,ctx,ctxname,arr);
+                return;
+            }
+
+            if (type.equals("table-layout")) {
+                StarwispTableLayout.Update(this,(TableLayout)vv,token,ctx,ctxname,arr);
                 return;
             }
 

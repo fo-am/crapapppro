@@ -289,8 +289,8 @@
               (y1 (- 250 (ktv-get event "nutrients-n")))
 	      (y2 (- 250 (ktv-get event "nutrients-p")))
 	      (y3 (- 250 (ktv-get event "nutrients-k")))
-	      (y4 (- 250 (ktv-get event "nutrients-s")))
-	      (y5 (- 250 (ktv-get event "nutrients-m"))))
+	      (y4 (if (ktv-get event "nutrients-s") (- 250 (ktv-get event "nutrients-s")) 250))
+	      (y5 (if (ktv-get event "nutrients-m") (- 250 (ktv-get event "nutrients-m")) 250)))
 	 (append
 	  (if (< month-width 20)
 	      (list
@@ -653,72 +653,100 @@
 
 (define (calc-results)
   (vert
-   (mtext 'crop-availible)
    (horiz
-    (mtext-scale 'nutrient-n-metric)
-    (mtext-scale 'nutrient-p-metric)
-    (mtext-scale 'nutrient-k-metric)
-    (mtext-scale 'nutrient-s-metric)
-    (mtext-scale 'nutrient-m-metric))
-
-   (horiz
-    (text-view (make-id "na") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "pa") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "ka") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "sa") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "ma") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+    (text-view 0 (mtext-lookup 'nutrients)
+	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
+    (text-view (make-id "crop-availible") (mtext-lookup 'crop-availible-metric)
+	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
+    (text-view 0 (mtext-lookup 'cost-saving)
+	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0)))
    
-   (mtext 'cost-saving)
    (horiz
-    (text-view (make-id "costn") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costp") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costk") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costs") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costm") "" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+   (vert
+    (text-view 0 (mtext-lookup 'nutrient-n)
+	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view 0 (mtext-lookup 'nutrient-p)
+	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view 0 (mtext-lookup 'nutrient-k)
+	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view 0 (mtext-lookup 'nutrient-s)
+	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view 0 (mtext-lookup 'nutrient-m)
+	       22 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+   
+   (vert
+    (text-view (make-id "na") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "pa") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "ka") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "sa") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "ma") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0)))
+   
+   (vert
+    (text-view (make-id "costn") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costp") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costk") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costs") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costm") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))))
+
    (spacer 10)
    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
    (spacer 10)))
 
 (define (calc-event-results)
   (vert
-   (mtext 'crop-availible)
    (horiz
-    (mtext-scale 'nutrient-n-metric)
-    (mtext-scale 'nutrient-p-metric)
-    (mtext-scale 'nutrient-k-metric)
-    (mtext-scale 'nutrient-s-metric)
-    (mtext-scale 'nutrient-m-metric))
+    (text-view 0 (mtext-lookup 'nutrients)
+	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
+    (text-view (make-id "crop-availible") (mtext-lookup 'crop-availible-metric)
+	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
+    (text-view 0 (mtext-lookup 'cost-saving)
+	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
+    (text-view 0 (mtext-lookup 'crop-requirements)
+	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
+    (text-view 0 (mtext-lookup 'still-needed)
+	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0)))
+      
+   (horiz
+   (vert
+    (text-view 0 (mtext-lookup 'nutrient-n)
+	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view 0 (mtext-lookup 'nutrient-p)
+	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view 0 (mtext-lookup 'nutrient-k)
+	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view 0 (mtext-lookup 'nutrient-s)
+	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+    (text-view 0 (mtext-lookup 'nutrient-m)
+	       22 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+   
+   (vert
+    (text-view (make-id "na") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "pa") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "ka") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "sa") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "ma") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0)))
+   
+   (vert
+    (text-view (make-id "costn") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costp") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costk") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costs") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costm") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0)))
 
-   (horiz
-    (text-view (make-id "na") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "pa") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "ka") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "sa") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "ma") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
-    
-   (mtext 'cost-saving)
-   (horiz
-    (text-view (make-id "costn") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costp") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costk") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costs") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "costm") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+   (vert
+    (text-view (make-id "require-n") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "require-p") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "require-k") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "require-s") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "require-m") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0)))
 
-   (mtext 'crop-requirements)
-   (horiz
-    (text-view (make-id "require-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "require-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "require-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "require-s") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "require-m") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
-
-   (mtext 'still-needed)
-   (horiz
-    (text-view (make-id "needed-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "needed-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "needed-k") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "needed-s") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
-    (text-view (make-id "needed-m") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0)))
+   (vert
+    (text-view (make-id "needed-n") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "needed-p") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "needed-k") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "needed-s") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "needed-m") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))))
+   
    
    (spacer 10)
    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
