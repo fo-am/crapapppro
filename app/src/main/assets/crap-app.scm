@@ -33,7 +33,7 @@
     (ktv "email" "varchar" "None Yet")
     (ktv "units" "varchar" "metric")
     (ktv "current-farm" "varchar" "none")
-    (ktv "backup-freq" "varchar" "none")
+    (ktv "backup-freq" "varchar" "never")
     (ktv "last-backup" "varchar" "")
 
 ;; removed and put in farm entity
@@ -177,33 +177,47 @@
       ;; nutrient values: "crop-avail (total)"
       (update-widget 'text-view (get-id "na")
 		     'text 
-		     (string-append
-		      (convert-output->string (list-ref amounts 0) "kg/ha") " ("
-		      (convert-output->string (list-ref total-amounts 0) "kg/ha") ")"))
-      
+		     (convert-output->string (list-ref amounts 0) "kg/ha"))
+		     
       (update-widget 'text-view (get-id "pa")
 		     'text 
-		     (string-append
-		      (convert-output->string (list-ref amounts 1) "kg/ha") " ("
-		      (convert-output->string (list-ref total-amounts 1) "kg/ha") ")"))
+		      (convert-output->string (list-ref amounts 1) "kg/ha"))
       
       (update-widget 'text-view (get-id "ka")
 		     'text 
-		     (string-append
-		      (convert-output->string (list-ref amounts 2) "kg/ha") " ("
-		      (convert-output->string (list-ref total-amounts 2) "kg/ha") ")"))
+		      (convert-output->string (list-ref amounts 2) "kg/ha"))
 
       (update-widget 'text-view (get-id "sa")
 		     'text 
-		     (string-append
-		      (convert-output->string (list-ref amounts 3) "kg/ha") " ("
-		      (convert-output->string (list-ref total-amounts 3) "kg/ha") ")"))
+		      (convert-output->string (list-ref amounts 3) "kg/ha"))
 
       (update-widget 'text-view (get-id "ma")
 		     'text 
-		     (string-append
-		      (convert-output->string (list-ref amounts 4) "kg/ha") " ("
-		      (convert-output->string (list-ref total-amounts 4) "kg/ha") ")"))
+		      (convert-output->string (list-ref amounts 4) "kg/ha"))
+
+
+      ;; nutrient values: "crop-total"
+      (update-widget 'text-view (get-id "nt")
+		     'text 
+		      (convert-output->string (list-ref total-amounts 0) "kg/ha"))
+      
+      (update-widget 'text-view (get-id "pt")
+		     'text 
+		      (convert-output->string (list-ref total-amounts 1) "kg/ha"))
+      
+      (update-widget 'text-view (get-id "kt")
+		     'text 
+		      (convert-output->string (list-ref total-amounts 2) "kg/ha"))
+
+      (update-widget 'text-view (get-id "st")
+		     'text 
+		      (convert-output->string (list-ref total-amounts 3) "kg/ha"))
+
+      (update-widget 'text-view (get-id "mt")
+		     'text 
+		      (convert-output->string (list-ref total-amounts 4) "kg/ha"))
+      
+      
       
       
       ;; costs
@@ -651,102 +665,123 @@
 (define (update-event-view-item-lookup id)
   (update-widget 'text-view (get-id id) 'text (mtext-lookup (string->symbol (entity-get-value id)))))
 
+(define calc-text-size 20)
+
 (define (calc-results)
   (vert
-   (horiz
+   (horiz-left
     (text-view 0 (mtext-lookup 'nutrients)
-	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
+	       calc-text-size (layout 'fill-parent 'wrap-content 1 'left 0))
+    (text-view (make-id "crop-total") (mtext-lookup 'crop-total-metric)
+	       calc-text-size (layout 'fill-parent 'wrap-content 1 'left 0))
     (text-view (make-id "crop-availible") (mtext-lookup 'crop-availible-metric)
-	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
+	       calc-text-size (layout 'fill-parent 'wrap-content 1 'left 0))
     (text-view 0 (mtext-lookup 'cost-saving)
-	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0)))
+	       calc-text-size (layout 'fill-parent 'wrap-content 1 'left 0)))
    
    (horiz
    (vert
     (text-view 0 (mtext-lookup 'nutrient-n)
-	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
     (text-view 0 (mtext-lookup 'nutrient-p)
-	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
     (text-view 0 (mtext-lookup 'nutrient-k)
-	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
     (text-view 0 (mtext-lookup 'nutrient-s)
-	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
     (text-view 0 (mtext-lookup 'nutrient-m)
-	       22 (layout 'wrap-content 'wrap-content 1 'centre 0)))
-   
-   (vert
-    (text-view (make-id "na") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "pa") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "ka") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "sa") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "ma") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0)))
-   
-   (vert
-    (text-view (make-id "costn") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costp") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costk") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costs") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costm") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))))
+	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
 
+   (vert
+    (text-view (make-id "nt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "pt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "kt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "st") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "mt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
+   
+   (vert
+    (text-view (make-id "na") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "pa") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "ka") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "sa") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "ma") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
+   
+   (vert
+    (text-view (make-id "costn") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costp") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costk") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costs") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costm") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))))
+   
    (spacer 10)
    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
    (spacer 10)))
+
 
 (define (calc-event-results)
   (vert
    (horiz
     (text-view 0 (mtext-lookup 'nutrients)
 	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
-    (text-view (make-id "crop-availible") (mtext-lookup 'crop-availible-metric)
+    (text-view (make-id "crop-total") (mtext-lookup 'crop-total-metric)
 	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
-    (text-view 0 (mtext-lookup 'cost-saving)
+    (text-view (make-id "crop-availible") (mtext-lookup 'crop-availible-metric)
 	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
     (text-view 0 (mtext-lookup 'crop-requirements)
 	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
     (text-view 0 (mtext-lookup 'still-needed)
+	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
+    (text-view 0 (mtext-lookup 'cost-saving)
 	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0)))
       
    (horiz
    (vert
     (text-view 0 (mtext-lookup 'nutrient-n)
-	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
     (text-view 0 (mtext-lookup 'nutrient-p)
-	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
     (text-view 0 (mtext-lookup 'nutrient-k)
-	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
     (text-view 0 (mtext-lookup 'nutrient-s)
-	       22 (layout 'wrap-content 'wrap-content 1 'centre 0))
+	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
     (text-view 0 (mtext-lookup 'nutrient-m)
-	       22 (layout 'wrap-content 'wrap-content 1 'centre 0)))
-   
-   (vert
-    (text-view (make-id "na") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "pa") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "ka") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "sa") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "ma") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0)))
-   
-   (vert
-    (text-view (make-id "costn") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costp") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costk") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costs") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costm") "" 25 (layout 'wrap-content 'wrap-content 1 'left 0)))
+	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
 
    (vert
-    (text-view (make-id "require-n") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "require-p") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "require-k") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "require-s") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "require-m") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0)))
+    (text-view (make-id "nt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "pt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "kt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "st") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "mt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
+   
+   (vert
+    (text-view (make-id "na") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "pa") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "ka") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "sa") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "ma") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
 
    (vert
-    (text-view (make-id "needed-n") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "needed-p") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "needed-k") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "needed-s") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "needed-m") "0" 25 (layout 'wrap-content 'wrap-content 1 'left 0))))
+    (text-view (make-id "require-n") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "require-p") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "require-k") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "require-s") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "require-m") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
+
+   (vert
+    (text-view (make-id "needed-n") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "needed-p") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "needed-k") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "needed-s") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "needed-m") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
    
+   (vert
+    (text-view (make-id "costn") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costp") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costk") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costs") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+    (text-view (make-id "costm") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))))
+
    
    (spacer 10)
    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
@@ -1374,7 +1409,7 @@
 (define (backup-days)
   (let ((today (date->day (date->string (current-date))))
 	(last (get-setting-value "last-backup")))
-    (if (not last)
+    (if (or (not last) (equal? last ""))
 	"never."
 	(string-append (number->string (- today (date->day last))) 
 		       " days ago."))))
@@ -1391,6 +1426,7 @@
 	  (cond
 	   ((and (not (equal? backup-freq "never"))	       
 		 (or (not last)
+		     (equal? last "")
 		     (>= (- today (date->day last))
 			 freq)))
 	    (list

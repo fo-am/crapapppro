@@ -37,9 +37,11 @@
    (list 'season (list "Season"))
    (list 'quality (list "Quality"))
    (list 'total-availible (list "Total in manure"))
-   (list 'crop-availible (list "Crop available (Total in manure)"))
-   (list 'crop-availible-metric (list "Crop available (Total in manure) Kg/ha"))
-   (list 'crop-availible-imperial (list "Crop available (Total in manure) units/acre"))
+   (list 'crop-availible (list "Crop available"))
+   (list 'crop-availible-metric (list "Crop available Kg/ha"))
+   (list 'crop-total-metric (list "Total in manure Kg/ha"))
+   (list 'crop-availible-imperial (list "Crop available units/acre"))
+   (list 'crop-total-imperial (list "Total in manure units/acre"))
    (list 'crop-availible-event (list "Crop available nutrients"))
    (list 'nutrient-amount-metric (list "Kg/ha"))
    (list 'nutrient-amount-imperial (list "units/acre")) 
@@ -58,7 +60,7 @@
    (list 'nutrient-k-imperial (list "K<sub><small>2</small></sub>O units/acre"))
    (list 'nutrient-s-imperial (list "S units/acre"))
    (list 'nutrient-m-imperial (list "Mg units/acre"))
-   (list 'cost-saving (list "Fertiliser savings for field"))
+   (list 'cost-saving (list "Savings for field"))
 
    (list 'field-calc-blurb (list "Enter new crap spreading event"))
    (list 'date (list "Set date"))
@@ -233,7 +235,7 @@
    (list 'crop-info (list "Crop details"))
    (list 'soil-test (list "Results of soil tests (if availible)"))
    (list 'soil-supply (list "Soil N supply"))
-   (list 'crop-requirements (list "Crop nutrient requirements"))
+   (list 'crop-requirements (list "Crop requirements"))
 
    (list 'custom-manures (list "Your manures"))
    (list 'manures-blurb (list "Here you can add custom manure types"))
@@ -254,7 +256,7 @@
 
    (list 'delete-are-you-sure (list "Are you sure you want to delete this?"))
 
-   (list 'still-needed (list "Nutrients still needed"))
+   (list 'still-needed (list "Still needed"))
 
    (list 'camera (list "Camera"))
    (list 'camera-button (list "Camera"))
@@ -277,8 +279,8 @@
    (list 'factory-reset (list "Factory reset"))
    (list 'factory-reset-are-you-sure (list "Are you sure? This will permenantly delete everything."))
 
-   (list 'expert (list "Expert crop select"))
-   (list 'crop-select (list "Expert crop select"))
+   (list 'expert (list "Select your crop"))
+   (list 'crop-select (list "Select your crop"))
 
    (list 'crop-category (list "Main crop category"))
    (list 'subtype (list "Type"))
@@ -439,6 +441,6 @@
    (list 'timed-backup (list "Timed backup"))
    (list 'timed-backup-blurb (list "Email the your farm to your computer to back it up"))
 
-   (list 'nutrients (list "Nutrient type"))
+   (list 'nutrients (list "Nutrient"))
 
    ))

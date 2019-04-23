@@ -61,6 +61,8 @@
 		   '("cost-n" "real" 0.79)
 		   '("cost-p" "real" 0.62)
 		   '("cost-k" "real" 0.49)
+		   '("cost-m" "real" 0.49)
+		   '("cost-s" "real" 0.49)
 		   '("rainfall" "varchar" "rain-medium"))))     
 	   ;; sent the parent of all the existing fields to be this farm
 	   (for-each
@@ -103,6 +105,8 @@
 				    '("cost-n" "real" 0.79)
 				    '("cost-p" "real" 0.62)
 				    '("cost-k" "real" 0.49)
+				    '("cost-m" "real" 0.49)
+				    '("cost-s" "real" 0.49)
 				    '("rainfall" "varchar" "rain-medium"))))
 	 
 	 (spacer 20)
@@ -178,8 +182,8 @@
 	   (medit-text-scale 'n-cost "numeric" (lambda (v) (entity-update-single-value! (ktv "cost-n" "real" v)) (update-costs) '()))
 	   (medit-text-scale 'p-cost "numeric" (lambda (v) (entity-update-single-value! (ktv "cost-p" "real" v)) (update-costs) '()))
 	   (medit-text-scale 'k-cost "numeric" (lambda (v) (entity-update-single-value! (ktv "cost-k" "real" v)) (update-costs) '()))
-	   (medit-text-scale 's-cost "numeric" (lambda (v) (entity-update-single-value! (ktv "cost-s" "real" v)) (update-costs) '()))
 	   (medit-text-scale 'm-cost "numeric" (lambda (v) (entity-update-single-value! (ktv "cost-m" "real" v)) (update-costs) '()))
+	   (medit-text-scale 's-cost "numeric" (lambda (v) (entity-update-single-value! (ktv "cost-s" "real" v)) (update-costs) '()))
 	   ))
 	 (mtoggle-button 
 	  'custom-manures 
@@ -211,11 +215,15 @@
 			  (list
 			   (update-widget 'text-view (get-id "n-cost-text") 'text (mtext-lookup 'n-cost))
 			   (update-widget 'text-view (get-id "p-cost-text") 'text (mtext-lookup 'p-cost))
-			   (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost)))
+			   (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost))
+			   (update-widget 'text-view (get-id "m-cost-text") 'text (mtext-lookup 'm-cost))
+			   (update-widget 'text-view (get-id "s-cost-text") 'text (mtext-lookup 's-cost)))
 			  (list
 			   (update-widget 'text-view (get-id "n-cost-text") 'text (mtext-lookup 'n-cost-imperial))
 			   (update-widget 'text-view (get-id "p-cost-text") 'text (mtext-lookup 'p-cost-imperial))
-			   (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost-imperial))))))
+			   (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost-imperial))
+			   (update-widget 'text-view (get-id "m-cost-text") 'text (mtext-lookup 'm-cost-imperial))
+			   (update-widget 'text-view (get-id "s-cost-text") 'text (mtext-lookup 's-cost-imperial))))))
 	  (mspinner 'rainfall rainfall-list
 		    (lambda (v) 
 		      (entity-update-single-value! 
@@ -247,7 +255,9 @@
 	      (list
 	       (update-widget 'text-view (get-id "n-cost-text") 'text (mtext-lookup 'n-cost-imperial))
 	       (update-widget 'text-view (get-id "p-cost-text") 'text (mtext-lookup 'p-cost-imperial))
-	       (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost-imperial))))
+	       (update-widget 'text-view (get-id "k-cost-text") 'text (mtext-lookup 'k-cost-imperial))
+	       (update-widget 'text-view (get-id "m-cost-text") 'text (mtext-lookup 'm-cost-imperial))
+	       (update-widget 'text-view (get-id "s-cost-text") 'text (mtext-lookup 's-cost-imperial))))
 	  (list	  
 	   (mupdate 'edit-text 'farm-name "name")
 	   (update-widget 'toggle-button (get-id "custom-manures") 'checked 0) 
@@ -256,6 +266,8 @@
 	   (update-widget 'edit-text (get-id "n-cost") 'text (number->string (rounding-cash (entity-get-value "cost-n"))))
 	   (update-widget 'edit-text (get-id "p-cost") 'text (number->string (rounding-cash (entity-get-value "cost-p"))))
 	   (update-widget 'edit-text (get-id "k-cost") 'text (number->string (rounding-cash (entity-get-value "cost-k"))))
+	   (update-widget 'edit-text (get-id "m-cost") 'text (number->string (rounding-cash (entity-get-value "cost-m"))))
+	   (update-widget 'edit-text (get-id "s-cost") 'text (number->string (rounding-cash (entity-get-value "cost-s"))))
 	   (update-widget 'draw-map (get-id "fieldmap") 'polygons (list "none highlighted" (get-polygons)))
 	   (update-widget 'draw-map (get-id "fieldmap") 'centre (list (vx centre) (vy centre) zoom))
 	   (update-list-widget db "farm" (list "name") "field" "field" (get-setting-value "current-farm"))
@@ -767,16 +779,16 @@
 	(update-event-view-item "crop")
 	(update-event-view-item-lookup "soil")
 	(update-event-view-item "size")
-	(update-widget 'text-view (get-id "na") 'text (string-append (convert-output->string (entity-get-value "nutrients-n") "kg/ha")
-								     " (" (convert-output->string (entity-get-value "total-nutrients-n") "kg/ha") ")"))
-	(update-widget 'text-view (get-id "pa") 'text (string-append (convert-output->string (entity-get-value "nutrients-p") "kg/ha")								     
-								     " (" (convert-output->string (entity-get-value "total-nutrients-p") "kg/ha") ")"))
-	(update-widget 'text-view (get-id "ka") 'text (string-append (convert-output->string (entity-get-value "nutrients-k") "kg/ha")
-								     " (" (convert-output->string (entity-get-value "total-nutrients-k") "kg/ha") ")"))
-	(update-widget 'text-view (get-id "sa") 'text (string-append (convert-output->string (entity-get-value "nutrients-s") "kg/ha")
-								     " (" (convert-output->string (entity-get-value "total-nutrients-s") "kg/ha") ")"))
-	(update-widget 'text-view (get-id "ma") 'text (string-append (convert-output->string (entity-get-value "nutrients-m") "kg/ha")
-								     " (" (convert-output->string (entity-get-value "total-nutrients-m") "kg/ha") ")"))
+	(update-widget 'text-view (get-id "na") 'text (convert-output->string (entity-get-value "nutrients-n") "kg/ha"))
+	(update-widget 'text-view (get-id "pa") 'text (convert-output->string (entity-get-value "nutrients-p") "kg/ha"))								     
+	(update-widget 'text-view (get-id "ka") 'text (convert-output->string (entity-get-value "nutrients-k") "kg/ha"))
+	(update-widget 'text-view (get-id "sa") 'text (convert-output->string (entity-get-value "nutrients-s") "kg/ha"))
+	(update-widget 'text-view (get-id "ma") 'text (convert-output->string (entity-get-value "nutrients-m") "kg/ha"))
+	(update-widget 'text-view (get-id "na") 'text (convert-output->string (entity-get-value "total-nutrients-n") "kg/ha"))
+	(update-widget 'text-view (get-id "pa") 'text (convert-output->string (entity-get-value "total-nutrients-p") "kg/ha"))
+	(update-widget 'text-view (get-id "ka") 'text (convert-output->string (entity-get-value "total-nutrients-k") "kg/ha"))
+	(update-widget 'text-view (get-id "sa") 'text (convert-output->string (entity-get-value "total-nutrients-s") "kg/ha"))
+	(update-widget 'text-view (get-id "ma") 'text (convert-output->string (entity-get-value "total-nutrients-m") "kg/ha"))
 	(update-widget 'text-view (get-id "costn") 'text (get-cost-string-from-nutrient 0 amounts (entity-get-value "size")))
 	(update-widget 'text-view (get-id "costp") 'text (get-cost-string-from-nutrient 1 amounts (entity-get-value "size")))
 	(update-widget 'text-view (get-id "costk") 'text (get-cost-string-from-nutrient 2 amounts (entity-get-value "size")))
