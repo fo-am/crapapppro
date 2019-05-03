@@ -311,11 +311,11 @@
       (eq? previous-crop 'grass-high-n)
       (eq? previous-crop 'grass-other)))
 
-;; any grass grazed, silage, hay, esablished (but not rye)
+;; any crop except grass grazed, silage, hay, esablished (but not rye)
 (define (is-crop-arable? c)
-  (and 
-   (eq? (get-choice-value c 'crop) 'grass)
-   (not (eq? (get-choice-value c 'subtype) 'rye))))
+  (or 
+   (not (eq? (get-choice-value c 'crop) 'grass))
+   (eq? (get-choice-value c 'subtype) 'rye)))
 
 (define (crop-params->manure-crop c)
   (if (or
