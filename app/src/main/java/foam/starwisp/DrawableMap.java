@@ -543,8 +543,11 @@ public class DrawableMap {
 
                 if (button_mode) return false;
 
-                return true;
-
+		// hacky pan/zoom & draw
+		//DrawMap();
+                //return false;
+		
+		return true;
             }
 	    });
     }
