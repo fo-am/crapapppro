@@ -484,7 +484,19 @@
 	      (entity-update-single-value! 
 	       (ktv "previous-crop" "varchar" 
 		    (spinner-choice previous-crop-type-list v)))
-	      (update-field-cropsoil-calc-from-current)))  
+	      ;; if we have grown grass as previous crop
+	      (cond
+	       ((previous-crop-grass? (list-ref previous-crop-type-list v))
+		;; automatically select grown-grass
+		;; dont' automatically deselect it, as it could 
+		;; have been set for the previous 3 years
+		(entity-update-single-value! (ktv "recently-grown-grass" "varchar" "yes"))
+		(append
+		 (list (mupdate-spinner 'grown-grass "recently-grown-grass" yesno-list))
+		 (update-field-cropsoil-calc-from-current)))
+	       (else
+		;; otherwise leave it as it is
+		(update-field-cropsoil-calc-from-current)))))
 	   (mspinner 
 	    'grown-grass yesno-list 
 	    (lambda (v) 
