@@ -70,6 +70,7 @@ public class DrawableMap {
     Button scribble_button;
     Button trash_button;
     Button place_button;
+    Button undo_button;
     Boolean draw_mode;
     Boolean button_mode;
     GoogleMap map;
@@ -264,6 +265,31 @@ public class DrawableMap {
 		    }
 		});
 	    
+
+	    undo_button = new Button(c);
+	    LinearLayout.LayoutParams ulp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+									  LinearLayout.LayoutParams.WRAP_CONTENT);
+	    ulp.gravity=Gravity.CENTER;
+	    undo_button.setLayoutParams(ulp);
+	    undo_button.setTextSize(20);
+	    undo_button.setTypeface(((StarwispActivity) c).m_Typeface);
+	    undo_button.setText("Undo");
+	    button_cont.addView(undo_button);
+	    undo_button.setVisibility(View.GONE);
+
+	    undo_button.setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			if (draw_mode) {
+			    if (current_polygon.size()>0) {
+				current_polygon.remove(current_polygon.size()-1);
+				DrawMap();
+			    }			
+			}
+		    }
+		});
+	    
+
 	    
 	    m_instructions = new TextView(c);
 	    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -290,8 +316,8 @@ public class DrawableMap {
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
                 map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        		map.setMyLocationEnabled(true);
-	        	map.getUiSettings().setZoomControlsEnabled(true);
+		map.setMyLocationEnabled(true);
+		map.getUiSettings().setZoomControlsEnabled(true);
                 SetupStuff();
                 DrawMap();
                 //CameraUpdate center_map=CameraUpdateFactory.newLatLng(new LatLng(centre_lat,centre_lon));
@@ -450,6 +476,7 @@ public class DrawableMap {
                         current_polygon = new Vector<LatLng>();
                         scribble_button.setText("Redraw boundary");
 			trash_button.setVisibility(View.GONE);
+			undo_button.setVisibility(View.GONE);
 			place_button.setVisibility(View.VISIBLE);
 			m_instructions.setText("");
 			draw_indicator=false;
@@ -460,6 +487,7 @@ public class DrawableMap {
                         scribble_button.setText("Save boundary");
 			place_button.setVisibility(View.GONE);
 			trash_button.setVisibility(View.VISIBLE);
+			undo_button.setVisibility(View.VISIBLE);	    
 			m_instructions.setText("Describe the boundary of your field by creating points in a clockwise fashion. Press 'delete boundary' at any time to start again.");
                     }
                 }
