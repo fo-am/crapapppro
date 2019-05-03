@@ -311,7 +311,7 @@
       (eq? previous-crop 'grass-high-n)
       (eq? previous-crop 'grass-other)))
 
-;; todo: + grazed, silage, hay, esablished (not rye)
+;; any grass grazed, silage, hay, esablished (but not rye)
 (define (is-crop-arable? c)
   (and 
    (eq? (get-choice-value c 'crop) 'grass)

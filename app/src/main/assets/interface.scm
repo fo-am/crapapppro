@@ -53,6 +53,7 @@
 
 
 (define (spacer size) (space (layout 'fill-parent size 1 'left 0)))
+(define (spacer-horiz size) (space (layout size 'fill-parent 1 'left 0)))
 
 
 (define (horiz . l)

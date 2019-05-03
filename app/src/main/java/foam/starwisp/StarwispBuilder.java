@@ -560,6 +560,9 @@ public class StarwispBuilder
                 HorizontalScrollView v = new HorizontalScrollView(ctx);
                 v.setId(arr.getInt(1));
                 v.setLayoutParams(BuildLayoutParams(arr.getJSONArray(2)));
+		v.setScrollbarFadingEnabled(false);
+		v.setScrollBarFadeDuration(0);
+		//v.setScrollBarSize(400);
                 parent.addView(v);
                 JSONArray children = arr.getJSONArray(3);
                 for (int i=0; i<children.length(); i++) {

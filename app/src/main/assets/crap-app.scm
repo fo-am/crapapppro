@@ -665,53 +665,95 @@
 (define (update-event-view-item-lookup id)
   (update-widget 'text-view (get-id id) 'text (mtext-lookup (string->symbol (entity-get-value id)))))
 
-(define calc-text-size 20)
+(define calc-text-size 30)
+(define title-height 40)
+(define units-width 100)
 
 (define (calc-results)
   (vert
-   (horiz-left
-    (text-view 0 (mtext-lookup 'nutrients)
-	       calc-text-size (layout 'fill-parent 'wrap-content 1 'left 0))
-    (text-view (make-id "crop-total") (mtext-lookup 'crop-total-metric)
-	       calc-text-size (layout 'fill-parent 'wrap-content 1 'left 0))
-    (text-view (make-id "crop-availible") (mtext-lookup 'crop-availible-metric)
-	       calc-text-size (layout 'fill-parent 'wrap-content 1 'left 0))
-    (text-view 0 (mtext-lookup 'cost-saving)
-	       calc-text-size (layout 'fill-parent 'wrap-content 1 'left 0)))
-   
-   (horiz
-   (vert
-    (text-view 0 (mtext-lookup 'nutrient-n)
-	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view 0 (mtext-lookup 'nutrient-p)
-	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view 0 (mtext-lookup 'nutrient-k)
-	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view 0 (mtext-lookup 'nutrient-s)
-	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view 0 (mtext-lookup 'nutrient-m)
-	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
+   (linear-layout
+    0 'horizontal
+    (layout 'fill-parent 'wrap-content 1 'left 2) list-colour
+    (list
+     (image-view (make-id "im") "arrow_left" (layout 200 'fill-parent 1 'left 0))
+     
+     (scroll-view
+      0 (layout 'wrap-content 'wrap-content 1 'left 0)
+      (list   
+       (horiz-colour
+	(list 0 0 0 0)
+	(vert
+	 
+	 (text-view 0 (mtext-lookup 'nutrients)
+		    calc-text-size (layout 'wrap-content title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "crop-total") (mtext-lookup 'crop-total-metric)
+		    calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "crop-availible") (mtext-lookup 'crop-availible-metric)
+		    calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view 0 (mtext-lookup 'cost-saving)
+		    calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+	 )
+	(spacer-horiz 10)
+	
+	(vert
+	 (text-view 0 (mtext-lookup 'nutrient-n)
+		    calc-text-size (layout units-width title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "nt") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "na") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "costn") "" calc-text-size (layout units-width 'wrap-content 1 'left 0)))
+	(spacer-horiz 10)
 
-   (vert
-    (text-view (make-id "nt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "pt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "kt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "st") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "mt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
-   
-   (vert
-    (text-view (make-id "na") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "pa") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "ka") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "sa") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "ma") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
-   
-   (vert
-    (text-view (make-id "costn") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costp") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costk") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costs") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costm") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))))
+	(vert
+	 (text-view 0 (mtext-lookup 'nutrient-p)
+		    calc-text-size (layout units-width title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "pt") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "pa") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "costp") "" calc-text-size (layout units-width 'wrap-content 1 'left 0)))
+	(spacer-horiz 10)
+
+	(vert
+	 (text-view 0 (mtext-lookup 'nutrient-k)
+		    calc-text-size (layout units-width title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "kt") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "ka") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "costk") "" calc-text-size (layout units-width 'wrap-content 1 'left 0)))
+	(spacer-horiz 10)
+	
+	(vert
+	 (text-view 0 (mtext-lookup 'nutrient-s)
+		    calc-text-size (layout units-width title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "st") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "sa") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "costs") "" calc-text-size (layout units-width 'wrap-content 1 'left 0)))
+	(spacer-horiz 10)
+
+	(vert
+	 (text-view 0 (mtext-lookup 'nutrient-m)
+		    calc-text-size (layout units-width title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "mt") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "ma") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "costm") "" calc-text-size (layout units-width 'wrap-content 1 'left 0)))
+
+	)))
+     (image-view (make-id "im") "arrow_right" (layout 200 'fill-parent 1 'left 0))))
    
    (spacer 10)
    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
@@ -720,68 +762,115 @@
 
 (define (calc-event-results)
   (vert
-   (horiz
-    (text-view 0 (mtext-lookup 'nutrients)
-	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
-    (text-view (make-id "crop-total") (mtext-lookup 'crop-total-metric)
-	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
-    (text-view (make-id "crop-availible") (mtext-lookup 'crop-availible-metric)
-	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
-    (text-view 0 (mtext-lookup 'crop-requirements)
-	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
-    (text-view 0 (mtext-lookup 'still-needed)
-	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0))
-    (text-view 0 (mtext-lookup 'cost-saving)
-	       22 (layout 'fill-parent 'wrap-content 0.3 'left 0)))
-      
-   (horiz
-   (vert
-    (text-view 0 (mtext-lookup 'nutrient-n)
-	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view 0 (mtext-lookup 'nutrient-p)
-	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view 0 (mtext-lookup 'nutrient-k)
-	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view 0 (mtext-lookup 'nutrient-s)
-	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view 0 (mtext-lookup 'nutrient-m)
-	       calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
+   (linear-layout
+    0 'horizontal
+    (layout 'fill-parent 'wrap-content 1 'left 2) list-colour
+    (list
+     (image-view (make-id "im") "arrow_left" (layout 200 'fill-parent 1 'left 0))
+     
+     (scroll-view
+      0 (layout 'wrap-content 'wrap-content 1 'left 0)
+      (list   
+       (horiz-colour
+	(list 0 0 0 0)
+	(vert
+	 
+	 (text-view 0 (mtext-lookup 'nutrients)
+		    calc-text-size (layout 'wrap-content title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "crop-total") (mtext-lookup 'crop-total-metric)
+		    calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "crop-availible") (mtext-lookup 'crop-availible-metric)
+		    calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view 0 (mtext-lookup 'crop-requirements)
+		    calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view 0 (mtext-lookup 'still-needed)
+		    calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view 0 (mtext-lookup 'cost-saving)
+		    calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
+	 )
+	(spacer-horiz 10)
+	
+	(vert
+	 (text-view 0 (mtext-lookup 'nutrient-n)
+		    calc-text-size (layout units-width title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "nt") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "na") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "require-n") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "needed-n") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "costn") "" calc-text-size (layout units-width 'wrap-content 1 'left 0)))
+	(spacer-horiz 10)
 
-   (vert
-    (text-view (make-id "nt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "pt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "kt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "st") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "mt") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
-   
-   (vert
-    (text-view (make-id "na") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "pa") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "ka") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "sa") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "ma") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
+	(vert
+	 (text-view 0 (mtext-lookup 'nutrient-p)
+		    calc-text-size (layout units-width title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "pt") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "pa") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "require-p") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "needed-p") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "costp") "" calc-text-size (layout units-width 'wrap-content 1 'left 0)))
+	(spacer-horiz 10)
 
-   (vert
-    (text-view (make-id "require-n") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "require-p") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "require-k") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "require-s") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "require-m") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
+	(vert
+	 (text-view 0 (mtext-lookup 'nutrient-k)
+		    calc-text-size (layout units-width title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "kt") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "ka") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "require-k") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "needed-k") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "costk") "" calc-text-size (layout units-width 'wrap-content 1 'left 0)))
+	(spacer-horiz 10)
+	
+	(vert
+	 (text-view 0 (mtext-lookup 'nutrient-s)
+		    calc-text-size (layout units-width title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "st") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "sa") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "require-s") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "needed-s") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "costs") "" calc-text-size (layout units-width 'wrap-content 1 'left 0)))
+	(spacer-horiz 10)
 
-   (vert
-    (text-view (make-id "needed-n") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "needed-p") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "needed-k") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "needed-s") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "needed-m") "0" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0)))
-   
-   (vert
-    (text-view (make-id "costn") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costp") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costk") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costs") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))
-    (text-view (make-id "costm") "" calc-text-size (layout 'wrap-content 'wrap-content 1 'left 0))))
+	(vert
+	 (text-view 0 (mtext-lookup 'nutrient-m)
+		    calc-text-size (layout units-width title-height 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "mt") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "ma") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "require-m") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "needed-m") "" calc-text-size (layout units-width 'wrap-content 1 'left 0))
+	 (spacer 10)
+	 (text-view (make-id "costm") "" calc-text-size (layout units-width 'wrap-content 1 'left 0)))
 
+	)))
+     (image-view (make-id "im") "arrow_right" (layout 200 'fill-parent 1 'left 0))))
    
    (spacer 10)
    (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
