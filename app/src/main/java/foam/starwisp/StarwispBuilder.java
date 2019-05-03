@@ -230,7 +230,7 @@ public class StarwispBuilder
 
 
     public static void email(Context context, String emailTo, String emailCC,
-                             String subject, String emailText, List<String> filePaths)
+			     String subject, String emailText, List<String> filePaths) 			     
     {
         //need to "send multiple" to get more than one attachment
         final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
@@ -258,7 +258,46 @@ public class StarwispBuilder
 	    Uri u = FileProvider.getUriForFile(context, "foam.starwisp.StarwispBuilder.email", fileIn);
             //Uri u = Uri.fromFile(fileIn);
             uris.add(u);
+        }
+	emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        context.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+    }
+    
+    public static void email_encrypted(Context context, String emailTo, String emailCC,
+				       String subject, String emailText, List<String> filePaths, 
+				       String password)
+    {
+        //need to "send multiple" to get more than one attachment
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+        new String[]{emailTo});
+        emailIntent.putExtra(android.content.Intent.EXTRA_CC,
+                             new String[]{emailCC});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
 
+        ArrayList<String> extra_text = new ArrayList<String>();
+        extra_text.add(emailText);
+        emailIntent.putStringArrayListExtra(Intent.EXTRA_TEXT, extra_text);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, emailText);
+
+        //has to be an ArrayList
+        ArrayList<Uri> uris = new ArrayList<Uri>();
+        //convert from paths to Android friendly Parcelable Uri's
+        for (String file : filePaths)
+        {
+	    String clear=LoadData(file);	    
+	    String cipher=Encrypt(clear,password);
+	    String encFile = file+".enc";
+	    SaveData(encFile,cipher.getBytes());
+	    // see res/xml/filepaths.xml for fileprovider setup
+	    // we probably need to eventually stop using sdcard 
+	    // File fileIn = new File(context.getExternalFilesDir(null), file);
+            File fileIn = new File(encFile);
+	    Uri u = FileProvider.getUriForFile(context, "foam.starwisp.StarwispBuilder.email", fileIn);
+            //Uri u = Uri.fromFile(fileIn);
+            uris.add(u);
         }
 	emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
@@ -284,15 +323,16 @@ public class StarwispBuilder
         }
     }
 
-    public String Encrypt(String data, String password) {
+    public static String Encrypt(String data, String password) {
+	Log.i("starwisp","starting encrypt");
         try {
             byte[] salt = AesCbcWithIntegrity.generateSalt();
             String saltStr = AesCbcWithIntegrity.saltString(salt);
             AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(password, salt);
             AesCbcWithIntegrity.CipherTextIvMac cipherTextIvMac = AesCbcWithIntegrity.encrypt(data, keys);
             // add the salt to the ciphertext
-            Log.i("starwisp",saltStr);
-            Log.i("starwisp",cipherTextIvMac.toString());
+            //Log.i("starwisp",saltStr);
+            //Log.i("starwisp",cipherTextIvMac.toString());
             return saltStr+cipherTextIvMac.toString();
         } catch (java.security.GeneralSecurityException e) {
             Log.i("starwisp", e.toString());
@@ -303,15 +343,15 @@ public class StarwispBuilder
         }
     }
 
-    public String Decrypt(String data, String password) {
+    public static String Decrypt(String data, String password) {
         // todo: FIXME
         try {
             // how long is the salt?
             int salt_len = AesCbcWithIntegrity.saltString(AesCbcWithIntegrity.generateSalt()).length();
             String salt = data.substring(0,salt_len);
-            Log.i("starwisp",salt);
+            //Log.i("starwisp",salt);
             String cipher = data.substring(salt_len,data.length());
-            Log.i("starwisp",cipher);
+            //Log.i("starwisp",cipher);
             AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(password,salt);
             AesCbcWithIntegrity.CipherTextIvMac cipherTextIvMac = new AesCbcWithIntegrity.CipherTextIvMac(cipher);
             return AesCbcWithIntegrity.decryptString(cipherTextIvMac, keys);
@@ -1235,13 +1275,18 @@ public class StarwispBuilder
 
         if (token.equals("encrypt")) {
             final String name = arr.getString(3);
-            DialogCallback(ctx, ctxname, name, "\""+Encrypt(arr.getString(5),arr.getString(6))+"\"");
+	    String enc = Encrypt(arr.getString(5),arr.getString(6));
+	    Log.i("starwisp","finished encrypt");
+	    Log.i("starwisp",enc);
+            DialogCallback(ctx, ctxname, name, "\""+enc+"\"");
+	    Log.i("starwisp","finished callback");
             return;
         }
 
         if (token.equals("decrypt")) {
             final String name = arr.getString(3);
-	    String cleartext = Decrypt(arr.getString(5),arr.getString(6));
+	    String encrypted =LoadData(arr.getString(5));	    
+	    String cleartext = Decrypt(encrypted,arr.getString(6));
 	    
 	    if (cleartext == null) {
 		DialogCallback(ctx, ctxname, name, "#f");
@@ -1409,6 +1454,26 @@ public class StarwispBuilder
 
                 email(ctx, to[0], "", subject, body, paths);
             }
+
+            if (token.equals("send-mail-encrypt")) {
+                final String to[] = new String[1];
+                to[0]=arr.getString(3);
+                final String subject = arr.getString(4);
+                final String body = arr.getString(5);
+
+                JSONArray attach = arr.getJSONArray(6);
+                String password = arr.getString(7);
+                ArrayList<String> paths = new ArrayList<String>();
+                for (int a=0; a<attach.length(); a++)
+                {
+                    Log.i("starwisp",attach.getString(a));
+                    paths.add(attach.getString(a));
+                }
+
+                email_encrypted(ctx, to[0], "", subject, body, paths, password);
+            }
+
+
 
             if (token.equals("date-picker-dialog")) {
                 final Calendar c = Calendar.getInstance();

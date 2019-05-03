@@ -511,6 +511,7 @@
 (define (http-download name url filename) (list "http-download" 0 "http-download" name filename url))
 (define (http-upload name url filename) (list "http-upload" 0 "http-upload" name filename url))
 (define (send-mail to subject body attachments) (list "send-mail" 0 "send-mail" to subject body attachments))
+(define (send-mail-encrypt to subject body attachments password) (list "send-mail-encrypt" 0 "send-mail-encrypt" to subject body attachments password))
 (define (take-photo filename code) (list "take-photo" 0 "take-photo" filename code))
 (define (process-image-in-place filename) (list "process-image-in-place" 0 "process-image-in-place" filename))
 (define (walk-draggable name id fn) (list "walk-draggable" 0 "walk-draggable" name fn id))

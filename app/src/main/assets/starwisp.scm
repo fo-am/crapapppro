@@ -929,17 +929,14 @@
       
       (mbutton 'email-farm-button
 	       (lambda ()
+		 (save-data "farm.crap.json" (export-current-farm-as-json))
 		 (list
-		  (encrypt
-		   "export-encrypt"
-		   (export-current-farm-as-json)
-		   (get-current 'password "crapapp")
-		   (lambda (ciphertext)
-		     (save-data "farm.crap.json.enc" ciphertext)
-		     (list
-		      (send-mail "" "Farm data"
-				 "You have been sent farm data from the Farm Crap App. To import this data into your app, click on the attachment to launch the Farm Crap App importer."
-				 (list (string-append dirname "farm.crap.json.enc")))))))))
+		  (send-mail-encrypt
+		   "" "Farm data"
+		   "You have been sent farm data from the Farm Crap App. To import this data into your app, click on the attachment to launch the Farm Crap App importer."
+		   (list (string-append dirname "farm.crap.json"))
+		   (get-current 'password "crapapp")))))
+      
       (mspinner 'backup-freq backup-freq-list
 		(lambda (v) 
 		  (set-setting! "backup-freq" "varchar" (symbol->string (list-ref backup-freq-list v)))))
@@ -1109,7 +1106,7 @@
 		 (list
 		  (decrypt 
 		   "import-decrypt"
-		   (get-current 'cipher-text "")
+		   (string-append dirname "farm.crap.json.enc")
 		   (get-current 'password "crapapp")
 		   (lambda (cleartext)
 		     (cond 
@@ -1152,7 +1149,6 @@
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg)
-     (set-current! 'cipher-text arg)
      (list 
       (update-widget 'edit-text (get-id "password") 'text (get-current 'password "crapapp"))))
    (lambda (activity) '())
