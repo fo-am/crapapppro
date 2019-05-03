@@ -145,6 +145,7 @@
 	0 (layout 'fill-parent 'wrap-content -1 'centre 0)
 	(list
 	 (vert
+	  (mbutton 'farm-button (lambda () (list (start-activity "farm" 2 ""))))
 	  (mbutton 'calculator (lambda () (list (start-activity "calc" 2 ""))))
 	  (medit-text-scale 'farm-name "normal" 
 			    (lambda (v) 
@@ -232,7 +233,6 @@
 		      (update-rainfall) 
 		      '())))
 	 (mbutton 'email (lambda () (list (start-activity "email" 2 ""))))
-	 (mbutton 'farm-button (lambda () (list (start-activity "farm" 2 ""))))
 	 ;;(mbutton 'about (lambda () (list (start-activity "about" 2 ""))))
 	 ))))))
    

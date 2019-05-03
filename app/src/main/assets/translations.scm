@@ -404,7 +404,7 @@
    (list 'liquid (list "Separated liquid"))
 
    (list 'farm-name (list "Current farm name"))
-   (list 'farm-button (list "Manage your farms"))
+   (list 'farm-button (list "Add or switch to other farms"))
    (list 'farms-list (list "Your farms"))
    (list 'your-farms (list "Manage your farms"))
    (list 'farm-info (list "Here you can add and manage multiple farms"))
