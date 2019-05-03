@@ -27,7 +27,8 @@
 
 (define units-list (list 'metric 'imperial))
 (define soil-type-list 
-  (list 'sandyshallow 'medium 'peat 'organic 'mediumshallow 'deepclay 'deepsilt))
+  (list 'sandyshallow 'mediumshallow 'medium 'deepclay 'deepsilt 'organic 'peat))
+
 (define soil-test-p-list (list 'soil-p-0 'soil-p-1 'soil-p-2 'soil-p-3 'soil-p-4))
 (define soil-test-k-list (list 'soil-k-0 'soil-k-1 'soil-k-2- 'soil-k-2+ 'soil-k-3 'soil-k-4))
 (define soil-test-m-list (list 'soil-m-0 'soil-m-1 'soil-m-2 'soil-m-4 'soil-m-5 'soil-m-6 'soil-m-7 'soil-m-8 'soil-m-9))
