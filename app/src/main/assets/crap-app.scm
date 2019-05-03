@@ -671,6 +671,8 @@
 
 (define (calc-results)
   (vert
+   (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
+   (spacer 10)
    (linear-layout
     0 'horizontal
     (layout 'fill-parent 'wrap-content 1 'left 2) list-colour
@@ -755,13 +757,13 @@
 	)))
      (image-view (make-id "im") "arrow_right" (layout 200 'fill-parent 1 'left 0))))
    
-   (spacer 10)
-   (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
    (spacer 10)))
 
 
 (define (calc-event-results)
   (vert
+   (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
+   (spacer 10)
    (linear-layout
     0 'horizontal
     (layout 'fill-parent 'wrap-content 1 'left 2) list-colour
@@ -872,8 +874,6 @@
 	)))
      (image-view (make-id "im") "arrow_right" (layout 200 'fill-parent 1 'left 0))))
    
-   (spacer 10)
-   (image-view (make-id "example") "test" (layout 'fill-parent 'fill-parent 1 'centre 0))
    (spacer 10)))
 
 (define (calc-manure-type-widget fn)
