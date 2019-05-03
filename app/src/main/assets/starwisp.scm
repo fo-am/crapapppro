@@ -514,6 +514,7 @@
 
 	  (mbutton 'crop-type
 		   (lambda ()
+		     (set-current! 'crop-menu-options '())
 		     (list (start-activity "cropselect" 0 ""))))
 	  
 	  (mtitle 'crop-requirements-ind)
@@ -1053,7 +1054,7 @@
 	       (reverse (cdr (reverse (get-current 'crop-menu-options '())))))
 	      (list
 	       ;; for now just clear the selection indicator
-	       (update-widget 'linear-layout (get-id "crop-select-list") 'contents '())
+	       (rebuild-crop-select-list (get-current 'crop-menu-options '()))
 	       (update-tree-menu 
 		"crop-select-buttons"
 		crop-tree-menu (get-current 'crop-menu-options '())))))
@@ -1061,8 +1062,8 @@
    (lambda (activity arg)
      (activity-layout activity))
    (lambda (activity arg) 
-     (set-current! 'crop-menu-options '())
      (list
+      (rebuild-crop-select-list (get-current 'crop-menu-options '()))
       (update-tree-menu 
        "crop-select-buttons"
        crop-tree-menu (get-current 'crop-menu-options '()))))

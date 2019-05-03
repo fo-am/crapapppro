@@ -75,6 +75,17 @@
 			     e (string->symbol (cadr e))))) 
 		 ret) '())))
 
+(define (rebuild-crop-select-list options)
+  (update-widget 
+   'linear-layout (get-id "crop-select-list") 'contents
+   (map
+    (lambda (option)
+      (text-view 
+       0 (mtext-lookup (menu-option-name option))
+       normal-text-size
+       (layout 'fill-parent 'wrap-content 1 'centre 5)))		  
+    options)))
+
 (define (update-tree-menu widget-id tree-menu current-options)
   (let ((current-tree (tree-menu-navigate tree-menu current-options)))
     (set-current! 'crop-menu-options current-options)
