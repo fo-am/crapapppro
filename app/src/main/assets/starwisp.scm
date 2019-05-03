@@ -516,13 +516,13 @@
 		   (lambda ()
 		     (list (start-activity "cropselect" 0 ""))))
 	  
-	  (mtitle 'crop-requirements)
+	  (mtitle 'crop-requirements-ind)
 	  (horiz
-	   (mtext-scale 'nutrient-n-output)
-	   (mtext-scale 'nutrient-p-output)
-	   (mtext-scale 'nutrient-k-output)
-	   (mtext-scale 'nutrient-s-output)
-	   (mtext-scale 'nutrient-m-output))
+	   (mtext-scale 'nutrient-n)
+	   (mtext-scale 'nutrient-p)
+	   (mtext-scale 'nutrient-k)
+	   (mtext-scale 'nutrient-s)
+	   (mtext-scale 'nutrient-m))
 	  (horiz
 	   (text-view (make-id "require-n") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
 	   (text-view (make-id "require-p") "0" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
@@ -573,12 +573,8 @@
 	   (mupdate-spinner 'soil-test-m "soil-test-m" soil-test-m-list)
 	   (mupdate-spinner 'regular-organic "regularly-manure" yesno-list)
 	   (mupdate-spinner 'grown-grass "recently-grown-grass" yesno-list)
+	   (update-text-view-units 'crop-requirements-ind 'crop-requirements-metric 'crop-requirements-imperial)
 	   (update-text-view-units 'sns-output 'nutrient-n-metric 'nutrient-n-imperial)
-	   (update-text-view-units 'nutrient-n-output 'nutrient-n-metric 'nutrient-n-imperial)
-	   (update-text-view-units 'nutrient-p-output 'nutrient-p-metric 'nutrient-p-imperial)
-	   (update-text-view-units 'nutrient-k-output 'nutrient-k-metric 'nutrient-k-imperial)
-	   (update-text-view-units 'nutrient-m-output 'nutrient-m-metric 'nutrient-m-imperial)
-	   (update-text-view-units 'nutrient-s-output 'nutrient-s-metric 'nutrient-s-imperial)
 	   ;; updates for orientation change
 	   (update-widget 'linear-layout (get-id "top") 'orientation (if (eq? screen-orientation 'portrait) 'vertical 'horizontal)) 
 	   )))))

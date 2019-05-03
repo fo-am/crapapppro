@@ -236,6 +236,8 @@
    (list 'soil-test (list "Results of soil tests (if availible)"))
    (list 'soil-supply (list "Soil N supply"))
    (list 'crop-requirements (list "Crop requirements"))
+   (list 'crop-requirements-metric (list "Crop requirements (Kg/Ha)"))
+   (list 'crop-requirements-imperial (list "Crop requirements (Units/Acre)"))
 
    (list 'custom-manures (list "Your manures"))
    (list 'manures-blurb (list "Here you can add custom manure types"))
