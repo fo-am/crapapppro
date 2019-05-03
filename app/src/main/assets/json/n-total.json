@@ -35,11 +35,17 @@
 "value": {
 "decision": "quality",
 "choices": [{
-"choice": "layer",
-"value": 19
+"choice": "dm20",
+"value": 9.4
 }, {
-"choice": "broiler",
-"value": 28
+"choice": "dm40",
+"value": 19.0
+}, {
+"choice": "dm60",
+"value": 28.0
+}, {
+"choice": "dm80",
+"value": 37.0
 }]
 }
 }]

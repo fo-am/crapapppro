@@ -491,9 +491,16 @@
 }, {
 "choice": "sulphur",
 "value": {
+"decision": "risk",
+"choices": [{
+"choice": "low",
+"value": 0
+}, {
+"choice": "high",
+"value": {
 "decision": "nitrogencategory",
 "choices": [{
-"choice": "<100",
+"choice": "under100",
 "value": 25
 }, {
 "choice": "100-200",
@@ -504,6 +511,8 @@
 }, {
 "choice": "300-400",
 "value": 100
+}]
+}
 }]
 }
 }]

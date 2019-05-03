@@ -132,17 +132,119 @@
 }]
 }
 }, {
-"choice": "dm",
-"value": "7-9"
+"choice": "dm7-9",
+"value": {
+"decision": "month",
+"choices": [{
+"choice": "mar",
+"value": 40
 }, {
-"choice": "dm",
-"value": "9-12"
+"choice": "may",
+"value": 30
 }, {
-"choice": "dm",
-"value": "10-13"
+"choice": "jun",
+"value": 30
 }, {
-"choice": "dm",
-"value": "12-15+"
+"choice": "jul",
+"value": 30
+}, {
+"choice": "default",
+"value": "na"
+}]
+}
+}, {
+"choice": "dm9-12",
+"value": {
+"decision": "month",
+"choices": [{
+"choice": "mar",
+"value": 30
+}, {
+"choice": "apr",
+"value": 30
+}, {
+"choice": "may",
+"value": 30
+}, {
+"choice": "jun",
+"value": 30
+}, {
+"choice": "jul",
+"value": 30
+}, {
+"choice": "aug",
+"value": 30
+}, {
+"choice": "default",
+"value": "na"
+}]
+}
+}, {
+"choice": "dm10-13",
+"value": {
+"decision": "month",
+"choices": [{
+"choice": "jan",
+"value": 30
+}, {
+"choice": "feb",
+"value": 30
+}, {
+"choice": "mar",
+"value": 40
+}, {
+"choice": "apr",
+"value": 40
+}, {
+"choice": "may",
+"value": 30
+}, {
+"choice": "jun",
+"value": 30
+}, {
+"choice": "jul",
+"value": 30
+}, {
+"choice": "aug",
+"value": 30
+}, {
+"choice": "default",
+"value": "na"
+}]
+}
+}, {
+"choice": "dm12-15+",
+"value": {
+"decision": "month",
+"choices": [{
+"choice": "jan",
+"value": 30
+}, {
+"choice": "feb",
+"value": 30
+}, {
+"choice": "mar",
+"value": 40
+}, {
+"choice": "apr",
+"value": 50
+}, {
+"choice": "may",
+"value": 50
+}, {
+"choice": "jun",
+"value": 40
+}, {
+"choice": "jul",
+"value": 30
+}, {
+"choice": "aug",
+"value": 30
+}, {
+"choice": "default",
+"value": "na"
+}]
+}
 }]
 }
 }, {

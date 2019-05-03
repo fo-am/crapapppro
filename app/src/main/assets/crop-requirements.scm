@@ -471,9 +471,13 @@
         (sulphur
 	 (risk
 	  ((low 0)
-	   (high 
-	    (nitrogencategory 
-	     ((under100 25) (100-200 50) (200-300 75) (300-400 100))))))))))  
+	   (high 30)
+	   ;; simplified this as otherwise we need to constantly keep track
+	   ;; for manure information for crop requirements for this one
+	   ;; crop variation
+	   ;; (nitrogencategory 
+	   ;; ((under100 25) (100-200 50) (200-300 75) (300-400 100)))
+	   ))))))
      (hay
       (nutrient
        ((phosphorus

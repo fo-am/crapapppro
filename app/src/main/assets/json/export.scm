@@ -5,6 +5,7 @@
 (load "../manure.scm")
 (load "../crop-requirements.scm")
 (load "../crop-tree-menu.scm")
+(load "../soil-nutrients.scm")
 
 
 (define (scheme->json v)
@@ -92,5 +93,9 @@
 (spitout-json "manure.json" manure-tree)
 (spitout-json "crop-requirements-n.json" crop-requirements-n-tree)
 (spitout-json "crop-requirements-pk.json" crop-requirements-pk-tree)
+(spitout-json "custom-manure-percent-tree.json" custom-manure-percent-tree)
+(spitout-json "n-total.json" n-total-tree)
+(spitout-json "previous-grass-soil-nitrogen-supply.json" previous-grass-soil-nitrogen-supply-tree)
+(spitout-json "soil-nitrogen-supply.json" soil-nitrogen-supply-tree)
+(spitout-json-raw "crop-menu.json" crop-tree-menu)
 
-(spitout-json-raw "crop-tree-menu.json" crop-tree-menu)
