@@ -720,6 +720,7 @@
 	   (update-widget 'text-view (make-id "title") 'text (ktv-get field "name"))
 	   (update-widget 'image-view (get-id "example") 'image
 			  (find-image (string->symbol (entity-get-value "type"))
+				      (string->symbol (entity-get-value "quality"))
 				      (entity-get-value "amount")))
 	   (update-text-view-units 'crop-availible 'crop-availible-metric 'crop-availible-imperial)))
 	 )))
@@ -844,6 +845,7 @@
      (list
       (update-widget 'image-view (get-id "example") 'image
                      (find-image (string->symbol (entity-get-value "type"))
+                                 (string->symbol (entity-get-value "quality"))
                                  (entity-get-value "amount")))))
    (lambda (activity) '())
    (lambda (activity) '())

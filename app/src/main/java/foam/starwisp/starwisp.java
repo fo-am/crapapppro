@@ -203,12 +203,12 @@ public class starwisp extends StarwispActivity {
 	    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
 	    ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
 	    ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-	    {
-		
+	    {		
 		ActivityCompat.requestPermissions(this, new String[]{
 			Manifest.permission.ACCESS_FINE_LOCATION,
 			Manifest.permission.ACCESS_COARSE_LOCATION,
-			Manifest.permission.WRITE_EXTERNAL_STORAGE},
+			Manifest.permission.WRITE_EXTERNAL_STORAGE,
+			Manifest.permission.CAMERA},
 		    0);
 	    }
     }

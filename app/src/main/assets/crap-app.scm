@@ -667,7 +667,7 @@
 
 (define calc-text-size 30)
 (define title-height 40)
-(define units-width 100)
+(define units-width 130)
 
 (define (calc-results)
   (vert
@@ -890,6 +890,7 @@
 	 (update-widget 'seek-bar (get-id "amount") 'progress 50)
 	 (update-widget 'image-view (get-id "example") 'image
 			(find-image (calc-type calc)
+				    (calc-quality calc)
 				    (calc-amount calc)))
 	 )
 	;; enable/disable the qualities and applications depending on the manure type
@@ -933,8 +934,14 @@
 			  (let ((quality 
 				 (list-ref (get-qualities-for-type type) v)))
 			    (fn quality)
-			    (update-quality! quality))))))))))
-
+			    (append
+			     (list
+			      (update-widget 'image-view (get-id "example") 'image					     
+					     (find-image (calc-type calc)
+							 quality
+							 (calc-amount calc))))			      
+			     (update-quality! quality)))))))))))
+	    
 (define (calc-manure-application-widget fn)
   (mspinner 'application-type cattle-application-list 
 	    (lambda (v) 
@@ -956,6 +963,7 @@
 		 (list
 		  (update-widget 'image-view (get-id "example") 'image
 				 (find-image (calc-type calc)
+					     (calc-quality calc)
 					     (calc-amount calc)))))))))
   
 (define (photo-path)
