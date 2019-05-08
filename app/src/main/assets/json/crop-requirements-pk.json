@@ -497,22 +497,7 @@
 "value": 0
 }, {
 "choice": "high",
-"value": {
-"decision": "nitrogencategory",
-"choices": [{
-"choice": "under100",
-"value": 25
-}, {
-"choice": "100-200",
-"value": 50
-}, {
-"choice": "200-300",
-"value": 75
-}, {
-"choice": "300-400",
-"value": 100
-}]
-}
+"value": 30
 }]
 }
 }]

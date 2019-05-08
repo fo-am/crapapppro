@@ -1,0 +1,1129 @@
+{
+"decision": "type",
+"choices": [{
+"choice": "cattle",
+"value": {
+"decision": "nutrient",
+"choices": [{
+"choice": "n-avail",
+"value": {
+"decision": "application",
+"choices": [{
+"choice": "splash-surface",
+"value": {
+"decision": "quality",
+"choices": [{
+"choice": "dm2",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 30
+}, {
+"choice": "grass-oilseed",
+"value": 35
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 30
+}, {
+"choice": "mediumheavy",
+"value": 30
+}]
+}
+}, {
+"choice": "spring",
+"value": 45
+}, {
+"choice": "summer",
+"value": 35
+}]
+}
+}, {
+"choice": "dm6",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 25
+}, {
+"choice": "grass-oilseed",
+"value": 30
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 25
+}, {
+"choice": "mediumheavy",
+"value": 25
+}]
+}
+}, {
+"choice": "spring",
+"value": 35
+}, {
+"choice": "summer",
+"value": 25
+}]
+}
+}, {
+"choice": "dm10",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 20
+}, {
+"choice": "grass-oilseed",
+"value": 25
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 20
+}, {
+"choice": "mediumheavy",
+"value": 20
+}]
+}
+}, {
+"choice": "spring",
+"value": 25
+}, {
+"choice": "summer",
+"value": 20
+}]
+}
+}, {
+"choice": "dirtywater",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 10
+}, {
+"choice": "grass-oilseed",
+"value": 15
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 35
+}, {
+"choice": "grass-oilseed",
+"value": 40
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 35
+}, {
+"choice": "mediumheavy",
+"value": 35
+}]
+}
+}, {
+"choice": "spring",
+"value": 50
+}, {
+"choice": "summer",
+"value": 30
+}]
+}
+}, {
+"choice": "solid",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 5
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 10
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 10
+}, {
+"choice": "mediumheavy",
+"value": 10
+}]
+}
+}, {
+"choice": "spring",
+"value": 10
+}, {
+"choice": "summer",
+"value": 10
+}]
+}
+}, {
+"choice": "liquidstrainer",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 30
+}, {
+"choice": "grass-oilseed",
+"value": 35
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 30
+}, {
+"choice": "mediumheavy",
+"value": 30
+}]
+}
+}, {
+"choice": "spring",
+"value": 45
+}, {
+"choice": "summer",
+"value": 35
+}]
+}
+}, {
+"choice": "liquidweeping",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 30
+}, {
+"choice": "grass-oilseed",
+"value": 35
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 30
+}, {
+"choice": "mediumheavy",
+"value": 30
+}]
+}
+}, {
+"choice": "spring",
+"value": 45
+}, {
+"choice": "summer",
+"value": 35
+}]
+}
+}, {
+"choice": "liquidmechanical",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 30
+}, {
+"choice": "grass-oilseed",
+"value": 35
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 30
+}, {
+"choice": "mediumheavy",
+"value": 30
+}]
+}
+}, {
+"choice": "spring",
+"value": 45
+}, {
+"choice": "summer",
+"value": 35
+}]
+}
+}]
+}
+}, {
+"choice": "splash-incorporated",
+"value": {
+"decision": "quality",
+"choices": [{
+"choice": "dm2",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 35
+}, {
+"choice": "grass-oilseed",
+"value": 40
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 25
+}, {
+"choice": "mediumheavy",
+"value": 35
+}]
+}
+}, {
+"choice": "spring",
+"value": 50
+}, {
+"choice": "summer",
+"value": "na"
+}]
+}
+}, {
+"choice": "dm6",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 30
+}, {
+"choice": "grass-oilseed",
+"value": 35
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 20
+}, {
+"choice": "mediumheavy",
+"value": 30
+}]
+}
+}, {
+"choice": "spring",
+"value": 40
+}, {
+"choice": "summer",
+"value": "na"
+}]
+}
+}, {
+"choice": "dm10",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 20
+}, {
+"choice": "grass-oilseed",
+"value": 25
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 25
+}, {
+"choice": "mediumheavy",
+"value": 25
+}]
+}
+}, {
+"choice": "spring",
+"value": 40
+}, {
+"choice": "summer",
+"value": 30
+}]
+}
+}, {
+"choice": "solid",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 5
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 10
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 10
+}, {
+"choice": "mediumheavy",
+"value": 10
+}]
+}
+}, {
+"choice": "spring",
+"value": 10
+}, {
+"choice": "summer",
+"value": "na"
+}]
+}
+}]
+}
+}, {
+"choice": "shoe-bar-spreader",
+"value": {
+"decision": "quality",
+"choices": [{
+"choice": "dm2",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 30
+}, {
+"choice": "grass-oilseed",
+"value": 35
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 30
+}, {
+"choice": "mediumheavy",
+"value": 30
+}]
+}
+}, {
+"choice": "spring",
+"value": 50
+}, {
+"choice": "summer",
+"value": 40
+}]
+}
+}, {
+"choice": "dm6",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 25
+}, {
+"choice": "grass-oilseed",
+"value": 30
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 25
+}, {
+"choice": "mediumheavy",
+"value": 25
+}]
+}
+}, {
+"choice": "spring",
+"value": 40
+}, {
+"choice": "summer",
+"value": 30
+}]
+}
+}, {
+"choice": "dm10",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 20
+}, {
+"choice": "grass-oilseed",
+"value": 25
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 20
+}, {
+"choice": "mediumheavy",
+"value": 20
+}]
+}
+}, {
+"choice": "spring",
+"value": 30
+}, {
+"choice": "summer",
+"value": 25
+}]
+}
+}]
+}
+}, {
+"choice": "shallow-injected",
+"value": {
+"decision": "quality",
+"choices": [{
+"choice": "dm2",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 30
+}, {
+"choice": "grass-oilseed",
+"value": 35
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 35
+}, {
+"choice": "mediumheavy",
+"value": 35
+}]
+}
+}, {
+"choice": "spring",
+"value": 55
+}, {
+"choice": "summer",
+"value": 45
+}]
+}
+}, {
+"choice": "dm6",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 25
+}, {
+"choice": "grass-oilseed",
+"value": 30
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 30
+}, {
+"choice": "mediumheavy",
+"value": 30
+}]
+}
+}, {
+"choice": "spring",
+"value": 45
+}, {
+"choice": "summer",
+"value": 35
+}]
+}
+}, {
+"choice": "dm10",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 5
+}, {
+"choice": "grass-oilseed",
+"value": 10
+}]
+}
+}, {
+"choice": "mediumheavy",
+"value": {
+"decision": "crop",
+"choices": [{
+"choice": "normal",
+"value": 20
+}, {
+"choice": "grass-oilseed",
+"value": 25
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 25
+}, {
+"choice": "mediumheavy",
+"value": 25
+}]
+}
+}, {
+"choice": "spring",
+"value": 35
+}, {
+"choice": "summer",
+"value": 30
+}]
+}
+}]
+}
+}]
+}
+}, {
+"choice": "p-avail",
+"value": 50
+}, {
+"choice": "k-avail",
+"value": 90
+}, {
+"choice": "default",
+"value": 100
+}]
+}
+}, {
+"choice": "fym",
+"value": {
+"decision": "nutrient",
+"choices": [{
+"choice": "n-avail",
+"value": {
+"decision": "season",
+"choices": [{
+"choice": "autumn",
+"value": {
+"decision": "application",
+"choices": [{
+"choice": "straight-surface",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 5
+}, {
+"choice": "mediumheavy",
+"value": 10
+}]
+}
+}, {
+"choice": "straight-ploughed",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 5
+}, {
+"choice": "mediumheavy",
+"value": 10
+}]
+}
+}, {
+"choice": "stored-spread",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 5
+}, {
+"choice": "mediumheavy",
+"value": 10
+}]
+}
+}, {
+"choice": "stored-ploughed",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 5
+}, {
+"choice": "mediumheavy",
+"value": 10
+}]
+}
+}]
+}
+}, {
+"choice": "winter",
+"value": {
+"decision": "soil",
+"choices": [{
+"choice": "sandyshallow",
+"value": 10
+}, {
+"choice": "mediumheavy",
+"value": 10
+}]
+}
+}, {
+"choice": "spring",
+"value": {
+"decision": "application",
+"choices": [{
+"choice": "straight-surface",
+"value": 15
+}, {
+"choice": "straight-ploughed",
+"value": 15
+}, {
+"choice": "stored-spread",
+"value": 10
+}, {
+"choice": "stored-ploughed",
+"value": 10
+}]
+}
+}, {
+"choice": "summer",
+"value": 10
+}]
+}
+}, {
+"choice": "p-avail",
+"value": 60
+}, {
+"choice": "k-avail",
+"value": 90
+}, {
+"choice": "default",
+"value": 100
+}]
+}
+}]
+}

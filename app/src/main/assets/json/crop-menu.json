@@ -1,0 +1,185 @@
+{
+"name": "root",
+"category": "crop",
+"options": [{
+"name": "barley",
+"category": "sown",
+"options": [{
+"name": "spring",
+"category": "application",
+"options": [{
+"name": "incorporated",
+"category": "process",
+"options": ["feed", "malt"]
+}, {
+"name": "removed",
+"category": "process",
+"options": ["feed", "malt"]
+}, "wholecrop"]
+}, {
+"name": "winter",
+"category": "application",
+"options": [{
+"name": "incorporated",
+"category": "process",
+"options": ["feed", "malt"]
+}, {
+"name": "removed",
+"category": "process",
+"options": ["feed", "malt"]
+}, "wholecrop"]
+}]
+}, "beetroot", {
+"name": "brussels-sprout-cabbage",
+"category": "subtype1",
+"options": ["brussels-sprout", "storage-cabbage", "head-cabbage-pre-31-dec", "head-cabbage-post-31-dec", "collard-pre-31-dec", "collard-post-31-dec"]
+}, "bulb", "carrot", {
+"name": "cauliflower-calabrese",
+"category": "subtype1",
+"options": ["cauliflower-summer-autumn", {
+"name": "cauliflower-winter-hardy-roscoff",
+"category": "subtype2",
+"options": ["seedbed", "top-dressing"]
+}, "calabrese"]
+}, "fodder-beet", {
+"name": "grass",
+"category": "subtype",
+"options": [{
+"name": "established",
+"category": "sown",
+"options": ["spring", "summer-autumn", "clover"]
+}, {
+"name": "grazed",
+"category": "targetyield",
+"options": ["dm4-5", "dm5-7", "dm6-8", "dm7-9", "dm9-12", "dm10-13", "dm12-15+"]
+}, "hay", "rye", {
+"name": "silage",
+"category": "targetyield",
+"options": [{
+"name": "dm5-7",
+"category": "cut",
+"options": ["one", "two", "three", "four"]
+}, {
+"name": "dm7-9",
+"category": "cut",
+"options": ["one", "two", "three", "four"]
+}, {
+"name": "dm9-12",
+"category": "cut",
+"options": ["one", "two", "three", "four"]
+}, {
+"name": "dm12-15+",
+"category": "cut",
+"options": ["one", "two", "three", "four"]
+}]
+}]
+}, "kale-grazed", {
+"name": "lettuce-leafy-salad",
+"category": "subtype1",
+"options": ["lettuce-whole-head", "lettuce-baby-leaf", "wild-rocket"]
+}, "linseed", "maize", {
+"name": "oat",
+"category": "sown",
+"options": [{
+"name": "winter",
+"category": "application",
+"options": ["forage", "incorporated", "removed"]
+}, {
+"name": "spring",
+"category": "application",
+"options": ["forage", "incorporated", "removed"]
+}]
+}, {
+"name": "rape",
+"category": "use",
+"options": ["forage", {
+"name": "oilseed",
+"category": "sown",
+"options": ["winter", "spring"]
+}]
+}, {
+"name": "onion-leek",
+"category": "subtype1",
+"options": ["bulb-onion", "salad-onion", "leek"]
+}, "pea-bean", {
+"name": "potato",
+"category": "determinancy-group",
+"options": [{
+"name": "one",
+"category": "growing-season-length",
+"options": ["<60", "60-90", "90-120", ">120"]
+}, {
+"name": "two",
+"category": "growing-season-length",
+"options": ["<60", "60-90", "90-120", ">120"]
+}, {
+"name": "three",
+"category": "growing-season-length",
+"options": ["<60", "60-90", "90-120", ">120"]
+}, {
+"name": "four",
+"category": "growing-season-length",
+"options": ["<60", "60-90", "90-120", ">120"]
+}]
+}, {
+"name": "rye",
+"category": "sown",
+"options": [{
+"name": "winter",
+"category": "application",
+"options": ["forage", "incorporated", "removed"]
+}, {
+"name": "spring",
+"category": "application",
+"options": ["forage", "incorporated", "removed"]
+}]
+}, {
+"name": "swede",
+"category": "use",
+"options": ["forage-lifted", "forage-grazed", "vegetable"]
+}, {
+"name": "triticale",
+"category": "sown",
+"options": [{
+"name": "winter",
+"category": "application",
+"options": ["forage", "incorporated", "removed"]
+}, {
+"name": "spring",
+"category": "application",
+"options": ["forage", "incorporated", "removed"]
+}]
+}, {
+"name": "turnip",
+"category": "use",
+"options": ["forage-lifted", "forage-grazed", "vegetable"]
+}, {
+"name": "wheat",
+"category": "sown",
+"options": [{
+"name": "winter",
+"category": "application",
+"options": [{
+"name": "incorporated",
+"category": "process",
+"options": ["feed", "mill"]
+}, {
+"name": "removed",
+"category": "process",
+"options": ["feed", "mill"]
+}, "wholecrop"]
+}, {
+"name": "spring",
+"category": "application",
+"options": [{
+"name": "incorporated",
+"category": "process",
+"options": ["feed", "mill"]
+}, {
+"name": "removed",
+"category": "process",
+"options": ["feed", "mill"]
+}, "wholecrop"]
+}]
+}]
+}
