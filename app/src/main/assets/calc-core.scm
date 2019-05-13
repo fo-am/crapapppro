@@ -320,8 +320,8 @@
 
 (define (crop-params->manure-crop c)
   (if (or
-       (is-crop-arable? c)
-       (and (eq? (get-choice-value c 'crop) 'rape)
+       (not (is-crop-arable? c)) ;; it's grass!
+       (and (eq? (get-choice-value c 'crop) 'rape) ;; or oilseed
 	    (eq? (get-choice-value c 'subtype) 'oilseed)))
       'grass-oilseed 'normal))
 

@@ -162,7 +162,9 @@ ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 	android:name
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:62:19-64
 activity#foam.starwisp.FarmActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:63:9-72
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:63:9-97
+	android:noHistory
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:63:61-85
 	android:name
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:63:19-60
 activity#foam.starwisp.FieldActivity

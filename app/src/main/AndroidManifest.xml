@@ -60,7 +60,7 @@
 
         <activity android:name="foam.starwisp.CalcActivity"></activity>
         <activity android:name="foam.starwisp.NewFieldActivity"></activity>
-        <activity android:name="foam.starwisp.FarmActivity"></activity>
+        <activity android:name="foam.starwisp.FarmActivity" android:noHistory="true"></activity>
         <activity android:name="foam.starwisp.FieldActivity"></activity>
         <activity android:name="foam.starwisp.FieldHistoryActivity"></activity>
         <activity android:name="foam.starwisp.FieldCalcActivity"></activity>
