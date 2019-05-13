@@ -66,12 +66,10 @@
 	  (list 30 "pig_fym_30t")))
    (list 'fym-sheep
 	 (list
-	  (list 5 "pig_fym_5t")
-	  (list 10 "pig_fym_10t")
-	  (list 15 "pig_fym_15t")
-	  (list 20 "pig_fym_20t")
-	  (list 25 "pig_fym_25t")
-	  (list 30 "pig_fym_30t")))
+	  (list 10 "cattle_fym_10t")
+	  (list 15 "cattle_fym_15t")
+	  (list 30 "cattle_fym_30t")
+	  (list 75 "cattle_fym_75t")))
    (list 'fym-duck
 	 (list
 	  (list 2 "broiler_fym_2t")
@@ -81,20 +79,16 @@
 	  (list 15 "broiler_fym_15t")))	 
    (list 'fym-horse
 	 (list
-	  (list 5 "pig_fym_5t")
-	  (list 10 "pig_fym_10t")
-	  (list 15 "pig_fym_15t")
-	  (list 20 "pig_fym_20t")
-	  (list 25 "pig_fym_25t")
-	  (list 30 "pig_fym_30t")))
+	  (list 10 "cattle_fym_10t")
+	  (list 15 "cattle_fym_15t")
+	  (list 30 "cattle_fym_30t")
+	  (list 75 "cattle_fym_75t")))
    (list 'fym-goat
 	 (list
-	  (list 5 "pig_fym_5t")
-	  (list 10 "pig_fym_10t")
-	  (list 15 "pig_fym_15t")
-	  (list 20 "pig_fym_20t")
-	  (list 25 "pig_fym_25t")
-	  (list 30 "pig_fym_30t")))))
+	  (list 10 "cattle_fym_10t")
+	  (list 15 "cattle_fym_15t")
+	  (list 30 "cattle_fym_30t")
+	  (list 75 "cattle_fym_75t")))))
 
 (define (find-image type quality amount)
   (define (_type images type)
