@@ -333,7 +333,7 @@
      (clear-soil-test!) ;; remove last values from field
      (update-fieldsize! 1) ;; reset after any fields
      (list
-      (update-text-view-units 'crop-availible 'crop-availible-metric 'crop-availible-imperial)))
+      (update-text-view-units 'crop-available 'crop-available-metric 'crop-available-imperial)))
    (lambda (activity) '())
    (lambda (activity) '())
    (lambda (activity) '())
@@ -722,7 +722,7 @@
 			  (find-image (string->symbol (entity-get-value "type"))
 				      (string->symbol (entity-get-value "quality"))
 				      (entity-get-value "amount")))
-	   (update-text-view-units 'crop-availible 'crop-availible-metric 'crop-availible-imperial)))
+	   (update-text-view-units 'crop-available 'crop-available-metric 'crop-available-imperial)))
 	 )))
    (lambda (activity) '())
    (lambda (activity) '())

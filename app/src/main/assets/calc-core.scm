@@ -488,7 +488,7 @@
       (decision manure-tree (append (list (list 'nutrient 'm-total)) params))))))
 
 (define (manure-get-crop-avail amount n-total-percent params)
-  ;; crop availible values
+  ;; crop available values
   (process-nutrients 
    amount 
    (list
