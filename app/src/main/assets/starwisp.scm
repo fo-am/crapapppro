@@ -1107,16 +1107,18 @@
 		   "import-decrypt"
 		   (string-append dirname "farm.crap.json.enc")
 		   (get-current 'password "crapapp")
-		   (lambda (cleartext)
+		   (string-append dirname "farm.crap.json")
+		   (lambda (success)
+		     (msg success)
 		     (cond 
-		      ((not cleartext)
+		      ((not success)
 		       (list
 			(ok-dialog
 			 "bad-password"
 			 (mtext-lookup 'bad-password)
 			 (lambda ()))))
 		      (else
-		       (let* ((import-data (json/parse-string cleartext))
+		       (let* ((import-data (json/parse-file (string-append dirname "farm.crap.json")))
 			      (farm-name (farm-name import-data)))
 			 (list
 			  (alert-dialog	

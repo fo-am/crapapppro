@@ -333,7 +333,8 @@ public class StarwispBuilder
             // add the salt to the ciphertext
             //Log.i("starwisp",saltStr);
             //Log.i("starwisp",cipherTextIvMac.toString());
-            return saltStr+cipherTextIvMac.toString();
+	    // add : between em
+            return saltStr+":"+cipherTextIvMac.toString();
         } catch (java.security.GeneralSecurityException e) {
             Log.i("starwisp", e.toString());
             return null;
@@ -348,9 +349,14 @@ public class StarwispBuilder
         try {
             // how long is the salt?
             int salt_len = AesCbcWithIntegrity.saltString(AesCbcWithIntegrity.generateSalt()).length();
+            Log.i("starwisp",""+salt_len);
+	    if (data.length()<salt_len) {
+		Log.i("starwisp","Data passed to Decypt is too short");
+		return "";
+	    }
             String salt = data.substring(0,salt_len);
-            //Log.i("starwisp",salt);
-            String cipher = data.substring(salt_len,data.length());
+	    // skip ":" between em
+            String cipher = data.substring(salt_len+1,data.length());
             //Log.i("starwisp",cipher);
             AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(password,salt);
             AesCbcWithIntegrity.CipherTextIvMac cipherTextIvMac = new AesCbcWithIntegrity.CipherTextIvMac(cipher);
@@ -1277,7 +1283,7 @@ public class StarwispBuilder
             final String name = arr.getString(3);
 	    String enc = Encrypt(arr.getString(5),arr.getString(6));
 	    Log.i("starwisp","finished encrypt");
-	    Log.i("starwisp",enc);
+	    //Log.i("starwisp",enc);
             DialogCallback(ctx, ctxname, name, "\""+enc+"\"");
 	    Log.i("starwisp","finished callback");
             return;
@@ -1285,15 +1291,16 @@ public class StarwispBuilder
 
         if (token.equals("decrypt")) {
             final String name = arr.getString(3);
-	    String encrypted =LoadData(arr.getString(5));	    
+	    String encrypted = LoadData(arr.getString(5));	    
 	    String cleartext = Decrypt(encrypted,arr.getString(6));
+	    SaveData(arr.getString(7),cleartext.replace("\"","\'").getBytes());
 	    
 	    if (cleartext == null) {
 		DialogCallback(ctx, ctxname, name, "#f");
 	    } else {
 		// need to sort out quote escaping here - for the moment
 		// this is json data, so we can replace " with '
-		DialogCallback(ctx, ctxname, name, "\""+cleartext.replace("\"","\'")+"\"");
+		DialogCallback(ctx, ctxname, name, "#t");
 	    }
             return;
         }

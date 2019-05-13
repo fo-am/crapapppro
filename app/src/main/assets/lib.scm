@@ -500,7 +500,7 @@
 ;; treat this like a dialog so the callback fires
 (define (list-files name path fn) (list "list-files" 0 "list-files" name fn path))
 (define (encrypt name data password fn) (list "encrypt" 0 "encrypt" name fn data password))
-(define (decrypt name data password fn) (list "decrypt" 0 "decrypt" name fn data password))
+(define (decrypt name data password dest fn) (list "decrypt" 0 "decrypt" name fn data password dest))
 (define (gps-start name fn min-msecs min-metres) (list "gps-start" 0 "gps-start" name fn min-msecs min-metres))
 (define (sensors-start name requested fn) (list "sensors-start" 0 "sensors-start" name fn requested))
 (define (sensors-stop) (list "sensors-stop" 0 "sensors-stop"))

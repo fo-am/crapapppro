@@ -245,10 +245,15 @@ public class starwisp extends StarwispActivity {
     }
 
     void handleJSON(Intent intent) {
+	// seems like m_Appdir is not setup yet here...
+        String dirname = "farmcrapapppro-beta/";
+        String AppDir = Environment.getExternalStorageDirectory().getPath() + "/" + dirname;
 	String encrypted = readRawTextFile(intent.getData());
 	if (encrypted != null) {
-	    m_Builder.SaveData("/sdcard/farm.crap.json.enc",encrypted.getBytes());	    
+	    m_Builder.SaveData(AppDir+"farm.crap.json.enc",encrypted.getBytes());	    
 	    ActivityManager.StartActivityGoto(this, "import", "");  
+	} else {
+	    Log.i("starwisp","Could not retrieve "+intent.getData());
 	}
     }
 }

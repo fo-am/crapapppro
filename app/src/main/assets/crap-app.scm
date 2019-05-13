@@ -1392,21 +1392,21 @@
      (uid-pair
       (let* ((uid (cdr uid-pair))
 	     (entity-id (entity-id-from-unique db table uid)))
-	(msg "searched for entity:" entity-id)
+	;;(msg "searched for entity:" entity-id)
 	(cond 
 	 ((not (null? entity-id))
 	  ;; it exists!
 	  (update-entity-values 
 	   db table entity-id 
-	   (dbg (build-ktv-list-from-import 
-		 db table entity-type data))
+	   (build-ktv-list-from-import 
+	    db table entity-type data)
 	   #f) ;; dirtify value - ignored anyway here...
 	  #t)
 	 (else
 	  ;; it doesn't yet
 	  (insert-entity-wholesale 
 	   db table entity-type uid 0 0 
-	   (dbg (build-ktv-list-from-import db table entity-type data)))
+	   (build-ktv-list-from-import db table entity-type data))
 	  #f))))
      (else
       (msg "no uid in imported entity" data)
@@ -1453,7 +1453,7 @@
 	     (let ((field-exists (import-entity db table "field" field-data)))
 	       ;; import polygons....
 	       ;; delete previous polygon if one exists
-	       (db-delete-children db "farm" "coord" (assoc 'unique_id field-data))
+	       (db-delete-children db "farm" "coord" (cdr (assoc 'unique_id field-data)))
 	       (let ((coords-list (cdr (assoc 'coords field-data))))
 		 (for-each
 		  (lambda (coord-data)
@@ -1461,7 +1461,7 @@
 		    ;; and have no uids
 		    (insert-entity
 		     db "farm" "coord" "sys" 
-		     (dbg (build-ktv-list-from-import db "farm" "coord" coord-data))))
+		     (build-ktv-list-from-import db "farm" "coord" coord-data)))
 		  coords-list))	
 	       ;; import events.......
 	       (let ((events-list (cdr (assoc 'events field-data))))
@@ -1490,18 +1490,18 @@
      0 
      (string-append (mtext-lookup 'import-report) farm-name)
      large-text-size (layout 'wrap-content 'wrap-content -1 'left 0))
-    (dbg (map
-	  (lambda (field-details)
-	    (text-view 
-	     0 (string-append 
-		(mtext-lookup 
-		 (if (eq? (car field-details) 'field)
-		     (if (list-ref field-details 2) 'overwritten-field 'new-field)
-		     (if (list-ref field-details 2) 'overwritten-event 'new-event)))
-		;; name 
-		(cadr field-details))
-	     normal-text-size (layout 'wrap-content 'wrap-content -1 'left 0)))
-	  import-result)))))
+    (map
+     (lambda (field-details)
+       (text-view 
+	0 (string-append 
+	   (mtext-lookup 
+	    (if (eq? (car field-details) 'field)
+		(if (list-ref field-details 2) 'overwritten-field 'new-field)
+		(if (list-ref field-details 2) 'overwritten-event 'new-event)))
+	   ;; name 
+	   (cadr field-details))
+	normal-text-size (layout 'wrap-content 'wrap-content -1 'left 0)))
+     import-result))))
 
 (define (backup-days)
   (let ((today (date->day (date->string (current-date))))
