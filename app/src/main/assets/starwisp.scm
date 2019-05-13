@@ -70,7 +70,12 @@
 	      (msg "updating to default farm" field-id)
 	      (update-entity 
 	       db "farm" field-id 
-	       (list (ktv "parent" "varchar" (get-setting-value "current-farm")))))
+	       (list 	     
+		(ktv "parent" "varchar" (get-setting-value "current-farm"))
+		;; override existing crop
+		(ktv "crop" "varchar" (params-list->text default-crop))
+		(ktv "soil-test-k" "varchar" "0")
+		(ktv "soil-test-m" "varchar" "0"))))
 	    (all-entities db "farm" "field")))
      
      (activity-layout activity))
