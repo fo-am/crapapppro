@@ -432,7 +432,7 @@
    (list 'low (list "Low"))
    (list 'high (list "High"))
 
-   (list 'backup-freq (list "Set the crap app to remind you to backup your farm data. This will prompt you to send an email to yourself with a file "))
+   (list 'backup-freq (list "Set the crap app to remind you to backup your farm data."))
    (list 'backup-blurb (list "Backup frequency"))
    (list 'never (list "Never"))
    (list 'daily (list "Daily"))

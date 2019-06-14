@@ -999,18 +999,14 @@
     
     (mbutton 'email-farm-button
 	     (lambda ()
+	       (set-setting! "last-backup" "varchar" (date->string (current-date)))
+	       (save-data "farm.crap.json" (export-current-farm-as-json))
 	       (list
-		(encrypt
-		 "export-encrypt"
-		 (export-current-farm-as-json)
-		 (get-current 'password "crapapp")
-		 (lambda (ciphertext)
-		   (set-setting! "last-backup" "varchar" (date->string (current-date)))
-		   (save-data "farm.crap.json.enc" ciphertext)
-		   (list
-		    (send-mail "" "From your Crap Calculator"
-			       "Please find attached your farm data."
-			       (list (string-append dirname "farm.crap.json.enc")))))))))
+		(send-mail-encrypt
+		 "" "Farm data"
+		 "You have been sent farm data from the Farm Crap App. To import this data into your app, click on the attachment to launch the Farm Crap App importer."
+		 (list (string-append dirname "farm.crap.json"))
+		 (get-current 'password "crapapp")))))
     
     (spacer 40)    
     (mbutton 'done (lambda () (list (finish-activity 99)))))
