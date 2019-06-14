@@ -190,9 +190,9 @@ public class AesCbcWithIntegrity {
         byte[] confidentialityKeyBytes = copyOfRange(keyBytes, 0, AES_KEY_LENGTH_BITS /8);
         byte[] integrityKeyBytes = copyOfRange(keyBytes, AES_KEY_LENGTH_BITS /8, AES_KEY_LENGTH_BITS /8 + HMAC_KEY_LENGTH_BITS /8);
 
-	Log.i("starwisp","salt: "+bytesToHex(salt));
-	Log.i("starwisp","ckey: "+bytesToHex(confidentialityKeyBytes));
-	Log.i("starwisp","ikey: "+bytesToHex(integrityKeyBytes));
+	//Log.i("starwisp","salt: "+bytesToHex(salt));
+	//Log.i("starwisp","ckey: "+bytesToHex(confidentialityKeyBytes));
+	//Log.i("starwisp","ikey: "+bytesToHex(integrityKeyBytes));
 
         //Generate the AES key
         SecretKey confidentialityKey = new SecretKeySpec(confidentialityKeyBytes, CIPHER);
@@ -309,18 +309,18 @@ public class AesCbcWithIntegrity {
          * versions do funny stuff w/ the IV, so this is to work around bugs:
          */
         iv = aesCipherForEncryption.getIV();
-	Log.i("starwisp","iv: "+bytesToHex(iv));
-	Log.i("starwisp","iv len: "+iv.length);
+	//Log.i("starwisp","iv: "+bytesToHex(iv));
+	//Log.i("starwisp","iv len: "+iv.length);
 
         byte[] byteCipherText = aesCipherForEncryption.doFinal(plaintext);
 
-	Log.i("starwisp","cipher: "+bytesToHex(byteCipherText));
-	Log.i("starwisp","cipher len: "+byteCipherText.length);
+	//Log.i("starwisp","cipher: "+bytesToHex(byteCipherText));
+	//Log.i("starwisp","cipher len: "+byteCipherText.length);
         byte[] ivCipherConcat = CipherTextIvMac.ivCipherConcat(iv, byteCipherText);
 
 
-	Log.i("starwisp","ivcipher: "+bytesToHex(ivCipherConcat));
-	Log.i("starwisp","ivcipher len: "+ivCipherConcat.length);
+	//Log.i("starwisp","ivcipher: "+bytesToHex(ivCipherConcat));
+	//Log.i("starwisp","ivcipher len: "+ivCipherConcat.length);
 
         byte[] integrityMac = generateMac(ivCipherConcat, secretKeys.getIntegrityKey());
 
@@ -401,9 +401,10 @@ public class AesCbcWithIntegrity {
         byte[] ivCipherConcat = CipherTextIvMac.ivCipherConcat(civ.getIv(), civ.getCipherText());
         byte[] computedMac = generateMac(ivCipherConcat, secretKeys.getIntegrityKey());
 
-	Log.i("starwisp","received mac: "+bytesToHex(civ.getMac()));
-	Log.i("starwisp","computed mac: "+bytesToHex(computedMac));
-
+	//Log.i("starwisp","received mac: "+bytesToHex(civ.getMac()));
+	//Log.i("starwisp","computed mac: "+bytesToHex(computedMac));
+	
+	// temporarily disable until ios version works
         if (true) { //constantTimeEq(computedMac, civ.getMac())) {
             Cipher aesCipherForDecryption = Cipher.getInstance(CIPHER_TRANSFORMATION);
             aesCipherForDecryption.init(Cipher.DECRYPT_MODE, secretKeys.getConfidentialityKey(),
@@ -572,11 +573,11 @@ public class AesCbcWithIntegrity {
                 throw new IllegalArgumentException("Cannot parse iv:ciphertext:mac");
             } else {
                 iv = Base64.decode(civArray[0], BASE64_FLAGS);
-		Log.i("starwisp","inner iv: "+civArray[0]);
-		Log.i("starwisp","inner iv hex: "+bytesToHex(iv));
+		//Log.i("starwisp","inner iv: "+civArray[0]);
+		//Log.i("starwisp","inner iv hex: "+bytesToHex(iv));
                 mac = Base64.decode(civArray[1], BASE64_FLAGS);
-		Log.i("starwisp","inner mac: "+civArray[1]);
-		Log.i("starwisp","inner mac hex: "+bytesToHex(mac));
+		//Log.i("starwisp","inner mac: "+civArray[1]);
+		//Log.i("starwisp","inner mac hex: "+bytesToHex(mac));
                 cipherText = Base64.decode(civArray[2], BASE64_FLAGS);
             }
         }

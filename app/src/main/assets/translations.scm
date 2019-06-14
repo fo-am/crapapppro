@@ -267,13 +267,13 @@
    (list 'gallery (list "Gallery"))
 
    (list 'export (list "Export data as spreadsheet"))
-   (list 'export-blurb (list "Email export all field data as a CSV spreadsheet file"))
-   (list 'email-button (list "Email events as a CSV spreadsheet"))
-
-   (list 'send-farm-title (list "Send farm to another app"))
-   (list 'send-farm-blurb (list "Email the current farm to someone else, or save it as backup - your data is encrypted, so you need to use a password and tell the other person what it is."))
+   (list 'export-blurb (list "This option allows you to export all field data as a spreadsheet file sent via email attachment. Use this to keep a record of your data in external software such as Excel or Open Office. This data is not encrypted."))
+   (list 'email-button (list "Export spreadsheet"))
    
-   (list 'email-farm-button (list "Email current farm"))
+   (list 'send-farm-title (list "Send farm to another person using the crap app"))
+   (list 'send-farm-blurb (list "Email the current farm to someone else, or save it as backup. The file format can only be opened in the crap app. Your data is encrypted, so you need to set a password and tell the other person what it is."))
+   
+   (list 'email-farm-button (list "Export crap app file"))
    (list 'none (list "None"))
    (list 'reset-title (list "Delete all data"))
 
@@ -409,7 +409,7 @@
    (list 'your-farms (list "Manage your farms"))
    (list 'farm-info (list "Here you can add and manage multiple farms"))
 
-   (list 'password (list "Password"))
+   (list 'password (list "Set password"))
    (list 'view-password (list "View password"))
    (list 'bad-password (list "Could not decrypt farm, are you sure this is the correct password?"))
    (list 'import-farm (list "Import farm"))
@@ -432,8 +432,8 @@
    (list 'low (list "Low"))
    (list 'high (list "High"))
 
-   (list 'backup-freq (list "Backup frequency"))
-   (list 'backup-blurb (list "Set the crap app to remind you to backup your farm data"))
+   (list 'backup-freq (list "Set the crap app to remind you to backup your farm data. This will prompt you to send an email to yourself with a file "))
+   (list 'backup-blurb (list "Backup frequency"))
    (list 'never (list "Never"))
    (list 'daily (list "Daily"))
    (list 'weekly (list "Weekly"))
@@ -441,8 +441,8 @@
 
    (list 'timed-backup-are-you-sure (list "Would you like to backup your farm data? Your last backup was: "))
    (list 'timed-backup (list "Timed backup"))
-   (list 'timed-backup-blurb (list "Email the your farm to your computer to back it up"))
-
+   (list 'timed-backup-blurb (list "Email your farm to your computer to back it up. This will export a crap app file that you can reload into the app if you lose your data. Your data will be encrypted which means you need to set a password in the form below (and remember it)."))
+   
    (list 'nutrients (list "Nutrient"))
 
    ))

@@ -332,7 +332,7 @@ public class StarwispBuilder
     }
 
     public static String Encrypt(String data, String password) {
-	Log.i("starwisp","starting encrypt");
+	//Log.i("starwisp","starting encrypt");
         try {
             byte[] salt = AesCbcWithIntegrity.generateSalt();
             String saltStr = AesCbcWithIntegrity.saltString(salt);
@@ -353,7 +353,6 @@ public class StarwispBuilder
     }
 
     public static String Decrypt(String data, String password) {
-        // todo: FIXME
         try {
 	    
             String[] saltcipherArray = data.split(":");
@@ -361,9 +360,9 @@ public class StarwispBuilder
 		Log.i("starwisp", "Can't parse input data to extract salt");
 		return null;
 	    } else {
-		Log.i("starwisp","iv: "+saltcipherArray[1]);
-		Log.i("starwisp","mac: "+saltcipherArray[2]);
-		Log.i("starwisp","ciphertext: "+saltcipherArray[3]);
+		//Log.i("starwisp","iv: "+saltcipherArray[1]);
+		//Log.i("starwisp","mac: "+saltcipherArray[2]);
+		//Log.i("starwisp","ciphertext: "+saltcipherArray[3]);
 		
 		String salt = saltcipherArray[0];
 		//Log.i("starwisp",salt);
@@ -374,9 +373,9 @@ public class StarwispBuilder
 		AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(password,salt);
 		//Log.i("starwisp","key="+AesCbcWithIntegrity.keyString(keys));
 		AesCbcWithIntegrity.CipherTextIvMac cipherTextIvMac = new AesCbcWithIntegrity.CipherTextIvMac(cipher);
-		Log.i("starwisp","ciphertext: "+bytesToHex(cipherTextIvMac.getCipherText()));
-		Log.i("starwisp","iv: "+bytesToHex(cipherTextIvMac.getIv()));
-		Log.i("starwisp","mac: "+bytesToHex(cipherTextIvMac.getMac()));
+		//Log.i("starwisp","ciphertext: "+bytesToHex(cipherTextIvMac.getCipherText()));
+		//Log.i("starwisp","iv: "+bytesToHex(cipherTextIvMac.getIv()));
+		//Log.i("starwisp","mac: "+bytesToHex(cipherTextIvMac.getMac()));
 		return AesCbcWithIntegrity.decryptString(cipherTextIvMac, keys);
 	    }
         } catch (java.security.GeneralSecurityException e) {

@@ -902,18 +902,6 @@
     0 (layout 'fill-parent 'wrap-content 0.75 'centre 0)
     (list
      (vert
-      (mtitle 'export)
-      (mtext 'export-blurb)
-
-      (mbutton 'email-button
-	       (lambda ()
-		 (save-data "fields.csv" (crap-csv db "farm" "event"))
-		 (list
-		  (send-mail "" "From your Crap Calculator"
-			     "Please find attached your field data."
-			     (list (string-append dirname "fields.csv"))))))
-      (spacer 20)
-
       (mtitle 'send-farm-title)
       (mtext 'send-farm-blurb)
       (horiz
@@ -941,12 +929,24 @@
 		   (list (string-append dirname "farm.crap.json"))
 		   (get-current 'password "crapapp")))))
       
+      (spacer 40)    
+      (mtitle 'backup-blurb)      
       (mspinner 'backup-freq backup-freq-list
 		(lambda (v) 
 		  (set-setting! "backup-freq" "varchar" (symbol->string (list-ref backup-freq-list v)))))
-      (mtext 'backup-blurb)
 
-      (spacer 20)    
+      (spacer 40)    
+      (mtitle 'export)
+      (mtext 'export-blurb)
+      (mbutton 'email-button
+	       (lambda ()
+		 (save-data "fields.csv" (crap-csv db "farm" "event"))
+		 (list
+		  (send-mail "" "From your Crap Calculator"
+			     "Please find attached your field data."
+			     (list (string-append dirname "fields.csv"))))))
+      (spacer 40)
+
       (mtitle 'reset-title)
       (mbutton 'factory-reset
 	       (lambda ()
@@ -957,6 +957,7 @@
 		   (lambda (v)
 		     (when (eqv? v 1)
 			   (nuke-database!)))))))
+      (spacer 40)    
       (mbutton 'done (lambda () (list (finish-activity 99)))))))
    (lambda (activity arg)
      (activity-layout activity))
@@ -1011,6 +1012,7 @@
 			       "Please find attached your farm data."
 			       (list (string-append dirname "farm.crap.json.enc")))))))))
     
+    (spacer 40)    
     (mbutton 'done (lambda () (list (finish-activity 99)))))
    (lambda (activity arg)
      (activity-layout activity))
