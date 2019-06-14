@@ -1228,6 +1228,15 @@
    ""
    (string->list str)))
 
+(define (escape-single-quotes str)
+  (foldl
+   (lambda (c r)
+     (if (equal? c #\')
+         (string-append r "\\'")
+         (string-append r (string c))))
+   ""
+   (string->list str)))
+
 (define (entity->assoc entity)
   (map 
    (lambda (ktv)
@@ -1235,7 +1244,9 @@
 	 ;; parse crops back into scheme so then can be
 	 ;; converted correctly into json - to avoid nasty
 	 ;; quote escaping nightmares
-	 (cons "crop" (json/parse-string (ktv-value ktv)))
+	 ;;(cons "crop" (json/parse-string (ktv-value ktv)))
+	 ;; just try the string as aidan does it...
+	 (cons "crop" (escape-single-quotes (ktv-value ktv)))
 	 ;; make it an assoc list
 	 (cons
 	  (remove-dashes (ktv-key ktv))	 
@@ -1379,7 +1390,10 @@
 	   (cond
 	    ((null? attribute-type) (msg "unknown import key: for " key) r)
 	    ;; crop is a string of a json object...
-	    ((eq? (car kv-pair) 'crop) (cons (ktv key attribute-type (params-list->text (cdr kv-pair))) r))
+	    ((eq? (car kv-pair) 'crop)
+	     (msg kv-pair)
+	     ;;(cons (ktv key attribute-type (dbg (params-list->text (cdr kv-pair)))) r)
+	     (cons (ktv key attribute-type (cdr kv-pair)) r))
 	    (else
 	     (cons (ktv key attribute-type (cdr kv-pair)) r))))))
    '()

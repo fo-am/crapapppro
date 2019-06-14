@@ -323,6 +323,14 @@ public class StarwispBuilder
         }
     }
 
+    private static String bytesToHex(byte[] hashInBytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hashInBytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    }
+
     public static String Encrypt(String data, String password) {
 	Log.i("starwisp","starting encrypt");
         try {
@@ -347,20 +355,30 @@ public class StarwispBuilder
     public static String Decrypt(String data, String password) {
         // todo: FIXME
         try {
-            // how long is the salt?
-            int salt_len = AesCbcWithIntegrity.saltString(AesCbcWithIntegrity.generateSalt()).length();
-            Log.i("starwisp",""+salt_len);
-	    if (data.length()<salt_len) {
-		Log.i("starwisp","Data passed to Decypt is too short");
-		return "";
+	    
+            String[] saltcipherArray = data.split(":");
+	    if (saltcipherArray.length != 4) {
+		Log.i("starwisp", "Can't parse input data to extract salt");
+		return null;
+	    } else {
+		Log.i("starwisp","iv: "+saltcipherArray[1]);
+		Log.i("starwisp","mac: "+saltcipherArray[2]);
+		Log.i("starwisp","ciphertext: "+saltcipherArray[3]);
+		
+		String salt = saltcipherArray[0];
+		//Log.i("starwisp",salt);
+		// just the rest is the cipher...
+		// skip ":" between em
+		String cipher = data.substring(salt.length()+1,data.length());
+		//Log.i("starwisp",cipher);
+		AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(password,salt);
+		//Log.i("starwisp","key="+AesCbcWithIntegrity.keyString(keys));
+		AesCbcWithIntegrity.CipherTextIvMac cipherTextIvMac = new AesCbcWithIntegrity.CipherTextIvMac(cipher);
+		Log.i("starwisp","ciphertext: "+bytesToHex(cipherTextIvMac.getCipherText()));
+		Log.i("starwisp","iv: "+bytesToHex(cipherTextIvMac.getIv()));
+		Log.i("starwisp","mac: "+bytesToHex(cipherTextIvMac.getMac()));
+		return AesCbcWithIntegrity.decryptString(cipherTextIvMac, keys);
 	    }
-            String salt = data.substring(0,salt_len);
-	    // skip ":" between em
-            String cipher = data.substring(salt_len+1,data.length());
-            //Log.i("starwisp",cipher);
-            AesCbcWithIntegrity.SecretKeys keys = AesCbcWithIntegrity.generateKeyFromPassword(password,salt);
-            AesCbcWithIntegrity.CipherTextIvMac cipherTextIvMac = new AesCbcWithIntegrity.CipherTextIvMac(cipher);
-            return AesCbcWithIntegrity.decryptString(cipherTextIvMac, keys);
         } catch (java.security.GeneralSecurityException e) {
             Log.i("starwisp", e.toString());
             return null;

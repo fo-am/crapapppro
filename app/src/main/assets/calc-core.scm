@@ -463,45 +463,47 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; stuff for manure nutrients
 
-(define (manure-get-totals manure-type amount soil-type soil-test n-total-percent params)
-  ;; sometimes we use crop available figures as totals
-  (let ((p-type (if (or (eq? (car soil-test) 'soil-p-2) 
-			(eq? (car soil-test) 'soil-p-3))
-		    'p-total
-		    'p-avail))
-	(k-type (if (or (eq? (cadr soil-test) 'soil-k-2-)
-			(eq? (cadr soil-test) 'soil-k-2+) 
-			(eq? (cadr soil-test) 'soil-k-3))
-		    'k-total
-		    'k-avail)))    
-    ;; total values
-    (process-nutrients 
-     amount 
-     (list
-      ;; if pig or cattle slurry, then this is the percent value
-      (if (zero? n-total-percent) 
-	  (decision manure-tree (append (list (list 'nutrient 'n-total)) params))
-	  n-total-percent)
-      (decision manure-tree (append (list (list 'nutrient p-type)) params))
-      (decision manure-tree (append (list (list 'nutrient k-type)) params))
-      (decision manure-tree (append (list (list 'nutrient 's-total)) params))
-      (decision manure-tree (append (list (list 'nutrient 'm-total)) params))))))
-
-(define (manure-get-crop-avail amount n-total-percent params)
-  ;; crop available values
+(define (manure-get-totals manure-type amount soil-type n-total-percent params)
+  ;; total values
   (process-nutrients 
    amount 
    (list
     ;; if pig or cattle slurry, then this is the percent value
-    (let ((n (decision manure-tree (append (quote ((nutrient n-avail))) params))))
-      ;; N/A value
-      (if (eq? n 'NA) n
-	  ;; apply percent or return straight value
-	  (if (zero? n-total-percent) n (pc n-total-percent n))))
-    (decision manure-tree (append (list (list 'nutrient 'p-avail)) params))
-    (decision manure-tree (append (list (list 'nutrient 'k-avail)) params))
-    (decision manure-tree (append (list (list 'nutrient 's-avail)) params))
-    (decision manure-tree (append (list (list 'nutrient 'm-avail)) params)))))
+    (if (zero? n-total-percent) 
+	(decision manure-tree (append (list (list 'nutrient 'n-total)) params))
+	n-total-percent)
+    (decision manure-tree (append (list (list 'nutrient 'p-total)) params))
+    (decision manure-tree (append (list (list 'nutrient 'k-total)) params))
+    (decision manure-tree (append (list (list 'nutrient 's-total)) params))
+    (decision manure-tree (append (list (list 'nutrient 'm-total)) params)))))
+
+(define (manure-get-crop-avail amount n-total-percent soil-test params)
+  ;; crop available values
+  ;; sometimes we use totals as crop available figures
+  (let ((p-type (if (or (eq? (car soil-test) 'soil-p-2) 
+			(eq? (car soil-test) 'soil-p-3)
+			(eq? (car soil-test) 'soil-p-4))
+		    'p-total
+		    'p-avail))
+	(k-type (if (or (eq? (cadr soil-test) 'soil-k-2-)
+			(eq? (cadr soil-test) 'soil-k-2+) 
+			(eq? (cadr soil-test) 'soil-k-3)
+			(eq? (cadr soil-test) 'soil-k-4))
+		    'k-total
+		    'k-avail)))    
+    (process-nutrients 
+     amount 
+     (list
+      ;; if pig or cattle slurry, then this is the percent value
+      (let ((n (decision manure-tree (append (quote ((nutrient n-avail))) params))))
+	;; N/A value
+	(if (eq? n 'NA) n
+	    ;; apply percent or return straight value
+	    (if (zero? n-total-percent) n (pc n-total-percent n))))
+      (decision manure-tree (append (list (list 'nutrient p-type)) params))
+      (decision manure-tree (append (list (list 'nutrient k-type)) params))
+      (decision manure-tree (append (list (list 'nutrient 's-avail)) params))
+      (decision manure-tree (append (list (list 'nutrient 'm-avail)) params))))))
 
 ;; crop here is only one identifier, not the crop params - grass-oilseed or normal
 (define (get-nutrients manure-type amount quality season crop soil-type application soil-test)
@@ -526,16 +528,16 @@
 			       (decision n-total-tree params) 0)))
       (let ((total-values (manure-get-totals 
 			   manure-type amount soil-type 
-			   soil-test n-total-percent params)))
+			   n-total-percent params)))
 	(if (or (eq? manure-type 'spent-mushroom) 
 		(eq? manure-type 'paper-crumble)
 		(eq? manure-type 'water-treatment-cake)
 		(eq? manure-type 'food-industry-waste))
 	    ;; these manures don't have crop avail figures
-	    (list total-values total-values)	  
+	    (list total-values total-values)
 	    (list
 	     total-values
-	     (manure-get-crop-avail amount  n-total-percent params)))))))
+	     (manure-get-crop-avail amount n-total-percent soil-test params)))))))
 
 (define (custom-manure->params type)
   (cond
@@ -560,7 +562,6 @@
 			  ((eq? soil-type 'sandyshallow) 'sandyshallow)
 			  ((eq? soil-type 'mediumshallow) 'sandyshallow)
 			  (else 'mediumheavy)))))))
-      (msg totals params)
       (list 
        ;; total
        (process-nutrients amount totals)
@@ -568,7 +569,7 @@
        (process-nutrients 
 	amount 
 	(list
-	 (dbg (pc (list-ref totals 0) (dbg (decision custom-manure-percent-tree (append (quote ((nutrient n-avail))) params)))))
+	 (pc (list-ref totals 0) (decision custom-manure-percent-tree (append (quote ((nutrient n-avail))) params)))
 	 (pc (list-ref totals 1) (decision custom-manure-percent-tree (append (quote ((nutrient p-avail))) params)))
 	 (pc (list-ref totals 2) (decision custom-manure-percent-tree (append (quote ((nutrient k-avail))) params)))
 	 (pc (list-ref totals 3) (decision custom-manure-percent-tree (append (quote ((nutrient s-avail))) params)))

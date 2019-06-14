@@ -111,13 +111,13 @@
       (let ((type-images (_type fym-images quality)))
 	(if (not type-images)
 	    (begin
-	      (msg "image not found for " type)
+	      ;;(msg "image not found for " type)
 	      "cattle_25m3") ;; replace with blank image??
-	    (dbg (cadr (_amount (cadr type-images) (car (cadr type-images)))))))
+	    (cadr (_amount (cadr type-images) (car (cadr type-images))))))
       (let ((type-images (_type images type)))
 	(if (not type-images)
 	    (begin
-	      (msg "image not found for " type)
+	      ;;(msg "image not found for " type)
 	      "cattle_25m3") ;; replace with blank image??
-	    (dbg (cadr (_amount (cadr type-images) (car (cadr type-images)))))))))
+	    (cadr (_amount (cadr type-images) (car (cadr type-images))))))))
 

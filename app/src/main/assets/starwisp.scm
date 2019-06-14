@@ -1114,7 +1114,6 @@
 		   (get-current 'password "crapapp")
 		   (string-append dirname "farm.crap.json")
 		   (lambda (success)
-		     (msg success)
 		     (cond 
 		      ((not success)
 		       (list
