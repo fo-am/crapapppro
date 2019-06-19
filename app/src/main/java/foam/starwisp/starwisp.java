@@ -104,7 +104,8 @@ public class starwisp extends StarwispActivity {
 	
 	if (Intent.ACTION_VIEW.equals(action) && type != null) {
 	    Log.e("starwisp", "we have an incoming thing "+type);
-	    if ("application/octet-stream".equals(type)) {
+	    if ("application/octet-stream".equals(type) ||
+		"text/*".equals(type)) {
 		Log.e("starwisp", "handling encoded json");
 		handleJSON(intent); // Handle text being sent
 	    }

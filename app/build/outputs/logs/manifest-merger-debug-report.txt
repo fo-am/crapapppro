@@ -1,18 +1,18 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-84:12
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-92:12
+INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-92:12
+INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-92:12
+INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-92:12
 MERGED from [com.google.android.gms:play-services-places:9.6.0] /home/dave/.gradle/caches/transforms-1/files-1.1/play-services-places-9.6.0.aar/185f96edff54d5bea3b1d540738fd00a/AndroidManifest.xml:16:1-19:12
 MERGED from [com.google.android.gms:play-services-maps:9.6.1] /home/dave/.gradle/caches/transforms-1/files-1.1/play-services-maps-9.6.1.aar/e17fba1894534ed7e56ce5b019e482f0/AndroidManifest.xml:16:1-25:12
 MERGED from [com.google.android.gms:play-services-base:9.6.1] /home/dave/.gradle/caches/transforms-1/files-1.1/play-services-base-9.6.1.aar/5c1e7d013b5c9cc2b95eeb7014cc48a6/AndroidManifest.xml:16:1-21:12
 MERGED from [com.google.android.gms:play-services-tasks:9.6.1] /home/dave/.gradle/caches/transforms-1/files-1.1/play-services-tasks-9.6.1.aar/286597784ab4dbd73a92629f14efb979/AndroidManifest.xml:2:1-5:12
 MERGED from [com.google.android.gms:play-services-basement:9.6.1] /home/dave/.gradle/caches/transforms-1/files-1.1/play-services-basement-9.6.1.aar/5f58b572c84909bc38aee64dc4ebd5f3/AndroidManifest.xml:16:1-23:12
 MERGED from [com.android.support:support-v4:24.0.0] /home/dave/.gradle/caches/transforms-1/files-1.1/support-v4-24.0.0.aar/dff85c106bd91915a8d6fd5f0c192744/AndroidManifest.xml:17:1-27:12
-INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-84:12
-INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-84:12
+INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-92:12
+INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-92:12
+INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:2:1-92:12
 	package
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:3:5-28
 		INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
@@ -82,7 +82,7 @@ ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 	android:anyDensity
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:24:9-34
 application
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:26:5-81:19
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:26:5-89:19
 MERGED from [com.google.android.gms:play-services-places:9.6.0] /home/dave/.gradle/caches/transforms-1/files-1.1/play-services-places-9.6.0.aar/185f96edff54d5bea3b1d540738fd00a/AndroidManifest.xml:18:5-19
 MERGED from [com.google.android.gms:play-services-places:9.6.0] /home/dave/.gradle/caches/transforms-1/files-1.1/play-services-places-9.6.0.aar/185f96edff54d5bea3b1d540738fd00a/AndroidManifest.xml:18:5-19
 MERGED from [com.google.android.gms:play-services-maps:9.6.1] /home/dave/.gradle/caches/transforms-1/files-1.1/play-services-maps-9.6.1.aar/e17fba1894534ed7e56ce5b019e482f0/AndroidManifest.xml:24:5-19
@@ -118,7 +118,7 @@ ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 	android:name
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:38:6-56
 activity#foam.starwisp.starwisp
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:44:7-59:20
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:44:7-67:20
 	android:label
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:46:13-45
 	android:noHistory
@@ -135,7 +135,7 @@ category#android.intent.category.LAUNCHER
 ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:49:17-77
 	android:name
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:49:27-74
-intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT+data:host:*+data:mimeType:*/*+data:pathPattern:*.crap.json.enc
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT+data:host:*+data:mimeType:application/octet-stream+data:pathPattern:*.json.enc
 ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:51:6-58:29
 action#android.intent.action.VIEW
 ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:52:15-67
@@ -146,83 +146,85 @@ ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
 	android:name
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:53:18-64
 data
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:54:15-57:59
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:54:15-57:54
 	android:host
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:55:19-35
 	android:pathPattern
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:57:19-56
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:57:19-51
 	android:mimeType
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:56:19-41
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:56:19-62
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT+data:host:*+data:mimeType:text/*+data:pathPattern:*.json.enc
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:59:6-66:29
 activity#foam.starwisp.CalcActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:61:9-72
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:69:9-72
 	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:61:19-60
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:69:19-60
 activity#foam.starwisp.NewFieldActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:62:9-76
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:70:9-76
 	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:62:19-64
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:70:19-64
 activity#foam.starwisp.FarmActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:63:9-97
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:71:9-97
 	android:noHistory
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:63:61-85
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:71:61-85
 	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:63:19-60
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:71:19-60
 activity#foam.starwisp.FieldActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:64:9-73
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:72:9-73
 	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:64:19-61
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:72:19-61
 activity#foam.starwisp.FieldHistoryActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:65:9-80
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:73:9-80
 	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:65:19-68
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:73:19-68
 activity#foam.starwisp.FieldCalcActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:66:9-77
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:74:9-77
 	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:66:19-65
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:74:19-65
 activity#foam.starwisp.CameraActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:67:9-74
-	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:67:19-62
-activity#foam.starwisp.EventViewActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:68:9-77
-	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:68:19-65
-activity#foam.starwisp.AboutActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:69:9-73
-	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:69:19-61
-activity#foam.starwisp.MainActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:70:9-72
-	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:70:19-60
-activity#foam.starwisp.EmailActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:71:9-73
-	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:71:19-61
-activity#foam.starwisp.ManureActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:72:9-74
-	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:72:19-62
-activity#foam.starwisp.CropSelectActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:73:9-78
-	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:73:19-66
-activity#foam.starwisp.ImportActivity
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:74:9-99
-	android:noHistory
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:74:63-87
-	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:74:19-62
-activity#foam.starwisp.BackupActivity
 ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:75:9-74
 	android:name
 		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:75:19-62
-meta-data#com.google.android.geo.API_KEY
-ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:77:9-79:70
-	android:value
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:79:13-68
+activity#foam.starwisp.EventViewActivity
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:76:9-77
 	android:name
-		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:78:13-58
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:76:19-65
+activity#foam.starwisp.AboutActivity
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:77:9-73
+	android:name
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:77:19-61
+activity#foam.starwisp.MainActivity
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:78:9-72
+	android:name
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:78:19-60
+activity#foam.starwisp.EmailActivity
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:79:9-73
+	android:name
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:79:19-61
+activity#foam.starwisp.ManureActivity
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:80:9-74
+	android:name
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:80:19-62
+activity#foam.starwisp.CropSelectActivity
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:81:9-78
+	android:name
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:81:19-66
+activity#foam.starwisp.ImportActivity
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:82:9-99
+	android:noHistory
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:82:63-87
+	android:name
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:82:19-62
+activity#foam.starwisp.BackupActivity
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:83:9-74
+	android:name
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:83:19-62
+meta-data#com.google.android.geo.API_KEY
+ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:85:9-87:70
+	android:value
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:87:13-68
+	android:name
+		ADDED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml:86:13-58
 uses-sdk
 INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/dave/StudioProjects/crapapppro/app/src/main/AndroidManifest.xml
