@@ -22,14 +22,15 @@
   '(subtype
     ((silage 
       (targetyield
+       ;; cut turns out not to matter for this part as it's total for whole year
        ((DM5-7
-         (cut ((one 70) (two NA) (three NA) (four NA))))
+         (cut ((one 70) (two 70) (three 70) (four 70))))
         (DM7-9
-         (cut ((one 80) (two 50) (three NA) (four NA))))
+         (cut ((one 130) (two 130) (three 130) (four 130))))
         (DM9-12
-         (cut ((one 100) (two 75) (three 75) (four NA))))  
+         (cut ((one 250) (two 250) (three 250) (four 250))))  
         (DM12-15+
-         (cut ((one 120) (two 90) (three 70) (four 30))))
+         (cut ((one 310) (two 310) (three 310) (four 310))))
         )))
       (grazed
        (targetyield
@@ -419,47 +420,59 @@
 (define grass-pk-tree ;;2017 update
   '(subtype
     ((silage
-      (cut
-       ((one
-         (nutrient
-          ((phosphorus
-            (p-index ((soil-p-0 100) (soil-p-1  70) (soil-p-2  40) (soil-p-3   20) (soil-p-4 0))))
-           (potassium
-            (k-index ((soil-k-0 140) (soil-k-1 110) (soil-k-2- 80) (soil-k-2+ 60) (soil-k-3   30) (soil-k-4 0))))
-           (magnesium
-            (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
-           (sulphur
-            (risk ((high 40) (low 0))))))) ;; potash numbers come from adding up previous autumn and spring values to make a total for the season
-       (two
-        (nutrient
-         ((phosphorus
-           (p-index ((soil-p-0 25) (soil-p-1  25) (soil-p-2  25) (soil-p-3   0) (soil-p-4 0))))
-          (potassium
-           (k-index ((soil-k-0 120) (soil-k-1 100) (soil-k-2- 90) (soil-k-2+ 60) (soil-k-3   40) (soil-k-4 0))))
-          (magnesium
-           (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
-          (sulphur
-            (risk ((high 40) (low 0)))))))
-       (three
-        (nutrient
-	 ((phosphorus
-           (p-index ((soil-p-0 15) (soil-p-1  15) (soil-p-2  15) (soil-p-3   0) (soil-p-4 0))))
-          (potassium
-           (k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 40) (soil-k-3   20))))
-          (magnesium
-           (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
-          (sulphur
-            (risk ((high 40) (low 0)))))))
-       (four
-        (nutrient
-         ((phosphorus
-           (p-index ((soil-p-0 10) (soil-p-1  10) (soil-p-2  10) (soil-p-3   0) (soil-p-4 0))))
-          (potassium
-           (k-index ((soil-k-0 70) (soil-k-1 70) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   20) (soil-k-4 0))))
-          (magnesium
-           (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
-          (sulphur
-            (risk ((high 40) (low 0))))))))))
+      ;; added up all the cuts to give values for the whole year
+      (nutrient
+       ((phosphorus
+	 (p-index ((soil-p-0 150) (soil-p-1 120) (soil-p-2 90) (soil-p-3 20) (soil-p-4 0))))
+	(potassium
+	 (k-index ((soil-k-0 410) (soil-k-1 360) (soil-k-2- 320) (soil-k-2+ 200) (soil-k-3 100) (soil-k-4 0))))
+	(magnesium
+	 (m-index ((soil-m-0 84) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+	(sulphur
+	 (risk ((high 160) (low 0))))))) ;; potash numbers come from adding up previous autumn and spring values to make a total for the season
+          
+     ;; (cut
+     ;;  ((one
+     ;;    (nutrient
+     ;;     ((phosphorus
+     ;;       (p-index ((soil-p-0 100) (soil-p-1  70) (soil-p-2  40) (soil-p-3 20) (soil-p-4 0))))
+     ;;      (potassium
+     ;;       (k-index ((soil-k-0 140) (soil-k-1 110) (soil-k-2- 80) (soil-k-2+ 60) (soil-k-3 30) (soil-k-4 0))))
+     ;;      (magnesium
+     ;;       (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     ;;      (sulphur
+     ;;       (risk ((high 40) (low 0))))))) ;; potash numbers come from adding up previous autumn and spring values to make a total for the season
+     ;; 	(two
+     ;;   (nutrient
+     ;;    ((phosphorus
+     ;;      (p-index ((soil-p-0 25) (soil-p-1  25) (soil-p-2  25) (soil-p-3   0) (soil-p-4 0))))
+     ;;     (potassium
+     ;;      (k-index ((soil-k-0 120) (soil-k-1 100) (soil-k-2- 90) (soil-k-2+ 60) (soil-k-3   40) (soil-k-4 0))))
+     ;;     (magnesium
+     ;;      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     ;;     (sulphur
+     ;;       (risk ((high 40) (low 0)))))))
+     ;;  (three
+     ;;   (nutrient
+     ;; 	 ((phosphorus
+     ;;      (p-index ((soil-p-0 15) (soil-p-1  15) (soil-p-2  15) (soil-p-3   0) (soil-p-4 0))))
+     ;;     (potassium
+     ;;      (k-index ((soil-k-0 80) (soil-k-1 80) (soil-k-2- 80) (soil-k-2+ 40) (soil-k-3   20))))
+     ;;     (magnesium
+     ;;      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     ;;     (sulphur
+     ;;       (risk ((high 40) (low 0)))))))
+     ;;  (four
+     ;;   (nutrient
+     ;;    ((phosphorus
+     ;;      (p-index ((soil-p-0 10) (soil-p-1  10) (soil-p-2  10) (soil-p-3   0) (soil-p-4 0))))
+     ;;     (potassium
+     ;;      (k-index ((soil-k-0 70) (soil-k-1 70) (soil-k-2- 70) (soil-k-2+ 40) (soil-k-3   20) (soil-k-4 0))))
+     ;;     (magnesium
+     ;;      (m-index ((soil-m-0 21) (soil-m-1 0) (soil-m-2 0) (soil-m-3 0) (soil-m-4 0) (soil-m-5 0) (soil-m-6 0) (soil-m-7 0) (soil-m-8 0) (soil-m-9 0))))
+     ;;     (sulphur
+     ;;       (risk ((high 40) (low 0)))))))))
+     
      (grazed
       (nutrient
        ((phosphorus

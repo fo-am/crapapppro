@@ -150,7 +150,7 @@ public class StarwispBuilder
 {
     Scheme m_Scheme;
     NetworkManager m_NetworkManager;
-	LocationManager m_LocationManager;
+    LocationManager m_LocationManager;
     DorisLocationListener m_GPS;
     Handler m_Handler;
     SoundManager m_SoundManager;
@@ -932,14 +932,12 @@ public class StarwispBuilder
 
                 v.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     public void onProgressChanged(SeekBar v, int a, boolean s) {
-			// go red to indicate 'high' nutrient levels
-                        LayerDrawable ld = (LayerDrawable) v.getProgressDrawable();
-                        ClipDrawable d1 = (ClipDrawable) ld.findDrawableByLayerId(R.id.seekprogress);
-                        int c=(int)((a/100.0f)*255.0f);
-                        int mc = 255-c;
-                        d1.setColorFilter(Color.argb(127,c,mc,mc), PorterDuff.Mode.SRC_OVER);
-
-                        CallbackArgs(ctx,ctxname,v.getId(),Integer.toString(a));
+			// LayerDrawable ld = (LayerDrawable) v.getProgressDrawable();
+			// ClipDrawable d1 = (ClipDrawable) ld.findDrawableByLayerId(R.id.seekprogress);
+			// int c=(int)((a/100.0f)*255.0f);
+			// int mc = 255-c;
+			// d1.setColorFilter(Color.argb(127,c,mc,mc), PorterDuff.Mode.SRC_OVER);
+			CallbackArgs(ctx,ctxname,v.getId(),Integer.toString(a));
                     }
                     public void onStartTrackingTouch(SeekBar v) {}
                     public void onStopTrackingTouch(SeekBar v) {}
@@ -2083,7 +2081,14 @@ public class StarwispBuilder
 			    }
 			});
                 }
-            }
+		if (token.equals("redness")) {
+		    LayerDrawable ld = (LayerDrawable) v.getProgressDrawable();
+		    ClipDrawable d1 = (ClipDrawable) ld.findDrawableByLayerId(R.id.seekprogress);
+		    int c=arr.getInt(3);
+		    int mc = (255-c)/2;
+		    d1.setColorFilter(Color.argb(127,c,mc,0), PorterDuff.Mode.SRC_OVER);
+		}
+	    }
 
             if (type.equals("spinner")) {
                 Spinner v = (Spinner)vv;

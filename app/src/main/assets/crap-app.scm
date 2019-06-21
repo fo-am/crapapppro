@@ -174,11 +174,13 @@
       (update-widget 'text-view (get-id "amount-value") 'text
 		     (string-append (convert-output->string amount (get-units)) " " (get-units)))
 
+      (dbg (update-widget 'seek-bar (get-id "amount") 'redness (if (> (dbg (list-ref total-amounts 0)) NVZ-nitrogen-warning) 255 0)))
+      
       ;; nutrient values: "crop-avail (total)"
       (update-widget 'text-view (get-id "na")
 		     'text 
 		     (convert-output->string (list-ref amounts 0) "kg/ha"))
-		     
+      
       (update-widget 'text-view (get-id "pa")
 		     'text 
 		      (convert-output->string (list-ref amounts 1) "kg/ha"))

@@ -18,6 +18,8 @@
 
 (msg "calc-core")
 
+(define NVZ-nitrogen-warning 250)
+
 (define manure-type-list (list 'cattle 'fym 'pig 'poultry 'compost 
 			       'paper-crumble 'spent-mushroom 
 			       'water-treatment-cake 
@@ -31,7 +33,7 @@
 
 (define soil-test-p-list (list 'soil-p-0 'soil-p-1 'soil-p-2 'soil-p-3 'soil-p-4))
 (define soil-test-k-list (list 'soil-k-0 'soil-k-1 'soil-k-2- 'soil-k-2+ 'soil-k-3 'soil-k-4))
-(define soil-test-m-list (list 'soil-m-0 'soil-m-1 'soil-m-2 'soil-m-4 'soil-m-5 'soil-m-6 'soil-m-7 'soil-m-8 'soil-m-9))
+(define soil-test-m-list (list 'soil-m-0 'soil-m-1 'soil-m-2 'soil-m-3 'soil-m-4 'soil-m-5 'soil-m-6 'soil-m-7 'soil-m-8 'soil-m-9))
 
 (define crop-type-for-manure-calc-list 
   (list 'normal 'grass-oilseed))
@@ -151,6 +153,8 @@
    ((eq? t 'pig) "m3/ha")
    ((eq? t 'poultry) "tons/ha")
    ((eq? t 'compost) "tons/ha")
+   ((eq? t 'digestate-food) "m3/ha")
+   ((eq? t 'digestate-farm) "m3/ha")
    (else "tons/ha")))
 
 (define (imperial->metric amount units)
@@ -330,15 +334,23 @@
       '((crop grass)) 
       '((crop wheat)))) ;; anything else will be converted to "normal"
 
-;; table on pp 188
+;; table on pp 188 (replaced with new version, see below)
 (define (grassland-modifier crop soil previous-crop recently-grown-grass)
-  ;; already checked it's grass -> grass
-  ;; we don't know about previous arable crops
-  (if (eq? recently-grown-grass 'yes)
-      grassland-high-sns
-      (if (eq? soil 'sandyshallow)
-	  grassland-low-sns
-	  grassland-med-sns)))
+  (if (previous-crop-grass? previous-crop)
+      ;; grass -> grass
+      (if (eq? recently-grown-grass 'yes)
+	  grassland-high-sns
+	  (if (eq? soil 'sandyshallow)
+	      grassland-low-sns
+	      grassland-med-sns))
+      ;; arable -> grass table 3.6 grassland recommendation page 15
+      ;; cereals,sugar beet, linseed - or light sand soil
+      (if (and (not (eq? soil 'sandyshallow))
+	       (or (eq? previous-crop 'potato)
+		   (eq? previous-crop 'peas)
+		   (eq? previous-crop 'beans)))     
+	  grassland-med-sns
+	  grassland-low-sns)))
 
 (define (sns-search tree params regularly-manure)
   (let ((sns (decision tree params)))
@@ -358,8 +370,9 @@
     ;; special options needed for grass:
     (cond
      ;; from grass -> grass (pp 188)
-     ((and (previous-crop-grass? previous-crop)
-	   (not (is-crop-arable? crop)))
+     ;; changed from anything -> grass
+     ;; (new rb209 grassland recommendations pp 12 table 3.6)
+     ((not (is-crop-arable? crop))
       (grassland-modifier crop soil previous-crop recently-grown-grass))
      ;; grass -> arable (pp 94)
      ((and (is-crop-arable? crop) 
