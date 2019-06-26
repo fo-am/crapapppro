@@ -343,12 +343,15 @@
 	  (if (eq? soil 'sandyshallow)
 	      grassland-low-sns
 	      grassland-med-sns))
-      ;; arable -> grass table 3.6 grassland recommendation page 15
-      ;; cereals,sugar beet, linseed - or light sand soil
-      (if (and (not (eq? soil 'sandyshallow))
-	       (or (eq? previous-crop 'potato)
-		   (eq? previous-crop 'peas)
-		   (eq? previous-crop 'beans)))     
+      ;; arable -> grass
+      ;; table 3.6 grassland recommendation page 15
+      ;; ignore bottom part (cereals, sugar beet etc - as this is just
+      ;; saying the default situation is low sns)
+      (if (and (not (eq? soil 'sandyshallow)
+		    (or (eq? previous-crop 'potato)
+			(eq? previous-crop 'peas)
+			(eq? previous-crop 'oilseed)
+			(eq? previous-crop 'beans))))
 	  grassland-med-sns
 	  grassland-low-sns)))
 
@@ -358,7 +361,7 @@
     (if (and (< sns 6) (eq? regularly-manure 'yes))
 	(+ sns 1)
 	sns)))
-    
+
 ;; calculate soil nitrogen supply
 (define (calc-sns rainfall soil crop previous-crop regularly-manure recently-grown-grass)
   (let ((params (list 
