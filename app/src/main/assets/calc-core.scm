@@ -347,11 +347,11 @@
       ;; table 3.6 grassland recommendation page 15
       ;; ignore bottom part (cereals, sugar beet etc - as this is just
       ;; saying the default situation is low sns)
-      (if (and (not (eq? soil 'sandyshallow)
-		    (or (eq? previous-crop 'potato)
-			(eq? previous-crop 'peas)
-			(eq? previous-crop 'oilseed)
-			(eq? previous-crop 'beans))))
+      (if (and (not (eq? soil 'sandyshallow))
+	       (or (eq? previous-crop 'potato)
+		   (eq? previous-crop 'peas)
+		   (eq? previous-crop 'oilseed)
+		   (eq? previous-crop 'beans)))
 	  grassland-med-sns
 	  grassland-low-sns)))
 

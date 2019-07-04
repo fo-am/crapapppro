@@ -7,10 +7,6 @@
 "choices": [{
 "choice": "silage",
 "value": {
-"decision": "cut",
-"choices": [{
-"choice": "one",
-"value": {
 "decision": "nutrient",
 "choices": [{
 "choice": "phosphorus",
@@ -18,214 +14,16 @@
 "decision": "p-index",
 "choices": [{
 "choice": "soil-p-0",
-"value": 100
+"value": 150
 }, {
 "choice": "soil-p-1",
-"value": 70
-}, {
-"choice": "soil-p-2",
-"value": 40
-}, {
-"choice": "soil-p-3",
-"value": 20
-}, {
-"choice": "soil-p-4",
-"value": 0
-}]
-}
-}, {
-"choice": "potassium",
-"value": {
-"decision": "k-index",
-"choices": [{
-"choice": "soil-k-0",
-"value": 140
-}, {
-"choice": "soil-k-1",
-"value": 110
-}, {
-"choice": "soil-k-2-",
-"value": 80
-}, {
-"choice": "soil-k-2+",
-"value": 60
-}, {
-"choice": "soil-k-3",
-"value": 30
-}, {
-"choice": "soil-k-4",
-"value": 0
-}]
-}
-}, {
-"choice": "magnesium",
-"value": {
-"decision": "m-index",
-"choices": [{
-"choice": "soil-m-0",
-"value": 21
-}, {
-"choice": "soil-m-1",
-"value": 0
-}, {
-"choice": "soil-m-2",
-"value": 0
-}, {
-"choice": "soil-m-3",
-"value": 0
-}, {
-"choice": "soil-m-4",
-"value": 0
-}, {
-"choice": "soil-m-5",
-"value": 0
-}, {
-"choice": "soil-m-6",
-"value": 0
-}, {
-"choice": "soil-m-7",
-"value": 0
-}, {
-"choice": "soil-m-8",
-"value": 0
-}, {
-"choice": "soil-m-9",
-"value": 0
-}]
-}
-}, {
-"choice": "sulphur",
-"value": {
-"decision": "risk",
-"choices": [{
-"choice": "high",
-"value": 40
-}, {
-"choice": "low",
-"value": 0
-}]
-}
-}]
-}
-}, {
-"choice": "two",
-"value": {
-"decision": "nutrient",
-"choices": [{
-"choice": "phosphorus",
-"value": {
-"decision": "p-index",
-"choices": [{
-"choice": "soil-p-0",
-"value": 25
-}, {
-"choice": "soil-p-1",
-"value": 25
-}, {
-"choice": "soil-p-2",
-"value": 25
-}, {
-"choice": "soil-p-3",
-"value": 0
-}, {
-"choice": "soil-p-4",
-"value": 0
-}]
-}
-}, {
-"choice": "potassium",
-"value": {
-"decision": "k-index",
-"choices": [{
-"choice": "soil-k-0",
 "value": 120
 }, {
-"choice": "soil-k-1",
-"value": 100
-}, {
-"choice": "soil-k-2-",
+"choice": "soil-p-2",
 "value": 90
 }, {
-"choice": "soil-k-2+",
-"value": 60
-}, {
-"choice": "soil-k-3",
-"value": 40
-}, {
-"choice": "soil-k-4",
-"value": 0
-}]
-}
-}, {
-"choice": "magnesium",
-"value": {
-"decision": "m-index",
-"choices": [{
-"choice": "soil-m-0",
-"value": 21
-}, {
-"choice": "soil-m-1",
-"value": 0
-}, {
-"choice": "soil-m-2",
-"value": 0
-}, {
-"choice": "soil-m-3",
-"value": 0
-}, {
-"choice": "soil-m-4",
-"value": 0
-}, {
-"choice": "soil-m-5",
-"value": 0
-}, {
-"choice": "soil-m-6",
-"value": 0
-}, {
-"choice": "soil-m-7",
-"value": 0
-}, {
-"choice": "soil-m-8",
-"value": 0
-}, {
-"choice": "soil-m-9",
-"value": 0
-}]
-}
-}, {
-"choice": "sulphur",
-"value": {
-"decision": "risk",
-"choices": [{
-"choice": "high",
-"value": 40
-}, {
-"choice": "low",
-"value": 0
-}]
-}
-}]
-}
-}, {
-"choice": "three",
-"value": {
-"decision": "nutrient",
-"choices": [{
-"choice": "phosphorus",
-"value": {
-"decision": "p-index",
-"choices": [{
-"choice": "soil-p-0",
-"value": 15
-}, {
-"choice": "soil-p-1",
-"value": 15
-}, {
-"choice": "soil-p-2",
-"value": 15
-}, {
 "choice": "soil-p-3",
-"value": 0
+"value": 20
 }, {
 "choice": "soil-p-4",
 "value": 0
@@ -237,115 +35,19 @@
 "decision": "k-index",
 "choices": [{
 "choice": "soil-k-0",
-"value": 80
+"value": 410
 }, {
 "choice": "soil-k-1",
-"value": 80
+"value": 360
 }, {
 "choice": "soil-k-2-",
-"value": 80
+"value": 320
 }, {
 "choice": "soil-k-2+",
-"value": 40
+"value": 200
 }, {
 "choice": "soil-k-3",
-"value": 20
-}]
-}
-}, {
-"choice": "magnesium",
-"value": {
-"decision": "m-index",
-"choices": [{
-"choice": "soil-m-0",
-"value": 21
-}, {
-"choice": "soil-m-1",
-"value": 0
-}, {
-"choice": "soil-m-2",
-"value": 0
-}, {
-"choice": "soil-m-3",
-"value": 0
-}, {
-"choice": "soil-m-4",
-"value": 0
-}, {
-"choice": "soil-m-5",
-"value": 0
-}, {
-"choice": "soil-m-6",
-"value": 0
-}, {
-"choice": "soil-m-7",
-"value": 0
-}, {
-"choice": "soil-m-8",
-"value": 0
-}, {
-"choice": "soil-m-9",
-"value": 0
-}]
-}
-}, {
-"choice": "sulphur",
-"value": {
-"decision": "risk",
-"choices": [{
-"choice": "high",
-"value": 40
-}, {
-"choice": "low",
-"value": 0
-}]
-}
-}]
-}
-}, {
-"choice": "four",
-"value": {
-"decision": "nutrient",
-"choices": [{
-"choice": "phosphorus",
-"value": {
-"decision": "p-index",
-"choices": [{
-"choice": "soil-p-0",
-"value": 10
-}, {
-"choice": "soil-p-1",
-"value": 10
-}, {
-"choice": "soil-p-2",
-"value": 10
-}, {
-"choice": "soil-p-3",
-"value": 0
-}, {
-"choice": "soil-p-4",
-"value": 0
-}]
-}
-}, {
-"choice": "potassium",
-"value": {
-"decision": "k-index",
-"choices": [{
-"choice": "soil-k-0",
-"value": 70
-}, {
-"choice": "soil-k-1",
-"value": 70
-}, {
-"choice": "soil-k-2-",
-"value": 70
-}, {
-"choice": "soil-k-2+",
-"value": 40
-}, {
-"choice": "soil-k-3",
-"value": 20
+"value": 100
 }, {
 "choice": "soil-k-4",
 "value": 0
@@ -357,7 +59,7 @@
 "decision": "m-index",
 "choices": [{
 "choice": "soil-m-0",
-"value": 21
+"value": 84
 }, {
 "choice": "soil-m-1",
 "value": 0
@@ -393,12 +95,10 @@
 "decision": "risk",
 "choices": [{
 "choice": "high",
-"value": 40
+"value": 160
 }, {
 "choice": "low",
 "value": 0
-}]
-}
 }]
 }
 }]
