@@ -877,7 +877,7 @@
 		  (entity-update-single-value! (ktv "type" "varchar" (list-ref custom-manure-type-list v))) '()))
       (horiz
        (delete-button)
-       (mbutton-scale 'back (lambda () (list (finish-activity 99))))))))
+       (mbutton-scale 'save (lambda () (list (finish-activity 99))))))))
    
    (lambda (activity arg)
      (activity-layout activity))
