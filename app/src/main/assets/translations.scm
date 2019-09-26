@@ -334,8 +334,8 @@
    (list 'composted (list "Composted"))
    
    (list 'barley (list "Barley"))
-   (list 'incorporated (list "Incorporated"))
-   (list 'removed (list "Removed"))
+   (list 'incorporated (list "Straw incorporated"))
+   (list 'removed (list "Straw removed"))
    (list 'wholecrop (list "Wholecrop"))
    (list 'feed (list "Feed"))
    (list 'malt (list "Malt"))
