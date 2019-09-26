@@ -55,7 +55,7 @@
          )
       (established
        (sown
-        ((spring
+        ((spring-sown
           (sns ((grassland-low-sns 60) (grassland-med-sns 60) (grassland-high-sns 60))))
          (summer-autumn
           (sns ((grassland-low-sns 40) (grassland-med-sns 15) (grassland-high-sns 0))))

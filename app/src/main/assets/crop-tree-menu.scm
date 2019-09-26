@@ -188,7 +188,7 @@
      'grass 'subtype
      (list
       (tree-menu
-       'established 'sown (list 'spring 'summer-autumn 'clover))
+       'established 'sown (list 'spring-sown 'summer-autumn 'clover))
       (tree-menu
        'grazed
        'targetyield
