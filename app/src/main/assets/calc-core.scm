@@ -79,8 +79,8 @@
 (define backup-freq-list (list 'never 'daily 'weekly 'monthly))
 
 ;; metric/imperial conversion
-(define (tons/acre->tons/ha a) (* a 2.47105381))
-(define (tons/ha->tons/acre a) (/ a 2.47105381))
+(define (tons/acre->tonnes/ha a) (* a 2.47105381))
+(define (tonnes/ha->tons/acre a) (/ a 2.47105381))
 (define (gallons/acre->m3/ha a) (* a 0.0112336377))
 (define (m3/ha->gallons/acre a) (/ a 0.0112336377))
 (define (kg/ha->units/acre a) (* a 0.8))
@@ -151,18 +151,18 @@
   (cond
    ((eq? t 'cattle) "m3/ha")
    ((eq? t 'pig) "m3/ha")
-   ((eq? t 'poultry) "tons/ha")
-   ((eq? t 'compost) "tons/ha")
+   ((eq? t 'poultry) "tonnes/ha")
+   ((eq? t 'compost) "tonnes/ha")
    ((eq? t 'digestate-food) "m3/ha")
    ((eq? t 'digestate-farm) "m3/ha")
-   (else "tons/ha")))
+   (else "tonnes/ha")))
 
 (define (imperial->metric amount units)
   (if (eq? (current-units) 'metric)
       amount
       (if (equal? units "m3/ha")
           (gallons/acre->m3/ha amount)
-          (tons/acre->tons/ha amount))))
+          (tons/acre->tonnes/ha amount))))
 
 (define (metric->imperial amount units)
   (if (eq? (current-units) 'metric)
@@ -178,14 +178,15 @@
     ;;(substring t 0 (- (string-length t) 1))
     t))
 
+;; todo: this text should be in translations.scm
 (define (convert-input amount units)
   (if (eq? (current-units) 'metric)
       amount
       (cond
        ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
         (gallons/acre->m3/ha amount))
-       ((or (equal? units "tons/ha") (equal? units "tons/acre"))
-        (tons/acre->tons/ha amount))
+       ((or (equal? units "tonnes/ha") (equal? units "tons/acre"))
+        (tons/acre->tonnes/ha amount))
        ((or (equal? units "kg/ha") (equal? units "units/acre"))
         (units/acre->kg/ha amount))
        ((or (equal? units "hectares") (equal? units "acres"))
@@ -204,8 +205,8 @@
 	 (cond
 	  ((or (equal? units "m3/ha") (equal? units "gallons/acre"))
 	   (m3/ha->gallons/acre amount))
-	  ((or (equal? units "tons/ha") (equal? units "tons/acre"))
-	   (tons/ha->tons/acre amount))
+	  ((or (equal? units "tonnes/ha") (equal? units "tons/acre"))
+	   (tonnes/ha->tons/acre amount))
 	  ((or (equal? units "kg/ha") (equal? units "units/acre"))
 	   (kg/ha->units/acre amount))
 	  ((or (equal? units "hectares") (equal? units "acres"))
