@@ -203,9 +203,9 @@
    (list 'm-cost-imperial (list "MgO (£ per unit)"))
 
    ;; soil tests
-   (list 'soil-test-p (list "P"))
-   (list 'soil-test-k (list "K"))
-   (list 'soil-test-m (list "Mg"))
+   (list 'soil-test-p (list "P index"))
+   (list 'soil-test-k (list "K index"))
+   (list 'soil-test-m (list "Mg index"))
 
    (list 'soil-p-0 (list "0"))
    (list 'soil-p-1 (list "1"))
@@ -314,7 +314,7 @@
    (list 'paper-crumble (list "Paper crumble"))
    (list 'chemical-physical (list "Chemical/Physical"))
    (list 'biological (list "Biological"))
-   (list 'spent-mushroom (list "Spent mushroom"))
+   (list 'spent-mushroom (list "Spent mushroom compost"))
    (list 'water-treatment-cake (list "Water treatment cake"))
    (list 'food-industry-waste (list "Food industry waste"))
    (list 'dairy (list "Dairy"))
