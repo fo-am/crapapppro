@@ -345,7 +345,7 @@
 	      grassland-low-sns
 	      grassland-med-sns))
       ;; arable -> grass
-      ;; table 3.6 grassland recommendation page 15
+      ;; table 3.6 grassland recommendation page 13
       ;; ignore bottom part (cereals, sugar beet etc - as this is just
       ;; saying the default situation is low sns)
       (if (and (not (eq? soil 'sandyshallow))
@@ -529,6 +529,7 @@
 		      (list 'quality quality) 
 		      (list 'season season) 
 		      (list 'crop crop)
+		      (list 'p-index (car soil-test)) ;; first soil test item is P
 		      ;; also we have to convert soil to the two
 		      ;; types in manure (pp 66, note b)
 		      (list 'soil (cond 
@@ -543,18 +544,9 @@
 				   (eq? manure-type 'cattle)
 				   (eq? manure-type 'poultry))
 			       (decision n-total-tree params) 0)))
-      (let ((total-values (manure-get-totals 
-			   manure-type amount soil-type 
-			   n-total-percent params)))
-	(if (or (eq? manure-type 'spent-mushroom) 
-		(eq? manure-type 'paper-crumble)
-		(eq? manure-type 'water-treatment-cake)
-		(eq? manure-type 'food-industry-waste))
-	    ;; these manures don't have crop avail figures
-	    (list total-values total-values)
-	    (list
-	     total-values
-	     (manure-get-crop-avail amount n-total-percent soil-test params)))))))
+      (list
+       (manure-get-totals manure-type amount soil-type n-total-percent params)
+       (manure-get-crop-avail amount n-total-percent soil-test params)))))
 
 (define (custom-manure->params type)
   (cond

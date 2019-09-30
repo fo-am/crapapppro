@@ -799,7 +799,7 @@
   (quote (paper-crumble
           (quality
            ((chemical-physical (nutrient ((n-total 2.0)
-                                          (n-avail NA) ;;no data on crop available
+                                          (n-avail 0.2) ;;no data on crop available
                                           (p-total 0.4)
                                           (p-avail NA) ;;no data on crop available
                                           (k-total 0.2)
@@ -809,21 +809,26 @@
                                           (m-total 1.4)
                                           (m-avail 1.4))))
             (biological (nutrient ((n-total 7.5)
-                                          (n-avail NA) ;;no data on crop available
-                                          (p-total 3.8)
-                                          (p-avail NA) ;;no data on crop available
-                                          (k-total 0.4)
-                                          (k-avail NA) ;;no data on crop available
-                                          (s-total 2.4)
-                                          (s-avail NA) ;;no data on crop available
-                                          (m-total 1.0)
-                                          (m-avail 1.0)))))))))
+				   (n-avail 0.8) ;;no data on crop available
+				   (p-total 3.8)
+				   (p-avail NA) ;;no data on crop available
+				   (k-total 0.4)
+				   (k-avail NA) ;;no data on crop available
+				   (s-total 2.4)
+				   (s-avail NA) ;;no data on crop available
+				   (m-total 1.0)
+				   (m-avail 1.0)))))))))
            
 (define spent-mushroom-tree ;;2017 update
   (quote (spent-mushroom (nutrient ((n-total 6.0)
-                                    (n-avail NA) ;;no data on crop available
+                                    (n-avail 1.2)
                                     (p-total 5.0)
-                                    (p-avail NA) ;;no data on crop available
+                                    (p-avail
+				     (p-index
+				      ((soil-p-0 2.5)
+				       (soil-p-1 2.5) ;; new data 50%
+				       (soil-p-2 2.5)
+				       (default 5.0)))) ;; new data 50%
                                     (k-total 9.0)
                                     (k-avail NA) ;;no data on crop available
                                     (s-total NA)
@@ -847,7 +852,7 @@
   (quote (food-industry-waste
           (quality
            ((dairy (nutrient ((n-total 1.0)
-                              (n-avail NA) ;;no data on crop available
+                              (n-avail 0.1) ;;no data on crop available
                               (p-total 0.8)
                               (p-avail NA) ;;no data on crop available
                               (k-total 0.2)
@@ -857,17 +862,17 @@
                               (m-total NA)
                               (m-avail NA))))
             (soft-drinks (nutrient ((n-total 0.3)
-                                    (n-avail NA) ;;no data on crop available
+                                    (n-avail 0.1) ;; < 0.1??
                                     (p-total 0.2)
                                     (p-avail NA) ;;no data on crop available
                                     (k-total 0)
-                                    (k-avail 0) 
+                                    (k-avail NA) 
                                     (s-total NA)
                                     (s-avail NA)
                                     (m-total NA)
                                     (m-avail NA))))
             (brewing (nutrient ((n-total 2.0)
-                                (n-avail NA) ;;no data on crop available
+                                (n-avail 0.1) ;; <0.1??
                                 (p-total 0.8)
                                 (p-avail NA) ;;no data on crop available
                                 (k-total 0.2)
@@ -877,7 +882,7 @@
                                 (m-total NA)
                                 (m-avail NA))))
            (general (nutrient ((n-total 1.6)
-                               (n-avail NA) ;;no data on crop available
+                               (n-avail 0.1) ;; new data
                                (p-total 0.7)
                                (p-avail NA) ;;no data on crop available
                                (k-total 0.2)

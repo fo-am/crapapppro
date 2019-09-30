@@ -139,9 +139,6 @@
          (abs (- amount (car s))))
       (_amount (cdr images) (car images)))
      (else (_amount (cdr images) s))))
-  (msg (symbol? type))
-  (msg (string? type))
-  (msg type)
   (if (eq? type 'fym)
       ;; switch to special fym list
       (let ((type-images (_type fym-images quality)))
