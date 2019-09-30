@@ -47,7 +47,7 @@
 "options": [{
 "name": "established",
 "category": "sown",
-"options": ["spring", "summer-autumn", "clover"]
+"options": ["spring-sown", "summer-autumn", "clover"]
 }, {
 "name": "grazed",
 "category": "targetyield",

@@ -6,13 +6,28 @@
 "decision": "quality",
 "choices": [{
 "choice": "dm2",
-"value": 1.5
+"value": 1.6
 }, {
 "choice": "dm6",
 "value": 2.6
 }, {
 "choice": "dm10",
 "value": 3.6
+}, {
+"choice": "dirtywater",
+"value": 0.5
+}, {
+"choice": "solid",
+"value": 4.0
+}, {
+"choice": "liquidstrainer",
+"value": 1.5
+}, {
+"choice": "liquidweeping",
+"value": 2.0
+}, {
+"choice": "liquidmechanical",
+"value": 3.0
 }]
 }
 }, {
@@ -28,6 +43,12 @@
 }, {
 "choice": "dm6",
 "value": 4.7
+}, {
+"choice": "liquid",
+"value": 3.6
+}, {
+"choice": "solid",
+"value": 5.0
 }]
 }
 }, {

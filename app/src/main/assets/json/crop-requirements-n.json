@@ -267,7 +267,7 @@
 "value": {
 "decision": "sown",
 "choices": [{
-"choice": "spring",
+"choice": "spring-sown",
 "value": {
 "decision": "sns",
 "choices": [{
