@@ -892,12 +892,15 @@
 	(update-type! v)
 	(update-amount! (convert-input (* (current-seek-mul) 50) (get-units)))
 	(list
+	 (if (eq? v 'fym)
+	     (update-widget 'text-view (get-id "quality") 'text (mtext-lookup 'livestock-type))
+	     (update-widget 'text-view (get-id "quality") 'text (mtext-lookup 'quality)))
+	 
 	 (update-widget 'seek-bar (get-id "amount") 'progress 50)
 	 (update-widget 'image-view (get-id "example") 'image
 			(find-image (calc-type calc)
 				    (calc-quality calc)
-				    (calc-amount calc)))
-	 )
+				    (calc-amount calc))))
 	;; enable/disable the qualities and applications depending on the manure type
 	(let ((qualities (get-qualities-for-type-inc-custom v)))
 	  (if (null? qualities)
@@ -1396,7 +1399,6 @@
 	    ((null? attribute-type) (msg "unknown import key: for " key) r)
 	    ;; crop is a string of a json object...
 	    ((eq? (car kv-pair) 'crop)
-	     (msg kv-pair)
 	     ;;(cons (ktv key attribute-type (dbg (params-list->text (cdr kv-pair)))) r)
 	     (cons (ktv key attribute-type (cdr kv-pair)) r))
 	    (else

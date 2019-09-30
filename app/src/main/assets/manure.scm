@@ -40,14 +40,21 @@
    (type
     ((cattle ;; no 2016 overall recommendations for cattle slurry...
       (quality 
-       ((DM2 1.5) ;; RB209 8th ed: 1.6
+       ((DM2 1.6) ;; RB209 8th ed: 1.6
 	(DM6 2.6)
-	(DM10 3.6))))
+	(DM10 3.6)
+	(dirtywater 0.5) ;; 2017 organic materials p19 (and rest)
+	(solid 4.0)
+        (liquidstrainer 1.5)
+        (liquidweeping 2.0) 
+        (liquidmechanical 3.0))))
      (pig ;; 2016 recommended no change
       (quality
        ((DM2 3.0) 
 	(DM4 3.6) 
-	(DM6 4.7)))) 
+	(DM6 4.7)
+	(liquid 3.6) ;; 2017 organic materials p22
+	(solid 5.0)))) ;; 2017 organic materials p22
      (poultry
       (quality
        ((DM20 9.4) ;; 2016 data no exact DM match
@@ -134,54 +141,45 @@
 	  (summer 35)))))))
      (splash-incorporated
       (quality
-       ((DM2 
-	 (season
-	  ((autumn
-	    (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
-		   (mediumheavy (crop ((normal 35) (grass-oilseed 40)))))))
+       ((DM6
+	(season
+	 ((autumn
+	   (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
+		  (mediumheavy (crop ((normal 30) (grass-oilseed 35)))))))
 	  (winter
-	    (soil ((sandyshallow 25) (mediumheavy 35))))
-	  (spring 50)
+	   (soil ((sandyshallow 20) (mediumheavy 30))))
+	  (spring 40) 
 	  (summer NA)))) ;; N/A
-	(DM6
-	 (season
-	  ((autumn
-	    (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
-		   (mediumheavy (crop ((normal 30) (grass-oilseed 35)))))))
-	   (winter
-	    (soil ((sandyshallow 20) (mediumheavy 30))))
-	   (spring 40) 
-	   (summer NA)))) ;; N/A
-	(DM10
-	 (season
-	  ((autumn
-	    (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
-		   (mediumheavy (crop ((normal 20) (grass-oilseed 25)))))))
-	   (winter
-	    (soil ((sandyshallow 25) (mediumheavy 25))))
-	   (spring 40)
-	   (summer 30))))
-        (solid ;; 2017 update
-         (season
-          ((autumn
-            (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 5))))
-                   (mediumheavy (crop ((normal 10) (grass-oilseed 10)))))))
-           (winter
-            (soil ((sandyshallow 10) (mediumheavy 10))))
-           (spring 10)
-           (summer NA)))))))
+       (DM10
+	(season
+	 ((autumn
+	   (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
+		  (mediumheavy (crop ((normal 20) (grass-oilseed 25)))))))
+	  (winter
+	   (soil ((sandyshallow 25) (mediumheavy 25))))
+	  (spring 40)
+	  (summer 30))))
+       (solid ;; 2017 update
+	(season
+	 ((autumn
+	   (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 5))))
+		  (mediumheavy (crop ((normal 10) (grass-oilseed 10)))))))
+	  (winter
+	   (soil ((sandyshallow 10) (mediumheavy 10))))
+	  (spring 10)
+	  (summer NA))))
+       (DM2 
+	(season
+	 ((autumn
+	   (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
+		  (mediumheavy (crop ((normal 35) (grass-oilseed 40)))))))
+	  (winter
+	   (soil ((sandyshallow 25) (mediumheavy 35))))
+	  (spring 50)
+	  (summer NA)))))))
      (shoe-bar-spreader
       (quality
-       ((DM2 
-	 (season
-	  ((autumn
-	    (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
-		   (mediumheavy (crop ((normal 30) (grass-oilseed 35)))))))
-	  (winter
-	    (soil ((sandyshallow 30) (mediumheavy 30))))
-	  (spring 50)
-	  (summer 40)))) 
-	(DM6
+       ((DM6
 	 (season
 	  ((autumn
 	    (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
@@ -198,27 +196,27 @@
 	   (winter
 	    (soil ((sandyshallow 20) (mediumheavy 20))))
 	   (spring 30)
-	   (summer 25)))))))
-     (shallow-injected
-      (quality
-       ((DM2 
+	   (summer 25))))
+	(DM2 
 	 (season
 	  ((autumn
 	    (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
 		   (mediumheavy (crop ((normal 30) (grass-oilseed 35)))))))
-	  (winter
-	   (soil ((sandyshallow 35) (mediumheavy 35))))
-	  (spring 55)
-	  (summer 45)))) 
-	(DM6
+	   (winter
+	    (soil ((sandyshallow 30) (mediumheavy 30))))
+	   (spring 50)
+	   (summer 40)))))))
+     (shallow-injected
+      (quality
+       ((DM6
 	 (season
 	  ((autumn
 	    (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
 		   (mediumheavy (crop ((normal 25) (grass-oilseed 30)))))))
 	   (winter
 	    (soil ((sandyshallow 30) (mediumheavy 30))))
-	    (spring 45) 
-	    (summer 35)))) 
+	   (spring 45) 
+	   (summer 35)))) 
 	(DM10
 	 (season
 	  ((autumn
@@ -227,7 +225,16 @@
 	   (winter
 	    (soil ((sandyshallow 25) (mediumheavy 25))))
 	   (spring 35)
-	   (summer 30)))))))))))
+	   (summer 30))))
+	(DM2 
+	 (season
+	  ((autumn
+	    (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
+		   (mediumheavy (crop ((normal 30) (grass-oilseed 35)))))))
+	   (winter
+	    (soil ((sandyshallow 35) (mediumheavy 35))))
+	   (spring 55)
+	   (summer 45)))))))))))
 
 ;; nitrogen is % of above value
 (define cattle-slurry-tree ; sulphur and magnesium totals added 2017 update
@@ -487,26 +494,26 @@
 						 (DM4 2.0) ;; 2017 update
 						 (DM6 2.3) ;; 2017 update
                                                  (liquid 1.8) ;; 2017 update
-                                                 (solid 1.8)))) ;; 2017 update
-                       (quote (s-total (quality ((DM2 0.4) ;; 2017 update
+                                                 (solid 1.8))))) ;; 2017 update
+		       (quote (s-total (quality ((DM2 0.4) ;; 2017 update
                                                  (DM4 0.7) ;; 2017 update
                                                  (DM6 1.0) ;; 2017 update
                                                  (liquid NA) ;; 2017 update
                                                  (solid NA))))) ;; 2017 update
-                       (quote (s-avail (season ((autumn
-                                                 (quality ((DM2 (pc 0.4 7.5)) ;; 2017 update
-                                                           (DM4 (pc 0.7 7.5)) ;; 2017 update
-                                                           (DM6 (pc 1.0 7.5)) ;; 2017 update
-                                                           (liquid NA) ;; 2017 update
-                                                           (solid NA))))) ;; 2017 update
-                                               (spring
-                                                (quality ((DM2 (pc 0.4 35)) ;; 2017 update
-                                                           (DM4 (pc 0.7 35)) ;; 2017 update
-                                                           (DM6 (pc 1.0 35)) ;; 2017 update
-                                                           (liquid NA) ;; 2017 update
-                                                           (solid NA)))) ;; 2017 update
-                                               (summer NA) ;; 2017 update
-                                               (winter NA))));; 2017 update
+                       (choice 's-avail (dtree 'season (list (choice 'autumn
+								     (dtree 'quality (list (choice 'DM2 (pc 0.4 7.5)) ;; 2017 update
+											   (choice 'DM4 (pc 0.7 7.5)) ;; 2017 update
+											   (choice 'DM6 (pc 1.0 7.5)) ;; 2017 update
+											   (choice 'liquid 'NA) ;; 2017 update
+											   (choice 'solid 'NA)))) ;; 2017 update
+							     (choice 'spring
+								     (dtree 'quality (list (choice 'DM2 (pc 0.4 35)) ;; 2017 update
+											   (choice 'DM4 (pc 0.7 35)) ;; 2017 update
+											   (choice 'DM6 (pc 1.0 35)) ;; 2017 update
+											   (choice 'liquid 'NA) ;; 2017 update
+											   (choice 'solid 'NA)))) ;; 2017 update
+							     (choice 'summer 'NA) ;; 2017 update
+							     (choice 'winter 'NA))));; 2017 update
                        
                        (quote (m-total (quality ((DM2 0.4) ;; 2017 update
                                                  (DM4 0.7) ;; 2017 update 
@@ -517,7 +524,7 @@
                                                  (DM4 0.7) ;; 2017 update 
                                                  (DM6 1.0) ;; 2017 update
                                                  (liquid NA) ;; 2017 update
-                                                 (liquid NA))))))))))  ;; 2017 update
+                                                 (liquid NA)))))))))  ;; 2017 update
 
 ;; N is in perecent of total
 (define poultry-tree ;; for grassland and winter oilseed cropping will need to at 5% to all Autumn values 2017 update, sulphur and magnesium totals added 2017
@@ -767,26 +774,26 @@
 (define compost-manure-tree
   (quote (compost
 	  (quality
-	   ((green (nutrient ((n-total 0.2)
-			      (n-avail 0.01) ;; (5% of total 0.2)
-			      (p-total 3.4)
-			      (p-avail 1.7) ;; (5%) RB209 8th ed: 3.0
-			      (k-total 6.8)
+	   ((green (nutrient ((n-total 7.5) ;; 2017 fix: was 0.2??
+			      (n-avail 0.375) ;; (5% of total)
+			      (p-total 3.0) ;; 2017 fix
+			      (p-avail 1.5) ;; (50%) RB209 2017 
+			      (k-total 6.8) 
 			      (k-avail 5.44) ;; (80%) RB209 8th ed: 5.5
                               (s-total 3.4)  ;; 2017 update
-                              (s-avail NA) ;;no data on crop available
+                              (s-avail NA) ;; no data on crop available
                               (m-total 3.4) ;; 2017 update
                               (m-avail 3.4))))  ;; 2017 update
-	    (green-food (nutrient ((n-total 0.6)
-				   (n-avail 0.045) ;; (5% of total 0.6)
+	    (green-food (nutrient ((n-total 11.0)
+				   (n-avail 0.55) ;; (5% of total 0.6)
 				   (p-total 4.9)
 				   (p-avail 2.45)  ;; (50%) RB209 8th ed: 3.8
 				   (k-total 8.0)
-				   (k-avail 6.4)
+				   (k-avail 6.4)  ;; (80%)
                                    (s-total 5.1)  ;; 2017 update
                                    (s-avail NA) ;;no data on crop available
                                    (m-total 3.4) ;; 2017 update
-                                   (m-avail 3.4)))))))))   ;; 2017 update
+                                   (m-avail 3.4))))))))) ;; 2017 update
 
 (define paper-crumble-tree ;;2017 update
   (quote (paper-crumble
