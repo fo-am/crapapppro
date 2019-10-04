@@ -168,7 +168,8 @@
 	   (soil ((sandyshallow 10) (mediumheavy 10))))
 	  (spring 10)
 	  (summer NA))))
-       (DM2 
+       (dirtywater NA)
+       (DM2  ;; liquids default to dm2 here
 	(season
 	 ((autumn
 	   (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
@@ -197,7 +198,9 @@
 	    (soil ((sandyshallow 20) (mediumheavy 20))))
 	   (spring 30)
 	   (summer 25))))
-	(DM2 
+	(dirtywater NA)
+	(solid NA)
+	(DM2 ;; liquids default to dm2 here
 	 (season
 	  ((autumn
 	    (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
@@ -226,7 +229,9 @@
 	    (soil ((sandyshallow 25) (mediumheavy 25))))
 	   (spring 35)
 	   (summer 30))))
-	(DM2 
+	(dirtywater NA)
+	(solid NA)
+	(DM2 ;; liquids default to dm2 here
 	 (season
 	  ((autumn
 	    (soil ((sandyshallow (crop ((normal 5) (grass-oilseed 10))))
