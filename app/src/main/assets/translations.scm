@@ -20,7 +20,7 @@
    (list 'title (list "The Farm Crap App: Pro Edition"))
    (list 'splash-about (list "Manage your muck with the Farm Crap App"))
    (list 'splash-blurb (list "Developed by <a href='http://fo.am/kernow'>FoAM Kernow</a> on behalf of the <a href='www.swarmhub.co.uk'>SWARM Knowledge Hub</a>, a Rural Development Programme for England (RDPE) initiative managed by <a href='http://www.duchy.ac.uk/'>Duchy College Rural Business School</a>, in partnership with Rothamsted Research North Wyke."))
-   (list 'splash-discl (list "The Farm Crap App offers information for guidance purposes only and is not intended to amount to professional advice or opinion. FoAM Kernow, Duchy College, and Rothamsted Research North Wyke cannot be held responsible for any losses or damage resulting from the use of information provided by this app."))
+   (list 'splash-discl (list "The Farm Crap App offers information for guidance purposes only and is not intended to amount to professional advice or opinion. FoAM Kernow, Duchy College, and Rothamsted Research North Wyke cannot be held responsible for any losses or damage resulting from the use of information provided by this app. The SO<sub><small>3</small></sub> and MgO recommendations provided by this application have +/- 20% accuracy."))
    (list 'splash-start (list "Get Started!"))
 
    (list 'choose-units (list "Choose units"))
