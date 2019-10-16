@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId "foam.crapapppro"
-        minSdkVersion 14
-        targetSdkVersion 27
+        minSdkVersion 28
+        targetSdkVersion 28
 
         ndk {
             moduleName "starwisp-core"

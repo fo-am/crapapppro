@@ -29,8 +29,9 @@
 
   (activity
    "splash"
+   
    (scroll-view-vert
-    0 (layout 'fill-parent 'wrap-content 0 'centre 0)
+    0 (layout 'fill-parent 'wrap-content -1 'centre 0)
     (list
      (vert
       (mtitle 'title)
