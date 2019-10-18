@@ -494,22 +494,24 @@
 	      ;; if we have grown grass as previous crop
 	      (cond
 	       ((previous-crop-grass? (list-ref previous-crop-type-list v))
-		;; automatically select grown-grass
-		;; dont' automatically deselect it, as it could 
-		;; have been set for the previous 3 years
-		(entity-update-single-value! (ktv "recently-grown-grass" "varchar" "yes"))
+		;; automatically set grown-grass to 1yr if last crop
+		;; is grass and this isn't set already - don't automatically
+		;; deselect it, as it could have been set for one of
+		;; the previous 3 years
+		(when (equal? (entity-get-value "recently-grown-grass") "no") 
+		      (entity-update-single-value! (ktv "recently-grown-grass" "varchar" "1yr")))
 		(append
-		 (list (mupdate-spinner 'grown-grass "recently-grown-grass" yesno-list))
+		 (list (mupdate-spinner 'grown-grass "recently-grown-grass" recently-grown-grass-list))
 		 (update-field-cropsoil-calc-from-current)))
 	       (else
 		;; otherwise leave it as it is
 		(update-field-cropsoil-calc-from-current)))))
 	   (mspinner 
-	    'grown-grass yesno-list 
+	    'grown-grass recently-grown-grass-list 
 	    (lambda (v) 
 	      (entity-update-single-value! 
 	       (ktv "recently-grown-grass" "varchar" 
-		    (spinner-choice yesno-list v)))'())))
+		    (spinner-choice recently-grown-grass-list v)))'())))
 
 	  (text-view (make-id "crop-output") "Current crop" 30 (layout 'wrap-content 'wrap-content 1 'centre 0))
 
@@ -580,7 +582,7 @@
 	   (mupdate-spinner 'soil-test-k "soil-test-k" soil-test-k-list)
 	   (mupdate-spinner 'soil-test-m "soil-test-m" soil-test-m-list)
 	   (mupdate-spinner 'regular-organic "regularly-manure" yesno-list)
-	   (mupdate-spinner 'grown-grass "recently-grown-grass" yesno-list)
+	   (mupdate-spinner 'grown-grass "recently-grown-grass" recently-grown-grass-list)
 	   (update-text-view-units 'crop-requirements-ind 'crop-requirements-metric 'crop-requirements-imperial)
 	   (update-text-view-units 'sns-output 'nutrient-n-metric 'nutrient-n-imperial)
 	   ;; updates for orientation change

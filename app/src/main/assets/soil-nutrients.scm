@@ -192,7 +192,7 @@
 		       (choice 'organic 4)
 		       (choice 'peat 5)))))
 
-;; when growing arrable and previous crop is grass
+;; when growing arable and previous crop is grass
 (define previous-grass-soil-nitrogen-supply-tree
   (dtree 'soil
 	 (list
@@ -200,8 +200,12 @@
 		  (dtree 'previous-crop
 			 (list
 			  (choice 'grass-low-n 0)
-			  (choice 'grass-other 1)
-			  (choice 'grass-high-n 3))))
+			  (choice 'grass-other
+				  (dtree 'recently-grown-grass
+					 (list (choice '2yr 2) (choice 'default 1))))
+			  (choice 'grass-high-n
+				  (dtree 'recently-grown-grass
+					 (list (choice '1yr 3) (choice '2yr 2) (choice '3ry 1)))))))
 	  (choice 'deepclay
 		  (dtree 'rainfall
 			 (list
@@ -209,14 +213,23 @@
 				  (dtree 'previous-crop
 					 (list
 					  (choice 'grass-low-n 2)
-					  (choice 'grass-other 3)
-					  (choice 'grass-high-n 5))))
+					  (choice 'grass-other
+						  (dtree 'recently-grown-grass
+							 (list (choice '1yr 3) (choice '2yr 3) (choice '3ry 2))))					  
+					  (choice 'grass-high-n 
+						  (dtree 'recently-grown-grass
+							 (list (choice '1yr 5) (choice '2yr 4) (choice '3ry 3)))))))
 			  (choice 'default
 				  (dtree 'previous-crop
 					 (list
 					  (choice 'grass-low-n 1)
-					  (choice 'grass-other 3)
-					  (choice 'grass-high-n 4)))))))
+					  (choice 'grass-other
+						  (dtree 'recently-grown-grass
+							 (list (choice '1yr 3) (choice '2yr 2) (choice '3ry 1))))
+			  
+					  (choice 'grass-high-n 
+						  (dtree 'recently-grown-grass
+							 (list (choice '1yr 4) (choice '2yr 3) (choice '3ry 2))))))))))
 	  (choice 'deepsilt ;; repeat of above
 		  (dtree 'rainfall
 			 (list
@@ -224,21 +237,34 @@
 				  (dtree 'previous-crop
 					 (list
 					  (choice 'grass-low-n 2)
-					  (choice 'grass-other 3)
-					  (choice 'grass-high-n 5))))
+					  (choice 'grass-other
+						  (dtree 'recently-grown-grass
+							 (list (choice '1yr 3) (choice '2yr 3) (choice '3ry 2))))					  
+					  (choice 'grass-high-n 
+						  (dtree 'recently-grown-grass
+							 (list (choice '1yr 5) (choice '2yr 4) (choice '3ry 3)))))))
 			  (choice 'default
 				  (dtree 'previous-crop
 					 (list
 					  (choice 'grass-low-n 1)
-					  (choice 'grass-other 3)
-					  (choice 'grass-high-n 4)))))))
+					  (choice 'grass-other
+						  (dtree 'recently-grown-grass
+							 (list (choice '1yr 3) (choice '2yr 2) (choice '3ry 1))))
+			  
+					  (choice 'grass-high-n 
+						  (dtree 'recently-grown-grass
+							 (list (choice '1yr 4) (choice '2yr 3) (choice '3ry 2))))))))))
 	  ;; default
 	  (choice 'mediumshallow
 		  (dtree 'previous-crop
 			 (list
 			  (choice 'grass-low-n 1)
-			  (choice 'grass-other 2)
-			  (choice 'grass-high-n 3)))))))
+			  (choice 'grass-other 
+				  (dtree 'recently-grown-grass
+					 (list (choice '1yr 2) (choice '2yr 2) (choice '3ry 1))))
+			  (choice 'grass-high-n 
+				  (dtree 'recently-grown-grass
+					 (list (choice '1yr 3) (choice '2yr 3) (choice '3ry 2))))))))))
  
 (define soil-nitrogen-supply-tree
   (dtree 'rainfall

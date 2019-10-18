@@ -34,22 +34,31 @@
         )))
       (grazed
        (targetyield
-        ((DM4-5
-	  ;; date is application date
-          (month ((mar 30) (default NA))))
-         (DM5-7
-          (month ((mar 30) (may 20) (default NA))))
-         (DM6-8
-          (month ((mar 30) (may 30) (jul 20) (default NA))))
-         (DM7-9
-          (month ((mar 40) (may 30) (jun 30) (jul 30) (default NA))))
-         (DM9-12
-	  (month ((mar 30) (apr 30) (may 30) (jun 30) (jul 30) (aug 30) (default NA))))
-         (DM10-13
-          (month ((jan 30) (feb 30) (mar 40) (apr 40) (may 30) (jun 30) (jul 30) (aug 30) (default NA))))
-         (DM12-15+
-          (month ((jan 30) (feb 30) (mar 40) (apr 50) (may 50) (jun 40) (jul 30) (aug 30) (default NA))))
-         )))
+        ((DM4-5 30) 
+         (DM5-7 50)
+         (DM6-8 80)
+         (DM7-9 130)
+         (DM9-12 180)
+         (DM10-13 230)
+         (DM12-15+ 270)
+         )))      
+      ;; removed the monthly amounts in favour of the totals
+        ;; ((DM4-5 
+        ;;   ;; date is application date
+        ;;   (month ((mar 30) (default NA))))
+        ;;  (DM5-7
+        ;;   (month ((mar 30) (may 20) (default NA))))
+        ;;  (DM6-8
+        ;;   (month ((mar 30) (may 30) (jul 20) (default NA))))
+        ;;  (DM7-9
+        ;;   (month ((mar 40) (may 30) (jun 30) (jul 30) (default NA))))
+        ;;  (DM9-12
+	;;   (month ((mar 30) (apr 30) (may 30) (jun 30) (jul 30) (aug 30) (default NA))))
+        ;;  (DM10-13
+        ;;   (month ((jan 30) (feb 30) (mar 40) (apr 40) (may 30) (jun 30) (jul 30) (aug 30) (default NA))))
+        ;;  (DM12-15+
+        ;;   (month ((jan 30) (feb 30) (mar 40) (apr 50) (may 50) (jun 40) (jul 30) (aug 30) (default NA))))
+        ;;  )))
       (hay
        (sns ((grassland-low-sns 100) (grassland-med-sns 70) (grassland-high-sns 40)))
          )

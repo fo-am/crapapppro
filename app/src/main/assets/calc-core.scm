@@ -54,6 +54,7 @@
 (define digestate-farm-quality-list (list 'whole 'separated-liquor 'separated-fibre))
 (define biosolid-quality-list (list 'digested-cake 'thermally-dried 'lime-stabilised 'composted))
 (define compost-quality-list (list 'green 'green-food))
+(define recently-grown-grass-list (list 'no '1yr '2yr '3yr)) 
 (define yesno-list (list 'yes 'no))
 
 (define fym-application-list
@@ -339,7 +340,7 @@
 (define (grassland-modifier crop soil previous-crop recently-grown-grass)
   (if (previous-crop-grass? previous-crop)
       ;; grass -> grass
-      (if (eq? recently-grown-grass 'yes)
+      (if (not (eq? recently-grown-grass 'no))
 	  grassland-high-sns
 	  (if (eq? soil 'sandyshallow)
 	      grassland-low-sns
@@ -367,6 +368,7 @@
 (define (calc-sns rainfall soil crop previous-crop regularly-manure recently-grown-grass)
   (let ((params (list 
 		 (list 'rainfall rainfall)
+		 (list 'recently-grown-grass recently-grown-grass)
 		 ;; soil medium category doesn't exist in sns tables
 		 (list 'soil (if (eq? soil 'medium)
 				 'mediumshallow soil))

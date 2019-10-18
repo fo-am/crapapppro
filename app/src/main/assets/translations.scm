@@ -135,7 +135,9 @@
    (list 'yes (list "Yes"))
    (list 'no (list "No"))
    (list 'grown-grass (list "Have you grown grass in the last 3 years (other than previous year)?"))
-   
+   (list '1yr (list "1 yr ago"))
+   (list '2yr (list "2 yrs ago"))
+   (list '3yr (list "3 yrs ago"))
 
    (list 'autumn (list "Autumn"))
    (list 'winter (list "Winter"))
