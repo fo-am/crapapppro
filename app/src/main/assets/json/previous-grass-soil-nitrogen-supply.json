@@ -9,10 +9,31 @@
 "value": 0
 }, {
 "choice": "grass-other",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "2yr",
+"value": 2
+}, {
+"choice": "default",
 "value": 1
+}]
+}
 }, {
 "choice": "grass-high-n",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "1yr",
 "value": 3
+}, {
+"choice": "2yr",
+"value": 2
+}, {
+"choice": "3ry",
+"value": 1
+}]
+}
 }]
 }
 }, {
@@ -28,10 +49,34 @@
 "value": 2
 }, {
 "choice": "grass-other",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "1yr",
 "value": 3
 }, {
+"choice": "2yr",
+"value": 3
+}, {
+"choice": "3ry",
+"value": 2
+}]
+}
+}, {
 "choice": "grass-high-n",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "1yr",
 "value": 5
+}, {
+"choice": "2yr",
+"value": 4
+}, {
+"choice": "3ry",
+"value": 3
+}]
+}
 }]
 }
 }, {
@@ -43,10 +88,34 @@
 "value": 1
 }, {
 "choice": "grass-other",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "1yr",
 "value": 3
 }, {
+"choice": "2yr",
+"value": 2
+}, {
+"choice": "3ry",
+"value": 1
+}]
+}
+}, {
 "choice": "grass-high-n",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "1yr",
 "value": 4
+}, {
+"choice": "2yr",
+"value": 3
+}, {
+"choice": "3ry",
+"value": 2
+}]
+}
 }]
 }
 }]
@@ -64,10 +133,34 @@
 "value": 2
 }, {
 "choice": "grass-other",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "1yr",
 "value": 3
 }, {
+"choice": "2yr",
+"value": 3
+}, {
+"choice": "3ry",
+"value": 2
+}]
+}
+}, {
 "choice": "grass-high-n",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "1yr",
 "value": 5
+}, {
+"choice": "2yr",
+"value": 4
+}, {
+"choice": "3ry",
+"value": 3
+}]
+}
 }]
 }
 }, {
@@ -79,10 +172,34 @@
 "value": 1
 }, {
 "choice": "grass-other",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "1yr",
 "value": 3
 }, {
+"choice": "2yr",
+"value": 2
+}, {
+"choice": "3ry",
+"value": 1
+}]
+}
+}, {
 "choice": "grass-high-n",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "1yr",
 "value": 4
+}, {
+"choice": "2yr",
+"value": 3
+}, {
+"choice": "3ry",
+"value": 2
+}]
+}
 }]
 }
 }]
@@ -96,10 +213,34 @@
 "value": 1
 }, {
 "choice": "grass-other",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "1yr",
 "value": 2
 }, {
+"choice": "2yr",
+"value": 2
+}, {
+"choice": "3ry",
+"value": 1
+}]
+}
+}, {
 "choice": "grass-high-n",
+"value": {
+"decision": "recently-grown-grass",
+"choices": [{
+"choice": "1yr",
 "value": 3
+}, {
+"choice": "2yr",
+"value": 3
+}, {
+"choice": "3ry",
+"value": 2
+}]
+}
 }]
 }
 }]
