@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="foam.crapapppro"
-    android:versionCode="34"
-    android:versionName="3.0 rc 1" >
+    android:versionCode="35"
+    android:versionName="3.0 rc 2" >
 
     <uses-sdk
         android:minSdkVersion="19"
@@ -108,6 +108,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD0e8ExTnpvi-GpIJ0Ct8mW43kzXcGgwmQ" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="foam.starwisp"
-    android:versionCode="34"
-    android:versionName="3.0 rc 1">
+    android:versionCode="35"
+    android:versionName="3.0 rc 2">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false"/>
@@ -86,6 +86,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD0e8ExTnpvi-GpIJ0Ct8mW43kzXcGgwmQ"/>
 
+	<uses-library android:name="org.apache.http.legacy" 
+		      android:required="false"/>
+	
     </application>
 
 
