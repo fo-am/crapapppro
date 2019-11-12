@@ -38,6 +38,7 @@
       (text-view (make-id "version")
 		 (string-append "Version " app-version) 20 fillwrap)
       (mtext 'splash-about)
+      (image-view (make-id "about-logo") "logoh" (layout 'wrap-content 'wrap-content 1 'centre 0))
       (spacer 20)
       (mtext 'splash-blurb)
       (spacer 20)
@@ -47,7 +48,14 @@
 			"main" 2 (get-setting-value "current-farm")))))
       (spacer 20)
       (mtext 'splash-discl)
-      (image-view (make-id "about-logo") "logo" (layout 'wrap-content 'wrap-content 1 'centre 0))
+      (spacer 20)
+      (horiz
+       (image-view 0 "foam" (layout 'fill-parent 'wrap-content 1 'centre 0))
+       (image-view 0 "duchy" (layout 'fill-parent 'wrap-content 1 'centre 0))
+       (image-view 0 "rothamsted" (layout 'fill-parent 'wrap-content 1 'centre 0)))
+      (horiz
+       (image-view 0 "agritech" (layout 'fill-parent 300 1 'centre 0))
+       (image-view 0 "eu" (layout 'fill-parent 300 1 'centre 0)))
       )))
    (lambda (activity arg)
      ;; check for farms in the db, add default one if none exist
