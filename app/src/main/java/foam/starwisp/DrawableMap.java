@@ -45,6 +45,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete.IntentBuilder;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.model.LatLngBounds;

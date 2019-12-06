@@ -49,6 +49,9 @@ dependencies {
    // compile files('libs/android-support-v13.jar')
     api 'com.google.android.gms:play-services-maps:9.6.1'
     api 'com.google.android.gms:play-services-places:9.6.0'
+    //implementation 'com.google.android.libraries.places:places:2.1.0'
+    //implementation 'com.google.android.libraries.places:places-compat:2.1.0'
+
     //compile 'com.google.maps.android:android-maps-utils:0.4'
    // compile files('libs/ouya-sdk.jar')
 }
