@@ -1,14 +1,12 @@
-import org.apache.tools.ant.taskdefs.condition.Os
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 'Google Inc.:Google APIs:23'
-    buildToolsVersion '27.0.3'
-    useLibrary  'org.apache.http.legacy'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "foam.crapapppro"
-        minSdkVersion 19
+        minSdkVersion 16
         targetSdkVersion 28
 
         ndk {
@@ -47,11 +45,17 @@ android {
 dependencies {
    // compile 'com.android.support:gridlayout-v7:21.0.3'
    // compile files('libs/android-support-v13.jar')
-    api 'com.google.android.gms:play-services-maps:9.6.1'
-    api 'com.google.android.gms:play-services-places:9.6.0'
+    //api 'com.google.android.gms:play-services-maps:9.6.1'
+
+    //api 'com.google.android.gms:play-services-places:9.6.0'
     //implementation 'com.google.android.libraries.places:places:2.1.0'
     //implementation 'com.google.android.libraries.places:places-compat:2.1.0'
 
     //compile 'com.google.maps.android:android-maps-utils:0.4'
    // compile files('libs/ouya-sdk.jar')
+
+    // version 2.1.0 places causes a crash in androidx
+    implementation 'com.google.android.libraries.places:places:2.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
 }

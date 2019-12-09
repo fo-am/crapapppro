@@ -15,27 +15,19 @@
 
 package foam.starwisp;
 
-import java.util.ArrayList;
-import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
-
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 import android.view.Window;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.content.Context;
 import android.view.ViewGroup;
 import android.view.View;
 import android.graphics.Typeface;
 import android.content.res.Configuration;
 
 //import tv.ouya.console.api.OuyaController;
-import android.view.InputDevice;
-import android.view.MotionEvent;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.json.JSONArray;
 
 import android.hardware.Sensor;

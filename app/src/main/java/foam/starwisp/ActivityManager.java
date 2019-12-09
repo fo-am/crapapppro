@@ -15,19 +15,12 @@
 
 package foam.starwisp;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.lang.InstantiationException;
-import java.lang.IllegalAccessException;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
-import android.content.Context;
-import android.view.ViewGroup;
-import android.view.View;
 
 public class ActivityManager {
     static private HashMap<String,Class> m_Activities;

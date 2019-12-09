@@ -25,8 +25,6 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import android.net.wifi.WifiManager;
-import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
@@ -50,10 +48,6 @@ import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.HttpURLConnection;
-import android.os.SystemClock;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 
 public class NetworkManager {
 
@@ -76,6 +70,25 @@ public class NetworkManager {
     NetworkManager() {
         state = State.IDLE;
     }
+
+    // remove need for org.apache.http
+    private class NameValuePair {
+        private String mName;
+        private String mValue;
+
+        public NameValuePair(String name, String value) {
+            mName = name;
+            mValue = value;
+        }
+
+        public String getName() {
+            return mName;
+        }
+
+        public String getValue() {
+            return mValue;
+        }
+    };
 
     void Start(String ssid, StarwispActivity c, String name, StarwispBuilder b) {
         Log.i("starwisp","Network startup!");
@@ -252,7 +265,7 @@ public class NetworkManager {
             con.setDoOutput(true);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("data", data));
+            params.add(new NameValuePair("data", data));
 
             OutputStream os = con.getOutputStream();
             BufferedWriter writer = new BufferedWriter(

@@ -15,57 +15,27 @@
 
 package foam.starwisp;
 
-import java.util.ArrayList;
-
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.content.Context;
-import android.graphics.Color;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import android.widget.TextView;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.Toast;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
-import android.view.View;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.text.TextWatcher;
-import android.text.Editable;
 import android.net.Uri;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.Manifest; 
-import android.support.v4.content.ContextCompat;
-import android.support.v4.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
 import android.content.Intent;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONArray;
 
 import java.util.Calendar;
-
-import foam.starwisp.StarwispActivity;
-import foam.starwisp.ActivityManager;
-import foam.starwisp.Scheme;
-import foam.starwisp.StarwispBuilder;
 
 public class starwisp extends StarwispActivity {
     static {

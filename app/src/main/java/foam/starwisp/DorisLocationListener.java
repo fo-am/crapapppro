@@ -15,36 +15,22 @@
 
 package foam.starwisp;
 
-import java.util.Date;
-
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.content.pm.PackageManager;
 
 import android.util.Log;
-import android.view.MotionEvent;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
+
+import com.google.android.gms.maps.model.LatLng;
 
 public class DorisLocationListener implements LocationListener {
 
     protected static final int ONE_MINUTE = 60 * 1000;
     protected static final int FIVE_MINUTES = 5 * ONE_MINUTE;
     protected static final int ACCURACY_THRESHOLD = 30; // in meters
-    protected MapView mapView;
-    protected MapController mapController;
     protected LocationManager locationManager;
     protected Location currentLocation;
     String m_CallbackName;
@@ -151,8 +137,8 @@ public class DorisLocationListener implements LocationListener {
      *            Lingitude
      * @return GeoPoint
      */
-    protected GeoPoint getPoint(double latitude, double longitude) {
-	return (new GeoPoint((int) (latitude * 1E6), (int) (longitude * 1E6)));
+    protected LatLng getPoint(double latitude, double longitude) {
+	return (new LatLng((int) (latitude * 1E6), (int) (longitude * 1E6)));
     }
 
     protected void setBestLocation(Location location1, Location location2) {

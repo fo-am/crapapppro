@@ -29,10 +29,8 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.text.Html;
 import android.view.Gravity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 
@@ -42,15 +40,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete.IntentBuilder;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.api.Places;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import com.google.android.gms.location.places.Place;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -60,11 +56,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 public class DrawableMap {
     FrameLayout fram_map;
@@ -120,6 +122,12 @@ public class DrawableMap {
     final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1092;
 
     public void init(int id, ViewGroup parent, StarwispActivity c, StarwispBuilder b, String mode) {
+
+    if (!Places.isInitialized()) {
+        // leaving this api in public view as it has no relevance
+        Places.initialize(c, "AIzaSyD0e8ExTnpvi-GpIJ0Ct8mW43kzXcGgwmQ");
+    }
+
 	m_parent=parent;
         map_ready = false;
         draw_mode = false;
@@ -181,29 +189,35 @@ public class DrawableMap {
 	StarwispActivity.ResultHandler rh;
 	sw.m_ResultHandler = sw.new ResultHandler() {
 		@Override
-		public void Result(int requestCode, int resultCode, Intent data) 
-		{
-		    if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
-			if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-			    Status status = PlaceAutocomplete.getStatus(m_Context, data);
-			    // TODO: Handle the error.
-			    Log.i("starwisp", status.getStatusMessage());
-			} else {
-			    Place place = PlaceAutocomplete.getPlace(m_Context, data);
-			    if (place!=null) {
-				LatLng ll = place.getLatLng();
-				LatLngBounds llb = place.getViewport();
-				double radius = distanceTo(llb.southwest,llb.northeast)/2;
-				double scale = radius / 500;
-				int zoom = ((int) (16 - Math.log(scale) / Math.log(2)));
-				Centre(ll.latitude, ll.longitude, zoom);
-			    }
-			} 		    
-		    }
-		}
-	    };
+		public void Result(int requestCode, int resultCode, Intent data) {
+
+            if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+                if (resultCode == RESULT_OK) {
+                    Place place = Autocomplete.getPlaceFromIntent(data);
+                    LatLng ll = place.getLatLng();
+                    LatLngBounds llb = place.getViewport();
+                    if (ll!=null && llb!=null) {
+                        double radius = distanceTo(llb.southwest, llb.northeast) / 2;
+                        double scale = radius / 500;
+                        int zoom = ((int) (16 - Math.log(scale) / Math.log(2)));
+                        Centre(ll.latitude, ll.longitude, zoom);
+                    } else {
+                        Log.i("starwisp","problem with getting latlng or viewport from place");
+                    }
+
+                } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                    // TODO: Handle the error.
+                    Status status = Autocomplete.getStatusFromIntent(data);
+                    Log.i("starwisp", status.getStatusMessage());
+                } else if (resultCode == RESULT_CANCELED) {
+                    // The user canceled the operation.
+                }
+            }
+        }
+
+	};
 	
-        if (map_mode.equals("edit")) {	    
+	if (map_mode.equals("edit")) {
 	    place_button = new Button(c);
 	    LinearLayout.LayoutParams plp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 									  LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -217,15 +231,16 @@ public class DrawableMap {
 	    place_button.setOnClickListener(new View.OnClickListener() {
 		    @Override
 		    public void onClick(View v) {
-			try {
-			    Intent intent =
-				new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
-				.build(m_Context);
+
+			    List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.VIEWPORT);
+
+			    Intent intent = new Autocomplete.IntentBuilder(
+			            AutocompleteActivityMode.FULLSCREEN,fields).build(m_Context);
+				//new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+				//.build(m_Context);
 			    m_Context.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
 			    //PLACE_AUTOCOMPLETE_REQUEST_CODE is integer for request code
-			} catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
-			    // TODO: Handle the error.
-			}
+
 		    
 		    }
 		});

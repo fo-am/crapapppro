@@ -15,22 +15,17 @@
 
 package foam.starwisp;
 
-import java.util.ArrayList;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.content.Context;
 import android.view.ViewGroup;
 import android.view.View;
 import android.view.LayoutInflater;
-import android.graphics.Typeface;
 
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.json.JSONArray;
 
 public class StarwispFragment extends Fragment

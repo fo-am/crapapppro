@@ -17,18 +17,15 @@ package foam.starwisp;
 
 import java.util.ArrayList;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.Fragment;
-import android.app.DialogFragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.content.FileProvider;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.core.content.FileProvider;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
-import android.text.method.PasswordTransformationMethod;
-import android.webkit.MimeTypeMap;
 import android.view.inputmethod.EditorInfo;
 
 // stuff for correct subscript rendering
@@ -41,10 +38,8 @@ import android.widget.TextView.BufferType;
 import android.util.Log;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.drawable.*;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,7 +47,6 @@ import java.io.FileReader;
 
 import java.io.IOException;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 import android.provider.MediaStore;
 import android.widget.ImageView;
@@ -74,60 +68,42 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.webkit.WebView;
 import android.widget.Toast;
-import android.widget.Space;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
 import android.view.View;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.ViewManager;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodManager;
-import android.view.View.OnDragListener;
-import android.view.View.DragShadowBuilder;
 import android.view.DragEvent;
 import android.text.TextWatcher;
 import android.text.Html;
 import android.text.Editable;
-import android.text.method.LinkMovementMethod;
-import android.text.method.ScrollingMovementMethod;
 import android.widget.DatePicker;
 import android.hardware.Camera.PictureCallback;
-import android.hardware.Camera.Size;
 import android.hardware.Camera;
 import java.io.FileNotFoundException;
 import android.net.Uri;
 import java.util.TimeZone;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.DateFormat;
 import java.util.List;
 import android.content.DialogInterface;
 import android.text.InputType;
-import android.util.TypedValue;
 import android.os.Handler;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.ExifInterface;
-import android.graphics.Matrix;
-import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnticipateOvershootInterpolator;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 //import com.google.android.gms.maps.MapFragment;
 
 import android.content.ClipDescription;
 import android.content.ClipData;
-import android.content.ClipData.Item;
 
 import android.app.TimePickerDialog;
 import android.app.DatePickerDialog;
@@ -135,16 +111,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import java.util.Calendar;
-import android.os.Bundle;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.json.JSONArray;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
-
-import foam.starwisp.AesCbcWithIntegrity;
 
 public class StarwispBuilder
 {
