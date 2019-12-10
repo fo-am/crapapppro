@@ -88,12 +88,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD0e8ExTnpvi-GpIJ0Ct8mW43kzXcGgwmQ"/>
 
-        <!-- The following line must be added to the application node of your AndroidManifest.xml file to continue using the Apache HTTP client in applications that target API 28 or higher: -->
-        <!-- (for using maps) - massive code bloat -->
-        <!-- <uses-library android:name="org.apache.http.legacy" android:required="false" /> -->
-        <!-- "This is handled for you if you are using com.google.android.gms:play-services-maps:16.1.0" -->
-        <!-- (still massive code bloat) -->
-
     </application>
 
 
