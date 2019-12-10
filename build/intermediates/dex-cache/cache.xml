@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="4a36600281a648769411ef642c331851732bf29e">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tasks-9.6.1_e0b08783ce45f971ac54ad02e24f144d5da40609.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/opt/android/extras/android/m2repository/com/android/support/support-annotations/24.0.0/support-annotations-24.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="2943c74db6d4346ab8c6531adac91fa05c137c40">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/support-annotations-24.0.0_958b0b38f9b75f4ea12a93001d6913cd78c95e0d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="2f7e6e2dad1bccaf68a8820820adc6c0d5b96d37">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-24.0.0_0369afdda050eaf09519b7ac41bc00e1080e8467.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.6.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="62ff84124b89177abc0c27f3e38c9732f2d41617">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-maps-9.6.1_ec7823d825b66b22a92e2e2c880468eb0ec950ac.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="2f7e6e2dad1bccaf68a8820820adc6c0d5b96d37">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-24.0.0_0369afdda050eaf09519b7ac41bc00e1080e8467.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="eccaaa9ffa6bb4bfbd2e870f01aaf69655d353be">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-basement-9.6.1_14716528a9c731b1ff0d2cb136cecf8c02da2743.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="eccaaa9ffa6bb4bfbd2e870f01aaf69655d353be">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-basement-9.6.1_14716528a9c731b1ff0d2cb136cecf8c02da2743.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0/jars/libs/internal_impl-24.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="fcaf463e10e69c1923ccf1edeba3b4196d239e00">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/internal_impl-24.0.0_390b8acc53ca8ed3c70314add815d08ec4e21f47.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-places/9.6.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="3270d392adef5decc7bace1a3c2e749bec7bf19e">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-places-9.6.0_2953c889e1c4d40b7e75b42aaccfa040ad8568a5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/opt/android/extras/android/m2repository/com/android/support/support-annotations/24.0.0/support-annotations-24.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="2943c74db6d4346ab8c6531adac91fa05c137c40">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/support-annotations-24.0.0_958b0b38f9b75f4ea12a93001d6913cd78c95e0d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.0.0/jars/libs/internal_impl-24.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="fcaf463e10e69c1923ccf1edeba3b4196d239e00">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/internal_impl-24.0.0_390b8acc53ca8ed3c70314add815d08ec4e21f47.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="af7582c6b327449c6d32518e6a10307860b7b5d6">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-base-9.6.1_aa3546c4381e339165cb5ffa358cdec31317d7af.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="62ff84124b89177abc0c27f3e38c9732f2d41617">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-maps-9.6.1_ec7823d825b66b22a92e2e2c880468eb0ec950ac.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="af7582c6b327449c6d32518e6a10307860b7b5d6">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-base-9.6.1_aa3546c4381e339165cb5ffa358cdec31317d7af.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/dave/StudioProjects/crapapppro/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.6.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="4a36600281a648769411ef642c331851732bf29e">
+        <dex dex="/home/dave/StudioProjects/crapapppro/app/build/intermediates/pre-dexed/debug/com.google.android.gms-play-services-tasks-9.6.1_e0b08783ce45f971ac54ad02e24f144d5da40609.jar" />
+    </item>
+
+</items>
