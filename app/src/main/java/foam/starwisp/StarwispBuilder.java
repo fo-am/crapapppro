@@ -191,6 +191,7 @@ public class StarwispBuilder
     public void CallbackArgs(StarwispActivity ctx, String ctxname, int wid, String args)
     {
         try {
+            //Log.e("starwisp", "args:" + args);
 	    // fixme - quoting args means '() doesn't work!
             String ret=m_Scheme.eval("(widget-callback \""+ctxname+"\" "+wid+" '("+args+"))");
             UpdateList(ctx, ctxname, new JSONArray(ret));

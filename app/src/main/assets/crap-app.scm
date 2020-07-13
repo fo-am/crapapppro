@@ -676,7 +676,7 @@
 
 (define (calc-results)
   (vert
-   (image-view (make-id "example") "cattle_25m3" (layout 'fill-parent 'fill-parent 1 'centre 0))
+   (image-view (make-id "example") "cattle_25m3" (layout 'fill-parent 'wrap-content 1 'centre 0))
    (spacer 10)
    (linear-layout
     0 'horizontal
@@ -767,7 +767,7 @@
 
 (define (calc-event-results)
   (vert
-   (image-view (make-id "example") "cattle_25m3" (layout 'fill-parent 'fill-parent 1 'centre 0))
+   (image-view (make-id "example") "cattle_25m3" (layout 'fill-parent 'wrap-content 1 'centre 0))
    (spacer 10)
    (linear-layout
     0 'horizontal

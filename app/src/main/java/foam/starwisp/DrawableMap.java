@@ -223,7 +223,7 @@ public class DrawableMap {
 									  LinearLayout.LayoutParams.WRAP_CONTENT);
 	    plp.gravity=Gravity.CENTER;
 	    place_button.setLayoutParams(plp);
-	    place_button.setTextSize(20);
+	    place_button.setTextSize(15);
 	    place_button.setTypeface(((StarwispActivity) c).m_Typeface);
 	    place_button.setText("Place search");
 	    button_cont.addView(place_button);
@@ -247,22 +247,22 @@ public class DrawableMap {
 
 
             scribble_button = new Button(c);
-	    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+	    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
 					       LinearLayout.LayoutParams.WRAP_CONTENT);
 	    lp.gravity=Gravity.CENTER;
             scribble_button.setLayoutParams(lp);
 
-            scribble_button.setTextSize(20);
+            scribble_button.setTextSize(15);
             scribble_button.setTypeface(((StarwispActivity) c).m_Typeface);
             scribble_button.setText("Draw boundary");
             button_cont.addView(scribble_button);
 
             trash_button = new Button(c);
-	    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+	    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
 					       LinearLayout.LayoutParams.WRAP_CONTENT);
 	    lp.gravity=Gravity.CENTER;
             trash_button.setLayoutParams(lp);
-            trash_button.setTextSize(20);
+            trash_button.setTextSize(15);
             trash_button.setTypeface(((StarwispActivity) c).m_Typeface);
             trash_button.setText("Delete boundary");
             button_cont.addView(trash_button);
@@ -283,11 +283,11 @@ public class DrawableMap {
 	    
 
 	    undo_button = new Button(c);
-	    LinearLayout.LayoutParams ulp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+	    LinearLayout.LayoutParams ulp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
 									  LinearLayout.LayoutParams.WRAP_CONTENT);
 	    ulp.gravity=Gravity.CENTER;
 	    undo_button.setLayoutParams(ulp);
-	    undo_button.setTextSize(20);
+	    undo_button.setTextSize(15);
 	    undo_button.setTypeface(((StarwispActivity) c).m_Typeface);
 	    undo_button.setText("Undo");
 	    button_cont.addView(undo_button);

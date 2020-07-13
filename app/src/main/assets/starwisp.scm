@@ -826,6 +826,9 @@
 	(update-text-view-units 'nutrient-n-metric 'nutrient-n-metric 'nutrient-n-imperial)
 	(update-text-view-units 'nutrient-p-metric 'nutrient-p-metric 'nutrient-p-imperial)
 	(update-text-view-units 'nutrient-k-metric 'nutrient-k-metric 'nutrient-k-imperial)
+	(update-text-view-units 'crop-available 'crop-available-metric 'crop-available-imperial)
+	(update-text-view-units 'crop-total 'crop-total-metric 'crop-total-imperial)
+       
 	;; get tons/m3/gallons per ha/acre etc
 	(update-widget 'text-view (get-id "amount-text") 'text 
 		       (string-append (mtext-lookup 'report-amount) " (" 
